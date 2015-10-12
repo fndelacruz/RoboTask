@@ -18,8 +18,8 @@ and React.js. RoboTask allows users to:
 - [ ] View qualified robot profiles and manually select one to perform a task
 - [ ] Mark tasks as completed and rate assigned robot's performance (good/bad)
 - [ ] Receive notifications (canceled job, found fulfiller, new reviews of self, etc.)
-- [ ] (as robot), select capable task types, robot qualifications, and available datetimes
-- [ ] (as robot), accept/cancel assigned task. Send notification messages to task giver.
+- [ ] as task fulfiller, select capable task types, robot qualifications, and available datetimes
+- [ ] as task fulfiller, accept/cancel assigned task. Send notification messages to task giver.
 
 ## Design Docs
 * [View Wireframes][view]
