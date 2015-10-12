@@ -7,7 +7,10 @@
 ## Minimum Viable Product
 
 RoboTask is a web application inspired by Task Rabbit built using Ruby on Rails
-and React.js. RoboTask allows users to:
+and React.js. Hire robots to do stuff for you. Or, Sign up as a robot to do
+stuff for people and earn some credits.
+
+RoboTask allows users to:
 
 <!-- This is a Markdown checklist. Use it to keep track of your progress! -->
 
@@ -134,17 +137,3 @@ and datetimes.
 [phase-three]: ./docs/phases/phase3.md
 [phase-four]: ./docs/phases/phase4.md
 [phase-five]: ./docs/phases/phase5.md
-
-### Component Hierarchy
-* RoboTaskApp
-  * UserShowPage / WorkerUserForm
-  * TaskForm
-    * WorkersIndex
-      - WorkersIndexItem
-        - ReviewsIndex
-          - ReviewsIndexItem
-  * TasksIndex
-    - TaskIndexItem
-  * NotificationsIndex
-    - NotificationsIndexItem
-      - ReviewsForm
