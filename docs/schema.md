@@ -9,7 +9,6 @@ description   | text      | not null
 location      | string    | not null
 date_start    | datetime  | not null
 date_end      | datetime  | not null
-is_assigned   | boolean   | not null
 finish_date   | datetime  | default: null (will also be used to check if task is finished)
 is_successful | boolean   | not null
 is_upvote     | boolean   | not null
