@@ -13,6 +13,7 @@ $(function() {
           <header>
             <h3>App Component Placeholder</h3>
           </header>
+          <NavBar /><br/>
           {this.props.children}
          </div>
        );
@@ -21,7 +22,7 @@ $(function() {
 
     var routes = (
       <Route path="/" component={App}>
-        <IndexRoute component={NavBar} />
+        <Route path="/task/new" component={TaskForm} />
       </Route>
     );
 

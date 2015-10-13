@@ -4,7 +4,7 @@
   root.ApiUtil = {
     logout: function() {
       $.ajax({
-        url: "/session/1",
+        url: "/session/1234",
         method: "DELETE",
         success: function(stuff) {
           root.location = "/";

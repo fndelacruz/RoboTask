@@ -10,7 +10,7 @@
 
     handleCreateTaskClick: function() {
       // do this later. get logout working first!
-      this.pushState(null, "/task/new");
+      this.history.pushState(null, "/task/new");
     },
 
     render: function() {
@@ -21,10 +21,16 @@
             className="nav-button">
             Logout
           </li>
+
           <li
             onClick={this.handleCreateTaskClick}
             className="nav-button">
             Create Task
+          </li>
+
+          <li
+            className="nav-button">
+            View Created Tasks
           </li>
         </ul>
       );
