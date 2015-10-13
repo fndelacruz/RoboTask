@@ -55,5 +55,14 @@ table {
 //
 
 .nav-button {
+	font-size: 24px;
   cursor: pointer;
+	padding: 10px;
+
+	float: left
+}
+
+.nav-button:hover {
+	color: white;
+	background-color: black
 }
