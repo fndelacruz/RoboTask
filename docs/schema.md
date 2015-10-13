@@ -4,10 +4,10 @@
 column name     | data type | details
 ----------------|-----------|-----------------------
 id              | integer   | not null, primary key
-user_email      | string    | not null, indexed, unique
+email           | string    | not null, indexed, unique
 password_digest | string    | not null
 session_token   | string    | not null, indexed, unique
-user_bio        | text      | not null
+bio        | text      | not null
 
 ## tasks
 column name   | data type | details
