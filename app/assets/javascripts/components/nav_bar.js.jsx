@@ -4,15 +4,29 @@
   root.NavBar = React.createClass({
     mixins: [ReactRouter.History],
 
+    handleLogoutClick: function() {
+      root.ApiUtil.logout();
+    },
+
     handleCreateTaskClick: function() {
-      debugger;
+      // do this later. get logout working first!
+      this.pushState(null, "/task/new");
     },
 
     render: function() {
       return (
-        <div>
-          <div onClick={this.handleCreateTaskClick}>Create Task</div>
-        </div>
+        <ul>
+          <li
+            onClick={this.handleLogoutClick}
+            className="nav-button">
+            Logout
+          </li>
+          <li
+            onClick={this.handleCreateTaskClick}
+            className="nav-button">
+            Create Task
+          </li>
+        </ul>
       );
     }
   });

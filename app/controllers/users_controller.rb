@@ -13,7 +13,7 @@ class UsersController < ApplicationController
       login(@user)
       flash[:notices] ||= []
       flash[:notices] << "User creation OK"
-      redirect_to user_url(@user)
+      redirect_to "/"
     else
       flash.now[:errors] ||= []
       flash.now[:errors].concat(@user.errors.full_messages)

@@ -13,7 +13,7 @@ class SessionController < ApplicationController
       login(@user)
       flash[:notices] ||= []
       flash[:notices] << "Login OK"
-      redirect_to user_url(@user)
+      redirect_to "/"
     else
       flash.now[:errors] ||= []
       flash.now[:errors] << "Invalid credentials"
@@ -25,7 +25,7 @@ class SessionController < ApplicationController
     logout
     flash[:notices] ||= []
     flash[:notices] << "Logout OK"
-    redirect_to new_session_url
+    render json: "destroy complete"
   end
 
   private
