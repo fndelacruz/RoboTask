@@ -10,8 +10,6 @@ location      | string    | not null
 date_start    | datetime  | not null
 date_end      | datetime  | not null
 finish_date   | datetime  | default: null (will also be used to check if task is finished)
-is_successful | boolean   | not null
-is_upvote     | boolean   | not null
 creator_id    | integer   | not null, foreign key (references users), indexed
 worker_id     | integer   | not null, foreign key (references users), indexed
 
@@ -41,6 +39,7 @@ id          | integer   | not null, primary key
 creator_id  | integer   | not null, foreign key (references users), indexed
 worker_id   | integer   | not null, foreign key (references users), indexed
 task_id     | integer   | not null, foreign key (references tasks), indexed
+is_positive | boolean   | not null
 description | text      | not null
 
 ## notifications
