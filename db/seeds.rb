@@ -13,22 +13,20 @@ User.create([
     bio: "user1 bio"
   }
 ])
-newest_user_id = User.maximum(:id)
 
-Task.create([
+User.last.created_tasks.create([
   {
     title: "task1 title",
     description: "task1 description",
     location: "task1 location",
-    creator_id: newest_user_id
   },
   {
     title: "task2 title",
     description: "task2 description",
     location: "task2 location",
-    creator_id: newest_user_id
   }
 ])
+# User2
 
 User.create([
   {
@@ -37,17 +35,16 @@ User.create([
     bio: "user2 bio"
   }
 ])
-newest_user_id = User.maximum(:id)
-
-
-Task.create([
+User.last.created_tasks.create([
   {
     title: "task3 title",
     description: "task3 description",
     location: "task3 location",
     creator_id: newest_user_id
-  },
+  }
 ])
+
+# User3
 
 User.create([
   {
