@@ -1,4 +1,4 @@
-# Phase 3: Add style with Bootstrap and add seed data (2 days)
+# Phase 3: Flux Architecture, Views, Stores, Routes. Task CRUD (2 days)
 
 ## Rails
 ### Models
@@ -9,12 +9,27 @@
 
 ## Flux
 ### Views (React Components)
+* TasksIndex
+  -TasksIndexItem
+* WorkersIndex
+  -WorkersIndexItem
+* TaskForm
+* WorkerUserForm
 
 ### Stores
+* Task
+* User
 
 ### Actions
+* ApiActions.receiveAllCreatedTasks
+* ApiActions.receiveRelevantWorkers
+* ApiActions.receiveRelevantUnassignedTasks
+* ApiActions.receiveAllWorkedTasks
+* ApiActions.receiveTask
 
 ### ApiUtil
 
 ## Gems/Libraries
-* Twitter Bootstrap
+* React
+* React Router
+* Flux Dispatcher
