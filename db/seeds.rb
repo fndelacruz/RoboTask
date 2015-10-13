@@ -6,6 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+# User1 is a task creator
 User.create([
   {
     email: "user1",
@@ -26,8 +27,8 @@ User.last.created_tasks.create([
     location: "task2 location",
   }
 ])
-# User2
 
+# User2 is a task creator
 User.create([
   {
     email: "user2",
@@ -40,16 +41,31 @@ User.last.created_tasks.create([
     title: "task3 title",
     description: "task3 description",
     location: "task3 location",
-    creator_id: newest_user_id
+  }
+])
+User.last.created_tasks.first.time_slices.create([
+  {
+    time_start: Time.now,
+    time_end: Time.now + 8.hours
   }
 ])
 
-# User3
-
+# User3 is a worker
 User.create([
   {
     email: "user3",
     password_digest: BCrypt::Password.create("password"),
     bio: "user3 bio"
+  }
+])
+
+User.last.time_slices.create([
+  {
+    time_start: Time.now,
+    time_end: Time.now + 8.hours
+  },
+  {
+    time_start: Time.now + 1.day,
+    time_end: Time.now + 1.day + 8.hours
   }
 ])

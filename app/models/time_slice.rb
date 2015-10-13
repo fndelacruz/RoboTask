@@ -14,5 +14,8 @@
 class TimeSlice < ActiveRecord::Base
   validates :time_start, :time_end, :timable_id, :timable_type, presence:true
 
+  # Note: eventually want a validation such that a Task may only have one
+  # Time Slice. 
+
   belongs_to :timable, polymorphic: true
 end

@@ -27,5 +27,6 @@ class Task < ActiveRecord::Base
     primary_key: :id
   )
 
+  # Note: want to change this to has_one, but wasn't working yet
   has_many(:time_slices, as: :timable)
 end
