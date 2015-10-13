@@ -13,4 +13,18 @@
 #
 
 class Task < ActiveRecord::Base
+  validates :title, :description, :location, :creator_id, presence: true
+
+  belongs_to(:creator,
+    class_name: "User",
+    foreign_key: :creator_id,
+    primary_key: :id
+  )
+
+  belongs_to(:worker,
+    class_name: "User",
+    foreign_key: :worker_id,
+    primary_key: :id
+  )
+
 end

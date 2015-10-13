@@ -18,12 +18,25 @@ class User < ActiveRecord::Base
 
   attr_reader :password
 
+  has_many(:created_tasks,
+    class_name: "Task",
+    foreign_key: :creator_id,
+    primary_key: :id
+  )
+
+  has_many(:worked_tasks,
+    class_name: "Task",
+    foreign_key: :worker_id,
+    primary_key: :id
+  )
+
+
+  after_initialize :ensure_session_token!
+
   def self.find_by_credentials(email, password)
     @user = User.find_by_email(email)
     @user && @user.valid_password?(password) ? @user : nil
   end
-
-  after_initialize :ensure_session_token!
 
   def valid_password?(password)
     BCrypt::Password.new(self.password_digest).is_password?(password)
