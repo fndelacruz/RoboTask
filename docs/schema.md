@@ -17,7 +17,7 @@ title         | string    | not null
 description   | text      | not null
 location      | string    | not null
 creator_id    | integer   | not null, foreign key (references users), indexed
-worker_id     | integer   | not null, foreign key (references users), indexed
+worker_id     | integer   | foreign key (references users), indexed
 
 ## timeslices (task detail 1)
 column name   | data type | details
