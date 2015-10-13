@@ -23,8 +23,8 @@ worker_id     | integer   | foreign key (references users), indexed
 column name   | data type | details
 --------------|-----------|-----------------------
 id            | integer   | not null, primary key
-date_start    | datetime  | not null
-date_end      | datetime  | not null
+time_start    | datetime  | not null
+time_end      | datetime  | not null
 timable_id    | integer   | not null, foreign key (references users(workers) or tasks), indexed
 timable_type  | datetime  | not null
 
