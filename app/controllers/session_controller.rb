@@ -23,9 +23,11 @@ class SessionController < ApplicationController
 
   def destroy
     logout
+    # Note: obj is created to trigger ajax success callback
+    obj = User.new
     flash[:notices] ||= []
     flash[:notices] << "Logout OK"
-    render json: "destroy complete"
+    render json: obj
   end
 
   private
