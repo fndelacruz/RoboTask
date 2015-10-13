@@ -69,3 +69,23 @@ User.last.time_slices.create([
     time_end: Time.now + 1.day + 8.hours
   }
 ])
+
+# User4 is a worker
+User.create([
+  {
+    email: "user4",
+    password_digest: BCrypt::Password.create("password"),
+    bio: "user4 bio"
+  }
+])
+
+User.last.time_slices.create([
+  {
+    time_start: Time.now,
+    time_end: Time.now + 4.hours
+  },
+  {
+    time_start: Time.now + 2.day,
+    time_end: Time.now + 2.day + 8.hours
+  }
+])

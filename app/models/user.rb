@@ -31,12 +31,16 @@ class User < ActiveRecord::Base
   )
 
   has_many(:time_slices, as: :timable)
-  
+
   after_initialize :ensure_session_token!
 
   def self.find_by_credentials(email, password)
     @user = User.find_by_email(email)
     @user && @user.valid_password?(password) ? @user : nil
+  end
+
+  def self.workers
+    User.joins(:time_slices).group(:id)
   end
 
   def valid_password?(password)
