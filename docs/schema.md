@@ -38,7 +38,7 @@ task_id     | integer   | not null, foreign key (references tasks), indexed
 is_positive | boolean   | not null
 description | text      | not null
 
-
+### Bonuses
 ## tasktypes (task detail 2, possibly bonus)
 column name       | data type | details
 ------------------|-----------|-----------------------
@@ -46,7 +46,7 @@ id                | integer   | not null, primary key
 description       | string    | not null
 tasktypable_id    | integer   | not null, foreign key (references users(workers) or tasks), indexed
 tasktypable_type  | string    | not null
-payrate           | integer   | not null (only used if tasktypable_type is  users, otherwise is null)
+payrate           | integer   | not null (only used if tasktypable_type is users, otherwise is null)
 good_review_count | integer   | not null, default: 0 (only used if qualifiable_type is users, otherwise is null)
 bad_review_count  | integer   | not null, default: 0 (only used if qualifiable_type is users, otherwise is null)
 
@@ -67,4 +67,3 @@ sender_id   | integer   | not null, foreign key (references users), indexed
 receiver_id | integer   | not null, foreign key (references users), indexed
 message     | text      | not null
 is_read     | boolean   | not null, default: false
-is_archived | boolean   | not null, default: false
