@@ -5,16 +5,44 @@
     mixins: [ReactRouter.History],
 
     getInitialState: function() {
+      var assignedTasks = 0;
+      var unassignedTasks = 0;
+      root.CreatedTaskStore.all().forEach(function(task) {
+        if (task.worker_id === null) {
+          unassignedTasks += 1;
+        } else {
+          assignedTasks += 1;
+        }
+      });
+
       return ({
-        createdTaskCount: root.CreatedTaskStore.all().length
+        unassignedTaskCount: unassignedTasks,
+        assignedTaskCount: assignedTasks
+        // createdTaskCount: root.CreatedTaskStore.all().length
       });
     },
 
     _updateCreatedTaskCount: function() {
-      var newCreatedTaskCount = root.CreatedTaskStore.all().length;
-      this.setState({
-        createdTaskCount: newCreatedTaskCount
+      var assignedTasks = 0;
+      var unassignedTasks = 0;
+      root.CreatedTaskStore.all().forEach(function(task) {
+        if (task.worker_id === null) {
+          unassignedTasks += 1;
+        } else {
+          assignedTasks += 1;
+        }
       });
+
+      this.setState({
+        unassignedTaskCount: unassignedTasks,
+        assignedTaskCount: assignedTasks
+        // createdTaskCount: root.CreatedTaskStore.all().length
+      });
+
+      // var newCreatedTaskCount = root.CreatedTaskStore.all().length;
+      // this.setState({
+      //   createdTaskCount: newCreatedTaskCount
+      // });
     },
 
     componentDidMount: function() {
@@ -34,7 +62,7 @@
       this.history.pushState(null, "/task/new");
     },
 
-    handleViewCreatedTasksClick: function() {
+    handleViewUnassignedCreatedTasksClick: function() {
       this.history.pushState(null, "/tasks/created");
     },
 
@@ -54,9 +82,15 @@
           </li>
 
           <li
-            onClick={this.handleViewCreatedTasksClick}
+            onClick={this.handleViewUnassignedCreatedTasksClick}
             className="nav-button">
-            View Created Tasks: {this.state.createdTaskCount}
+            Unassigned Created Tasks: {this.state.unassignedTaskCount}
+          </li>
+
+          <li
+            onClick={this.handleViewAssignedCreatedTasksClick}
+            className="nav-button">
+            Assigned Created Tasks: {this.state.assignedTaskCount}
           </li>
         </ul>
       );
