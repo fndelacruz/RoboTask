@@ -87,12 +87,11 @@
     handleSubmission: function(e) {
       // NOTE: Will add start dates later, just getting Ajax working first.
       var newTask = {
-        name: this.state.title,
+        title: this.state.title,
         location: this.state.location,
         description: this.state.description,
       };
-      debugger;
-      // root.ApiUtils
+      root.ApiUtil.createTask(newTask);
     },
 
     render: function() {
