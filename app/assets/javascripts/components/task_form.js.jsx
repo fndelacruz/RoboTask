@@ -112,9 +112,6 @@
 
     _findValidWorkers: function() {
       var idx = root.CreatedTaskStore.all().length - 1;
-      // NOTE: have to get the recently created Task ID somehow... I guess this
-      // is just the last component in the store.all()
-      // debugger;
       this.history.pushState(null, "/task/" + idx + "/findWorker");
     },
 
