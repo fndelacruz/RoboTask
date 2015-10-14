@@ -16,7 +16,7 @@
       $.ajax({
         url: "/api/tasks",
         method: "POST",
-        data: {task: task},
+        data: { task: task },
         success: function(e) {
 
 
@@ -73,6 +73,23 @@
         data: {user_type: "workers"},
         success: function(workers) {
           root.ApiActions.receiveValidWorkers(workers);
+        }
+      });
+    },
+
+    assignWorkerToTask: function(task, worker) {
+      $.ajax({
+        url: "/api/tasks/" + task.id,
+        method: "PATCH",
+        data: { task: {worker_id: worker.id} },
+        success: function(task) {
+        if (task._fail) {
+          // NOTE: This should probably do a "flash-like" thing via React,
+          // instead of a silly console log
+          console.log("failed to assignWorkerToTask");
+          } else {
+            root.ApiActions.resetTask(task);
+          }
         }
       });
     }

@@ -3,6 +3,7 @@
 
   var CHANGE_EVENT = "CREATED_TASK_STORE_CHANGE_EVENT";
   var CREATE_TASK_OK = "CREATE_TASK_OK";
+  var ASSIGN_TASK_WORKER_OK = "ASSIGN_TASK_WORKER_OK";
 
   var _createdTasks = [];
 
@@ -21,6 +22,15 @@
     var taskIdx = _createdTasks.indexOf(createdTask);
     _createdTasks.splice(taskIdx, 1);
     CreatedTaskStore.emit(CHANGE_EVENT);
+  };
+
+  var _assignTaskWorker = function(updatedTask) {
+    var taskToAssignWorker = _createdTasks.find(function(task) {
+      return (task.id === updatedTask.id);
+    });
+    taskToAssignWorker.worker_id = updatedTask.worker_id;
+    CreatedTaskStore.emit(CHANGE_EVENT);
+    CreatedTaskStore.emit(ASSIGN_TASK_WORKER_OK);
   };
 
   var CreatedTaskStore = root.CreatedTaskStore = $.extend({}, EventEmitter.prototype, {
@@ -44,6 +54,14 @@
       this.removeListener(CREATE_TASK_OK, callback);
     },
 
+    addAssignTaskWorkerOKListener: function(callback) {
+      this.on(ASSIGN_TASK_WORKER_OK, callback);
+    },
+
+    removeAssignTaskWorkerOKListener: function(callback) {
+      this.removeListener(ASSIGN_TASK_WORKER_OK, callback);
+    },
+
     dispatcherID: root.AppDispatcher.register(function(payload) {
       switch (payload.actionType) {
         case root.TaskConstants.CREATED_TASKS_RECEIVED:
@@ -54,6 +72,9 @@
           break;
         case root.TaskConstants.DELETE_TASK:
           _deleteTask(payload.action);
+          break;
+        case root.TaskConstants.ASSIGN_TASK_WORKER:
+          _assignTaskWorker(payload.action);
           break;
       }
     })

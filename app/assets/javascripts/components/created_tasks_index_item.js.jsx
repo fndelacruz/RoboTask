@@ -15,19 +15,17 @@
       var idx = root.CreatedTaskStore.all().indexOf(task);
       this.history.pushState(null, "/task/" + idx + "/findWorker");
     },
-
-
-
+    
     render: function() {
       var task = this.props.createdTask;
-      // var worker = (task.creator_id === null) ? "UNASSIGNED" : "ASSIGNED_WORKER_PLACEHOLDER";
+      var workerId = (task.worker_id === null) ? "UNASSIGNED" : task.worker_id;
       return (
         <li className="component-container-index-item" id="created-tasks-index-item">
           title: {task.title}<br/>
           description: {task.description}<br/>
           location: {task.location}<br/>
           created: {task.created_at}<br/>
-          worker: PLACEHOLDER <br/>
+          worker: {workerId} <br/>
 
           <div
             className="submit-link"

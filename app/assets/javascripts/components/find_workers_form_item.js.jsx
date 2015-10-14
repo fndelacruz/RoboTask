@@ -1,10 +1,16 @@
 (function(root) {
   'use strict';
   // this.props.worker
+  // this.props.task
   root.FindWorkersFormItem = React.createClass({
     chooseWorker: function() {
-      // NOTE: choose the worker at this.props.worker!!!
+      // NOTE: choose the worker at this.props.worker ! eventually, add a check
+      // to see if the worker is capable of working at the given TimeSlice (when
+      // TimeSlice is implemented...)
 
+      // NOTE: but how do I get the task id associated with this task? answer:
+      // it's in the props!
+      ApiUtil.assignWorkerToTask(this.props.task, this.props.worker);
     },
 
     render: function() {

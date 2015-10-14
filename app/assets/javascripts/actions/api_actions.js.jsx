@@ -25,8 +25,15 @@
 
     receiveValidWorkers: function(workers) {
       root.AppDispatcher.dispatch({
-        actionType: root.UserConstants.VALID_WORKERS_RECEIVED,
+        actionType: UserConstants.VALID_WORKERS_RECEIVED,
         action: workers
+      });
+    },
+
+    resetTask: function(task) {
+      root.AppDispatcher.dispatch({
+        actionType: TaskConstants.ASSIGN_TASK_WORKER,
+        action: task
       });
     }
   };
