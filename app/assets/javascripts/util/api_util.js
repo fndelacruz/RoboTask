@@ -6,10 +6,17 @@
       $.ajax({
         url: "/session/1234",
         method: "DELETE",
-        success: function(stuff) {
+        success: function() {
           root.location = "/";
         }
       });
+    },
+
+    createTask: function(task) {
+      $.ajax({
+        url: ""
+      });
     }
+
   };
 }(this));

@@ -1,6 +1,5 @@
 (function(root) {
   'use strict';
-  var that = this;
 
   var addDays = function addDays(date, days) {
     var result = new Date(date);
@@ -85,6 +84,17 @@
       }
     },
 
+    handleSubmission: function(e) {
+      // NOTE: Will add start dates later, just getting Ajax working first.
+      var newTask = {
+        name: this.state.title,
+        location: this.state.location,
+        description: this.state.description,
+      };
+      debugger;
+      // root.ApiUtils
+    },
+
     render: function() {
       return (
         <div className="task-form">
@@ -144,7 +154,11 @@
             id="description-entry"
           /><br/><br/>
 
-          <input type="submit" value="find workers" />
+          <div
+            className="submit-link"
+            onClick={this.handleSubmission}>
+          getFreeRobots
+          </div>
         </div>
       );
     }
