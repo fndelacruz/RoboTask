@@ -96,8 +96,8 @@
 
     render: function() {
       return (
-        <div className="task-form">
-          <div className="task-form-heading">Create new task</div><br/>
+        <div className="component-container" id="task-form">
+          <div className="component-container-heading" id="task-form-heading">Create new task</div><br/>
 
           Title<br/>
           <input

@@ -12,6 +12,10 @@
       this.history.pushState(null, "/task/new");
     },
 
+    handleViewCreatedTasksClick: function() {
+      this.history.pushState(null, "/tasks/created");
+    },
+
     render: function() {
       return (
         <ul>
@@ -28,6 +32,7 @@
           </li>
 
           <li
+            onClick={this.handleViewCreatedTasksClick}
             className="nav-button">
             View Created Tasks
           </li>
