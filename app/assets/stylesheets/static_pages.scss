@@ -55,7 +55,7 @@ table {
 //
 
 .nav-button {
-	font-size: 24px;
+	font-size: 30px;
   cursor: pointer;
 	padding: 10px;
 
@@ -96,6 +96,8 @@ table {
 	margin: 20px;
 }
 
+// NOTE: Can possibly DRY the below styles if create tasks-index and index-item
+// class and style those together...
 #created-tasks-index {
 	width: 800px;
 }
@@ -103,4 +105,19 @@ table {
 #created-tasks-index-item {
 	border: 1px solid black;
 	padding: 10px;
+	margin: 5px;
+}
+
+#find-workers-form {
+	width: 800px;
+}
+
+#find-workers-form-index-item {
+	border: 1px solid black;
+	padding: 10px;
+	margin: 5px;
+}
+
+.worker-name {
+	font-size: 40px;
 }

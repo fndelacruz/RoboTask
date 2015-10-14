@@ -24,6 +24,7 @@ $(function() {
       <Route path="/" component={App}>
         <Route path="/task/new" component={TaskForm} />
         <Route path="/tasks/created" component={CreatedTasksIndex} />
+        <Route path="/task/:storeTaskIdx/findWorker" component={FindWorkersForm} />
       </Route>
     );
 

@@ -21,6 +21,13 @@
         actionType: TaskConstants.DELETE_TASK,
         action: task
       });
+    },
+
+    receiveValidWorkers: function(workers) {
+      root.AppDispatcher.dispatch({
+        actionType: root.UserConstants.VALID_WORKERS_RECEIVED,
+        action: workers
+      });
     }
   };
 

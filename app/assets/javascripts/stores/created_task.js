@@ -2,6 +2,7 @@
   'use strict';
 
   var CHANGE_EVENT = "CREATED_TASK_STORE_CHANGE_EVENT";
+  var CREATE_TASK_OK = "CREATE_TASK_OK";
 
   var _createdTasks = [];
 
@@ -13,6 +14,7 @@
   var _createTask = function(createdTask) {
     _createdTasks.push(createdTask);
     CreatedTaskStore.emit(CHANGE_EVENT);
+    CreatedTaskStore.emit(CREATE_TASK_OK);
   };
 
   var _deleteTask = function(createdTask) {
@@ -32,6 +34,14 @@
 
     removeChangeListener: function(callback) {
       this.removeListener(CHANGE_EVENT, callback);
+    },
+
+    addCreateTaskOKListener: function(callback) {
+      this.on(CREATE_TASK_OK, callback);
+    },
+
+    removeCreateTaskOKListener: function(callback) {
+      this.removeListener(CREATE_TASK_OK, callback);
     },
 
     dispatcherID: root.AppDispatcher.register(function(payload) {

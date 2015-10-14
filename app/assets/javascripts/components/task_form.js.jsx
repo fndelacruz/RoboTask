@@ -37,6 +37,8 @@
   };
 
   root.TaskForm = React.createClass({
+    mixins: [ReactRouter.History],
+
     getInitialState: function() {
       var dateTimeNow = new Date();
       var dateTimeTomorrow = addDays(dateTimeNow, 1);
@@ -106,6 +108,22 @@
         endTime: formatTime(dateTimeTomorrow),
         description: ""
       });
+    },
+
+    _findValidWorkers: function() {
+      var idx = root.CreatedTaskStore.all().length - 1;
+      // NOTE: have to get the recently created Task ID somehow... I guess this
+      // is just the last component in the store.all()
+      // debugger;
+      this.history.pushState(null, "/task/" + idx + "/findWorker");
+    },
+
+    componentDidMount: function() {
+      root.CreatedTaskStore.addCreateTaskOKListener(this._findValidWorkers);
+    },
+
+    componentWillUnmount: function() {
+      root.CreatedTaskStore.removeCreateTaskOKListener(this._findValidWorkers);
     },
 
     render: function() {

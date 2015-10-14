@@ -56,8 +56,6 @@
       });
     },
 
-
-
     fetchCreatedTasks: function() {
       $.ajax({
         url: "/api/tasks",
@@ -66,7 +64,17 @@
           root.ApiActions.receiveCreatedTasks(tasks);
         }
       });
-    }
+    },
 
+    fetchValidWorkers: function() {
+      $.ajax({
+        url: "/api/users/",
+        method: "GET",
+        data: {user_type: "workers"},
+        success: function(workers) {
+          root.ApiActions.receiveValidWorkers(workers);
+        }
+      });
+    }
   };
 }(this));
