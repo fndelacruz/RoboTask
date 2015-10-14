@@ -14,6 +14,13 @@
         actionType: TaskConstants.CREATED_TASKS_RECEIVED,
         action: createdTasks
       });
+    },
+
+    deleteTask: function(task) {
+      root.AppDispatcher.dispatch({
+        actionType: TaskConstants.DELETE_TASK,
+        action: task
+      });
     }
   };
 

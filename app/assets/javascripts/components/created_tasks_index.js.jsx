@@ -18,6 +18,7 @@
     },
 
     componentDidMount: function() {
+      root.ApiUtil.fetchCreatedTasks();
       root.CreatedTaskStore.addChangeListener(this._updateCreatedTasks);
     },
 

@@ -91,11 +91,16 @@ table {
 	display: inline-block;
 }
 
+.index-item {
+	font-size: 24px;
+	margin: 20px;
+}
+
 #created-tasks-index {
 	width: 800px;
 }
 
-.index-item {
-	font-size: 24px;
-	margin: 20px;
+#created-tasks-index-item {
+	border: 1px solid black;
+	padding: 10px;
 }

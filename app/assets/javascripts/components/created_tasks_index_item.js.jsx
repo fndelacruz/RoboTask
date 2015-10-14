@@ -5,6 +5,10 @@
   root.CreatedTasksIndexItem = React.createClass({
     // NOTE: Ideally, want to popup a warning before deleting a task, or some
     // kind of double guessing
+    cancelTask: function() {
+      root.ApiUtil.deleteTask(this.props.createdTask);
+    },
+
     render: function() {
       var task = this.props.createdTask;
       return (

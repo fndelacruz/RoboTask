@@ -15,6 +15,12 @@
     CreatedTaskStore.emit(CHANGE_EVENT);
   };
 
+  var _deleteTask = function(createdTask) {
+    var taskIdx = _createdTasks.indexOf(createdTask);
+    _createdTasks.splice(taskIdx, 1);
+    CreatedTaskStore.emit(CHANGE_EVENT);
+  };
+
   var CreatedTaskStore = root.CreatedTaskStore = $.extend({}, EventEmitter.prototype, {
     all: function() {
       return _createdTasks.slice();
@@ -36,7 +42,9 @@
         case root.TaskConstants.CREATE_TASK:
           _createTask(payload.action);
           break;
-        default:
+        case root.TaskConstants.DELETE_TASK:
+          _deleteTask(payload.action);
+          break;
       }
     })
   });
