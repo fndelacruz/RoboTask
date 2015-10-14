@@ -18,6 +18,8 @@
         method: "POST",
         data: {task: task},
         success: function(e) {
+          root.ApiActions.createTask(task);
+
           // NOTE: Not sure if this is the best way to handle rails database
           // failures to save... I send an object with e._fail === true if the
           // database could not createTask the given task.
@@ -26,6 +28,16 @@
             // instead of a silly console log
             console.log("failed to createTask task");
           }
+        }
+      });
+    },
+
+    fetchCreatedTasks: function() {
+      $.ajax({
+        url: "/api/tasks",
+        method: "GET",
+        success: function(tasks) {
+          root.ApiActions.receiveCreatedTasks(tasks);
         }
       });
     }

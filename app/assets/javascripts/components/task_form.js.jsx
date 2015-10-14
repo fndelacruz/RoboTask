@@ -92,6 +92,20 @@
         description: this.state.description,
       };
       root.ApiUtil.createTask(newTask);
+
+      var dateTimeNow = new Date();
+      var dateTimeTomorrow = addDays(dateTimeNow, 1);
+      this.setState({
+        title: "",
+        location: "",
+        startDateTime: dateTimeNow,
+        startDate: formatDate(dateTimeNow),
+        startTime: formatTime(dateTimeNow),
+        endDateTime: dateTimeTomorrow,
+        endDate: formatDate(dateTimeTomorrow),
+        endTime: formatTime(dateTimeTomorrow),
+        description: ""
+      });
     },
 
     render: function() {

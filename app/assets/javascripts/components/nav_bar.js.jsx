@@ -4,6 +4,27 @@
   root.NavBar = React.createClass({
     mixins: [ReactRouter.History],
 
+    getInitialState: function() {
+      return ({
+        createdTaskCount: root.CreatedTaskStore.all().length
+      });
+    },
+
+    _updateCreatedTaskCount: function() {
+      var newCreatedTaskCount = root.CreatedTaskStore.all().length;
+      this.setState({
+        createdTaskCount: newCreatedTaskCount
+      });
+    },
+
+    componentDidMount: function() {
+      root.ApiUtil.fetchCreatedTasks();
+
+      // add CreatedTaskChangeListener that sets this.state.createdTaskCount =
+      // root.CreatedTaskStore.all().length
+      root.CreatedTaskStore.addChangeListener(this._updateCreatedTaskCount);
+    },
+
     handleLogoutClick: function() {
       root.ApiUtil.logout();
     },
@@ -34,7 +55,7 @@
           <li
             onClick={this.handleViewCreatedTasksClick}
             className="nav-button">
-            View Created Tasks
+            View Created Tasks: {this.state.createdTaskCount}
           </li>
         </ul>
       );
