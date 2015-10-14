@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
 
       # Note: flash[:errors] is not reliably persisting when redirecting from
       # users/new if a user is logged in. check this out later. otherwise, works
-      redirect_to user_url(current_user)
+      redirect_to "/"
     end
   end
 
