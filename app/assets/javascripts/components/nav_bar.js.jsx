@@ -55,7 +55,7 @@
           <li
             onClick={this.handleViewCreatedTasksClick}
             className="nav-button">
-            View Created Tasks: {this.state.createdTaskCount}
+            View Created Tasks: {this.state.createdTaskCount}            
           </li>
         </ul>
       );

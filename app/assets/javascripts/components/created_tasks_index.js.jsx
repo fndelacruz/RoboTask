@@ -3,6 +3,7 @@
 
   root.CreatedTasksIndex = React.createClass({
     render: function() {
+      var createdTasks = root.CreatedTaskStore.all();
       return (
         <div className="component-container" id="created-tasks-index">
           <div
@@ -11,7 +12,19 @@
             CreatedTasksIndex
           </div><br/>
 
-          CreatedTasksIndex placeholder
+          <ul>
+            {
+              createdTasks.map(function(createdTask) {
+                return (
+                  <CreatedTasksIndexItem
+                    key={createdTask.id}
+                    createdTask={createdTask}
+                  />
+                );
+              })
+            }
+          </ul>
+
         </div>
       );
     }
