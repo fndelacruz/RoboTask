@@ -19,10 +19,11 @@
 
     componentDidMount: function() {
       root.ApiUtil.fetchCreatedTasks();
-
-      // add CreatedTaskChangeListener that sets this.state.createdTaskCount =
-      // root.CreatedTaskStore.all().length
       root.CreatedTaskStore.addChangeListener(this._updateCreatedTaskCount);
+    },
+
+    componentWillUnmount: function() {
+      root.CreatedTaskStore.removeChangeListener(this._updateCreatedTaskCount);
     },
 
     handleLogoutClick: function() {
@@ -55,7 +56,7 @@
           <li
             onClick={this.handleViewCreatedTasksClick}
             className="nav-button">
-            View Created Tasks: {this.state.createdTaskCount}            
+            View Created Tasks: {this.state.createdTaskCount}
           </li>
         </ul>
       );
