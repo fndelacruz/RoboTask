@@ -11,10 +11,12 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       login(@user)
-      flash[:notices] ||= []
-      flash[:notices] << "User creation OK"
+      # NOTE: Unsure how to implement flash well with React. may add back later
+      # flash[:notices] ||= []
+      # flash[:notices] << "User creation OK"
       redirect_to "/"
     else
+      # NOTE: This flash message is displayed poorly. make it nicer
       flash.now[:errors] ||= []
       flash.now[:errors].concat(@user.errors.full_messages)
       render :new

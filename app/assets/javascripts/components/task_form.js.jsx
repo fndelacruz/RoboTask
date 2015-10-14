@@ -80,7 +80,6 @@
           this.setState({ endTime: e.target.value });
           break;
         case "description-entry":
-          debugger;
           this.setState({ description: e.target.value });
           break;
       }

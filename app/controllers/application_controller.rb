@@ -12,8 +12,10 @@ class ApplicationController < ActionController::Base
 
   def require_no_login!
     if current_user
-      flash[:errors] ||= []
-      flash[:errors] << "Page intended for non-logged in users. You're already signed in!"
+      # NOTE: Unsure how to implement flash well with React. may add back later
+      # flash[:errors] ||= []
+      # flash[:errors] << "Page intended for non-logged in users. You're already signed in!"
+
       # Note: flash[:errors] is not reliably persisting when redirecting from
       # users/new if a user is logged in. check this out later. otherwise, works
       redirect_to user_url(current_user)
@@ -22,8 +24,9 @@ class ApplicationController < ActionController::Base
 
   def require_current_user!
     unless current_user
-      flash[:errors] ||= []
-      flash[:errors] << "Page intended for logged in users. Please sign in!"
+      # NOTE: Unsure how to implement flash well with React. may add back later
+      # flash[:errors] ||= []
+      # flash[:errors] << "Page intended for logged in users. Please sign in!"
       redirect_to new_session_url
     end
   end

@@ -9,7 +9,6 @@
     },
 
     handleCreateTaskClick: function() {
-      // do this later. get logout working first!
       this.history.pushState(null, "/task/new");
     },
 
