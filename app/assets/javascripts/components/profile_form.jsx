@@ -14,9 +14,10 @@
       evening: true
     }
   };
-
+  var ALL_INTERVALS = ["ANYTIME", "MORNING", "AFTERNOON", "EVENING"];
   var INTERVALS = ["MORNING", "AFTERNOON", "EVENING"];
-  var OFF_DAYS = {MORNING: false, AFTERNOON: false, EVENING: false};
+
+  var DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
   root.ProfileForm = React.createClass({
     getInitialState: function() {
@@ -27,8 +28,6 @@
     },
 
     _updateProfile: function() {
-      // NOTE: this is updating properly. now need to set user work_times
-      // on componentDidMount
       this.setState({
         bio: root.WorkerUserStore.getBio(),
         workTimes: root.WorkerUserStore.getWorkTimes()
@@ -46,7 +45,6 @@
     },
 
     componentDidMount: function() {
-      // root.ApiUtil.fetchBio();
       root.ApiUtil.fetchCurrentUserDetails();
       root.WorkerUserStore.addCurrentUserChangeListener(this._updateProfile);
     },
@@ -82,31 +80,35 @@
       // NOTE: This would be less hacky if just initially set to day-intervals
       // that aren't present to false when initially build workTime in the
       // controller. doing that now. DONE!
-
-
-
+      // debugger;
       if (this._isAnyIntervalTrue(this.state.workTimes[day])) {
         console.log("this day has intervals");
-        // debugger
-        this.state.workTimes[day] = OFF_DAYS;
-        // debugger
+        this.state.workTimes[day] = {MORNING: false, AFTERNOON: false, EVENING: false};
         this.setState({
           workTimes: this.state.workTimes
         });
       } else {
         console.log("this day has no intervals.");
-
+        this.state.workTimes[day] = {MORNING: true, AFTERNOON: true, EVENING: true};
+        this.setState({
+          workTimes: this.state.workTimes
+        });
       }
     },
 
     _toggleInterval: function(day, interval) {
-      debugger
+      // NOTE: Not handling ANYTIME yet
+      console.log("clicked interval");
+      if (this.state.workTimes[day][interval]) {
+        this.state.workTimes[day][interval] = false;
+      } else {
+        this.state.workTimes[day][interval] = true;
+      }
+      this.setState({workTimes: this.state.workTimes});
     },
 
     render: function() {
       // debugger;
-      var days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-      var intervals = ["ANYTIME", "MORNING", "AFTERNOON", "EVENING"];
 
       var workTimes = this.state.workTimes;
       var workTimesDay = Object.keys(workTimes);
@@ -133,7 +135,7 @@
           <div className="profile-element-title">workTimes</div><br/>
           <ul className="worktime-container">
 
-            { days.map(function(day) {
+            { DAYS.map(function(day) {
               var isDaySelected = false;
               if (workTimes[day]) {
                 var dayIntervals = Object.keys(workTimes[day]);
@@ -156,11 +158,8 @@
                     onClick={that.handleClick}
                   >{day}</div>
                     <div className="worktime-interval">
-                      { intervals.map(function(interval){
+                      { ALL_INTERVALS.map(function(interval){
                         var currentDay = that.state.workTimes[day];
-                        // if (day === "TUE" && interval === "MORNING") {
-                        //   // debugger;
-                        // }
                         return (
                           <div
                             className={ currentDay ?
