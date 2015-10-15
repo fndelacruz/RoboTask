@@ -66,7 +66,6 @@
     },
 
     _toggleDay: function(day) {
-      debugger
       // NOTE: This would be less hacky if just initially set to day-intervals
       // that aren't present to false when initially build workTime in the
       // controller. doing that now
@@ -90,7 +89,7 @@
     },
 
     render: function() {
-      debugger;
+      // debugger;
       var days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
       var intervals = ["ANYTIME", "MORNING", "AFTERNOON", "EVENING"];
 
@@ -120,19 +119,20 @@
           <ul className="worktime-container">
 
             { days.map(function(day) {
-              var isDaySelected = true;
+              var isDaySelected = false;
+              // debugger;
               // NOTE: is this conditional workTimes[day] necessary? check later
               if (workTimes[day]) {
-                var days = Object.keys(workTimes[day]);
-                days.forEach(function(interval) {
-                  if (!workTimes[day][interval]) {
-                    isDaySelected = false;
+                var dayIntervals = Object.keys(workTimes[day]);
+                dayIntervals.forEach(function(dayInterval) {
+                  if (workTimes[day][dayInterval]) {
+                    isDaySelected = true;
                   }
                 });
-              } else {
-                isDaySelected = false;
               }
 
+              if (day === "TUE") {
+              }
               return (
                 <li className="worktime">
                   <div
@@ -147,9 +147,9 @@
                     <div className="worktime-interval">
                       { intervals.map(function(interval){
                         var currentDay = that.state.workTimes[day];
-                        if (day === "TUE" && interval === "MORNING") {
-                          // debugger;
-                        }
+                        // if (day === "TUE" && interval === "MORNING") {
+                        //   // debugger;
+                        // }
                         return (
                           <div
                             className={ currentDay ?
