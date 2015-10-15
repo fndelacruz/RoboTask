@@ -51,6 +51,10 @@
       root.ApiUtil.logout();
     },
 
+    handleProfileClick: function() {
+      this.history.pushState(null, "/profle/");
+    },
+
     handleCreateTaskClick: function() {
       this.history.pushState(null, "/task/new");
     },
@@ -66,6 +70,12 @@
             onClick={this.handleLogoutClick}
             className="nav-button">
             Logout
+          </li>
+
+          <li
+            onClick={this.handleWorkerProfileClick}
+            className="nav-button">
+            Profile
           </li>
 
           <li

@@ -94,7 +94,6 @@
       });
     },
 
-
     _updateValidWorkers: function() {
       this.setState({
         validWorkers: root.WorkerUserStore.all()
@@ -107,7 +106,6 @@
       // indicating that the task was assigned to a worker OK...
 
       this.history.pushState(null, "/");
-
     },
 
     componentDidMount: function() {
