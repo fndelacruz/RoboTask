@@ -15,6 +15,9 @@
     }
   };
 
+  var INTERVALS = ["MORNING", "AFTERNOON", "EVENING"];
+  var OFF_DAYS = {MORNING: false, AFTERNOON: false, EVENING: false};
+
   root.ProfileForm = React.createClass({
     getInitialState: function() {
       return ({
@@ -65,23 +68,35 @@
       }
     },
 
+    _isAnyIntervalTrue: function(dayIntervals) {
+      var state = false;
+      INTERVALS.forEach(function(interval) {
+        if (dayIntervals[interval]) {
+          state = true;
+        }
+      });
+      return state;
+    },
+
     _toggleDay: function(day) {
       // NOTE: This would be less hacky if just initially set to day-intervals
       // that aren't present to false when initially build workTime in the
-      // controller. doing that now
+      // controller. doing that now. DONE!
 
-      // if (this.state.workTimes[day]) {
-      //   var intervals = Object.keys(this.stateWorkTimes[day]);
-      //
-      //   if intervals.
-      //
-      //   intervals.forEach(function(interval) )
-      //   if (Object.keys(this.stateWorkTimes[day]).length === 3) {
-      //     // NOTE: since all reset them all to false
-      //
-      //   } ;
-      //
-      // }
+
+
+      if (this._isAnyIntervalTrue(this.state.workTimes[day])) {
+        console.log("this day has intervals");
+        // debugger
+        this.state.workTimes[day] = OFF_DAYS;
+        // debugger
+        this.setState({
+          workTimes: this.state.workTimes
+        });
+      } else {
+        console.log("this day has no intervals.");
+
+      }
     },
 
     _toggleInterval: function(day, interval) {
@@ -120,8 +135,6 @@
 
             { days.map(function(day) {
               var isDaySelected = false;
-              // debugger;
-              // NOTE: is this conditional workTimes[day] necessary? check later
               if (workTimes[day]) {
                 var dayIntervals = Object.keys(workTimes[day]);
                 dayIntervals.forEach(function(dayInterval) {
@@ -131,8 +144,6 @@
                 });
               }
 
-              if (day === "TUE") {
-              }
               return (
                 <li className="worktime">
                   <div
