@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
     primary_key: :id
   )
 
-  has_many(:time_slices, as: :timable)
+  has_many(:work_times)
 
   after_initialize :ensure_session_token!
 

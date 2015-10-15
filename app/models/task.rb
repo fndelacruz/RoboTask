@@ -10,10 +10,12 @@
 #  worker_id   :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  datetime    :datetime
 #
 
 class Task < ActiveRecord::Base
   validates :title, :description, :location, :creator_id, presence: true
+  validate :datetime_formatted
 
   belongs_to(:creator,
     class_name: "User",
@@ -27,6 +29,9 @@ class Task < ActiveRecord::Base
     primary_key: :id
   )
 
-  # Note: want to change this to has_one, but wasn't working yet
-  has_many(:time_slices, as: :timable)
+  private
+
+  def datetime_formatted
+    errors.add(:datetime, "not formatted!") unless [0, 8, 12, 16].include?(datetime.hour)
+  end
 end
