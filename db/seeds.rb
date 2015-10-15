@@ -89,3 +89,63 @@ User.create([
     ])
   end
 end
+
+# User5 is a worker who works on mon, wed, fri, in the evenings
+User.create([
+  {
+    email: "user5",
+    password_digest: BCrypt::Password.create("password"),
+    bio: "I work evenings on mon, wed, fri."
+  }
+])
+
+[1,3,5].each do |day_idx|
+  [2].each do |interval_idx|
+    User.last.work_times.create([
+      {
+        day: DAYS[day_idx],
+        interval: INTERVALS[interval_idx]
+      }
+    ])
+  end
+end
+
+# User6 is a worker who works on tues, thurs, sat, in the morning and afternoon
+User.create([
+  {
+    email: "user6",
+    password_digest: BCrypt::Password.create("password"),
+    bio: "I work mornings and afternoons, tues, thurs and sat."
+  }
+])
+
+[2, 4, 6].each do |day_idx|
+  [0, 1].each do |interval_idx|
+    User.last.work_times.create([
+      {
+        day: DAYS[day_idx],
+        interval: INTERVALS[interval_idx]
+      }
+    ])
+  end
+end
+
+# User7 is a worker who works only on sunday mornings
+User.create([
+  {
+    email: "user7",
+    password_digest: BCrypt::Password.create("password"),
+    bio: "I work sunday morning. yep."
+  }
+])
+
+[0].each do |day_idx|
+  [0].each do |interval_idx|
+    User.last.work_times.create([
+      {
+        day: DAYS[day_idx],
+        interval: INTERVALS[interval_idx]
+      }
+    ])
+  end
+end

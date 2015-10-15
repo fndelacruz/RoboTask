@@ -21,7 +21,7 @@ class Api::UsersController < ApplicationController
         .references(:work_times)
     else
       @users = User.includes(:work_times)
-        .where('work_times.interval = ?', WORKTIME.INTERVAL_CODE[interval])
+        .where('work_times.interval = ?', WorkTime.interval_code(interval))
         .where('work_times.day = ?', day)
         .references(:work_times)
     end

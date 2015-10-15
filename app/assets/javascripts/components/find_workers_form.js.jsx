@@ -26,7 +26,7 @@
         dateTime.setHours(12);
         break;
       case "EVENING":
-        dateTime.setHours(4);
+        dateTime.setHours(16);
         break;
     }
     return dateTime;
@@ -85,10 +85,11 @@
           this.setState({ dateTime: this.state.dateTime });
           break;
         case "interval-entry":
-          this.setState({ interval: e.target.value });
+          var interval = this.state.interval = e.target.value;
+          this.setState({ interval: interval });
           break;
-        case "interval-entry":
       }
+      //
       root.ApiUtil.fetchValidWorkers(this._formattedStateDateTime());
     },
 
@@ -148,10 +149,10 @@
     },
 
     chooseWorker: function(task, worker) {
-      var formattedDateTime = intervalAdjustDate(
-        this.state.dateTime,
-        this.state.interval
-      );
+      // var formattedDateTime = intervalAdjustDate(
+      //   this.state.dateTime,
+      //   this.state.interval
+      // );
       debugger;
       // NOTE: choose the worker at this.props.worker ! eventually, add a check
       // to see if the worker is capable of working at the given TimeSlice (when
@@ -159,7 +160,7 @@
 
       // NOTE: but how do I get the task id associated with this task? answer:
       // it's in the props!
-      // ApiUtil.assignWorkerToTask(task, worker);
+      ApiUtil.assignWorkerToTask(task, worker);
     },
 
     render: function() {

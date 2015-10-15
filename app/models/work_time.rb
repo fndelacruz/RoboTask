@@ -24,6 +24,10 @@ class WorkTime < ActiveRecord::Base
 
   belongs_to(:user)
 
+  def self.interval_code(key)
+    INTERVAL_CODE[key]
+  end
+  
   private
 
   def valid_day

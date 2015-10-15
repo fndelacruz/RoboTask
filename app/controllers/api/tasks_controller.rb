@@ -15,7 +15,8 @@ class Api::TasksController < ApplicationController
   end
 
   def update
-    # NOTE: if current_user actually owns the task, THEN do the following...
+    # NOTE: this conditional ensures current_user owns the task being assigned
+    # a worker. is this necessary...?
     if current_user.created_tasks.map { |task| task.id }.include?(params[:id].to_i)
       puts "This user does own the task he wants to update!"
       @task = Task.find(params[:id])
