@@ -16,8 +16,14 @@ class WorkTime < ActiveRecord::Base
 
   DAYS = %w(SUN MON TUE WED THU FRI SAT)
   INTERVALS = %w(MORNING AFTERNOON EVENING)
+  INTERVAL_CODE = {
+    "08" => "MORNING",
+    "12" => "AFTERNOON",
+    "16" => "EVENING",
+  }
 
   belongs_to(:user)
+
   private
 
   def valid_day

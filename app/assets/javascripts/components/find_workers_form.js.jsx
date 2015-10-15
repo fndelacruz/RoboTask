@@ -7,6 +7,11 @@
     return result;
   };
 
+  // var _formattedStateDateTime = function() {
+  //   intervalAdjustDate(FindWorkersForm.state.dateTime, FindWorkersForm.state.interval);
+  // };
+
+
   var intervalAdjustDate = function(dateTime, modifier) {
     dateTime.setMinutes(0);
     dateTime.setSeconds(0);
@@ -24,8 +29,7 @@
         dateTime.setHours(4);
         break;
     }
-    debugger;
-    return dateTime
+    return dateTime;
   };
 
   var formatSimpleDate = function(dateTime) {
@@ -57,8 +61,12 @@
   //   dateTime.setMinutes(hoursMinutes[1]);
   // };
 
-  root.FindWorkersForm = React.createClass({
+  var FindWorkersForm = root.FindWorkersForm = React.createClass({
     mixins: [ReactRouter.History],
+
+    _formattedStateDateTime: function() {
+      return intervalAdjustDate(this.state.dateTime, this.state.interval);
+    },
 
     getInitialState: function() {
       var dateTimeTomorrow = addDays(new Date(), 1);
@@ -71,10 +79,8 @@
     },
 
     handleChange: function(e) {
-      // debugger
       switch (e.target.id) {
           case "date-time-entry":
-          // debugger;
           dateAdjustDateTime(this.state.dateTime, e.target.value);
           this.setState({ dateTime: this.state.dateTime });
           break;
@@ -82,8 +88,8 @@
           this.setState({ interval: e.target.value });
           break;
         case "interval-entry":
-
       }
+      root.ApiUtil.fetchValidWorkers(this._formattedStateDateTime());
     },
 
     // handleSubmission: function(e) {
@@ -113,6 +119,7 @@
     // },
 
     _updateValidWorkers: function() {
+      // root.ApiUtil.fetchValidWorkers(this._formattedStateDateTime());
       this.setState({
         validWorkers: root.WorkerUserStore.all()
       });
@@ -130,7 +137,7 @@
       // NOTE: add timeslice qualifiers after get timeslice working. Currently,
       // I consider all workers "valid". eventually, pass the task timeslice
       // to the below fetchValidWorkers...
-      root.ApiUtil.fetchValidWorkers();
+      root.ApiUtil.fetchValidWorkers(this._formattedStateDateTime());
       root.WorkerUserStore.addChangeListener(this._updateValidWorkers);
       root.CreatedTaskStore.addAssignTaskWorkerOKListener(this._assignWorkerOK);
     },
@@ -152,7 +159,7 @@
 
       // NOTE: but how do I get the task id associated with this task? answer:
       // it's in the props!
-      ApiUtil.assignWorkerToTask(task, worker);
+      // ApiUtil.assignWorkerToTask(task, worker);
     },
 
     render: function() {
@@ -165,7 +172,7 @@
             id="find-workers-form-heading">
           FindWorkersForm placeholder
           </div>
-          // dateHandlingStartsHere
+
           dateTime<br/>
           <input
             type="date"
@@ -181,14 +188,6 @@
             <option value="EVENING">EVENING (4PM-8PM)</option>
           </select>
 
-          <br/><br/><br/><br/><br/>
-          <input
-            type="time"
-            onChange={this.handleChange}
-            id="start-time-entry"
-          /><br/><br/>
-
-          // dateHandlingEndsHere
           <ul>
           {
             workers.map(function(worker) {

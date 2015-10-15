@@ -12,16 +12,25 @@ class Api::UsersController < ApplicationController
   # end
 
   def index
-    # @users = User.includes(:work_times)
-    #   .where('work_times.interval = ?', 'MORNING')
-    #   .where('work_times.day = ?', 'SUN')
-    #   .references(:work_times)
+    day = params[:dateTime][0..2].upcase
+    interval = params[:dateTime][16..17]
 
-    # NOTE: this fetches ALL worker users. ultimately, want to change this to only the
-    # ones owning a particular work_time
-    @users = User.joins(:work_times)
-      .group("users.id")
-      .having("(count(user_id)) > 0")
+    if interval == "00"
+      @users = User.includes(:work_times)
+        .where('work_times.day = ?', day)
+        .references(:work_times)
+    else
+      @users = User.includes(:work_times)
+        .where('work_times.interval = ?', WORKTIME.INTERVAL_CODE[interval])
+        .where('work_times.day = ?', day)
+        .references(:work_times)
+    end
+
+    # # NOTE: this fetches ALL worker users. ultimately, want to change this to only the
+    # # ones owning a particular work_time
+    # @users = User.joins(:work_times)
+    #   .group("users.id")
+    #   .having("(count(user_id)) > 0")
 
     render json: @users
   end

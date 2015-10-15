@@ -66,11 +66,11 @@
       });
     },
 
-    fetchValidWorkers: function() {
+    fetchValidWorkers: function(dateTime) {
       $.ajax({
         url: "/api/users/",
         method: "GET",
-        data: {user_type: "workers"},
+        data: {dateTime: dateTime},
         success: function(workers) {
           root.ApiActions.receiveValidWorkers(workers);
         }
