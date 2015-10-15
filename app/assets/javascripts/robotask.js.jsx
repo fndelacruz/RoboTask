@@ -23,6 +23,7 @@ $(function() {
     var routes = (
       <Route path="/" component={App}>
         <Route path="/task/new" component={TaskForm} />
+        <Route path="/profile" component={ProfileForm} />
         <Route path="/tasks/created" component={CreatedTasksIndex} />
         <Route path="/task/:storeTaskIdx/findWorker" component={FindWorkersForm} />
       </Route>

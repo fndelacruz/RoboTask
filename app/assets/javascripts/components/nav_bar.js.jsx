@@ -52,7 +52,7 @@
     },
 
     handleProfileClick: function() {
-      this.history.pushState(null, "/profle/");
+      this.history.pushState(null, "/profile");
     },
 
     handleCreateTaskClick: function() {
@@ -73,7 +73,7 @@
           </li>
 
           <li
-            onClick={this.handleWorkerProfileClick}
+            onClick={this.handleProfileClick}
             className="nav-button">
             Profile
           </li>

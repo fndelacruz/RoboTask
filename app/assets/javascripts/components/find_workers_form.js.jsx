@@ -153,7 +153,7 @@
       //   this.state.dateTime,
       //   this.state.interval
       // );
-      debugger;
+      // debugger;
       // NOTE: choose the worker at this.props.worker ! eventually, add a check
       // to see if the worker is capable of working at the given TimeSlice (when
       // TimeSlice is implemented...)

@@ -35,7 +35,21 @@
         actionType: TaskConstants.ASSIGN_TASK_WORKER,
         action: task
       });
+    },
+
+    receiveBio: function(bio) {
+      root.AppDispatcher.dispatch({
+        actionType: UserConstants.USER_BIO_RECEIVED,
+        action: bio
+      });
+    },
+
+    profileUpdateOK: function() {
+      root.AppDispatcher.dispatch({
+        actionType: FlashConstants.PROFILE_FORM_OK
+      });
     }
+
   };
 
 }(this));

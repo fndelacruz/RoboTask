@@ -92,6 +92,38 @@
           }
         }
       });
+    },
+
+    fetchBio: function() {
+      $.ajax({
+        url: "/api/users/1",
+        method: "GET",
+        success: function(bio) {
+          root.ApiActions.receiveBio(bio);
+        }
+      });
+    },
+
+    updateBio: function(bio) {
+      $.ajax({
+        url: "/api/users/1",
+        method: "PATCH",
+        data: { user: bio },
+        success: function(e) {
+          // NOTE: what's e here?
+          if (e.status === "OK") {
+            root.ApiActions.profileUpdateOK();
+          } else if (e.status === "BAD") {
+            // NOTE: might not use this... but provide it here in case need to
+            // deal with a profile update error
+            root.ApiActions.profileUpdateError();
+          } else {
+            // NOTE: shouldn't go here. if it does, check back to controller
+            debugger;
+          }
+        }
+      });
     }
+
   };
 }(this));

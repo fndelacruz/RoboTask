@@ -26,12 +26,34 @@ class Api::UsersController < ApplicationController
         .references(:work_times)
     end
 
-    # # NOTE: this fetches ALL worker users. ultimately, want to change this to only the
-    # # ones owning a particular work_time
+    # NOTE: this fetches ALL worker users. don't use it anymore but might be
+    # useful later
     # @users = User.joins(:work_times)
     #   .group("users.id")
     #   .having("(count(user_id)) > 0")
 
     render json: @users
   end
+
+  def show
+    # NOTE: only using show to show current_user. seems kind of hacky, in
+    # particular because I do this by setting "id" to 1
+    render json: {"bio" => current_user.bio}
+  end
+
+  def update
+    current_user.bio = user_params["bio"]
+    if current_user.save
+      render json: {status: "OK"}
+    else
+      render json: {status: "BAD"}
+    end
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:bio)
+  end
+
 end
