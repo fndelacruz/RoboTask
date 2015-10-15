@@ -15,7 +15,7 @@ class Api::TasksController < ApplicationController
   end
 
   def update
-    # if current_user actually owns the task, THEN do the following...
+    # NOTE: if current_user actually owns the task, THEN do the following...
     if current_user.created_tasks.map { |task| task.id }.include?(params[:id].to_i)
       puts "This user does own the task he wants to update!"
       @task = Task.find(params[:id])

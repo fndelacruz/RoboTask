@@ -1,13 +1,34 @@
 (function(root) {
   'use strict';
 
-  var addDays = function addDays(date, days) {
+  var addDays = function(date, days) {
     var result = new Date(date);
     result.setDate(result.getDate() + days);
     return result;
   };
 
-  var formatDate = function(dateTime) {
+  var intervalAdjustDate = function(dateTime, modifier) {
+    dateTime.setMinutes(0);
+    dateTime.setSeconds(0);
+    switch (modifier) {
+      case "ANY":
+        dateTime.setHours(0);
+        break;
+      case "MORNING":
+        dateTime.setHours(8);
+        break;
+      case "AFTERNOON":
+        dateTime.setHours(12);
+        break;
+      case "EVENING":
+        dateTime.setHours(4);
+        break;
+    }
+    debugger;
+    return dateTime
+  };
+
+  var formatSimpleDate = function(dateTime) {
     var d = new Date(dateTime);
     var month = '' + (d.getMonth() + 1);
     var day = '' + d.getDate();
@@ -18,81 +39,78 @@
 
     return [year, month, day].join('-');
   };
-
-  var formatTime = function(dateTime) {
-    return dateTime.toTimeString().substring(0, 5);
-  };
-
+  //
+  // var formatTime = function(dateTime) {
+  //   return dateTime.toTimeString().substring(0, 5);
+  // };
+  //
   var dateAdjustDateTime = function(dateTime, date) {
     var yearDayMonth = date.split("-");
     dateTime.setFullYear(yearDayMonth[0]);
     dateTime.setMonth(yearDayMonth[1] - 1);
     dateTime.setDate(yearDayMonth[2]);
   };
-
-  var timeAdjustDateTime = function(dateTime, time) {
-    var hoursMinutes = time.split(":");
-    dateTime.setHours(hoursMinutes[0]);
-    dateTime.setMinutes(hoursMinutes[1]);
-  };
+  //
+  // var timeAdjustDateTime = function(dateTime, time) {
+  //   var hoursMinutes = time.split(":");
+  //   dateTime.setHours(hoursMinutes[0]);
+  //   dateTime.setMinutes(hoursMinutes[1]);
+  // };
 
   root.FindWorkersForm = React.createClass({
     mixins: [ReactRouter.History],
 
     getInitialState: function() {
-      var dateTimeNow = new Date();
-      var dateTimeTomorrow = addDays(dateTimeNow, 1);
+      var dateTimeTomorrow = addDays(new Date(), 1);
+      // intervalAdjustDate(dateTimeTomorrow, "ANY");
       return ({
-        startDateTime: dateTimeNow,
-        startDate: formatDate(dateTimeNow),
-        startTime: formatTime(dateTimeNow),
-        endDateTime: dateTimeTomorrow,
-        endDate: formatDate(dateTimeTomorrow),
-        endTime: formatTime(dateTimeTomorrow),
-        validWorkers: root.WorkerUserStore.all()
+        validWorkers: root.WorkerUserStore.all(),
+        dateTime: dateTimeTomorrow,
+        interval: "ANY"
       });
     },
 
     handleChange: function(e) {
+      // debugger
       switch (e.target.id) {
-        case "start-date-entry":
-          dateAdjustDateTime(this.state.startDateTime, e.target.value);
-          this.setState({ startDate: e.target.value });
+          case "date-time-entry":
+          // debugger;
+          dateAdjustDateTime(this.state.dateTime, e.target.value);
+          this.setState({ dateTime: this.state.dateTime });
           break;
-        case "start-time-entry":
-          timeAdjustDateTime(this.state.startDateTime, e.target.value);
-          this.setState({ startTime: e.target.value });
+        case "interval-entry":
+          this.setState({ interval: e.target.value });
           break;
-        case "end-date-entry":
-          dateAdjustDateTime(this.state.endDateTime, e.target.value );
-          this.setState({ endDate: e.target.value });
-          break;
-        case "end-time-entry":
-          timeAdjustDateTime(this.state.endDateTime, e.target.value);
-          this.setState({ endTime: e.target.value });
-          break;
+        case "interval-entry":
+
       }
     },
 
-    handleSubmission: function(e) {
-      // NOTE: Will add start dates later, just getting Ajax working first.
-      var newTask = {
-        title: this.state.title,
-        location: this.state.location,
-        description: this.state.description,
-      };
-
-      var dateTimeNow = new Date();
-      var dateTimeTomorrow = addDays(dateTimeNow, 1);
-      this.setState({
-        startDateTime: dateTimeNow,
-        startDate: formatDate(dateTimeNow),
-        startTime: formatTime(dateTimeNow),
-        endDateTime: dateTimeTomorrow,
-        endDate: formatDate(dateTimeTomorrow),
-        endTime: formatTime(dateTimeTomorrow)
-      });
-    },
+    // handleSubmission: function(e) {
+    //   debugger
+    //   // NOTE: NOW, do adjustment of dateTime hours based on this.state.interval
+    //
+    //
+    //   // NOTE: Will add start dates later, just getting Ajax working first.
+    //   var newTask = {
+    //     title: this.state.title,
+    //     location: this.state.location,
+    //     description: this.state.description,
+    //   };
+    //
+    //   var dateTimeNow = new Date();
+    //   var dateTimeTomorrow = addDays(dateTimeNow, 1);
+    //
+    //   // NOTE: REMOVE THIS???????????
+    //   this.setState({
+    //     startDateTime: dateTimeNow,
+    //     startDate: intervalAdjustDate(dateTimeNow),
+    //     startTime: formatTime(dateTimeNow),
+    //     endDateTime: dateTimeTomorrow,
+    //     endDate: intervalAdjustDate(dateTimeTomorrow),
+    //     endTime: formatTime(dateTimeTomorrow)
+    //   });
+    // },
 
     _updateValidWorkers: function() {
       this.setState({
@@ -122,6 +140,21 @@
       root.CreatedTaskStore.removeAssignTaskWorkerOKListener(this._assignWorkerOK);
     },
 
+    chooseWorker: function(task, worker) {
+      var formattedDateTime = intervalAdjustDate(
+        this.state.dateTime,
+        this.state.interval
+      );
+      debugger;
+      // NOTE: choose the worker at this.props.worker ! eventually, add a check
+      // to see if the worker is capable of working at the given TimeSlice (when
+      // TimeSlice is implemented...)
+
+      // NOTE: but how do I get the task id associated with this task? answer:
+      // it's in the props!
+      ApiUtil.assignWorkerToTask(task, worker);
+    },
+
     render: function() {
       var workers = this.state.validWorkers;
       var task = root.CreatedTaskStore.all()[this.props.params.storeTaskIdx];
@@ -133,33 +166,28 @@
           FindWorkersForm placeholder
           </div>
           // dateHandlingStartsHere
-          Start DateTime<br/>
+          dateTime<br/>
           <input
             type="date"
-            value={this.state.startDate}
+            value={formatSimpleDate(this.state.dateTime)}
             onChange={this.handleChange}
-            id="start-date-entry"
+            id="date-time-entry"
           /><br/>
+
+          <select defaultValue="ANY"id="interval-entry" onChange={this.handleChange}>
+            <option value="ANY">ANY TIME</option>
+            <option value="MORNING">MORNING (8AM-12PM)</option>
+            <option value="AFTERNOON">AFTERNOON (12PM-4PM)</option>
+            <option value="EVENING">EVENING (4PM-8PM)</option>
+          </select>
+
+          <br/><br/><br/><br/><br/>
           <input
             type="time"
-            value={this.state.startTime}
             onChange={this.handleChange}
             id="start-time-entry"
           /><br/><br/>
 
-          End DateTime<br/>
-          <input
-            type="date"
-            value={this.state.endDate}
-            id="end-date-entry"
-            onChange={this.handleChange}
-          /><br/>
-          <input
-            type="time"
-            value={this.state.endTime}
-            onChange={this.handleChange}
-            id="end-time-entry"
-          /><br/><br/>
           // dateHandlingEndsHere
           <ul>
           {
@@ -168,9 +196,10 @@
                 <FindWorkersFormItem
                   worker={worker}
                   task={task}
+                  chooseWorker={this.chooseWorker}
                   key={worker.id}/>
               );
-            })
+            }.bind(this))
           }
           </ul>
         </div>
