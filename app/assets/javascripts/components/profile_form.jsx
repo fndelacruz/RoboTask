@@ -52,8 +52,21 @@
       root.WorkerUserStore.removeCurrentUserChangeListener(this._updateProfile);
     },
 
-    handleClick: function() {
+    handleClick: function(e) {
+      id = e.target.id.split("-");
+      if (id.length === 2) {
+        this._toggleDay(id[1]);
+      } else if (id.length === 3) {
+        this._toggleInterval(id[1], id[2]);
+      } else {
+        debugger:
+        // NOTE: shouldn't get to this point. eventually, remove this note and
+        // replace the else if above with an else
+      }
+    },
 
+    _toggleDay: function(day) {
+      // if (this.state.workTimes)
     },
 
     render: function() {
@@ -66,7 +79,7 @@
       // { workTimesDay.indexOf(day) !== -1 ? checked : "" }
       var that = this;
       var defaultDay = "checkbox day-checkbox";
-      var defaultInterval = "interval-checkbox";
+      var defaultInterval = "checkbox interval-checkbox";
       return (
         <div className="component-container" id="profile-form">
           <div className="component-container-heading" id="profile-form-heading">
@@ -98,13 +111,13 @@
                     <div className="worktime-interval">
                       { intervals.map(function(interval){
                         var currentDay = that.state.workTimes[day];
-                        if (day === "SUN") {
+                        if (day === "TUE" && interval === "MORNING") {
                           // debugger;
                         }
                         return (
                           <div
                             className={ currentDay ?
-                              (currentDay.interval === true || true ?
+                              (currentDay[interval] === true ?
                                 defaultInterval + " checkbox-checked"
                               :
                                 defaultInterval + " checkbox-unchecked"

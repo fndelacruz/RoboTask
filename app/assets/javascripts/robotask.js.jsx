@@ -10,9 +10,6 @@ $(function() {
      render: function() {
        return (
          <div>
-          <header>
-            <h3>App Component Placeholder</h3>
-          </header>
           <NavBar /><br/>
           {this.props.children}
          </div>
