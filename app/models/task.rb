@@ -32,6 +32,7 @@ class Task < ActiveRecord::Base
   private
 
   def datetime_formatted
+    return if datetime.nil?
     errors.add(:datetime, "not formatted!") unless [0, 8, 12, 16].include?(datetime.hour)
   end
 end
