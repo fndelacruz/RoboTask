@@ -112,12 +112,16 @@
         success: function(e) {
           // NOTE: what's e here?
           if (e.status === "OK") {
-            root.ApiActions.profileUpdateOK();
+            console.log("bio update OK");
+            // NOTE: EVENTUALLY REPLACE THIS WITH A REAL FLASH-LIKE SYSTEM
+            // root.ApiActions.profileUpdateOK();
           } else if (e.status === "BAD") {
+            console.log("bio update BAD");
             // NOTE: might not use this... but provide it here in case need to
             // deal with a profile update error
-            root.ApiActions.profileUpdateError();
+            // root.ApiActions.profileUpdateError();
           } else {
+            console.log("bio unknown ERROR");
             // NOTE: shouldn't go here. if it does, check back to controller
             debugger;
           }

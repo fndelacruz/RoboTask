@@ -44,6 +44,8 @@
       });
     },
 
+    // NOTE: this is in progress. likely need to make a Flash-like component
+    // to handle messages
     profileUpdateOK: function() {
       root.AppDispatcher.dispatch({
         actionType: FlashConstants.PROFILE_FORM_OK

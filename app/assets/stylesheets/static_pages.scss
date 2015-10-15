@@ -139,3 +139,26 @@ textarea {
 .profile-element-title {
 	font-size: 24px;
 }
+
+.worktime-container {
+	height: 100px;
+}
+
+.worktime {
+	float: left;
+	font-size: 20px;
+}
+//
+// .interval-container {
+// 	float: left
+// }
+//
+// #save-profile-link {
+//
+// }
+
+.clearfix:after {
+  content: "";
+  clear: both;
+  display: block;
+}

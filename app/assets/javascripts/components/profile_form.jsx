@@ -37,33 +37,58 @@
     },
 
     render: function() {
-    return (
-      <div className="component-container" id="profile-form">
-        <div className="component-container-heading" id="profile-form-heading">Edit profile</div><br/>
+      var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      var intervals = ["anytime", "morning", "afternoon", "evening"];
 
-        <div className="profile-element-title">Bio</div><br/>
-        <textarea
-          placeholder="default bio"
-          value={this.state.bio}
-          onChange={this.handleBioChange}
-          id="bio-entry"
-        /><br/><br/>
 
-        <div className="profile-element-title">WorkTimeCheckboxes go here</div><br/>
-        <textarea
-          placeholder="work options go here!"
-          // value={this.state.title}
-          // onChange={this.handleChange}
-          id="work-times-entry"
-        /><br/><br/>
+      return (
+        <div className="component-container" id="profile-form">
+          <div className="component-container-heading" id="profile-form-heading">
+            Edit profile
+          </div><br/>
 
-        <div
-          className="submit-link"
-          onClick={this.handleSubmission}>
-        saveProfile
-        </div>
-      </div>    );
-    }
+          <div className="profile-element-title">Bio</div><br/>
+          <textarea
+            placeholder="default bio"
+            value={this.state.bio}
+            onChange={this.handleBioChange}
+            id="bio-entry"
+          /><br/><br/>
+
+          <div className="profile-element-title">workTimes</div><br/>
+          <ul className="worktime-container">
+            { days.map(function(day) {
+              return (
+                <li className="worktime">
+                  <input
+                    className="day-checkbox"
+                    type="checkbox"
+                  />{day}
+                    <div className="worktime-interval">
+                      { intervals.map(function(interval){
+                        return (
+                          <div>
+                            <input
+                              className="interval-checkbox"
+                              type="checkbox"
+                            />{interval}
+                          </div>
+                        );
+                      })}
+                    </div>
+                </li>
+              );
+            })}
+          </ul>
+
+          <div
+            className="submit-link"
+            id="save-profile-link"
+            onClick={this.handleSubmission}>
+          saveProfile
+          </div>
+        </div>    );
+      }
   });
 
 }(this));
