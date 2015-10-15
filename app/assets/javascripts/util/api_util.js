@@ -104,6 +104,16 @@
       });
     },
 
+    fetchCurrentUserDetails: function() {
+      $.ajax({
+        url: "/api/users/1",
+        method: "GET",
+        success: function(bioAndWorkTimes) {
+          root.ApiActions.receiveCurrentUserDetails(bioAndWorkTimes);
+        }
+      });
+    },
+
     updateBio: function(bio) {
       $.ajax({
         url: "/api/users/1",

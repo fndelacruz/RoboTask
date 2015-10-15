@@ -1,6 +1,24 @@
 (function(root) {
   'use strict';
 
+  // NOTE: I expect workTimes formatted as below:
+  var workTimes = [
+    {
+      sun: {
+      morning: true,
+      afternoon: true,
+      evening: true
+      }
+    },
+    {
+      mon: {
+      morning: true,
+      afternoon: false,
+      evening: true
+      }
+    }
+  ];
+
   root.ProfileForm = React.createClass({
     getInitialState: function() {
       return ({
@@ -10,10 +28,13 @@
     },
 
     _updateProfile: function() {
+      // NOTE: this is updating properly. now need to set user work_times
+      // on componentDidMount
       this.setState({
         bio: root.WorkerUserStore.getBio(),
         workTimes: root.WorkerUserStore.getWorkTimes()
       });
+
     },
 
     handleBioChange: function(e) {
@@ -27,13 +48,16 @@
     },
 
     componentDidMount: function() {
-      root.ApiUtil.fetchBio();
-      root.WorkerUserStore.addUserProfileChangeListener(this._updateProfile);
+      // root.ApiUtil.fetchBio();
+
+      root.ApiUtil.fetchCurrentUserDetails();
+
+      root.WorkerUserStore.addCurrentUserChangeListener(this._updateProfile);
 
     },
 
     componentWillUnmount: function() {
-      root.WorkerUserStore.removeUserProfileChangeListener(this._updateProfile);
+      root.WorkerUserStore.removeCurrentUserChangeListener(this._updateProfile);
     },
 
     render: function() {

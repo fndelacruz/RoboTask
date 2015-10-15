@@ -37,12 +37,23 @@
       });
     },
 
-    receiveBio: function(bio) {
+    receiveCurrentUserDetails: function(details) {
       root.AppDispatcher.dispatch({
-        actionType: UserConstants.USER_BIO_RECEIVED,
-        action: bio
+        actionType: UserConstants.CURRENT_USER_DETAILS_RECEIVED,
+        action: details
       });
     },
+
+
+    // NOTE: receiveBio replaced by receiveCurrentUserDetails
+    // NOTE: delete this after verify receiveCurrentUserDetails works for both
+    // NOTE: fetching bio and workTimes
+    // receiveBio: function(bio) {
+    //   root.AppDispatcher.dispatch({
+    //     actionType: UserConstants.USER_BIO_RECEIVED,
+    //     action: bio
+    //   });
+    // },
 
     // NOTE: this is in progress. likely need to make a Flash-like component
     // to handle messages

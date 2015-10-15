@@ -38,7 +38,16 @@ class Api::UsersController < ApplicationController
   def show
     # NOTE: only using show to show current_user. seems kind of hacky, in
     # particular because I do this by setting "id" to 1
-    render json: {"bio" => current_user.bio}
+    work_times = []
+    current_user.work_times.each do |work_time|
+      work_times.push({ day: work_time.day , interval: work_time.interval })
+    end
+
+    render json: {
+      bio: current_user.bio,
+      work_times: work_times
+    }
+
   end
 
   def update
