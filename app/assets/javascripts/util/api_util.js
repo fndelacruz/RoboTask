@@ -94,15 +94,16 @@
       });
     },
 
-    fetchBio: function() {
-      $.ajax({
-        url: "/api/users/1",
-        method: "GET",
-        success: function(bio) {
-          root.ApiActions.receiveBio(bio);
-        }
-      });
-    },
+    // NOTE: replaced by fetchCurrentUserDetails. delete when that works
+    // fetchBio: function() {
+    //   $.ajax({
+    //     url: "/api/users/1",
+    //     method: "GET",
+    //     success: function(bio) {
+    //       root.ApiActions.receiveBio(bio);
+    //     }
+    //   });
+    // },
 
     fetchCurrentUserDetails: function() {
       $.ajax({

@@ -10,7 +10,7 @@
   };
 
   var CURRENT_USER_DETAILS_CHANGE_EVENT = "CURRENT_USER_DETAILS_CHANGE_EVENT";
-  var _workTimes = [];
+  var _workTimes = {};
   var _bio = "";
   var _flashProfile = "";
 
@@ -20,17 +20,14 @@
     WorkerUserStore.emit(CURRENT_USER_DETAILS_CHANGE_EVENT);
   };
 
-  // NOTE: these two are replaced by _resetCurrentUserDetails. remove these
-  // when _resetCurrentUserDetails is verified working
-  // var _receiveBio = function(bio) {
-  //   _bio = bio.bio;
-  //   WorkerUserStore.emit(USER_PROFILE_CHANGE_EVENT);
+  // NOTE: just do this in Jbuilder
+  // var _formatDetailsArrayToPOJO = function (work_times) {
+  //   var _formattedDetails = {};
+  //   work_times.forEach(function(work_time) {
+  //     _formattedDetails.work_time =  _formattedDetails.work_time || {};
+  //     _formattedDetails(work_time.day)
+  //   });
   // };
-  // var _resetWorkTimes = function(workTimes) {
-  //   _workTimes = workTimes;
-  //   WorkerUserStore.emit(CURRENT_USER_DETAILS_CHANGE_EVENT);
-  // };
-
 
   // NOTE: go back to this if decide to implement flash like system
   // var _flashProfileUpdateOK = function() {
@@ -49,7 +46,10 @@
     },
 
     getWorkTimes: function() {
-      return _workTimes.slice();
+      // NOTE: WARNING: this returns a pointer to this private store variable
+      // NOTE: Ideally, want to return a deep duplication of this object if have
+      // NOTE: time to make it
+      return _workTimes;
     },
 
     addChangeListener: function(callback) {

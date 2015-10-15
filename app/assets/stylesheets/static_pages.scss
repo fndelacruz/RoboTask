@@ -162,3 +162,11 @@ textarea {
   clear: both;
   display: block;
 }
+
+.checkbox {
+	cursor: pointer;
+}
+
+.checkbox-checked {
+	background-color: red;
+}

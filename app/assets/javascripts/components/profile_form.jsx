@@ -2,22 +2,18 @@
   'use strict';
 
   // NOTE: I expect workTimes formatted as below:
-  var workTimes = [
-    {
-      sun: {
+  var workTimes = {
+    sun: {
       morning: true,
       afternoon: true,
       evening: true
-      }
     },
-    {
-      mon: {
+    mon: {
       morning: true,
       afternoon: false,
       evening: true
-      }
     }
-  ];
+  };
 
   root.ProfileForm = React.createClass({
     getInitialState: function() {
@@ -34,7 +30,6 @@
         bio: root.WorkerUserStore.getBio(),
         workTimes: root.WorkerUserStore.getWorkTimes()
       });
-
     },
 
     handleBioChange: function(e) {
@@ -49,22 +44,29 @@
 
     componentDidMount: function() {
       // root.ApiUtil.fetchBio();
-
       root.ApiUtil.fetchCurrentUserDetails();
-
       root.WorkerUserStore.addCurrentUserChangeListener(this._updateProfile);
-
     },
 
     componentWillUnmount: function() {
       root.WorkerUserStore.removeCurrentUserChangeListener(this._updateProfile);
     },
 
+    handleClick: function() {
+
+    },
+
     render: function() {
-      var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-      var intervals = ["anytime", "morning", "afternoon", "evening"];
+      var days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+      var intervals = ["ANYTIME", "MORNING", "AFTERNOON", "EVENING"];
 
+      var workTimesDay = Object.keys(this.state.workTimes);
 
+      // debugger;
+      // { workTimesDay.indexOf(day) !== -1 ? checked : "" }
+      var that = this;
+      var defaultDay = "checkbox day-checkbox";
+      var defaultInterval = "interval-checkbox";
       return (
         <div className="component-container" id="profile-form">
           <div className="component-container-heading" id="profile-form-heading">
@@ -84,19 +86,37 @@
             { days.map(function(day) {
               return (
                 <li className="worktime">
-                  <input
-                    className="day-checkbox"
-                    type="checkbox"
-                  />{day}
+                  <div
+                    className={ workTimesDay.indexOf(day) !== -1 ?
+                      defaultDay + " checkbox-checked"
+                    :
+                      defaultDay + " checkbox-unchecked"
+                    }
+                    id={"worktime-" + day}
+                    onClick={that.handleClick}
+                  >{day}</div>
                     <div className="worktime-interval">
                       { intervals.map(function(interval){
+                        var currentDay = that.state.workTimes[day];
+                        if (day === "SUN") {
+                          // debugger;
+                        }
                         return (
-                          <div>
-                            <input
-                              className="interval-checkbox"
-                              type="checkbox"
-                            />{interval}
-                          </div>
+                          <div
+                            className={ currentDay ?
+                              (currentDay.interval === true || true ?
+                                defaultInterval + " checkbox-checked"
+                              :
+                                defaultInterval + " checkbox-unchecked"
+                              )
+                            :
+                              (defaultInterval + "checkbox-unchecked")
+                            }
+
+
+                            id={"worktime-" + day + "-" + interval}
+                            onClick={that.handleClick}
+                          >{interval}</div>
                         );
                       })}
                     </div>
