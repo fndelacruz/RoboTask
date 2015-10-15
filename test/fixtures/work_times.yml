@@ -1,14 +1,13 @@
 # == Schema Information
 #
-# Table name: time_slices
+# Table name: work_times
 #
-#  id           :integer          not null, primary key
-#  time_start   :datetime         not null
-#  time_end     :datetime         not null
-#  timable_id   :integer          not null
-#  timable_type :string           not null
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
+#  id         :integer          not null, primary key
+#  day        :string           not null
+#  interval   :string           not null
+#  user_id    :integer          not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
