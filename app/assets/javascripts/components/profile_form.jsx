@@ -53,27 +53,49 @@
     },
 
     handleClick: function(e) {
-      id = e.target.id.split("-");
+      var id = e.target.id.split("-");
       if (id.length === 2) {
         this._toggleDay(id[1]);
       } else if (id.length === 3) {
         this._toggleInterval(id[1], id[2]);
       } else {
-        debugger:
+        debugger;
         // NOTE: shouldn't get to this point. eventually, remove this note and
         // replace the else if above with an else
       }
     },
 
     _toggleDay: function(day) {
-      // if (this.state.workTimes)
+      debugger
+      // NOTE: This would be less hacky if just initially set to day-intervals
+      // that aren't present to false when initially build workTime in the
+      // controller. doing that now
+
+      // if (this.state.workTimes[day]) {
+      //   var intervals = Object.keys(this.stateWorkTimes[day]);
+      //
+      //   if intervals.
+      //
+      //   intervals.forEach(function(interval) )
+      //   if (Object.keys(this.stateWorkTimes[day]).length === 3) {
+      //     // NOTE: since all reset them all to false
+      //
+      //   } ;
+      //
+      // }
+    },
+
+    _toggleInterval: function(day, interval) {
+      debugger
     },
 
     render: function() {
+      debugger;
       var days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
       var intervals = ["ANYTIME", "MORNING", "AFTERNOON", "EVENING"];
 
-      var workTimesDay = Object.keys(this.state.workTimes);
+      var workTimes = this.state.workTimes;
+      var workTimesDay = Object.keys(workTimes);
 
       // debugger;
       // { workTimesDay.indexOf(day) !== -1 ? checked : "" }
@@ -96,11 +118,25 @@
 
           <div className="profile-element-title">workTimes</div><br/>
           <ul className="worktime-container">
+
             { days.map(function(day) {
+              var isDaySelected = true;
+              // NOTE: is this conditional workTimes[day] necessary? check later
+              if (workTimes[day]) {
+                var days = Object.keys(workTimes[day]);
+                days.forEach(function(interval) {
+                  if (!workTimes[day][interval]) {
+                    isDaySelected = false;
+                  }
+                });
+              } else {
+                isDaySelected = false;
+              }
+
               return (
                 <li className="worktime">
                   <div
-                    className={ workTimesDay.indexOf(day) !== -1 ?
+                    className={ isDaySelected ?
                       defaultDay + " checkbox-checked"
                     :
                       defaultDay + " checkbox-unchecked"
@@ -125,8 +161,6 @@
                             :
                               (defaultInterval + "checkbox-unchecked")
                             }
-
-
                             id={"worktime-" + day + "-" + interval}
                             onClick={that.handleClick}
                           >{interval}</div>

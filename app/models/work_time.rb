@@ -27,7 +27,15 @@ class WorkTime < ActiveRecord::Base
   def self.interval_code(key)
     INTERVAL_CODE[key]
   end
-  
+
+  def self.intervals
+    INTERVALS
+  end
+
+  def self.days
+    DAYS
+  end
+
   private
 
   def valid_day

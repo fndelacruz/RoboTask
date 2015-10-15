@@ -46,10 +46,20 @@ class Api::UsersController < ApplicationController
     #
 
     work_times_hash = {};
+
     current_user.work_times.each do |work_time|
       work_times_hash[work_time.day] ||= {}
       work_times_hash[work_time.day][work_time.interval] = true
     end
+
+    WorkTime.days.each do |day|
+      work_times_hash[day] = {} if !work_times_hash[day]
+      WorkTime.intervals.each do |interval|
+        work_times_hash[day][interval] ||= false
+      end
+    end
+
+    # debugger
 
     render json: {
       bio: current_user.bio,
