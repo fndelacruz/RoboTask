@@ -15,31 +15,53 @@
       var idx = root.CreatedTaskStore.all().indexOf(task);
       this.history.pushState(null, "/task/" + idx + "/findWorker");
     },
-    
+
     render: function() {
       var task = this.props.createdTask;
-      var workerId = (task.worker_id === null) ? "UNASSIGNED" : task.worker_id;
-      return (
-        <li className="component-container-index-item" id="created-tasks-index-item">
-          title: {task.title}<br/>
-          description: {task.description}<br/>
-          location: {task.location}<br/>
-          created: {task.created_at}<br/>
-          worker: {workerId} <br/>
+      // var workerId = (task.worker_id === null) ? "UNASSIGNED" : task.worker_id;
 
-          <div
-            className="submit-link"
-            onClick={this.cancelTask}>
-            cancelTask
-          </div>
+      // NOTE: This is bad. not DRY. but not sure how to conditionally render
+      // the delete link depending if workerId === null... FIX THIS SOON
+      if (task.worker_id === null) {
+        return (
+          <li className="component-container-index-item" id="created-tasks-index-item">
+            title: {task.title}<br/>
+            description: {task.description}<br/>
+            location: {task.location}<br/>
+            created: {task.created_at}<br/>
+            worker: "UNASSIGNED" <br/>
 
-          <div
-            className="submit-link"
-            onClick={this._findValidWorkers.bind(null, task)}>
-            assignWorkerToTask
-          </div>
-        </li>
-      );
+            <div
+              className="submit-link"
+              onClick={this.cancelTask}>
+              cancelTask
+            </div>
+
+            <div
+              className="submit-link"
+              onClick={this._findValidWorkers.bind(null, task)}>
+              assignWorkerToTask
+            </div>
+          </li>
+        );
+      } else {
+        return (
+          <li className="component-container-index-item" id="created-tasks-index-item">
+            title: {task.title}<br/>
+            description: {task.description}<br/>
+            location: {task.location}<br/>
+            created: {task.created_at}<br/>
+            worker: {task.worker_id} <br/>
+
+            <div
+              className="submit-link"
+              onClick={this.cancelTask}>
+              cancelTask
+            </div>
+          </li>
+        );
+
+      }
     }
   });
 

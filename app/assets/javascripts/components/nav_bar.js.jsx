@@ -18,7 +18,6 @@
       return ({
         unassignedTaskCount: unassignedTasks,
         assignedTaskCount: assignedTasks
-        // createdTaskCount: root.CreatedTaskStore.all().length
       });
     },
 
@@ -36,13 +35,7 @@
       this.setState({
         unassignedTaskCount: unassignedTasks,
         assignedTaskCount: assignedTasks
-        // createdTaskCount: root.CreatedTaskStore.all().length
       });
-
-      // var newCreatedTaskCount = root.CreatedTaskStore.all().length;
-      // this.setState({
-      //   createdTaskCount: newCreatedTaskCount
-      // });
     },
 
     componentDidMount: function() {
