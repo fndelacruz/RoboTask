@@ -107,7 +107,7 @@
           </div>
 
           <button
-            class="btn btn-default"
+            className="btn btn-default"
             type="submit"
             value="Signup"
             onClick={this.handleSubmission}>

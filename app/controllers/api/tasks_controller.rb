@@ -31,9 +31,12 @@ class Api::TasksController < ApplicationController
 
   def destroy
     @task = Task.find(params[:id])
-    @task.destroy
-
-    render json: @task
+    if @task.creator = current_user
+      @task.destroy
+      render json: { status: "OK" }
+    else
+      render json: { status: "BAD" }
+    end
   end
 
   private

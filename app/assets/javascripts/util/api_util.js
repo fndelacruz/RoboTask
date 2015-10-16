@@ -47,10 +47,12 @@
           // NOTE: Not sure if this is the best way to handle rails database
           // failures to delete... I send an object with e._fail === true if the
           // database could not createTask the given task.
-          if (e._fail) {
+          if (e.status === "BAD") {
             // NOTE: This should probably do a "flash-like" thing via React,
             // instead of a silly console log
-            console.log("failed to deleteTask task");
+            console.log("failed to deleteTask task. do you really own this task?");
+          } else {
+            console.log("successful task deletion.");
           }
         }
       });
@@ -121,19 +123,13 @@
         method: "PATCH",
         data: { user: userDetails },
         success: function(e) {
-          // NOTE: what's e here?
           if (e.status === "OK") {
             console.log("update OK");
-            // NOTE: EVENTUALLY REPLACE THIS WITH A REAL FLASH-LIKE SYSTEM
-            // root.ApiActions.profileUpdateOK();
           } else if (e.status === "BAD") {
             console.log("update BAD");
-            // NOTE: might not use this... but provide it here in case need to
-            // deal with a profile update error
-            // root.ApiActions.profileUpdateError();
           } else {
             console.log("update unknown ERROR");
-            // NOTE: shouldn't go here. if it does, check back to controller
+            // NOTE: shouldn't go here. if it does, check controller for clues
             debugger;
           }
         }
@@ -147,7 +143,6 @@
         method: "PATCH",
         data: { user: bio },
         success: function(e) {
-          // NOTE: what's e here?
           if (e.status === "OK") {
             console.log("bio update OK");
             // NOTE: EVENTUALLY REPLACE THIS WITH A REAL FLASH-LIKE SYSTEM
@@ -164,7 +159,18 @@
           }
         }
       });
-    }
+    },
+
+    fetchReviews: function(worker) {
+      $.ajax({
+        url: "/api/reviews",
+        method: "GET",
+        data: {review: {worker_id: worker.id}},
+        success: function(reviews) {
+          ApiActions.receiveReviews(reviews);
+        }
+      });
+    },
 
   };
 }(this));

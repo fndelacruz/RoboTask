@@ -72,7 +72,7 @@
       var dateTimeTomorrow = addDays(new Date(), 1);
       // intervalAdjustDate(dateTimeTomorrow, "ANY");
       return ({
-        validWorkers: root.WorkerUserStore.all(),
+        validWorkers: WorkerUserStore.all(),
         dateTime: dateTimeTomorrow,
         interval: "ANY"
       });
@@ -171,37 +171,40 @@
           <div
             className="component-container-heading"
             id="find-workers-form-heading">
-          FindWorkersForm placeholder
+          FindWorkers
+          </div>
+          <div className="filters-container">
+            dateTime<br/>
+            <input
+              type="date"
+              value={formatSimpleDate(this.state.dateTime)}
+              onChange={this.handleChange}
+              id="date-time-entry"
+            /><br/>
+
+            <select defaultValue="ANY"id="interval-entry" onChange={this.handleChange}>
+              <option value="ANY">ANY TIME</option>
+              <option value="MORNING">MORNING (8AM-12PM)</option>
+              <option value="AFTERNOON">AFTERNOON (12PM-4PM)</option>
+              <option value="EVENING">EVENING (4PM-8PM)</option>
+            </select>
           </div>
 
-          dateTime<br/>
-          <input
-            type="date"
-            value={formatSimpleDate(this.state.dateTime)}
-            onChange={this.handleChange}
-            id="date-time-entry"
-          /><br/>
-
-          <select defaultValue="ANY"id="interval-entry" onChange={this.handleChange}>
-            <option value="ANY">ANY TIME</option>
-            <option value="MORNING">MORNING (8AM-12PM)</option>
-            <option value="AFTERNOON">AFTERNOON (12PM-4PM)</option>
-            <option value="EVENING">EVENING (4PM-8PM)</option>
-          </select>
-
-          <ul>
+          <div className="workers-container">
           {
             workers.map(function(worker) {
               return (
-                <FindWorkersFormItem
-                  worker={worker}
-                  task={task}
-                  chooseWorker={this.chooseWorker}
-                  key={worker.id}/>
+                <div className="panel" key={worker.id}>
+                  <FindWorkersFormItem
+                    worker={worker}
+                    task={task}
+                    chooseWorker={this.chooseWorker}
+                    key={worker.id}/>
+                </div>
               );
             }.bind(this))
           }
-          </ul>
+          </div>
         </div>
       );
     }
