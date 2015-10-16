@@ -50,42 +50,69 @@
       root.CreatedTaskStore.removeCreateTaskOKListener(this._findValidWorkers);
     },
 
+    // NOTE: unsure if I should wrap each div form-group with another div
+    // panel . seems redundant. panel will check if that panel is focused. if
+    // focused, then it is expanded. otherwise it will minimize.
+
+    // IDEA: add green indicator in top right corner (green check mark /red x)
+    // if input is saved OK.
+
+    // IDEA: add capability for user to "save". add additional states to keep
+    // track of what the user has Saved. this will be what gets sent when do
+    // handleSub
     render: function() {
       return (
-        <div className="component-container" id="task-form">
+        <div className="component-container col-12 col-lg-10 col--centered" id="task-form">
           <div className="component-container-heading" id="task-form-heading">Create new task</div><br/>
 
-          Title<br/>
-          <input
-            type="text"
-            placeholder="default title"
-            value={this.state.title}
-            onChange={this.handleChange}
-            id="title-entry"
-          /><br/><br/>
-
-          Location<br/>
-          <input
-            type="text"
-            placeholder="default location"
-            value={this.state.location}
-            onChange={this.handleChange}
-            id="location-entry"
-          /><br/><br/>
-
-          Description<br/>
-          <textarea
-            placeholder="default description"
-            value={this.state.description}
-            onChange={this.handleChange}
-            id="description-entry"
-          /><br/><br/>
-
-          <div
-            className="submit-link"
-            onClick={this.handleSubmission}>
-          getFreeRobots
+          <div className="panel">
+            <div className="form-group">
+              <label htmlFor="title-entry">Title</label><br/>
+              <input
+                type="text"
+                placeholder="default title"
+                className="form-control"
+                value={this.state.title}
+                onChange={this.handleChange}
+                id="title-entry"
+              /><br/>
+            </div>
           </div>
+
+          <div className="panel">
+            <div className="form-group">
+              <label htmlFor="location-entry">Location</label><br/>
+              <input
+                type="text"
+                placeholder="default location"
+                className="form-control"
+                value={this.state.location}
+                onChange={this.handleChange}
+                id="location-entry"
+              /><br/>
+            </div>
+          </div>
+
+          <div className="panel">
+            <div className="form-group">
+              <label htmlFor="description-entry">Description</label><br/>
+              <textarea
+                placeholder="default description"
+                className="form-control"
+                value={this.state.description}
+                onChange={this.handleChange}
+                id="description-entry"
+              /><br/>
+            </div>
+          </div>
+
+          <button
+            class="btn btn-default"
+            type="submit"
+            value="Signup"
+            onClick={this.handleSubmission}>
+            Continue
+          </button>
         </div>
       );
     }

@@ -29,14 +29,14 @@
     render: function() {
       var createdTasks = this.state.createdTasks;
       return (
-        <div className="component-container" id="created-tasks-index">
+        <div className="component-container col-12 col-lg-10 col--centered" id="created-tasks-index">
           <div
             className="component-container-heading"
             id="created-tasks-index-heading">
             CreatedTasksIndex
           </div><br/>
 
-          <ul>
+          <div>
             {
               createdTasks.map(function(createdTask) {
                 return (
@@ -47,7 +47,7 @@
                 );
               })
             }
-          </ul>
+          </div>
 
         </div>
       );

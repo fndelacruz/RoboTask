@@ -173,6 +173,9 @@
 
 // NOTE: concerned about mobile user- does the margin-top look weird since it's
 // a percentage? perhaps switch to fixed pixel margin-top?
+a {
+  cursor: pointer;
+}
 .auth-outer-window {
   border: 1px solid black;
   width: 300px;
@@ -182,5 +185,17 @@
 
 .auth-inner-window {
   // border: 1px solid black;
-  margin: 10%
+  padding: 20px;
+}
+
+button:hover {
+  transition: all 0.1s ease-in;
+  background: rgba(0,255,0,0.6);
+}
+
+// NOTE: border not showing up on panel component. not sure why. can manually
+// assign it in inspector though...
+.panel{
+  padding: 20px;
+  // border: 2px solid black;
 }

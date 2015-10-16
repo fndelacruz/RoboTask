@@ -86,8 +86,30 @@
 
             <div className="collapse navbar-collapse" id="collapse-menu">
               <ul className="nav navbar-nav navbar-right">
-                <li><a href="#">link one</a></li>
-                <li><a href="#">link two</a></li>
+
+                <li
+                  onClick={this.handleProfileClick}
+                  className="nav-button">
+                  <a>Profile</a>
+                </li>
+
+                <li
+                  onClick={this.handleCreateTaskClick}
+                  className="nav-button">
+                  <a>Create Task</a>
+                </li>
+
+                <li
+                  onClick={this.handleViewUnassignedCreatedTasksClick}
+                  className="nav-button">
+                  <a>Unassigned Created Tasks: {this.state.unassignedTaskCount}</a>
+                </li>
+
+                <li
+                  onClick={this.handleViewAssignedCreatedTasksClick}
+                  className="nav-button">
+                  <a>Assigned Created Tasks: {this.state.assignedTaskCount}</a>
+                </li>
 
                 <li
                   onClick={this.handleLogoutClick}
@@ -95,29 +117,6 @@
                   <a>Logout</a>
                 </li>
 
-                <li
-                  onClick={this.handleProfileClick}
-                  className="nav-button">
-                  Profile
-                </li>
-
-                <li
-                  onClick={this.handleCreateTaskClick}
-                  className="nav-button">
-                  Create Task
-                </li>
-
-                <li
-                  onClick={this.handleViewUnassignedCreatedTasksClick}
-                  className="nav-button">
-                  Unassigned Created Tasks: {this.state.unassignedTaskCount}
-                </li>
-
-                <li
-                  onClick={this.handleViewAssignedCreatedTasksClick}
-                  className="nav-button">
-                  Assigned Created Tasks: {this.state.assignedTaskCount}
-                </li>
               </ul>
             </div>
           </div>

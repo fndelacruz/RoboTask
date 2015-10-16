@@ -24,41 +24,45 @@
       // the delete link depending if workerId === null... FIX THIS SOON
       if (task.worker_id === null) {
         return (
-          <li className="component-container-index-item" id="created-tasks-index-item">
-            title: {task.title}<br/>
-            description: {task.description}<br/>
-            location: {task.location}<br/>
-            created: {task.created_at}<br/>
-            worker: "UNASSIGNED" <br/>
+          <div className="panel">
+            <div className="component-container-index-item" id="created-tasks-index-item">
+              title: {task.title}<br/>
+              description: {task.description}<br/>
+              location: {task.location}<br/>
+              created: {task.created_at}<br/>
+              worker: "UNASSIGNED" <br/>
 
-            <div
-              className="submit-link"
-              onClick={this.cancelTask}>
-              cancelTask
-            </div>
+              <div
+                className="submit-link"
+                onClick={this.cancelTask}>
+                cancelTask
+              </div>
 
-            <div
-              className="submit-link"
-              onClick={this._findValidWorkers.bind(null, task)}>
-              assignWorkerToTask
+              <div
+                className="submit-link"
+                onClick={this._findValidWorkers.bind(null, task)}>
+                assignWorkerToTask
+              </div>
             </div>
-          </li>
+          </div>
         );
       } else {
         return (
-          <li className="component-container-index-item" id="created-tasks-index-item">
-            title: {task.title}<br/>
-            description: {task.description}<br/>
-            location: {task.location}<br/>
-            created: {task.created_at}<br/>
-            worker: {task.worker_id} <br/>
+          <div className="panel">
+            <div className="component-container-index-item" id="created-tasks-index-item">
+              title: {task.title}<br/>
+              description: {task.description}<br/>
+              location: {task.location}<br/>
+              created: {task.created_at}<br/>
+              worker: {task.worker_id} <br/>
 
-            <div
-              className="submit-link"
-              onClick={this.cancelTask}>
-              cancelTask
+              <div
+                className="submit-link"
+                onClick={this.cancelTask}>
+                cancelTask
+              </div>
             </div>
-          </li>
+          </div>
         );
 
       }
