@@ -68,8 +68,29 @@ class Api::UsersController < ApplicationController
   end
 
   def update
-    current_user.bio = user_params["bio"]
-    if current_user.save
+    # NOTE: I think this should be done in a transaction. not sure how to use
+    # though. actually, can just check if current_user.save succeeds, right?
+
+    current_user.bio = params[:user][:bio]
+    work_times = params[:user][:workTimes]
+
+    saveStatus = true
+    ActiveRecord::Base.transaction do
+      WorkTime.delete_all(["user_id = ?", current_user.id])
+
+      work_times.each do |day, intervals|
+        intervals.each do |interval, status|
+          if status == "true"
+            saveStatus = current_user.work_times.create({
+              day: day,
+              interval: interval
+            }) && saveStatus
+          end
+        end
+      end
+    end
+
+    if saveStatus
       render json: {status: "OK"}
     else
       render json: {status: "BAD"}
@@ -78,8 +99,11 @@ class Api::UsersController < ApplicationController
 
   private
 
-  def user_params
-    params.require(:user).permit(:bio)
-  end
+  # NOTE: Couldn't get workTimes to be  a permitted parameter. something about
+  # nested hashes not playing well with the regular permitting
+
+  # def user_params
+  #   params.require(:user).permit(:bio, workTimes: [])
+  # end
 
 end

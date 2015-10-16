@@ -39,9 +39,7 @@
     },
 
     handleSubmission: function() {
-      ApiUtil.updateBio({
-        bio: this.state.bio
-      });
+      ApiUtil.updateBio(this.state);
     },
 
     componentDidMount: function() {

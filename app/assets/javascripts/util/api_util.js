@@ -115,6 +115,32 @@
       });
     },
 
+    updateCurrentUserDetails: function(userDetails) {
+      $.ajax({
+        url: "/api/users/1",
+        method: "PATCH",
+        data: { user: userDetails },
+        success: function(e) {
+          // NOTE: what's e here?
+          if (e.status === "OK") {
+            console.log("update OK");
+            // NOTE: EVENTUALLY REPLACE THIS WITH A REAL FLASH-LIKE SYSTEM
+            // root.ApiActions.profileUpdateOK();
+          } else if (e.status === "BAD") {
+            console.log("update BAD");
+            // NOTE: might not use this... but provide it here in case need to
+            // deal with a profile update error
+            // root.ApiActions.profileUpdateError();
+          } else {
+            console.log("update unknown ERROR");
+            // NOTE: shouldn't go here. if it does, check back to controller
+            debugger;
+          }
+        }
+      });
+    },
+
+    // NOTE: this is getting replaced by updateCurrentUserDetails
     updateBio: function(bio) {
       $.ajax({
         url: "/api/users/1",
