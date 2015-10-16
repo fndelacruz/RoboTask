@@ -3,6 +3,8 @@
   // this.props.worker
   // this.props.task
   // this.props.chooseWorker
+  var Button = ReactBootstrap.Button;
+
   root.FindWorkersFormItem = React.createClass({
 
     render: function() {
@@ -17,11 +19,13 @@
         <div id="workers-item-container">
           <div className="worker-name">{worker.email}</div><br/>
           About me...<br/>{worker.bio}<br/>
-          <div
-            className="submit-link"
-            onClick={this.props.chooseWorker.bind(null, this.props.task, worker)}>
-            choose
-          </div>
+          <Button
+            bsStyle="success"
+            bsSize="medium"
+            onClick={this.props.chooseWorker.bind(null, this.props.task, worker)}
+          >
+            Hire me
+          </Button>
           <ReviewIndexModal worker={this.props.worker} />
 
         </div>

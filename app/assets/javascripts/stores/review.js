@@ -26,8 +26,6 @@
         case ReviewConstants.REVIEWS_RECEIVED:
           _resetReviews(payload.action);
           break;
-        default:
-
       }
     })
   });

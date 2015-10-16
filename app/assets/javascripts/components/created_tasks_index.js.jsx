@@ -37,16 +37,9 @@
           </div><br/>
 
           <div>
-            {
-              createdTasks.map(function(createdTask) {
-                return (
-                  <CreatedTasksIndexItem
-                    key={createdTask.id}
-                    createdTask={createdTask}
-                  />
-                );
-              })
-            }
+            {createdTasks.map(function(createdTask) {
+              return <CreatedTasksIndexItem key={createdTask.id} createdTask={createdTask} />;
+            })}
           </div>
 
         </div>

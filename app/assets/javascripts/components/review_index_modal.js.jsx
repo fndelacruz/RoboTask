@@ -1,67 +1,74 @@
 (function(root) {
-  // 
+  // this.props.worker
+  'use strict';
+  var Popover = ReactBootstrap.Popover;
+  var Tooltip = ReactBootstrap.Tooltip;
+  var Button = ReactBootstrap.Button;
+  var Modal = ReactBootstrap.Modal;
+  var OverlayTrigger = ReactBootstrap.OverlayTrigger;
+  var popover = <Popover title="popover">very popover. such engagement</Popover>;
+  var tooltip = <Tooltip>wow.</Tooltip>;
 
   root.ReviewIndexModal = React.createClass({
     getInitialState: function() {
-      return { showModal: false };
+      // NOTE: Idealy, want to limit this reviews state to only a few reviews
+      // via pagination. for now, will just fetch them all!
+      return ({
+        showModal: false,
+        reviews: ReviewStore.all()
+      });
+    },
+
+    _updateReviews: function() {
+      this.setState({
+        reviews: ReviewStore.all()
+      });
+    },
+
+    componentDidMount: function() {
+      ReviewStore.addChangeListener(this._updateReviews);
+    },
+
+    componentWillUnmount: function() {
+      ReviewStore.removeChangeListener(this._updateReviews);
     },
 
     close: function() {
+      ApiActions.receiveReviews([]);
       this.setState({ showModal: false });
     },
 
     open: function() {
+      ApiUtil.fetchReviews(this.props.worker);
       this.setState({ showModal: true });
     },
 
     render: function() {
-      var Popover = ReactBootstrap.Popover;
-      var Tooltip = ReactBootstrap.Tooltip;
-      var Button = ReactBootstrap.Button;
-      var Modal = ReactBootstrap.Modal;
-      var OverlayTrigger = ReactBootstrap.OverlayTrigger;
-
-      var popover = <Popover title="popover">very popover. such engagement</Popover>;
-      var tooltip = <Tooltip>wow.</Tooltip>;
+      var reviews = this.state.reviews;
 
       return (
         <div>
-          <p>Click to get the full Modal experience!</p>
-
           <Button
             bsStyle="primary"
-            bsSize="large"
+            bsSize="medium"
             onClick={this.open}
           >
-            Launch demo modal
+            Reviews
           </Button>
 
           <Modal show={this.state.showModal} onHide={this.close}>
             <Modal.Header closeButton>
-              <Modal.Title>Modal heading</Modal.Title>
+              <Modal.Title>{this.props.worker.email}'s reviews...</Modal.Title>
             </Modal.Header>
+
+
             <Modal.Body>
-              <h4>Text in a modal</h4>
-              <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
-
-              <h4>Popover in a modal</h4>
-              <p>there is a <OverlayTrigger overlay={popover}><a href="#">popover</a></OverlayTrigger> here</p>
-
-              <h4>Tooltips in a modal</h4>
-              <p>there is a <OverlayTrigger overlay={tooltip}><a href="#">tooltip</a></OverlayTrigger> here</p>
-
-              <hr />
-
-              <h4>Overflowing text to show scroll behavior</h4>
-              <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-              <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-              <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
-              <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-              <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-              <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
-              <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-              <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-              <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+              <div>
+                ReviewIndex placeholder
+                {reviews.map(function(review) {
+                  return <ReviewIndexModalItem review={review} key={review.id}/>;
+                })}
+              </div>
             </Modal.Body>
             <Modal.Footer>
               <Button onClick={this.close}>Close</Button>
