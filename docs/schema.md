@@ -32,8 +32,6 @@ timable_type  | datetime  | not null
 column name | data type | details
 ------------|-----------|-----------------------
 id          | integer   | not null, primary key
-creator_id  | integer   | not null, foreign key (references users), indexed
-worker_id   | integer   | not null, foreign key (references users), indexed
 task_id     | integer   | not null, foreign key (references tasks), indexed
 is_positive | boolean   | not null
 description | text      | not null

@@ -29,6 +29,8 @@ class Task < ActiveRecord::Base
     primary_key: :id
   )
 
+  has_one(:review)
+
   private
 
   def datetime_formatted
