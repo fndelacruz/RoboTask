@@ -1,17 +1,33 @@
-<h3>Login</h3>
-<form action="<%= session_index_url %>" method="post">
-  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-  <label for="session-email">email</label><br>
-  <input
-    type="text"
-    name="session[email]"
-    id="session-email"><br>
+<div class="auth-outer-window" id="login-form-outer-window">
+  <div class="auth-inner-window" id="login-form-inner-window">
+    <h3>Login</h3>
+    <form action="<%= session_index_url %>" method="post" class="">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 
-  <label for="session-password">password</label><br>
-  <input
-    type="password"
-    name="session[password]"
-    id="session-password"><br>
+      <div class="form-group">
+        <label for="session-email">email</label><br>
+        <input
+          type="text"
+          name="session[email]"
+          class="form-control"
+          id="session-email"><br>
+      </div>
 
-  <input type="submit" value="Login">
-</form>
+      <div class="form-group">
+        <label for="session-password">password</label><br>
+        <input
+          type="password"
+          name="session[password]"
+          class="form-control"
+          id="session-password"><br>
+      </div>
+
+      <button
+        class="btn btn-default"
+        type="submit"
+        value="Login">
+        Login
+      </button>
+    </form>
+  </div>
+</div>

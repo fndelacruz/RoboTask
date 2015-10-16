@@ -64,38 +64,64 @@
     },
 
     render: function() {
+      // <div className="collapse navbar-collapse" id="collapse-menu">
+      //   <ul className="nav navbar-nav pull-right">
+      //     <li><a href="#">link one</a></li>
+      //     <li><a href="#">link two</a></li>
+      //   </ul>
+      // </div>
       return (
-        <ul>
-          <li
-            onClick={this.handleLogoutClick}
-            className="nav-button">
-            Logout
-          </li>
+        <nav className="navbar navbar-default">
+          <div className="container-fluid">
+            <div className="navbar-header">
+              <button type="button" className="navbar-toggle collapsed"
+                      data-toggle="collapse"
+                      data-target="#collapse-menu"
+                      aria-expanded="false">
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+              </button>
+            </div>
 
-          <li
-            onClick={this.handleProfileClick}
-            className="nav-button">
-            Profile
-          </li>
+            <div className="collapse navbar-collapse" id="collapse-menu">
+              <ul className="nav navbar-nav navbar-right">
+                <li><a href="#">link one</a></li>
+                <li><a href="#">link two</a></li>
 
-          <li
-            onClick={this.handleCreateTaskClick}
-            className="nav-button">
-            Create Task
-          </li>
+                <li
+                  onClick={this.handleLogoutClick}
+                  className="nav-button">
+                  <a>Logout</a>
+                </li>
 
-          <li
-            onClick={this.handleViewUnassignedCreatedTasksClick}
-            className="nav-button">
-            Unassigned Created Tasks: {this.state.unassignedTaskCount}
-          </li>
+                <li
+                  onClick={this.handleProfileClick}
+                  className="nav-button">
+                  Profile
+                </li>
 
-          <li
-            onClick={this.handleViewAssignedCreatedTasksClick}
-            className="nav-button">
-            Assigned Created Tasks: {this.state.assignedTaskCount}
-          </li>
-        </ul>
+                <li
+                  onClick={this.handleCreateTaskClick}
+                  className="nav-button">
+                  Create Task
+                </li>
+
+                <li
+                  onClick={this.handleViewUnassignedCreatedTasksClick}
+                  className="nav-button">
+                  Unassigned Created Tasks: {this.state.unassignedTaskCount}
+                </li>
+
+                <li
+                  onClick={this.handleViewAssignedCreatedTasksClick}
+                  className="nav-button">
+                  Assigned Created Tasks: {this.state.assignedTaskCount}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
       );
     }
   });

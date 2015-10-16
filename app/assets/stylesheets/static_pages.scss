@@ -1,172 +1,186 @@
-// Place all the styles related to the StaticPages controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-// Place all the styles related to the static_pages controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-/* http://meyerweb.com/eric/tools/css/reset/
-   v2.0 | 20110126
-   License: none (public domain)
-*/
-
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
-body {
-	line-height: 1;
-}
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-// my styles below
-
-html {
-	// backround-image: url("path from images folder")goes here
-}
-
-.nav-button {
-	font-size: 30px;
-  cursor: pointer;
-	padding: 10px;
-
-	float: left
-}
-
-.nav-button:hover {
-	background-color: rgba(255,253,208,1);
-	transition: all 0.2s ease-in;
-}
-
-.component-container {
-	margin-top: 60px;
-	margin-left: auto;
-	margin-right: auto;
-	width: 200px;
-	padding: 20px;
-	border: 1px solid black;
-	background-color: rgba(255,253,208,1);
-	transition: all 2s ease-out;
-}
-
-.component-container-heading {
-	font-size: 24px;
-	text-align: left;
-}
-
-.submit-link {
-	font-size: 20px;
-	padding: 5px;
-	cursor: pointer;
-	background-color: white;
-	border: 2px solid black;
-	margin: 5px;
-	display: inline-block;
-}
-
-.index-item {
-	font-size: 24px;
-	margin: 20px;
-}
-
-// NOTE: Can possibly DRY the below styles if create tasks-index and index-item
-// class and style those together...
-#created-tasks-index {
-	width: 800px;
-}
-
-#created-tasks-index-item {
-	border: 1px solid black;
-	padding: 10px;
-	margin: 5px;
-}
-
-#find-workers-form {
-	width: 800px;
-}
-
-#find-workers-form-index-item {
-	border: 1px solid black;
-	padding: 10px;
-	margin: 5px;
-}
-
-.worker-name {
-	font-size: 40px;
-}
-
-#profile-form {
-	width: 900px;
-}
-textarea {
-    width: 100%;
-    height: 150px;
-}
-
-.profile-element-title {
-	font-size: 24px;
-}
-
-.worktime-container {
-	height: 100px;
-}
-
-.worktime {
-	float: left;
-	font-size: 20px;
-}
+// // Place all the styles related to the StaticPages controller here.
+// // They will automatically be included in application.css.
+// // You can use Sass (SCSS) here: http://sass-lang.com/
+// // Place all the styles related to the static_pages controller here.
+// // They will automatically be included in application.css.
+// // You can use Sass (SCSS) here: http://sass-lang.com/
+// /* http://meyerweb.com/eric/tools/css/reset/
+//    v2.0 | 20110126
+//    License: none (public domain)
+// */
 //
-// .interval-container {
+// html, body, div, span, applet, object, iframe,
+// h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+// a, abbr, acronym, address, big, cite, code,
+// del, dfn, em, img, ins, kbd, q, s, samp,
+// small, strike, strong, sub, sup, tt, var,
+// b, u, i, center,
+// dl, dt, dd, ol, ul, li,
+// fieldset, form, label, legend,
+// table, caption, tbody, tfoot, thead, tr, th, td,
+// article, aside, canvas, details, embed,
+// figure, figcaption, footer, header, hgroup,
+// menu, nav, output, ruby, section, summary,
+// time, mark, audio, video {
+// 	margin: 0;
+// 	padding: 0;
+// 	border: 0;
+// 	font-size: 100%;
+// 	font: inherit;
+// 	vertical-align: baseline;
+// }
+// /* HTML5 display-role reset for older browsers */
+// article, aside, details, figcaption, figure,
+// footer, header, hgroup, menu, nav, section {
+// 	display: block;
+// }
+// body {
+// 	line-height: 1;
+// }
+// ol, ul {
+// 	list-style: none;
+// }
+// blockquote, q {
+// 	quotes: none;
+// }
+// blockquote:before, blockquote:after,
+// q:before, q:after {
+// 	content: '';
+// 	content: none;
+// }
+// table {
+// 	border-collapse: collapse;
+// 	border-spacing: 0;
+// }
+// // my styles below
+//
+// html {
+// 	// backround-image: url("path from images folder")goes here
+// }
+//
+// .nav-button {
+// 	font-size: 30px;
+//   cursor: pointer;
+// 	padding: 10px;
+//
 // 	float: left
 // }
 //
-// #save-profile-link {
+// .nav-button:hover {
+// 	background-color: rgba(255,253,208,1);
+// 	transition: all 0.2s ease-in;
+// }
 //
+// .component-container {
+// 	margin-top: 60px;
+// 	margin-left: auto;
+// 	margin-right: auto;
+// 	width: 200px;
+// 	padding: 20px;
+// 	border: 1px solid black;
+// 	background-color: rgba(255,253,208,1);
+// 	transition: all 2s ease-out;
+// }
+//
+// .component-container-heading {
+// 	font-size: 24px;
+// 	text-align: left;
+// }
+//
+// .submit-link {
+// 	font-size: 20px;
+// 	padding: 5px;
+// 	cursor: pointer;
+// 	background-color: white;
+// 	border: 2px solid black;
+// 	margin: 5px;
+// 	display: inline-block;
+// }
+//
+// .index-item {
+// 	font-size: 24px;
+// 	margin: 20px;
+// }
+//
+// // NOTE: Can possibly DRY the below styles if create tasks-index and index-item
+// // class and style those together...
+// #created-tasks-index {
+// 	width: 800px;
+// }
+//
+// #created-tasks-index-item {
+// 	border: 1px solid black;
+// 	padding: 10px;
+// 	margin: 5px;
+// }
+//
+// #find-workers-form {
+// 	width: 800px;
+// }
+//
+// #find-workers-form-index-item {
+// 	border: 1px solid black;
+// 	padding: 10px;
+// 	margin: 5px;
+// }
+//
+// .worker-name {
+// 	font-size: 40px;
+// }
+//
+// #profile-form {
+// 	width: 900px;
+// }
+// textarea {
+//     width: 100%;
+//     height: 150px;
+// }
+//
+// .profile-element-title {
+// 	font-size: 24px;
+// }
+//
+// .worktime-container {
+// 	height: 100px;
+// }
+//
+// .worktime {
+// 	float: left;
+// 	font-size: 20px;
+// }
+// //
+// // .interval-container {
+// // 	float: left
+// // }
+// //
+// // #save-profile-link {
+// //
+// // }
+//
+// .clearfix:after {
+//   content: "";
+//   clear: both;
+//   display: block;
+// }
+//
+// .checkbox {
+// 	cursor: pointer;
+// }
+//
+// .checkbox-checked {
+// 	background-color: rgba(0,255,0,0.3);
 // }
 
-.clearfix:after {
-  content: "";
-  clear: both;
-  display: block;
+// NOTE: concerned about mobile user- does the margin-top look weird since it's
+// a percentage? perhaps switch to fixed pixel margin-top?
+.auth-outer-window {
+  border: 1px solid black;
+  width: 300px;
+  margin-left: 10%;
+  margin-top: 20%;
 }
 
-.checkbox {
-	cursor: pointer;
-}
-
-.checkbox-checked {
-	background-color: rgba(0,255,0,0.3);
+.auth-inner-window {
+  // border: 1px solid black;
+  margin: 10%
 }

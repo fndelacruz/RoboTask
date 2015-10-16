@@ -1,17 +1,33 @@
-<h3>Create new user</h3>
-<form action="<%= users_url %>" method="post">
-  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-  <label for="user-email">email</label><br>
-  <input
-    type="text"
-    name="user[email]"
-    value=<%= @user.email %>><br>
+<div class="auth-outer-window" id="signup-form-outer-window">
+  <div class="auth-inner-window" id="signup-form-inner-window">
+    <h3>Create Account</h3>
+    <form action="<%= users_url %>" method="post">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 
-  <label for="user-password">password</label><br>
-  <input
-    type="password"
-    name="user[password]"
-    id="user-password"><br>
+      <div class="form-group">
+        <label for="user-email">email</label><br>
+        <input
+          type="text"
+          name="user[email]"
+          class="form-control"
+          value=<%= @user.email %>><br>
+      </div>
 
-  <input type="submit" value="Create new user">
-</form>
+      <div class="form-group">
+        <label for="user-password">password</label><br>
+        <input
+          type="password"
+          name="user[password]"
+          id="user-password"
+          class="form-control"><br>
+      </div>
+      <button
+        class="btn btn-default"
+        type="submit"
+        value="Signup">
+        Login
+      </button>
+      </div>
+    </form>
+  </div>
+</div>

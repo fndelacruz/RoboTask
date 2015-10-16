@@ -20,8 +20,9 @@
 <%= flash[:errors].each { |error| error } if flash[:errors] %>
 <%= flash[:notices].each { |notice| notice } if flash[:notices] %>
 
-
-<%= yield %>
+<div class="container">
+  <%= yield %>
+</div>
 
 </body>
 </html>
