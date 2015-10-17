@@ -1,9 +1,6 @@
 (function(root) {
   'use strict';
-  // This should have this.props.createdTasks ... then when willReceiveProps,
-  // can trigger re-render of IndexItems ... or maybe handle through state!
-  // And then pass to each IndexItem
-
+  
   root.CreatedTasksIndex = React.createClass({
     getInitialState: function() {
       return ({

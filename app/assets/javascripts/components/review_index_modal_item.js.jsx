@@ -8,7 +8,7 @@
       if (typeof review !== undefined) {
         return (
           <div className="panel">
-            <img src={"https://robohash.org/" + review.id } />
+            <img src={ "https://robohash.org/" + review.id } />
             {review.is_positive}<br/>
             {review.description}<br/>
             {review.datetime}  {review.reviewer}<br/>

@@ -1,7 +1,32 @@
 class Api::TasksController < ApplicationController
   def index
-    @created_tasks = current_user.created_tasks
-    render json: @created_tasks
+    # NOTE: OLDER fetch. now, need to include email
+    # @created_tasks = current_user.created_tasks
+    # render json: @created_tasks
+
+    created_tasks_formatted = [];
+    created_tasks = Task.includes(:worker).where(creator_id: current_user.id)
+
+    # reviews = Review.includes(:task).where(tasks: { worker_id: worker_id })
+
+
+    created_tasks.each do |task|
+      task_formatted = {
+        id: task.id,
+        title: task.title,
+        description: task.description,
+        location: task.location,
+        created_at: task.created_at.strftime('%m/%d/%Y')
+      }
+      if task.worker != nil
+        task_formatted[:worker_email] = task.worker.email
+        task_formatted[:worker_id] = task.worker.id
+      end
+
+      created_tasks_formatted.push(task_formatted)
+    end
+
+    render json: created_tasks_formatted
   end
 
   def create

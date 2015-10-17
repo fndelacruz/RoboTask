@@ -172,5 +172,29 @@
       });
     },
 
+    createReview: function(review) {
+      $.ajax({
+        url: "/api/reviews",
+        method: "POST",
+        data: {review: review},
+        success: function(e) {
+          if (e.status === "OK") {
+            console.log("review submit OK");
+            // NOTE: EVENTUALLY REPLACE THIS WITH A REAL FLASH-LIKE SYSTEM
+            // root.ApiActions.profileUpdateOK();
+          } else if (e.status === "BAD") {
+            console.log("review submit BAD");
+            // NOTE: might not use this... but provide it here in case need to
+            // deal with a profile update error
+            // root.ApiActions.profileUpdateError();
+          } else {
+            console.log("review submit ERROR");
+            // NOTE: shouldn't go here. if it does, check back to controller
+            debugger;
+          }
+        }
+      });
+    }
+
   };
 }(this));

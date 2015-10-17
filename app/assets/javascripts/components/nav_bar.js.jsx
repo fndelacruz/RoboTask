@@ -25,7 +25,7 @@
       var assignedTasks = 0;
       var unassignedTasks = 0;
       root.CreatedTaskStore.all().forEach(function(task) {
-        if (task.worker_id === null) {
+        if (typeof task.worker_id === "undefined") {
           unassignedTasks += 1;
         } else {
           assignedTasks += 1;

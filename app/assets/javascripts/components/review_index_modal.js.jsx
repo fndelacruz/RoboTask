@@ -6,8 +6,10 @@
   var Button = ReactBootstrap.Button;
   var Modal = ReactBootstrap.Modal;
   var OverlayTrigger = ReactBootstrap.OverlayTrigger;
-  var popover = <Popover title="popover">very popover. such engagement</Popover>;
-  var tooltip = <Tooltip>wow.</Tooltip>;
+
+  // NOTE: if don't end up using popover or tooltip here, delete these
+  var popover = <Popover title="popover">Popover placeholder text</Popover>;
+  var tooltip = <Tooltip>Tooltip placeholder text</Tooltip>;
 
   root.ReviewIndexModal = React.createClass({
     getInitialState: function() {

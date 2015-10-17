@@ -19,9 +19,23 @@ class Api::ReviewsController < ApplicationController
     render json: reviews_formatted
   end
 
+  def create
+    if current_user.id != review_params[:creator_id].to_i
+      render json: { status: "BAD" }
+    else
+
+      review = Review.new(review_params.select{ |k,_| k != "creator_id" })
+      if review.save
+        render json: {status: "OK"}
+      else
+        render json: {status: "BAD"}
+      end
+    end
+  end
+
   private
 
   def review_params
-    params.require(:review).permit(:worker_id)
+    params.require(:review).permit(:worker_id, :task_id, :description, :is_positive, :creator_id)
   end
 end
