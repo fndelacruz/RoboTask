@@ -29,7 +29,13 @@ class Task < ActiveRecord::Base
     primary_key: :id
   )
 
-  has_one(:review)
+  def to_builder
+    Jbuilder.new do |task|
+      task.title title
+      task.description description
+      company.president president.to_builder
+    end
+  end
 
   private
 
