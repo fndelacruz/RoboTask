@@ -9,7 +9,10 @@
 <body>
 
 <% if current_user %>
-  <script>window.CURRENT_USER_ID = <%= current_user.id %></script>
+  <script>
+    window.CURRENT_USER_ID = <%= current_user.id %>
+    window.CURRENT_USER_EMAIL = "<%= current_user.email %>"
+  </script>
   logged in as: <%= current_user.email %>
   <%#= button_to "Logout", session_url, method: :delete %>
 <% else %>

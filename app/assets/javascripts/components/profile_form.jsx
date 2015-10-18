@@ -15,10 +15,11 @@
   //   }
   // };
 
-  var ALL_INTERVALS = ["ANYTIME", "MORNING", "AFTERNOON", "EVENING"];
+  var ALL_INTERVALS = ["MORNING", "AFTERNOON", "EVENING"];
   var INTERVALS = ["MORNING", "AFTERNOON", "EVENING"];
-
   var DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+
+  var Button = ReactBootstrap.Button;
 
   root.ProfileForm = React.createClass({
     getInitialState: function() {
@@ -53,7 +54,7 @@
     },
 
     handleClick: function(e) {
-      var id = e.target.id.split("-");
+      var id = e.currentTarget.id.split("-");
       if (id.length === 2) {
         this._toggleDay(id[1]);
       } else if (id.length === 3) {
@@ -92,7 +93,6 @@
     },
 
     _toggleInterval: function(day, interval) {
-      // NOTE: Not handling ANYTIME yet
       console.log("clicked interval");
       if (this.state.workTimes[day][interval]) {
         this.state.workTimes[day][interval] = false;
@@ -102,6 +102,27 @@
       this.setState({workTimes: this.state.workTimes});
     },
 
+    _countWorkDays: function() {
+      var count = 0;
+      var workTimes = this.state.workTimes;
+      var workTimesDay = Object.keys(workTimes);
+      DAYS.forEach(function(day) {
+        var isDaySelected = false;
+        if (workTimes[day]) {
+          var dayIntervals = Object.keys(workTimes[day]);
+          dayIntervals.forEach(function(dayInterval) {
+            if (workTimes[day][dayInterval]) {
+              isDaySelected = true;
+            }
+          });
+        }
+        if (isDaySelected) {
+          count++;
+        }
+      });
+      return count;
+    },
+
     render: function() {
       var workTimes = this.state.workTimes;
       var workTimesDay = Object.keys(workTimes);
@@ -109,76 +130,89 @@
       var that = this;
       var defaultDay = "checkbox day-checkbox";
       var defaultInterval = "checkbox interval-checkbox";
+      // debugger
       return (
         <div>
           <div className="component-container" id="profile-form">
             <div className="component-container-heading" id="profile-form-heading">
               Edit profile
             </div><br/>
+            <h3>{root.CURRENT_USER_EMAIL + "'s profile"}</h3>
 
-            <div className="profile-element-title">Bio</div><br/>
-            <textarea
-              placeholder="default bio"
-              value={this.state.bio}
-              onChange={this.handleBioChange}
-              id="bio-entry"
-            /><br/><br/>
+            <div className="form-group panel">
+              <label htmlFor="bio-entry">What do you want others to know about you? (this is publicly viewable)</label>
+              <textarea
+                className="form-control"
+                value={this.state.bio}
+                onChange={this.handleBioChange}
+                id="bio-entry"
+                placeholder="Example: I've been a food delivery man for 20 years. I know the ins and outs about everything food delivery related. I also have extensive experience finding lost pets, buying cat food, and piloting space craft."
+              />
+              <Button
+                bsStyle="info"
+                bsSize="medium"
+                id="save-profile-link"
+                onClick={this.handleSubmission}>
+              saveProfile
+              </Button>
+            </div>
 
-            <div className="profile-element-title">workTimes</div><br/>
-            <ul className="worktime-container">
+            <div className="form-group panel">
+              <label htmlFor="worktimes-entry">Select when you want to work</label><br/>
+              {(this._countWorkDays() === 0) ? "Want to work? pick some times" : ""}
 
-              {DAYS.map(function(day) {
-                var isDaySelected = false;
-                if (workTimes[day]) {
-                  var dayIntervals = Object.keys(workTimes[day]);
-                  dayIntervals.forEach(function(dayInterval) {
-                    if (workTimes[day][dayInterval]) {
-                      isDaySelected = true;
-                    }
-                  });
-                }
 
-                return (
-                  <li className="worktime">
-                    <div
-                      className={ isDaySelected ?
-                        defaultDay + " checkbox-checked"
-                      :
-                        defaultDay + " checkbox-unchecked"
+              <div className="" id="worktimes-entry">
+                {DAYS.map(function(day) {
+                  var isDaySelected = false;
+                  if (workTimes[day]) {
+                    var dayIntervals = Object.keys(workTimes[day]);
+                    dayIntervals.forEach(function(dayInterval) {
+                      if (workTimes[day][dayInterval]) {
+                        isDaySelected = true;
                       }
-                      id={"worktime-" + day}
-                      onClick={that.handleClick}
-                    >{day}</div>
-                      <div className="worktime-interval">
-                        {ALL_INTERVALS.map(function(interval){
-                          var currentDay = that.state.workTimes[day];
-                          return (
-                            <div
-                              className={ currentDay ?
-                                (currentDay[interval] === true ?
-                                  defaultInterval + " checkbox-checked"
-                                :
-                                  defaultInterval + " checkbox-unchecked"
-                                )
-                              :
-                                (defaultInterval + "checkbox-unchecked")
-                              }
-                              id={"worktime-" + day + "-" + interval}
-                              onClick={that.handleClick}
-                            >{interval}</div>
-                          );
-                        })}
-                      </div>
-                  </li>
-                );
-              })}
-            </ul>
+                    });
+                  }
 
-            <div
-              className="submit-link"
-              id="save-profile-link"
-              onClick={this.handleSubmission}>
-            saveProfile
+                  return (
+                    <div>
+                      <div className="btn-group" data-toggle="buttons">
+                        <label
+                          className={isDaySelected ? "btn btn-primary active" : "btn btn-primary"}
+                          id={"worktime-" + day}
+                          onClick={that.handleClick}>
+                          <input type="checkbox" autoComplete="off" /> {day}
+                        </label>
+                      </div>
+                        <div className="btn-group" data-toggle="buttons">
+                          {ALL_INTERVALS.map(function(interval){
+                            var currentDay = that.state.workTimes[day];
+                            return (
+                              <label
+                                className={ currentDay ?
+                                  (currentDay[interval] === true ? "btn btn-primary active" : "btn btn-primary")
+                                :
+                                  ("btn btn-primary")
+                                }
+                                onClick={that.handleClick}
+                                id={"worktime-" + day + "-" + interval}
+                              >
+                                <input type="checkbox" autoComplete="off" /> {interval}
+                              </label>
+                            );
+                          })}
+                        </div>
+                    </div>
+                  );
+                })}
+                <Button
+                  bsStyle="info"
+                  bsSize="medium"
+                  id="save-profile-link"
+                  onClick={this.handleSubmission}>
+                saveProfile
+                </Button>
+             </div>
             </div>
           </div>
         </div>
