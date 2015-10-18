@@ -195,7 +195,29 @@ button:hover {
 
 // NOTE: border not showing up on panel component. not sure why. can manually
 // assign it in inspector though...
-.panel{
+.panel {
   padding: 20px;
   // border: 2px solid black;
+}
+
+// remove border colors for profile pics later after I establish background colors
+// for the panels behind them. just keep them now for positioning
+.reviewer_profile {
+  border-radius: 50%;
+  border: 1px solid black;
+  height: 100px;
+  width: 100px;
+}
+.worker_profile {
+  border-radius: 50%;
+  border: 1px solid black;
+  height: 300px;
+  width: 300px;
+}
+// NOTE: This is supposed to fix issue with Modal sometimes not allowing scroll
+// when it overflows over the page. check if this fixes it..
+.modal {
+    overflow-y:auto;
+    // max-height:90%;
+    // margin-top:-45%;
 }

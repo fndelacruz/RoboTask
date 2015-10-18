@@ -177,7 +177,8 @@ ActiveRecord::Base.transaction do
     {
       task: Task.last,
       is_positive: true,
-      description: "User3 found my dog! A+++ would hire again."
+      description: "User3 found my dog! A+++ would hire again.",
+      created_at: (Time.now.utc - 7.days).change(hour: 0)
     }
   ])
 
@@ -194,7 +195,8 @@ ActiveRecord::Base.transaction do
     {
       task: Task.last,
       is_positive: true,
-      description: "User6 was great! I wish he did not get generic store brand, but he was quick to deliver. A-"
+      description: "User6 was great! I wish he did not get generic store brand, but he was quick to deliver. A-",
+      created_at: (Time.now.utc - 3.days).change(hour: 12)
     }
   ])
 
@@ -211,7 +213,8 @@ ActiveRecord::Base.transaction do
     {
       task: Task.last,
       is_positive: true,
-      description: "User3 was super fast. He even got the rechargable batteries. what a professional."
+      description: "User3 was super fast. He even got the rechargable batteries. what a professional.",
+      created_at: (Time.now.utc - 15.days).change(hour: 0)
     }
   ])
 
@@ -228,7 +231,8 @@ ActiveRecord::Base.transaction do
     {
       task: Task.last,
       is_positive: false,
-      description: "User3 lost my dog. please don't hire this guy. I want a refund, and a dog."
+      description: "User3 lost my dog. please don't hire this guy. I want a refund, and a dog.",
+      created_at: (Time.now.utc - 1.days).change(hour: 0)
     }
   ])
 
@@ -246,7 +250,8 @@ ActiveRecord::Base.transaction do
     {
       task: Task.last,
       is_positive: true,
-      description: "User4 was no good. He ran out of power in the middle of the night so I had to call in reinforcements."
+      description: "User4 was no good. He ran out of power in the middle of the night so I had to call in reinforcements.",
+      created_at: (Time.now.utc - 2.days).change(hour: 16)
     }
   ])
 
@@ -263,7 +268,8 @@ ActiveRecord::Base.transaction do
     {
       task: Task.last,
       is_positive: true,
-      description: "User7 was great! Turned into a boat. Would hire again A++++."
+      description: "User7 was great! Turned into a boat. Would hire again A++++.",
+      created_at: (Time.now.utc - 2.days).change(hour: 8)
     }
   ])
 

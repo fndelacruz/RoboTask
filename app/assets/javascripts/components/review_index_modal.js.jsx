@@ -66,7 +66,15 @@
 
             <Modal.Body>
               <div>
-                ReviewIndex placeholder
+                [TODO: center profile pic. add background]
+                <img
+                  className="worker_profile"
+                  src={ "https://robohash.org/" + this.props.worker.id } /><br/>
+                {this.props.worker.email}<br/>
+                Member since: {this.props.worker.created_at}<br/>
+                [good tasks/total tasks here]<br/>
+                [rating percentage here]<br/>
+
                 {reviews.map(function(review) {
                   return <ReviewIndexModalItem review={review} key={review.id}/>;
                 })}

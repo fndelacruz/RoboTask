@@ -38,6 +38,31 @@
       return _createdTasks.slice();
     },
 
+    allComplete: function() {
+      return _createdTasks.filter(function(task) {
+        if (task.is_complete === true) { return task; }
+      });
+    },
+
+    allIncomplete: function() {
+      return _createdTasks.filter(function(task) {
+        if (task.is_complete === false) { return task; }
+      });
+    },
+
+    allIncompleteUnassigned: function() {
+      return this.allIncomplete().filter(function(task) {
+        if (typeof task.worker_id === "undefined") { return task; }
+      });
+    },
+
+    allIncompleteAssigned: function() {
+      return this.allIncomplete().filter(function(task) {
+        // debugger
+        if (typeof task.worker_id !== "undefined") { return task; }
+      });
+    },
+
     addChangeListener: function(callback) {
       this.on(CHANGE_EVENT, callback);
     },

@@ -1,16 +1,16 @@
 (function(root) {
   'use strict';
-  
+
   root.CreatedTasksIndex = React.createClass({
     getInitialState: function() {
       return ({
-        createdTasks: root.CreatedTaskStore.all()
+        createdTasks: root.CreatedTaskStore.allIncomplete()
       });
     },
 
     _updateCreatedTasks: function() {
       this.setState({
-        createdTasks: root.CreatedTaskStore.all()
+        createdTasks: root.CreatedTaskStore.allIncomplete()
       });
     },
 
@@ -30,13 +30,20 @@
           <div
             className="component-container-heading"
             id="created-tasks-index-heading">
-            CreatedTasksIndex
+            Tasks
           </div><br/>
 
+          <CreatedTasksFinishedIndexModal tasks={CreatedTaskStore.allComplete()} />
           <div>
-            {createdTasks.map(function(createdTask) {
-              return <CreatedTasksIndexItem key={createdTask.id} createdTask={createdTask} />;
-            })}
+            {(createdTasks.length === 0) ?
+              <div>You haven't made any new tasks recently. Try creating one!</div>
+            :
+              <div>
+                {createdTasks.map(function(createdTask) {
+                  return <CreatedTasksIndexItem key={createdTask.id} createdTask={createdTask} />;
+                })}
+              </div>
+            }
           </div>
 
         </div>

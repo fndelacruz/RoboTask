@@ -5,10 +5,10 @@ class Api::TasksController < ApplicationController
     # render json: @created_tasks
 
     created_tasks_formatted = [];
-    created_tasks = Task.includes(:worker).where(creator_id: current_user.id)
+    created_tasks = Task.includes(:review).includes(:worker)
+      .where(creator_id: current_user.id)
 
     # reviews = Review.includes(:task).where(tasks: { worker_id: worker_id })
-
 
     created_tasks.each do |task|
       task_formatted = {
@@ -18,11 +18,21 @@ class Api::TasksController < ApplicationController
         location: task.location,
         created_at: task.created_at.strftime('%m/%d/%Y')
       }
+
       if task.worker != nil
         task_formatted[:worker_email] = task.worker.email
         task_formatted[:worker_id] = task.worker.id
       end
 
+      if task.review != nil
+        task_formatted[:review] = {}
+        task_formatted[:review][:description] = task.review.description
+        task_formatted[:review][:is_positive] = task.review.is_positive
+        task_formatted[:review][:datetime] = task.review.created_at.strftime('%m/%d/%Y')
+        task_formatted[:is_complete] = true
+      else
+        task_formatted[:is_complete] = false
+      end
       created_tasks_formatted.push(task_formatted)
     end
 
@@ -30,10 +40,17 @@ class Api::TasksController < ApplicationController
   end
 
   def create
-    @task = Task.new(task_params)
-    @task.creator = current_user
-    if @task.save
-      render json: @task
+    task = Task.new(task_params)
+    task.creator = current_user
+    if task.save
+      render json: {
+        id: task.id,
+        title: task.title,
+        description: task.description,
+        location: task.location,
+        created_at: task.created_at.strftime('%m/%d/%Y'),
+        is_complete: false
+      }
     else
       render json: { _fail: true }
     end

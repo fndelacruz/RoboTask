@@ -9,10 +9,11 @@ class Api::ReviewsController < ApplicationController
     reviews.each do |review|
       reviews_formatted.push({
         id: review.id,
-        datetime: review.task.datetime.strftime('%m/%d/%Y'),
+        created_at: review.created_at.strftime('%m/%d/%Y'),
         isGood: review.is_positive,
         description: review.description,
-        reviewer: review.task.creator.email
+        reviewer: review.task.creator.email,
+        reviewer_id: review.task.creator.id
       })
     end
 

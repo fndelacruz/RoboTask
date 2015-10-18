@@ -8,10 +8,12 @@
       if (typeof review !== undefined) {
         return (
           <div className="panel">
-            <img src={ "https://robohash.org/" + review.id } />
+            <img
+              className="reviewer_profile"
+              src={ "https://robohash.org/" + review.reviewer_id } />
             {review.is_positive}<br/>
             {review.description}<br/>
-            {review.datetime}  {review.reviewer}<br/>
+            {review.created_at}  {review.reviewer}<br/>
           </div>
         );
       } else {

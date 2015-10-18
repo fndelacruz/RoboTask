@@ -21,30 +21,21 @@
       });
     },
 
-    _updateCreatedTaskCount: function() {
-      var assignedTasks = 0;
-      var unassignedTasks = 0;
-      root.CreatedTaskStore.all().forEach(function(task) {
-        if (typeof task.worker_id === "undefined") {
-          unassignedTasks += 1;
-        } else {
-          assignedTasks += 1;
-        }
-      });
-
+    updateCreatedTaskCount: function() {
+      // debugger;
       this.setState({
-        unassignedTaskCount: unassignedTasks,
-        assignedTaskCount: assignedTasks
+        unassignedTaskCount: CreatedTaskStore.allIncompleteUnassigned().length,
+        assignedTaskCount: CreatedTaskStore.allIncompleteAssigned().length
       });
     },
 
     componentDidMount: function() {
       root.ApiUtil.fetchCreatedTasks();
-      root.CreatedTaskStore.addChangeListener(this._updateCreatedTaskCount);
+      root.CreatedTaskStore.addChangeListener(this.updateCreatedTaskCount);
     },
 
     componentWillUnmount: function() {
-      root.CreatedTaskStore.removeChangeListener(this._updateCreatedTaskCount);
+      root.CreatedTaskStore.removeChangeListener(this.updateCreatedTaskCount);
     },
 
     handleLogoutClick: function() {
@@ -64,12 +55,6 @@
     },
 
     render: function() {
-      // <div className="collapse navbar-collapse" id="collapse-menu">
-      //   <ul className="nav navbar-nav pull-right">
-      //     <li><a href="#">link one</a></li>
-      //     <li><a href="#">link two</a></li>
-      //   </ul>
-      // </div>
       return (
         <nav className="navbar navbar-default">
           <div className="container-fluid">
