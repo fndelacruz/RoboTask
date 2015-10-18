@@ -71,17 +71,19 @@ class Api::UsersController < ApplicationController
     # NOTE: I think this should be done in a transaction. not sure how to use
     # though. actually, can just check if current_user.save succeeds, right?
 
-    current_user.bio = params[:user][:bio]
     work_times = params[:user][:workTimes]
 
     saveStatus = true
     ActiveRecord::Base.transaction do
+      current_user.bio = params[:user][:bio]
+      saveStatus = current_user.save! ? true : false
+
       WorkTime.delete_all(["user_id = ?", current_user.id])
 
       work_times.each do |day, intervals|
         intervals.each do |interval, status|
           if status == "true"
-            saveStatus = current_user.work_times.create({
+            saveStatus = current_user.work_times.create!({
               day: day,
               interval: interval
             }) && saveStatus

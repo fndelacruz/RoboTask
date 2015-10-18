@@ -52,11 +52,11 @@
 // 	border-collapse: collapse;
 // 	border-spacing: 0;
 // }
-// // my styles below
-//
-// html {
-// 	// backround-image: url("path from images folder")goes here
-// }
+// // NOTE: my styles below
+
+html {
+	// backround-image: url("path from images folder")goes here
+}
 //
 // .nav-button {
 // 	font-size: 30px;
@@ -70,7 +70,7 @@
 // 	background-color: rgba(255,253,208,1);
 // 	transition: all 0.2s ease-in;
 // }
-//
+
 // .component-container {
 // 	margin-top: 60px;
 // 	margin-left: auto;
@@ -156,20 +156,20 @@
 // #save-profile-link {
 //
 // }
-
+//
 // .clearfix:after {
 //   content: "";
 //   clear: both;
 //   display: block;
 // }
-//
-// .checkbox {
-// 	cursor: pointer;
-// }
-//
-// .checkbox-checked {
-// 	background-color: rgba(0,255,0,0.3);
-// }
+
+.checkbox {
+	cursor: pointer;
+}
+
+.checkbox-checked {
+	background-color: rgba(0,255,0,0.3);
+}
 
 // NOTE: concerned about mobile user- does the margin-top look weird since it's
 // a percentage? perhaps switch to fixed pixel margin-top?
@@ -216,6 +216,7 @@ button:hover {
 }
 // NOTE: This is supposed to fix issue with Modal sometimes not allowing scroll
 // when it overflows over the page. check if this fixes it..
+// max-height DOES seem to fix it, but it makes the bottom half ugly..
 .modal {
     overflow-y:auto;
     // max-height:90%;

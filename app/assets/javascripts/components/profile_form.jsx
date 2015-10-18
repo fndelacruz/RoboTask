@@ -2,18 +2,19 @@
   'use strict';
 
   // NOTE: I expect workTimes formatted as below:
-  var workTimes = {
-    sun: {
-      morning: true,
-      afternoon: true,
-      evening: true
-    },
-    mon: {
-      morning: true,
-      afternoon: false,
-      evening: true
-    }
-  };
+  // var workTimes = {
+  //   sun: {
+  //     morning: true,
+  //     afternoon: true,
+  //     evening: true
+  //   },
+  //   mon: {
+  //     morning: true,
+  //     afternoon: false,
+  //     evening: true
+  //   }
+  // };
+
   var ALL_INTERVALS = ["ANYTIME", "MORNING", "AFTERNOON", "EVENING"];
   var INTERVALS = ["MORNING", "AFTERNOON", "EVENING"];
 
@@ -39,7 +40,7 @@
     },
 
     handleSubmission: function() {
-      ApiUtil.updateBio(this.state);
+      ApiUtil.updateCurrentUserDetails(this.state);
     },
 
     componentDidMount: function() {
@@ -75,10 +76,6 @@
     },
 
     _toggleDay: function(day) {
-      // NOTE: This would be less hacky if just initially set to day-intervals
-      // that aren't present to false when initially build workTime in the
-      // controller. doing that now. DONE!
-      // debugger;
       if (this._isAnyIntervalTrue(this.state.workTimes[day])) {
         console.log("this day has intervals");
         this.state.workTimes[day] = {MORNING: false, AFTERNOON: false, EVENING: false};
@@ -106,87 +103,86 @@
     },
 
     render: function() {
-      // debugger;
-
       var workTimes = this.state.workTimes;
       var workTimesDay = Object.keys(workTimes);
 
-      // debugger;
-      // { workTimesDay.indexOf(day) !== -1 ? checked : "" }
       var that = this;
       var defaultDay = "checkbox day-checkbox";
       var defaultInterval = "checkbox interval-checkbox";
       return (
-        <div className="component-container" id="profile-form">
-          <div className="component-container-heading" id="profile-form-heading">
-            Edit profile
-          </div><br/>
+        <div>
+          <div className="component-container" id="profile-form">
+            <div className="component-container-heading" id="profile-form-heading">
+              Edit profile
+            </div><br/>
 
-          <div className="profile-element-title">Bio</div><br/>
-          <textarea
-            placeholder="default bio"
-            value={this.state.bio}
-            onChange={this.handleBioChange}
-            id="bio-entry"
-          /><br/><br/>
+            <div className="profile-element-title">Bio</div><br/>
+            <textarea
+              placeholder="default bio"
+              value={this.state.bio}
+              onChange={this.handleBioChange}
+              id="bio-entry"
+            /><br/><br/>
 
-          <div className="profile-element-title">workTimes</div><br/>
-          <ul className="worktime-container">
+            <div className="profile-element-title">workTimes</div><br/>
+            <ul className="worktime-container">
 
-            { DAYS.map(function(day) {
-              var isDaySelected = false;
-              if (workTimes[day]) {
-                var dayIntervals = Object.keys(workTimes[day]);
-                dayIntervals.forEach(function(dayInterval) {
-                  if (workTimes[day][dayInterval]) {
-                    isDaySelected = true;
-                  }
-                });
-              }
-
-              return (
-                <li className="worktime">
-                  <div
-                    className={ isDaySelected ?
-                      defaultDay + " checkbox-checked"
-                    :
-                      defaultDay + " checkbox-unchecked"
+              {DAYS.map(function(day) {
+                var isDaySelected = false;
+                if (workTimes[day]) {
+                  var dayIntervals = Object.keys(workTimes[day]);
+                  dayIntervals.forEach(function(dayInterval) {
+                    if (workTimes[day][dayInterval]) {
+                      isDaySelected = true;
                     }
-                    id={"worktime-" + day}
-                    onClick={that.handleClick}
-                  >{day}</div>
-                    <div className="worktime-interval">
-                      { ALL_INTERVALS.map(function(interval){
-                        var currentDay = that.state.workTimes[day];
-                        return (
-                          <div
-                            className={ currentDay ?
-                              (currentDay[interval] === true ?
-                                defaultInterval + " checkbox-checked"
-                              :
-                                defaultInterval + " checkbox-unchecked"
-                              )
-                            :
-                              (defaultInterval + "checkbox-unchecked")
-                            }
-                            id={"worktime-" + day + "-" + interval}
-                            onClick={that.handleClick}
-                          >{interval}</div>
-                        );
-                      })}
-                    </div>
-                </li>
-              );
-            })}
-          </ul>
+                  });
+                }
 
-          <div
-            className="submit-link"
-            id="save-profile-link"
-            onClick={this.handleSubmission}>
-          saveProfile
+                return (
+                  <li className="worktime">
+                    <div
+                      className={ isDaySelected ?
+                        defaultDay + " checkbox-checked"
+                      :
+                        defaultDay + " checkbox-unchecked"
+                      }
+                      id={"worktime-" + day}
+                      onClick={that.handleClick}
+                    >{day}</div>
+                      <div className="worktime-interval">
+                        {ALL_INTERVALS.map(function(interval){
+                          var currentDay = that.state.workTimes[day];
+                          return (
+                            <div
+                              className={ currentDay ?
+                                (currentDay[interval] === true ?
+                                  defaultInterval + " checkbox-checked"
+                                :
+                                  defaultInterval + " checkbox-unchecked"
+                                )
+                              :
+                                (defaultInterval + "checkbox-unchecked")
+                              }
+                              id={"worktime-" + day + "-" + interval}
+                              onClick={that.handleClick}
+                            >{interval}</div>
+                          );
+                        })}
+                      </div>
+                  </li>
+                );
+              })}
+            </ul>
+
+            <div
+              className="submit-link"
+              id="save-profile-link"
+              onClick={this.handleSubmission}>
+            saveProfile
+            </div>
           </div>
-        </div>    );
+        </div>
+      );
       }
   });
 
