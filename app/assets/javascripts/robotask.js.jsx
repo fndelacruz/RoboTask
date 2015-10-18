@@ -7,18 +7,19 @@ $(function() {
     var IndexRoute = ReactRouter.IndexRoute;
 
     var App = root.App = React.createClass({
-     render: function() {
-       return (
-         <div>
-          <NavBar /><br/>
-          {this.props.children}
-         </div>
-       );
-     }
+      render: function() {
+        return (
+          <div>
+            <NavBar /><br/>
+              {this.props.children}
+          </div>
+         );
+       }
     });
 
     var routes = (
       <Route path="/" component={App}>
+        <Route path="/home" component={HomePage} />
         <Route path="/task/new" component={TaskForm} />
         <Route path="/profile" component={ProfileForm} />
         <Route path="/tasks/created" component={CreatedTasksIndex} />

@@ -13,15 +13,15 @@
     window.CURRENT_USER_ID = <%= current_user.id %>
     window.CURRENT_USER_EMAIL = "<%= current_user.email %>"
   </script>
-  logged in as: <%= current_user.email %>
+  <!-- logged in as: <%#= current_user.email %> -->
   <%#= button_to "Logout", session_url, method: :delete %>
 <% else %>
-  <%= link_to "Signup", new_user_url %>
-  <%= link_to "Login", new_session_url %>
+  <%#= link_to "Signup", new_user_url %>
+  <%#= link_to "Login", new_session_url %>
 <% end %>
 
-<%= flash[:errors].each { |error| error } if flash[:errors] %>
-<%= flash[:notices].each { |notice| notice } if flash[:notices] %>
+<%#= flash[:errors].each { |error| error } if flash[:errors] %>
+<%#= flash[:notices].each { |notice| notice } if flash[:notices] %>
 
 <div class="container">
   <%= yield %>

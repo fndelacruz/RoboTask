@@ -38,6 +38,10 @@
       root.CreatedTaskStore.removeChangeListener(this.updateCreatedTaskCount);
     },
 
+    handleLogoClick: function() {
+      this.history.pushState(null, "/home");
+    },
+
     handleLogoutClick: function() {
       root.ApiUtil.logout();
     },
@@ -67,6 +71,7 @@
                 <span className="icon-bar"></span>
                 <span className="icon-bar"></span>
               </button>
+              <a className="navbar-brand" onClick={this.handleLogoClick}>RoboTask</a>
             </div>
 
             <div className="collapse navbar-collapse" id="collapse-menu">
