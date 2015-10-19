@@ -94,6 +94,10 @@
           </div>
 
           <div className="panel">
+            <LocationEntry />
+          </div>
+          
+          <div className="panel">
             <div className="form-group">
               <label htmlFor="description-entry">Description</label><br/>
               <textarea
