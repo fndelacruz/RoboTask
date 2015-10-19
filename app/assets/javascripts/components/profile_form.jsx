@@ -20,12 +20,20 @@
   var DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
   var Button = ReactBootstrap.Button;
+  var Glyphicon = ReactBootstrap.Glyphicon;
 
   root.ProfileForm = React.createClass({
     getInitialState: function() {
       return ({
         bio: root.WorkerUserStore.getBio(),
-        workTimes: root.WorkerUserStore.getWorkTimes()
+        bioStatusMessage: "",
+        bioStatus: "",
+        bioGlyphOn: false,
+
+        workTimes: root.WorkerUserStore.getWorkTimes(),
+        workTimesStatusMessage: "",
+        workTimesStatus: "",
+        workTimesGlyphOn: false
       });
     },
 
@@ -40,17 +48,42 @@
       this.setState({ bio: e.target.value });
     },
 
-    handleSubmission: function() {
-      ApiUtil.updateCurrentUserDetails(this.state);
+    handleSubmission: function(section) {
+      ApiUtil.updateCurrentUserDetails(this.state, section);
+    },
+
+    _updateStatusMessage: function() {
+      var messageAndField = StatusMessageStore.getMessageAndField();
+      this.setState({ bioStatusMessage: "", workTimesStatusMessage: "" });
+      switch (messageAndField[0]) {
+        case "bio":
+          this.setState({
+            bioStatusMessage: messageAndField[1],
+            bioStatus: "OK"
+          });
+          console.log("bio update received!");
+          break;
+        case "workTimes":
+          this.setState({
+            workTimesStatusMessage: messageAndField[1],
+            workTimesStatus: "OK"
+          });
+          console.log("workTimes update received!");
+          break;
+        default:
+
+      }
     },
 
     componentDidMount: function() {
-      root.ApiUtil.fetchCurrentUserDetails();
-      root.WorkerUserStore.addCurrentUserChangeListener(this._updateProfile);
+      ApiUtil.fetchCurrentUserDetails();
+      WorkerUserStore.addCurrentUserChangeListener(this._updateProfile);
+      StatusMessageStore.addNewStatusMessageListener(this._updateStatusMessage);
     },
 
     componentWillUnmount: function() {
-      root.WorkerUserStore.removeCurrentUserChangeListener(this._updateProfile);
+      WorkerUserStore.removeCurrentUserChangeListener(this._updateProfile);
+      StatusMessageStore.removeNewStatusMessageListener(this._updateStatusMessage);
     },
 
     handleClick: function(e) {
@@ -123,14 +156,30 @@
       return count;
     },
 
+    _checkStatus: function(field) {
+      if (this.state[field + "Status"] === "OK") {
+        return (
+          <Glyphicon
+            glyph="ok"
+            className="task-status-icon"
+            id="icon-ok" />
+        );
+      } else {
+        return (
+          <Glyphicon
+            glyph="pencil"
+            className="task-status-icon" />
+        );
+      }
+    },
+
+
     render: function() {
       var workTimes = this.state.workTimes;
       var workTimesDay = Object.keys(workTimes);
-
+      var statusBioGlyph = this._checkStatus("bio");
+      var statusWorkTimesGlyph = this._checkStatus("workTimes");
       var that = this;
-      var defaultDay = "checkbox day-checkbox";
-      var defaultInterval = "checkbox interval-checkbox";
-      // debugger
       return (
         <div>
           <div className="component-container" id="profile-form">
@@ -139,80 +188,88 @@
             </div><br/>
             <h3>{root.CURRENT_USER_SHORTNAME + "'s profile"}</h3>
 
-            <div className="form-group panel">
-              <label htmlFor="bio-entry">What do you want others to know about you? (this is publicly viewable)</label>
-              <textarea
-                className="form-control"
-                value={this.state.bio}
-                onChange={this.handleBioChange}
-                id="bio-entry"
-                placeholder="Example: I've been a food delivery man for 20 years. I know the ins and outs about everything food delivery related. I also have extensive experience finding lost pets, buying cat food, and piloting space craft."
-              />
-              <Button
-                bsStyle="info"
-                bsSize="medium"
-                id="save-profile-link"
-                onClick={this.handleSubmission}>
-              saveProfile
-              </Button>
-            </div>
-
-            <div className="form-group panel">
-              <label htmlFor="worktimes-entry">Select when you want to work</label><br/>
-              {(this._countWorkDays() === 0) ? "Want to work? pick some times" : ""}
-
-
-              <div className="" id="worktimes-entry">
-                {DAYS.map(function(day) {
-                  var isDaySelected = false;
-                  if (workTimes[day]) {
-                    var dayIntervals = Object.keys(workTimes[day]);
-                    dayIntervals.forEach(function(dayInterval) {
-                      if (workTimes[day][dayInterval]) {
-                        isDaySelected = true;
-                      }
-                    });
-                  }
-
-                  return (
-                    <div>
-                      <div className="btn-group" data-toggle="buttons">
-                        <label
-                          className={isDaySelected ? "btn btn-primary active" : "btn btn-primary"}
-                          id={"worktime-" + day}
-                          onClick={that.handleClick}>
-                          <input type="checkbox" autoComplete="off" /> {day}
-                        </label>
-                      </div>
-                        <div className="btn-group" data-toggle="buttons">
-                          {ALL_INTERVALS.map(function(interval){
-                            var currentDay = that.state.workTimes[day];
-                            return (
-                              <label
-                                className={ currentDay ?
-                                  (currentDay[interval] === true ? "btn btn-primary active" : "btn btn-primary")
-                                :
-                                  ("btn btn-primary")
-                                }
-                                onClick={that.handleClick}
-                                id={"worktime-" + day + "-" + interval}
-                              >
-                                <input type="checkbox" autoComplete="off" /> {interval}
-                              </label>
-                            );
-                          })}
-                        </div>
-                    </div>
-                  );
-                })}
+            <div className="panel">
+              <div className="form-group">
+                {statusBioGlyph}
+                <label htmlFor="bio-entry">What do you want others to know about you? (this is publicly viewable)</label>
+                <textarea
+                  className="form-control"
+                  value={this.state.bio}
+                  onChange={this.handleBioChange}
+                  id="bio-entry"
+                  placeholder="Example: I've been a food delivery man for 20 years. I know the ins and outs about everything food delivery related. I also have extensive experience finding lost pets, buying cat food, and piloting space craft."
+                />
                 <Button
                   bsStyle="info"
                   bsSize="medium"
                   id="save-profile-link"
-                  onClick={this.handleSubmission}>
-                saveProfile
+                  onClick={this.handleSubmission.bind(null, "bio")}>
+                Update Bio!
                 </Button>
-             </div>
+                {this.state.bioStatusMessage}
+              </div>
+            </div>
+
+            <div className="panel">
+              <div className="form-group panel">
+                {statusWorkTimesGlyph}
+                <label htmlFor="worktimes-entry">Select when you want to work</label><br/>
+                {(this._countWorkDays() === 0) ? "Want to work? pick some times" : ""}
+
+
+                <div className="" id="worktimes-entry">
+                  {DAYS.map(function(day) {
+                    var isDaySelected = false;
+                    if (workTimes[day]) {
+                      var dayIntervals = Object.keys(workTimes[day]);
+                      dayIntervals.forEach(function(dayInterval) {
+                        if (workTimes[day][dayInterval]) {
+                          isDaySelected = true;
+                        }
+                      });
+                    }
+
+                    return (
+                      <div>
+                        <div className="btn-group" data-toggle="buttons">
+                          <label
+                            className={isDaySelected ? "btn btn-primary active" : "btn btn-primary"}
+                            id={"worktime-" + day}
+                            onClick={that.handleClick}>
+                            <input type="checkbox" autoComplete="off" /> {day}
+                          </label>
+                        </div>
+                          <div className="btn-group" data-toggle="buttons">
+                            {ALL_INTERVALS.map(function(interval){
+                              var currentDay = that.state.workTimes[day];
+                              return (
+                                <label
+                                  className={ currentDay ?
+                                    (currentDay[interval] === true ? "btn btn-primary active" : "btn btn-primary")
+                                  :
+                                    ("btn btn-primary")
+                                  }
+                                  onClick={that.handleClick}
+                                  id={"worktime-" + day + "-" + interval}
+                                >
+                                  <input type="checkbox" autoComplete="off" /> {interval}
+                                </label>
+                              );
+                            })}
+                          </div>
+                      </div>
+                    );
+                  })}
+                  <Button
+                    bsStyle="info"
+                    bsSize="medium"
+                    id="save-profile-link"
+                    onClick={this.handleSubmission.bind(null, "workTimes")}>
+                  Update Work Times!
+                  </Button>
+                  {this.state.workTimesStatusMessage}
+               </div>
+              </div>
             </div>
           </div>
         </div>

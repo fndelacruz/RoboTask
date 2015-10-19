@@ -1,6 +1,7 @@
 (function(root) {
   'use strict';
   // this.props.adressChangeListener
+  // this.props.handleFocus
 
   // This example displays an address form, using the autocomplete feature
   // of the Google Places API to help users fill in the information.
@@ -21,6 +22,11 @@
   root.LocationEntry = React.createClass({
     componentDidMount: function() {
       this._initAutocomplete();
+    },
+
+    _handleFocus: function () {
+      this._geolocate();
+      this.props.handleFocus();
     },
 
     _geolocate: function() {
@@ -90,7 +96,7 @@
               className="autocomplete form-control"
               ref="autocomplete"
               placeholder="Enter your address"
-              onFocus={this._geolocate}
+              onFocus={this._handleFocus}
               type="text">
             </input>
           </div>

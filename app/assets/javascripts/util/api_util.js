@@ -90,7 +90,7 @@
           // instead of a silly console log
           console.log("failed to assignWorkerToTask");
           } else {
-            root.ApiActions.resetTask(task);
+            ApiActions.resetTask(task);
           }
         }
       });
@@ -117,15 +117,17 @@
       });
     },
 
-    updateCurrentUserDetails: function(userDetails) {
+    updateCurrentUserDetails: function(userDetails, field) {
       $.ajax({
         url: "/api/users/1",
         method: "PATCH",
         data: { user: userDetails },
         success: function(e) {
           if (e.status === "OK") {
+            MessageActions.receiveProfileUpdate("Changes saved!", field);
             console.log("update OK");
           } else if (e.status === "BAD") {
+            MessageActions.receiveProfileUpdate("Error saving changes!", field);
             console.log("update BAD");
           } else {
             console.log("update unknown ERROR");

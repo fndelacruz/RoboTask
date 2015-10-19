@@ -159,7 +159,6 @@
     },
 
     _checkLocationStatus: function() {
-      console.log("_checkLocationStatus ran.");
       if (this.state.locationStatus === "OK") {
         return (
           <Glyphicon
@@ -200,6 +199,18 @@
       console.log("_saveDescription run");
     },
 
+    handleTitleFocus: function() {
+      console.log("title is focused!");
+    },
+
+    handleLocationFocus: function() {
+      console.log("location is focused!");
+    },
+
+    handleDescriptionFocus: function() {
+      console.log("description is focused!");
+    },
+
     // NOTE: unsure if I should wrap each div form-group with another div
     // panel . seems redundant. panel will check if that panel is focused. if
     // focused, then it is expanded. otherwise it will minimize.
@@ -228,6 +239,7 @@
                 className="form-control"
                 value={this.state.entryTitle}
                 onChange={this.handleChange}
+                onFocus={this.handleTitleFocus}
                 id="title-entry"
               /><br/>
             </div>
@@ -250,6 +262,7 @@
               <LocationEntry
                 adressEntryListener={this.handleAddressChange}
                 invalidAddressListener={this._handleInvalidAddress}
+                handleFocus={this.handleLocationFocus}
                 id="location-entry"/>
             </div>
 
@@ -267,6 +280,7 @@
                 className="form-control"
                 value={this.state.entryDescription}
                 onChange={this.handleChange}
+                onFocus={this.handleDescriptionFocus}
                 id="description-entry"
               /><br/>
             </div>
@@ -274,11 +288,11 @@
               bsStyle="success"
               bsSize="medium"
               onClick={this._saveDescription}>
-              Save Title (eventually, this is "continue")
+              Save Description (eventually, this is "continue" and find Robotaskers?)
             </Button>
 
             <div className="task-status-message">
-              {this.state.locationStatusMessage}
+              {this.state.descriptionStatusMessage}
             </div>
           </div>
 

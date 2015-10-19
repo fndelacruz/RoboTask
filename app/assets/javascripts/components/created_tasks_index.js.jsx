@@ -10,7 +10,7 @@
 
     _updateCreatedTasks: function() {
       this.setState({
-        createdTasks: root.CreatedTaskStore.allIncomplete()
+        createdTasks: CreatedTaskStore.allIncomplete()
       });
     },
 

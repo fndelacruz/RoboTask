@@ -87,7 +87,7 @@
       this.removeListener(ASSIGN_TASK_WORKER_OK, callback);
     },
 
-    dispatcherID: root.AppDispatcher.register(function(payload) {
+    dispatcherID: AppDispatcher.register(function(payload) {
       switch (payload.actionType) {
         case root.TaskConstants.CREATED_TASKS_RECEIVED:
           _resetCreatedTasks(payload.action);
