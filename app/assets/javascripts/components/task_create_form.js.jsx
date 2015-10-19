@@ -50,6 +50,10 @@
       root.CreatedTaskStore.removeCreateTaskOKListener(this._findValidWorkers);
     },
 
+    handleAddressChange: function(address) {
+      this.setState({ location: address });
+    },
+
     // NOTE: unsure if I should wrap each div form-group with another div
     // panel . seems redundant. panel will check if that panel is focused. if
     // focused, then it is expanded. otherwise it will minimize.
@@ -61,6 +65,7 @@
     // track of what the user has Saved. this will be what gets sent when do
     // handleSub
     render: function() {
+      console.log(this.state);
       return (
         <div className="component-container" id="task-form">
           <div className="component-container-heading" id="task-form-heading">Create new task</div><br/>
@@ -82,21 +87,10 @@
           <div className="panel">
             <div className="form-group">
               <label htmlFor="location-entry">Location</label><br/>
-              <input
-                type="text"
-                placeholder="default location"
-                className="form-control"
-                value={this.state.location}
-                onChange={this.handleChange}
-                id="location-entry"
-              /><br/>
+              <LocationEntry adressEntryListener={this.handleAddressChange} id="location-entry"/>
             </div>
           </div>
 
-          <div className="panel">
-            <LocationEntry />
-          </div>
-          
           <div className="panel">
             <div className="form-group">
               <label htmlFor="description-entry">Description</label><br/>

@@ -84,12 +84,6 @@
                 </li>
 
                 <li
-                  onClick={this.handleMapTestClick}
-                  className="nav-button">
-                  <a>MapTest</a>
-                </li>
-
-                <li
                   onClick={this.handleCreateTaskClick}
                   className="nav-button">
                   <a>Create Task</a>

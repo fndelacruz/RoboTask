@@ -1,41 +1,20 @@
 (function(root) {
   'use strict';
+  // this.props.adressChangeListener
+
   // This example displays an address form, using the autocomplete feature
   // of the Google Places API to help users fill in the information.
 
   // NOTE: is placeSearch even used here?
   var placeSearch;
+
   // NOTE: I will only use locality (city name) to have searches limited to
   // San Francisco
-  var componentForm = {
-    street_number: 'short_name',
-    route: 'long_name',
-    locality: 'long_name',
-    administrative_area_level_1: 'short_name',
-    country: 'long_name',
-    postal_code: 'short_name'
+
+  // NOTE: For now, limit locations to within San Francisco
+  var checkValidCity = function(city) {
+    return city === "San Francisco" ? true : false;
   };
-
-  var fillInAddress = function() {
-    // Get the place details from the autocomplete object.
-    var place = autocomplete.getPlace();
-
-    for (var component in componentForm) {
-      document.getElementById(component).value = '';
-      document.getElementById(component).disabled = false;
-    }
-
-    // Get each component of the address from the place details
-    // and fill the corresponding field on the form.
-    for (var i = 0; i < place.address_components.length; i++) {
-      var addressType = place.address_components[i].types[0];
-      if (componentForm[addressType]) {
-        var val = place.address_components[i][componentForm[addressType]];
-        document.getElementById(addressType).value = val;
-      }
-    }
-  };
-
   // Bias the autocomplete object to the user's geographical location,
   // as supplied by the browser's 'navigator.geolocation' object.
 
@@ -78,24 +57,27 @@
       // Get the place details from the autocomplete object.
       var place = this.autocomplete.getPlace();
 
+      var city;
+      // var city = place.address_components[3].long_name;
 
-      for (var component in componentForm) {
-        document.getElementById(component).value = '';
-        document.getElementById(component).disabled = false;
-      }
-
-      // Get each component of the address from the place details
-      // and fill the corresponding field on the form.
-
-      // NOTE: if user presses "enter" on the search field instead of selecting
-      // an address below, then an error occurs due to address_component being
-      // undefined. HANDLE THIS
-      for (var i = 0; i < place.address_components.length; i++) {
-        var addressType = place.address_components[i].types[0];
-        if (componentForm[addressType]) {
-          var val = place.address_components[i][componentForm[addressType]];
-          document.getElementById(addressType).value = val;
+      place.address_components.forEach(function(component, idx) {
+        if (component.types[0] === "locality") {
+          city = component.long_name;
         }
+      });
+
+      if (checkValidCity(city)) {
+        console.log("Valid city!"); // NOTE: replace this with real feedback message!
+        // Get each component of the address from the place details
+        // and fill the corresponding field on the form.
+
+        // NOTE: if user presses "enter" on the search field instead of selecting
+        // an address below, then an error occurs due to address_component being
+        // undefined. HANDLE THIS
+        this.props.adressEntryListener(place.formatted_address);
+      } else {
+        // NOTE: replace this with real feedback message!
+        console.log("Sorry, we only serve San Francisco right now.");
       }
     },
 
@@ -112,33 +94,6 @@
             </input>
           </div>
 
-          <table id="address">
-            <tr>
-              <td className="label">Street address</td>
-              <td className="slimField"><input className="field" id="street_number"
-                    disabled="true"></input></td>
-              <td className="wideField" colSpan="2"><input className="field" id="route"
-                    disabled="true"></input></td>
-            </tr>
-            <tr>
-              <td className="label">City</td>
-              <td className="wideField" colSpan="3"><input className="field" id="locality"
-                    disabled="true"></input></td>
-            </tr>
-            <tr>
-              <td className="label">State</td>
-              <td className="slimField"><input className="field"
-                    id="administrative_area_level_1" disabled="true"></input></td>
-              <td className="label">Zip code</td>
-              <td className="wideField"><input className="field" id="postal_code"
-                    disabled="true"></input></td>
-            </tr>
-            <tr>
-              <td className="label">Country</td>
-              <td className="wideField" colSpan="3"><input className="field"
-                    id="country" disabled="true"></input></td>
-            </tr>
-          </table>
         </div>
       );
     }
