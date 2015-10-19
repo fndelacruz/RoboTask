@@ -178,38 +178,40 @@ ActiveRecord::Base.transaction do
 #
 
 # NOTE: User1's past reviewed tasks
+  worker = User.find(3)
   User.find(1).created_tasks.create!([
     {
       title: "Lost dog",
       description: "Please find my dog. I lost him last week. He was roaming around the park then he chased an ice cream truck. I never saw him again.",
       location: "The park",
       datetime: (Time.now.utc - 7.days).change(hour: 0),
-      worker: User.find(3)
+      worker: worker
     }
   ])
   Review.create!([
     {
       task: Task.last,
       is_positive: true,
-      description: "User3 found my dog! A+++ would hire again.",
+      description: "#{worker.fname} found my dog! A+++ would hire again.",
       created_at: (Time.now.utc - 7.days).change(hour: 0)
     }
   ])
 
+  worker = User.find(6)
   User.find(1).created_tasks.create!([
     {
       title: "Need some popsicles",
       description: "Please fetch me some popsicles. Any flavor is fine. Please drop by in the afternoon",
       location: "6200 Mission st.",
       datetime: (Time.now.utc - 3.days).change(hour: 12),
-      worker: User.find(6)
+      worker: worker
     }
   ])
   Review.create!([
     {
       task: Task.last,
       is_positive: true,
-      description: "User6 was great! I wish he did not get generic store brand, but he was quick to deliver. A-",
+      description: "#{worker.fname} was great! I wish he did not get generic store brand, but he was quick to deliver. A-",
       created_at: (Time.now.utc - 3.days).change(hour: 12)
     }
   ])

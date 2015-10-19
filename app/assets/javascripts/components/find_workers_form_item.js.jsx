@@ -13,12 +13,22 @@
       // <ReviewIndex worker={this.props.worker} />
       var worker = this.props.worker;
       var task = this.props.task;
+      var shortName = worker.fname + " " + worker.lname[0] + ".";
       // NOTE: eventually make this a <ul> containing <li> with profile pic,
       // info (name, bio), and button to choose worker
       return (
-        <div id="workers-item-container">
-          <div className="worker-name">{worker.email}</div><br/>
-          About me...<br/>{worker.bio}<br/>
+        <div className="workers-item-container">
+
+          <div className="worker-snippet">
+            <img
+              className="worker-profile-pic"
+              src={ "https://robohash.org/" + worker.id } /><br/>
+            <div className="text-center worker-profile-shortName">{shortName}</div><br/>
+            Reviews
+          </div>
+          <div className="worker-bio">
+            About me...<br/>{worker.bio}<br/>
+          </div>
           <Button
             bsStyle="success"
             bsSize="medium"
