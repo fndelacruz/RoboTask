@@ -7,7 +7,7 @@
       return (
         <div>
           <Jumbotron>
-            <h1> Hi {root.CURRENT_USER_EMAIL} </h1>
+            <h1> Hi {root.CURRENT_USER_SHORTNAME} </h1>
             <h3> what do you want to do? </h3>
           </Jumbotron>
           <div className="row">

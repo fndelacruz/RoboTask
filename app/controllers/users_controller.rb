@@ -9,6 +9,8 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    @user.fname = @user.fname.capitalize
+    @user.lname = @user.lname.capitalize
     if @user.save
       login(@user)
       # NOTE: Unsure how to implement flash well with React. may add back later

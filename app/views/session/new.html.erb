@@ -5,7 +5,7 @@
       <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 
       <div class="form-group">
-        <label for="session-email">email</label><br>
+        <label for="session-email">Email</label><br>
         <input
           type="text"
           name="session[email]"
@@ -14,20 +14,28 @@
       </div>
 
       <div class="form-group">
-        <label for="session-password">password</label><br>
+        <label for="session-password">Password</label><br>
         <input
           type="password"
           name="session[password]"
           class="form-control"
           id="session-password"><br>
       </div>
-
-      <button
-        class="btn btn-default"
-        type="submit"
-        value="Login">
-        Login
-      </button>
+      <div>
+        <button
+          class="btn btn-default"
+          type="submit"
+          value="Login">
+          Login
+        </button>
+      </div><br/>
+      <div><a href="/users/new"> New user? </a></div>
+      <% if flash[:errors] %>
+        <% flash[:errors].each do |error| %>
+          <!-- NOTE: need to make this look more acceptable. ugly right now -->
+          <div><%= error %></div>
+        <% end %>
+      <% end %>
     </form>
   </div>
 </div>

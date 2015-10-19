@@ -7,6 +7,12 @@ $(function() {
     var IndexRoute = ReactRouter.IndexRoute;
 
     var App = root.App = React.createClass({
+      mixins: [ReactRouter.History],
+
+      componentDidMount: function() {
+        this.history.pushState(null, "/home");
+      },
+
       render: function() {
         return (
           <div>

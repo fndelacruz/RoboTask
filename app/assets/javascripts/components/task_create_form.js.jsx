@@ -62,7 +62,7 @@
     // handleSub
     render: function() {
       return (
-        <div className="component-container col-12 col-lg-10 col--centered" id="task-form">
+        <div className="component-container" id="task-form">
           <div className="component-container-heading" id="task-form-heading">Create new task</div><br/>
 
           <div className="panel">

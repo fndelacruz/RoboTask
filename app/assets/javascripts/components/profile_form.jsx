@@ -137,7 +137,7 @@
             <div className="component-container-heading" id="profile-form-heading">
               Edit profile
             </div><br/>
-            <h3>{root.CURRENT_USER_EMAIL + "'s profile"}</h3>
+            <h3>{root.CURRENT_USER_SHORTNAME + "'s profile"}</h3>
 
             <div className="form-group panel">
               <label htmlFor="bio-entry">What do you want others to know about you? (this is publicly viewable)</label>

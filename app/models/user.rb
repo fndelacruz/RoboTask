@@ -14,8 +14,9 @@
 #
 
 class User < ActiveRecord::Base
-  validates :email, :password_digest, :session_token, :fname, :lname, presence: true
+  validates :password_digest, :session_token, :fname, :lname, presence: true
   validates :email, uniqueness: true
+  validate :email_valid
   validates :password, length: { minimum: 6, allow_nil: true }
 
   attr_reader :password
@@ -64,5 +65,11 @@ class User < ActiveRecord::Base
 
   def ensure_session_token!
     self.session_token ||= SecureRandom.urlsafe_base64(16)
+  end
+
+  def email_valid
+    unless email.match(/\w+@\w+(\.\w+)+/)
+      errors.add(:email, "Please provide a valid email address.")
+    end
   end
 end

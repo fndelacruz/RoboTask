@@ -17,7 +17,7 @@ class SessionController < ApplicationController
       redirect_to "/"
     else
       flash.now[:errors] ||= []
-      flash.now[:errors] << "Invalid credentials"
+      flash.now[:errors] << "We don't recognize your email address or password. Please try again."
       render :new
     end
   end
