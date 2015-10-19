@@ -21,3 +21,11 @@
 	font-family: monospace;
 	font-size: 36px;
 }
+
+.form-group {
+	position: relative;
+}
+.task-status-icon {
+	position: absolute;
+	right: 0;
+}

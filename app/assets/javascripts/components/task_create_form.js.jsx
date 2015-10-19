@@ -1,12 +1,19 @@
 (function(root) {
   'use strict';
 
+  var Button = ReactBootstrap.Button;
+
+  var Glyphicon =ReactBootstrap.Glyphicon;
+
   root.TaskForm = React.createClass({
     mixins: [ReactRouter.History],
 
     getInitialState: function() {
       return ({
+        entryTitle: "",
         title: "",
+        titleStatus: "",
+        titleStatusMessage: "",
         location: "",
         description: ""
       });
@@ -16,7 +23,7 @@
     handleChange: function(e) {
       switch (e.target.id) {
         case "title-entry":
-          this.setState({ title: e.target.value });
+          this.setState({ entryTitle: e.target.value });
           break;
         case "location-entry":
           this.setState({ location: e.target.value });
@@ -54,6 +61,47 @@
       this.setState({ location: address });
     },
 
+    _saveTitle: function() {
+      if (this.state.entryTitle !== "") {
+        this.setState({
+          title: this.state.entryTitle,
+          titleStatus: "OK",
+          titleStatusMessage: "valid title entered."
+        });
+      } else {
+        this.setState({
+          titleStatus: "BAD",
+          titleStatusMessage: "Please enter a task title."
+        });
+
+      }
+      console.log("_saveTitle run");
+    },
+
+    _checkTitleStatus: function() {
+      if (this.state.titleStatus === "OK") {
+        return (
+          <Glyphicon
+            glyph="ok"
+            className="task-status-icon"
+            id="task-status-icon-ok" />
+        );
+      } else if (this.state.titleStatus === "BAD") {
+        return (
+          <Glyphicon
+            glyph="remove"
+            className="task-status-icon"
+            id="task-status-icon-bad" />
+        );
+      } else {
+        return (
+          <Glyphicon
+            glyph="pencil"
+            className="task-status-icon" />
+        );
+      }
+    },
+
     // NOTE: unsure if I should wrap each div form-group with another div
     // panel . seems redundant. panel will check if that panel is focused. if
     // focused, then it is expanded. otherwise it will minimize.
@@ -63,24 +111,34 @@
 
     // IDEA: add capability for user to "save". add additional states to keep
     // track of what the user has Saved. this will be what gets sent when do
-    // handleSub
     render: function() {
-      console.log(this.state);
+      var statusTitleGlyph = this._checkTitleStatus();
+
       return (
         <div className="component-container" id="task-form">
           <div className="component-container-heading" id="task-form-heading">Create new task</div><br/>
 
           <div className="panel">
             <div className="form-group">
+              {statusTitleGlyph}
               <label htmlFor="title-entry">Title</label><br/>
               <input
                 type="text"
                 placeholder="default title"
                 className="form-control"
-                value={this.state.title}
+                value={this.state.entryTitle}
                 onChange={this.handleChange}
                 id="title-entry"
               /><br/>
+            </div>
+            <Button
+              bsStyle="success"
+              bsSize="medium"
+              onClick={this._saveTitle}>
+              Continue
+            </Button>
+            <div className="task-status-message">
+              {this.state.titleStatusMessage}
             </div>
           </div>
 
@@ -109,7 +167,7 @@
             type="submit"
             value="Signup"
             onClick={this.handleSubmission}>
-            Continue
+            Choose Date and Find RoboTaskers
           </button>
         </div>
       );

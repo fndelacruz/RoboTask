@@ -263,5 +263,28 @@ button:hover {
 }
 
 .workers-item-container {
-	height: 300px;
+	// height: 300px;
+}
+.form-group {
+	position: relative;
+}
+.task-status-icon {
+	position: absolute;
+	right: 0px;
+}
+
+// red
+#task-status-icon-bad {
+	color: red;
+	// color: rgba(41,193,41,1);
+}
+// green
+#task-status-icon-ok {
+	color: green;
+	// color: rgba(41,193,41,1);
+}
+
+
+body {
+	background: rgb(220,220,220) !important;
 }
