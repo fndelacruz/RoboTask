@@ -17,13 +17,15 @@
       // via pagination. for now, will just fetch them all!
       return ({
         showModal: false,
-        reviews: ReviewStore.all()
+        reviews: ReviewStore.all(),
+        rating: ReviewStore.rating()
       });
     },
 
     _updateReviews: function() {
       this.setState({
-        reviews: ReviewStore.all()
+        reviews: ReviewStore.all(),
+        rating: ReviewStore.rating()
       });
     },
 
@@ -47,6 +49,8 @@
 
     render: function() {
       var reviews = this.state.reviews;
+      var rating = this.state.rating;
+      var shortName = this.props.worker.fname + " " + this.props.worker.lname[0] + ".";
 
       return (
         <div>
@@ -60,7 +64,7 @@
 
           <Modal show={this.state.showModal} onHide={this.close}>
             <Modal.Header closeButton>
-              <Modal.Title>{this.props.worker.email}'s reviews...</Modal.Title>
+              <Modal.Title>{shortName}'s reviews</Modal.Title>
             </Modal.Header>
 
 
@@ -68,12 +72,13 @@
               <div>
                 [TODO: center profile pic. add background]
                 <img
-                  className="worker_profile"
+                  className="worker-profile-pic center-block"
                   src={ "https://robohash.org/" + this.props.worker.id } /><br/>
-                {this.props.worker.email}<br/>
-                Member since: {this.props.worker.created_at}<br/>
-                [good tasks/total tasks here]<br/>
-                [rating percentage here]<br/>
+
+
+                <h1 className="text-center worker-profile-shortName">{shortName}</h1>
+                <h3 className="text-center">{rating}% Approval Rating</h3>
+                <p className="text-center">Member since: {this.props.worker.created_at}</p>
 
                 {reviews.map(function(review) {
                   return <ReviewIndexModalItem review={review} key={review.id}/>;

@@ -202,24 +202,35 @@ button:hover {
 
 // remove border colors for profile pics later after I establish background colors
 // for the panels behind them. just keep them now for positioning
-.reviewer_profile {
+.worker-profile-pic {
+  border-radius: 50%;
+  border: 1px solid black;
+  height: 200px;
+  width: 200px;
+}
+.worker-profile-shortName {
+	margin: 0px;
+}
+.reviewer-profile-pic {
   border-radius: 50%;
   border: 1px solid black;
   height: 100px;
   width: 100px;
+	// float: left;
+	// display: inline-block;
 }
-.worker_profile {
-  border-radius: 50%;
-  border: 1px solid black;
-  height: 300px;
-  width: 300px;
+.review-info {
+	// float: left;
+	// display: inline-block;
+	// padding: 5px;
 }
+
 // NOTE: This is supposed to fix issue with Modal sometimes not allowing scroll
 // when it overflows over the page. check if this fixes it..
 // max-height DOES seem to fix it, but it makes the bottom half ugly..
 .modal {
     overflow-y:auto;
-    // max-height:90%;
+    max-height: 90%;
     // margin-top:-45%;
 }
 

@@ -13,6 +13,20 @@
       return _reviews.slice();
     },
 
+    rating: function() {
+      var good = 0;
+      var bad = 0;
+      _reviews.forEach(function(review) {
+        if (review.isGood === true) {
+          good++;
+        } else {
+          bad++;
+        }
+      });
+
+      return (good / (good + bad) * 100).toFixed(1);
+    },
+
     addChangeListener: function(callback) {
       this.on(CHANGE_EVENT, callback);
     },

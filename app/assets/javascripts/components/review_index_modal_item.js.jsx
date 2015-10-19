@@ -7,13 +7,15 @@
       var review = this.props.review;
       if (typeof review !== undefined) {
         return (
-          <div className="panel">
+          <div className="panel row">
             <img
-              className="reviewer_profile"
+              className="reviewer-profile-pic"
               src={ "https://robohash.org/" + review.reviewer_id } />
-            {review.is_positive}<br/>
-            {review.description}<br/>
-            {review.created_at}  {review.reviewer}<br/>
+            <div className="review-info">
+              {review.is_positive}<br/>
+              {review.description}<br/>
+              {review.created_at}  {review.reviewer}<br/>
+            </div>
           </div>
         );
       } else {

@@ -9,10 +9,12 @@
 #  bio             :text
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  fname           :string           not null
+#  lname           :string           not null
 #
 
 class User < ActiveRecord::Base
-  validates :email, :password_digest, :session_token, presence: true
+  validates :email, :password_digest, :session_token, :fname, :lname, presence: true
   validates :email, uniqueness: true
   validates :password, length: { minimum: 6, allow_nil: true }
 

@@ -5,6 +5,26 @@
       <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 
       <div class="form-group">
+        <label for="user-fname">First name</label><br>
+        <input
+          type="text"
+          name="user[fname]"
+          class="form-control"
+          value=<%= @user.fname %>
+        ><br>
+      </div>
+
+      <div class="form-group">
+        <label for="user-lname">Last name</label><br>
+        <input
+          type="text"
+          name="user[lname]"
+          class="form-control"
+          value=<%= @user.lname %>
+        ><br>
+      </div>
+
+      <div class="form-group">
         <label for="user-email">email</label><br>
         <input
           type="text"
@@ -30,6 +50,12 @@
         Login
       </button>
       </div>
+      <% if flash[:errors] %>
+        <% flash[:errors].each do |error| %>
+          <!-- NOTE: need to make this look more acceptable. ugly right now -->
+          <div><%= error %></div>
+        <% end %>
+      <% end %>
     </form>
   </div>
 </div>

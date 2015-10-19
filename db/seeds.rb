@@ -21,7 +21,9 @@ INTERVAL = {
 ActiveRecord::Base.transaction do
   User.create!([
     {
-      email: "user1",
+      fname: Faker::Name.first_name,
+      lname: Faker::Name.last_name,
+      email: Faker::Internet.email,
       password_digest: BCrypt::Password.create("password"),
       bio: "user1 bio"
     }
@@ -45,7 +47,9 @@ ActiveRecord::Base.transaction do
   # User2 is a task creator
   User.create!([
     {
-      email: "user2",
+      fname: Faker::Name.first_name,
+      lname: Faker::Name.last_name,
+      email: Faker::Internet.email,
       password_digest: BCrypt::Password.create("password"),
       bio: "user2 bio"
     }
@@ -62,7 +66,9 @@ ActiveRecord::Base.transaction do
   # User3 is a worker who works on weekdays, anytime
   User.create!([
     {
-      email: "user3",
+      fname: Faker::Name.first_name,
+      lname: Faker::Name.last_name,
+      email: Faker::Internet.email,
       password_digest: BCrypt::Password.create("password"),
       bio: "I like to work on the weekdays, anytime."
     }
@@ -82,7 +88,9 @@ ActiveRecord::Base.transaction do
   # User4 is a worker who works on weekends, anytime
   User.create!([
     {
-      email: "user4",
+      fname: Faker::Name.first_name,
+      lname: Faker::Name.last_name,
+      email: Faker::Internet.email,
       password_digest: BCrypt::Password.create("password"),
       bio: "I like to work on the weekends, anytime."
     }
@@ -102,7 +110,9 @@ ActiveRecord::Base.transaction do
   # User5 is a worker who works on mon, wed, fri, in the evenings
   User.create!([
     {
-      email: "user5",
+      fname: Faker::Name.first_name,
+      lname: Faker::Name.last_name,
+      email: Faker::Internet.email,
       password_digest: BCrypt::Password.create("password"),
       bio: "I work evenings on mon, wed, fri."
     }
@@ -122,7 +132,9 @@ ActiveRecord::Base.transaction do
   # User6 is a worker who works on tues, thurs, sat, in the morning and afternoon
   User.create!([
     {
-      email: "user6",
+      fname: Faker::Name.first_name,
+      lname: Faker::Name.last_name,
+      email: Faker::Internet.email,
       password_digest: BCrypt::Password.create("password"),
       bio: "I work mornings and afternoons, tues, thurs and sat."
     }
@@ -142,7 +154,9 @@ ActiveRecord::Base.transaction do
   # User7 is a worker who works only on sunday mornings
   User.create!([
     {
-      email: "user7",
+      fname: Faker::Name.first_name,
+      lname: Faker::Name.last_name,
+      email: Faker::Internet.email,
       password_digest: BCrypt::Password.create("password"),
       bio: "I work sunday morning. yep."
     }
@@ -200,75 +214,79 @@ ActiveRecord::Base.transaction do
     }
   ])
 
+  worker = User.find(3)
   User.find(1).created_tasks.create!([
     {
       title: "Need more batteries",
       description: "I need 9 AA batteries. gimme",
       location: "gamestop",
       datetime: (Time.now.utc - 15.days).change(hour: 0),
-      worker: User.find(3)
+      worker: worker
     }
   ])
   Review.create!([
     {
       task: Task.last,
       is_positive: true,
-      description: "User3 was super fast. He even got the rechargable batteries. what a professional.",
+      description: "#{worker.fname} was super fast. Even got the rechargable batteries. what a professional.",
       created_at: (Time.now.utc - 15.days).change(hour: 0)
     }
   ])
 
+  worker = User.find(3)
   User.find(1).created_tasks.create!([
     {
       title: "Walk my dog",
       description: "Need a dog walker. Must be good with dogs. no scary applicants please.",
       location: "dog park",
       datetime: (Time.now.utc - 1.days).change(hour: 0),
-      worker: User.find(3)
+      worker: worker
     }
   ])
   Review.create!([
     {
       task: Task.last,
       is_positive: false,
-      description: "User3 lost my dog. please don't hire this guy. I want a refund, and a dog.",
+      description: "Lost my dog. please don't EVER hire #{worker.fname}. I want a refund, and a new dog.",
       created_at: (Time.now.utc - 1.days).change(hour: 0)
     }
   ])
 
 # NOTE: User2's past reviewed tasks
+  worker = User.find(4)
   User.find(2).created_tasks.create!([
     {
       title: "Find some treasure",
       description: "Need someone to help me find some gold I buried a long time ago. Please bring your own net. We'll head out at night so bring a flashlight.",
       location: "The park",
       datetime: (Time.now.utc - 2.days).change(hour: 16),
-      worker: User.find(4)
+      worker: worker
     }
   ])
   Review.create!([
     {
       task: Task.last,
       is_positive: true,
-      description: "User4 was no good. He ran out of power in the middle of the night so I had to call in reinforcements.",
+      description: "#{worker.fname} was no good. He ran out of power in the middle of the night so I had to call in reinforcements.",
       created_at: (Time.now.utc - 2.days).change(hour: 16)
     }
   ])
 
+  worker = User.find(7)
   User.find(2).created_tasks.create!([
     {
       title: "Drive boat",
       description: "Need a good boat driver. Must provide boat. Will provide lunch. Heading out in the morning.",
       location: "The park",
       datetime: (Time.now.utc - 2.days).change(hour: 8),
-      worker: User.find(7)
+      worker: worker
     }
   ])
   Review.create!([
     {
       task: Task.last,
       is_positive: true,
-      description: "User7 was great! Turned into a boat. Would hire again A++++.",
+      description: "Great job! #{worker.fname} turned into a boat. Would hire again for boat related activites A++++.",
       created_at: (Time.now.utc - 2.days).change(hour: 8)
     }
   ])

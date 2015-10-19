@@ -20,8 +20,17 @@
   <%#= link_to "Login", new_session_url %>
 <% end %>
 
-<%#= flash[:errors].each { |error| error } if flash[:errors] %>
-<%#= flash[:notices].each { |notice| notice } if flash[:notices] %>
+<% if flash[:errors] %>
+  <!-- <script>
+    window.FLASH_ERRORS = <%= flash[:errors] %>
+  </script> -->
+<% end %>
+
+<% if flash[:notices] %>
+  <!-- <script>
+    window.FLASH_NOTICES = <%= flash[:notices] %>
+  </script> -->
+<% end %>
 
 <div class="container">
   <%= yield %>
