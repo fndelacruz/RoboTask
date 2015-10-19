@@ -77,7 +77,8 @@
         this.props.adressEntryListener(place.formatted_address);
       } else {
         // NOTE: replace this with real feedback message!
-        console.log("Sorry, we only serve San Francisco right now.");
+        this.props.invalidAddressListener();
+        // console.log("Sorry, we only serve San Francisco right now.");
       }
     },
 

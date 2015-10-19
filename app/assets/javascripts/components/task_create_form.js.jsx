@@ -8,14 +8,32 @@
   root.TaskForm = React.createClass({
     mixins: [ReactRouter.History],
 
+    componentDidMount: function() {
+      root.CreatedTaskStore.addCreateTaskOKListener(this._findValidWorkers);
+    },
+
+    componentWillUnmount: function() {
+      root.CreatedTaskStore.removeCreateTaskOKListener(this._findValidWorkers);
+    },
+
     getInitialState: function() {
       return ({
         entryTitle: "",
         title: "",
         titleStatus: "",
         titleStatusMessage: "",
+
+        entryLocation: "",
         location: "",
-        description: ""
+        locationStatus: "",
+        locationStatusMessage: "",
+
+        entryDescription: "",
+        description: "",
+        descriptionStatus: "",
+        descriptionStatusMessage: "",
+
+        mainStatusMessage: ""
       });
     },
 
@@ -29,19 +47,23 @@
           this.setState({ location: e.target.value });
           break;
         case "description-entry":
-          this.setState({ description: e.target.value });
+          this.setState({ entryDescription: e.target.value });
           break;
       }
     },
 
     handleSubmission: function(e) {
       // NOTE: Will add start dates later, just getting Ajax working first.
-      var newTask = {
-        title: this.state.title,
-        location: this.state.location,
-        description: this.state.description,
-      };
-      root.ApiUtil.createTask(newTask);
+      if (this.state.title !== "" && this.state.location !== "" && this.state.description !== "") {
+        var newTask = {
+          title: this.state.title,
+          location: this.state.location,
+          description: this.state.description,
+        };
+        root.ApiUtil.createTask(newTask);
+      } else {
+        this.setState({ mainStatusMessage: "Please complete the form!!" });
+      }
     },
 
     _findValidWorkers: function() {
@@ -49,18 +71,27 @@
       this.history.pushState(null, "/task/" + idx + "/findWorker");
     },
 
-    componentDidMount: function() {
-      root.CreatedTaskStore.addCreateTaskOKListener(this._findValidWorkers);
-    },
-
-    componentWillUnmount: function() {
-      root.CreatedTaskStore.removeCreateTaskOKListener(this._findValidWorkers);
-    },
 
     handleAddressChange: function(address) {
-      this.setState({ location: address });
+      // NOTE: Looks like we ONLY get here if address is ok. not sure how to
+      // handle if address is NOT ok. Looks like I have to pass a
+      // isValidLocation function as props to LocationEntry
+      this.setState({
+        location: address,
+        locationStatus: "OK",
+        locationStatusMessage: "Valid location entered!"
+      });
     },
 
+    _handleInvalidAddress: function() {
+      this.setState({
+        location: "",
+        locationStatus: "BAD",
+        locationStatusMessage: "Sorry, RoboTask is currently limited to San Francisco residents!"
+      });
+    },
+
+    // NOTE: Can probably DRY _saveTitle and _saveDescription into a single function
     _saveTitle: function() {
       if (this.state.entryTitle !== "") {
         this.setState({
@@ -78,20 +109,21 @@
       console.log("_saveTitle run");
     },
 
+    // NOTE: Same with _checkTitleStatus and _checkDescriptionStatus
     _checkTitleStatus: function() {
       if (this.state.titleStatus === "OK") {
         return (
           <Glyphicon
             glyph="ok"
             className="task-status-icon"
-            id="task-status-icon-ok" />
+            id="icon-ok" />
         );
       } else if (this.state.titleStatus === "BAD") {
         return (
           <Glyphicon
             glyph="remove"
             className="task-status-icon"
-            id="task-status-icon-bad" />
+            id="icon-bad" />
         );
       } else {
         return (
@@ -100,6 +132,72 @@
             className="task-status-icon" />
         );
       }
+    },
+
+    _checkDescriptionStatus: function() {
+      if (this.state.descriptionStatus === "OK") {
+        return (
+          <Glyphicon
+            glyph="ok"
+            className="task-status-icon"
+            id="icon-ok" />
+        );
+      } else if (this.state.descriptionStatus === "BAD") {
+        return (
+          <Glyphicon
+            glyph="remove"
+            className="task-status-icon"
+            id="icon-bad" />
+        );
+      } else {
+        return (
+          <Glyphicon
+            glyph="pencil"
+            className="task-status-icon" />
+        );
+      }
+    },
+
+    _checkLocationStatus: function() {
+      console.log("_checkLocationStatus ran.");
+      if (this.state.locationStatus === "OK") {
+        return (
+          <Glyphicon
+            glyph="ok"
+            className="task-status-icon"
+            id="icon-ok" />
+        );
+      } else if (this.state.locationStatus === "BAD") {
+        return (
+          <Glyphicon
+            glyph="remove"
+            className="task-status-icon"
+            id="icon-bad" />
+        );
+      } else {
+        return (
+          <Glyphicon
+            glyph="pencil"
+            className="task-status-icon" />
+        );
+      }
+    },
+
+    _saveDescription: function () {
+      if (this.state.entryDescription !== "") {
+        this.setState({
+          description: this.state.entryDescription,
+          descriptionStatus: "OK",
+          descriptionStatusMessage: "valid description entered."
+        });
+      } else {
+        this.setState({
+          descriptionStatus: "BAD",
+          descriptionStatusMessage: "Please enter a task description."
+        });
+
+      }
+      console.log("_saveDescription run");
     },
 
     // NOTE: unsure if I should wrap each div form-group with another div
@@ -113,7 +211,9 @@
     // track of what the user has Saved. this will be what gets sent when do
     render: function() {
       var statusTitleGlyph = this._checkTitleStatus();
-
+      var statusLocationGlyph = this._checkLocationStatus();
+      var statusDescriptionGlyph = this._checkDescriptionStatus();
+      // console.log(this.state);
       return (
         <div className="component-container" id="task-form">
           <div className="component-container-heading" id="task-form-heading">Create new task</div><br/>
@@ -135,8 +235,9 @@
               bsStyle="success"
               bsSize="medium"
               onClick={this._saveTitle}>
-              Continue
+              Save Title (eventually, this is "continue")
             </Button>
+
             <div className="task-status-message">
               {this.state.titleStatusMessage}
             </div>
@@ -144,21 +245,40 @@
 
           <div className="panel">
             <div className="form-group">
+              {statusLocationGlyph}
               <label htmlFor="location-entry">Location</label><br/>
-              <LocationEntry adressEntryListener={this.handleAddressChange} id="location-entry"/>
+              <LocationEntry
+                adressEntryListener={this.handleAddressChange}
+                invalidAddressListener={this._handleInvalidAddress}
+                id="location-entry"/>
+            </div>
+
+            <div className="task-status-message">
+              {this.state.locationStatusMessage}
             </div>
           </div>
 
           <div className="panel">
             <div className="form-group">
+              {statusDescriptionGlyph}
               <label htmlFor="description-entry">Description</label><br/>
               <textarea
                 placeholder="default description"
                 className="form-control"
-                value={this.state.description}
+                value={this.state.entryDescription}
                 onChange={this.handleChange}
                 id="description-entry"
               /><br/>
+            </div>
+            <Button
+              bsStyle="success"
+              bsSize="medium"
+              onClick={this._saveDescription}>
+              Save Title (eventually, this is "continue")
+            </Button>
+
+            <div className="task-status-message">
+              {this.state.locationStatusMessage}
             </div>
           </div>
 
@@ -168,7 +288,8 @@
             value="Signup"
             onClick={this.handleSubmission}>
             Choose Date and Find RoboTaskers
-          </button>
+          </button><br/>
+          {this.state.mainStatusMessage}
         </div>
       );
     }

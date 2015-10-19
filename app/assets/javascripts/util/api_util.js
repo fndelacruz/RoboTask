@@ -26,7 +26,7 @@
           if (createdTask._fail) {
             // NOTE: This should probably do a "flash-like" thing via React,
             // instead of a silly console log
-            console.log("failed to createTask task");
+            console.log("failed to createTask task on controller side!");
           } else {
             root.ApiActions.createTask(createdTask);
           }
