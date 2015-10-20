@@ -44,8 +44,6 @@
             Tasks
           </div><br/>
 
-          <CreatedTasksFinishedIndexModal tasks={CreatedTaskStore.allComplete()} />
-
           <ul className="nav nav-tabs">
             <li
               role="presentation"
