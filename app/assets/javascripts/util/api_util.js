@@ -79,11 +79,11 @@
       });
     },
 
-    assignWorkerToTask: function(task, worker) {
+    assignWorkerToTask: function(task, worker, datetime) {
       $.ajax({
         url: "/api/tasks/" + task.id,
         method: "PATCH",
-        data: { task: {worker_id: worker.id} },
+        data: { task: {worker_id: worker.id, datetime: datetime} },
         success: function(task) {
         if (task._fail) {
           // NOTE: This should probably do a "flash-like" thing via React,

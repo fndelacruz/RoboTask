@@ -293,4 +293,11 @@ ActiveRecord::Base.transaction do
     }
   ])
 
+  User.create!([{
+    fname: "guest",
+    lname: "guest",
+    email: "guest@guest.guest",
+    password_digest: BCrypt::Password.create("password"),
+    bio: "I am a guest user."
+  }])
 end

@@ -69,10 +69,12 @@
                   </div>
                 }
               </div>
-              <div className="temp-borders col-xs-12 col-sm-9 ">
+              <div className=" col-xs-12 col-sm-9">
                 <span className="task-title">{task.title}</span><br/>
-                description: {task.description}<br/>
-                location: {task.location}<br/>
+                <div className="task-title-divider" />
+                <span className="task-location">{task.location}</span><br/>
+                <span className="task-description">{task.description}</span><br/>
+                <span className="task-date-scheduled">{task.worktime_date} {task.worktime_interval}</span><br/>
                 created: {task.created_at} (TODO: +link to profile for this worker)<br/>
                 worker: {hasWorker ? task.worker_shortname : "UNASSIGNED"}<br/>
               </div>

@@ -22,6 +22,17 @@ class Api::TasksController < ApplicationController
       if task.worker != nil
         task_formatted[:worker_shortname] = "#{task.worker.fname} #{task.worker.lname[0]}."
         task_formatted[:worker_id] = task.worker.id
+        task_formatted[:worktime_date] = task.datetime.to_date
+        hour = task.datetime.hour
+        if hour == 0
+          task_formatted[:worktime_interval] = "Anytime"
+        elsif hour == 8
+          task_formatted[:worktime_interval] = "Morning"
+        elsif hour == 12
+          task_formatted[:worktime_interval] = "Afternoon"
+        elsif hour == 16
+          task_formatted[:worktime_interval] = "Evening"
+        end
       end
 
       if task.review != nil
@@ -60,10 +71,13 @@ class Api::TasksController < ApplicationController
     # NOTE: this conditional ensures current_user owns the task being assigned
     # a worker. is this necessary...?
     if current_user.created_tasks.map { |task| task.id }.include?(params[:id].to_i)
-      puts "This user does own the task he wants to update!"
       @task = Task.find(params[:id])
-      @task["worker_id"] = task_params["worker_id"]
-      @task.save
+      @task[:worker_id] = task_params["worker_id"]
+      datetime_arr = task_params["datetime"].split
+      date = datetime_arr[0].split("/")
+      datetime = DateTime.new(date[2].to_i, date[0].to_i, date[1].to_i, datetime_arr[1].to_i)
+      @task[:datetime] = datetime
+      @task.save!
 
       render json: @task
     else
@@ -84,6 +98,6 @@ class Api::TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:title, :location, :description, :worker_id)
+    params.require(:task).permit(:title, :location, :description, :worker_id, :datetime)
   end
 end

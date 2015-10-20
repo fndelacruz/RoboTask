@@ -40,7 +40,6 @@
       var assignedCount = CreatedTaskStore.allIncompleteAssigned().length;
       var pendingClass = "badge" + ((unassignedCount > 0) ? " badge-unassigned-nonempty" : "");
       var activeClass = "badge" + ((assignedCount > 0) ? " badge-active-nonempty" : "");
-      debugger;
       return (
         <div className="component-container" id="created-tasks-index">
           <div className="page-heading">

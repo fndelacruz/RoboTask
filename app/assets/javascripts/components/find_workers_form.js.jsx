@@ -160,7 +160,11 @@
 
       // NOTE: but how do I get the task id associated with this task? answer:
       // it's in the props!
-      ApiUtil.assignWorkerToTask(task, worker);
+
+      var date = this.state.dateTime.toLocaleDateString();
+      var hours = this.state.dateTime.getHours();
+      var datetime = date + " " + hours;
+      ApiUtil.assignWorkerToTask(task, worker, datetime);
     },
 
     render: function() {
@@ -168,7 +172,7 @@
       var task = root.CreatedTaskStore.all()[this.props.params.storeTaskIdx];
       return (
         <div className="row" id="find-workers-form">
-          <div className="date-selector">
+          <div className="temp-borders col-xs-12 col-sm-3">
             <h5
               className="component-container-heading"
               id="find-workers-form-heading">
@@ -191,7 +195,7 @@
             </div>
           </div>
 
-          <div className="worker-list">
+          <div className="temp-borders col-xs-12 col-sm-9">
           {
             workers.map(function(worker) {
               return (
