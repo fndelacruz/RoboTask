@@ -36,7 +36,7 @@ gem 'newrelic_rpm'
 
 
 gem 'react-rails', '1.3.0'
-gem 'flux-rails-assets'
+gem 'flux-rails-assets', '1.0.1'
 
 gem 'react-bootstrap-rails'
 gem 'bootstrap-sass'
