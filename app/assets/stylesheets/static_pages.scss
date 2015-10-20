@@ -286,5 +286,11 @@ button:hover {
 
 
 body {
-	background: rgb(220,220,220) !important;
+	background: rgb(225,225,225) !important; //light grey
+	// background: rgb(220,220,220) !important; //light grey
+	// background: rgb(0,0,0) !important; //black
+}
+
+.temp-borders {
+	border: 1px solid black;
 }

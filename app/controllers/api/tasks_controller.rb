@@ -20,7 +20,7 @@ class Api::TasksController < ApplicationController
       }
 
       if task.worker != nil
-        task_formatted[:worker_email] = task.worker.email
+        task_formatted[:worker_shortname] = "#{task.worker.fname} #{task.worker.lname[0]}."
         task_formatted[:worker_id] = task.worker.id
       end
 

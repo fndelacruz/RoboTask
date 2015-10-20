@@ -77,7 +77,7 @@
       var popover = <Popover title="popover">Popover placeholder text</Popover>;
       var tooltip = <Tooltip>Tooltip placeholder text</Tooltip>;
 
-      var worker_email = this.props.task.worker_email;
+      var worker_shortname = this.props.task.worker_shortname;
       return (
         <div>
           <Button
@@ -96,7 +96,7 @@
 
             <Modal.Body>
               <div>
-                <div >Would you recommend {worker_email} to others?</div><br/>
+                <div >Would you recommend {worker_shortname} to others?</div><br/>
                 <div className="btn-group"
                      data-toggle="buttons">
                   <label
@@ -126,7 +126,7 @@
                     id="review-description-entry"
                     value={this.state.description}
                     onChange={this.handleChange}
-                    placeholder={"Example: " + worker_email + " was a great worker. very quick. I'll choose him for all my future task needs"}
+                    placeholder={"Example: " + worker_shortname + " was a great worker. very quick. I'll choose him for all my future task needs"}
                   />
                 </div>
                 <br/><Button onClick={this.handleSubmission}>Submit Review</Button>

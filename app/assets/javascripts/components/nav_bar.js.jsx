@@ -1,5 +1,15 @@
 (function(root) {
   'use strict';
+  // NOTE: ReactBootstrap wasn't playing well with the navbar example. may just
+  // need to stick with regular bootstrap for nav.
+  // var Navbar = ReactBootstrap.NavBar;
+  // var NavBrand = ReactBootstrap.NavBrand;
+  // var CollapsibleNav = ReactBootstrap.CollapsibleNav;
+  // var Nav = ReactBootstrap.Nav;
+  // var NavItem = ReactBootstrap.NavItem;
+  // var NavDropdown = ReactBootstrap.NavDropdown;
+  // var MenuItem = ReactBootstrap.MenuItem;
+
 
   root.NavBar = React.createClass({
     mixins: [ReactRouter.History],
@@ -50,12 +60,16 @@
       this.history.pushState(null, "/profile");
     },
 
+    handleViewUnassignedCreatedTasksClick: function() {
+      this.history.pushState(null, "/tasks/created");
+    },
+
     handleCreateTaskClick: function() {
       this.history.pushState(null, "/task/new");
     },
 
-    handleViewUnassignedCreatedTasksClick: function() {
-      this.history.pushState(null, "/tasks/created");
+    handleTaskClick: function(taskType) {
+      this.history.pushState(null, "/tasks/created/" + taskType);
     },
 
     render: function() {
@@ -83,22 +97,44 @@
                   <a>Profile</a>
                 </li>
 
-                <li
-                  onClick={this.handleCreateTaskClick}
-                  className="nav-button">
-                  <a>Create Task</a>
-                </li>
+                <li className="dropdown">
+                  <a href="#"
+                    className="dropdown-toggle"
+                    data-toggle="dropdown"
+                    role="button"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+                    Tasks
+                    <span className="caret"></span>
+                  </a>
+                  <ul className="dropdown-menu">
+                    <li
+                      onClick={this.handleCreateTaskClick}><a>Create</a>
+                    </li>
 
-                <li
-                  onClick={this.handleViewUnassignedCreatedTasksClick}
-                  className="nav-button">
-                  <a>Unassigned Created Tasks: {this.state.unassignedTaskCount}</a>
-                </li>
+                    <li
+                      onClick={this.handleTaskClick.bind(null, "unassigned")}>
+                      <a>Incomplete: {this.state.unassignedTaskCount}</a>
+                    </li>
 
-                <li
-                  onClick={this.handleViewAssignedCreatedTasksClick}
-                  className="nav-button">
-                  <a>Assigned Created Tasks: {this.state.assignedTaskCount}</a>
+                    <li
+                      onClick={this.handleTaskClick.bind(null, "active")}>
+                      <a>Assigned: {this.state.assignedTaskCount}</a>
+                    </li>
+
+                    <li
+                      onClick={this.handleTaskClick.bind(null, "history")}>
+                      <a>History</a>
+                    </li>
+
+                    <li role="separator" className="divider"></li>
+                    <li
+                      onClick={this.handleTaskViewTestClick}>
+                      <a>TaskViewTest</a>
+                    </li>
+                    <li role="separator" className="divider"></li>
+                    <li><a>PlaceholderLink</a></li>
+                  </ul>
                 </li>
 
                 <li

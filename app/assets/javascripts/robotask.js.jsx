@@ -25,11 +25,14 @@ $(function() {
 
     var routes = (
       <Route path="/" component={App}>
-        <Route path="/home" component={HomePage} />
-        <Route path="/task/new" component={TaskForm} />
-        <Route path="/profile" component={ProfileForm} />
-        <Route path="/tasks/created" component={CreatedTasksIndex} />
-        <Route path="/task/:storeTaskIdx/findWorker" component={FindWorkersForm} />
+        <Route path="home" component={HomePage} />
+        <Route path="task/new" component={TaskForm} />
+        <Route path="task/:storeTaskIdx/findWorker" component={FindWorkersForm} />
+        <Route path="TaskViewTest" component={TaskViewTest} />
+        <Route path="profile" component={ProfileForm} />
+        <Route path="tasks/created" component={CreatedTasksIndex} >
+          <Route path=":type" component={TasksIndex} />
+        </Route>
       </Route>
     );
 

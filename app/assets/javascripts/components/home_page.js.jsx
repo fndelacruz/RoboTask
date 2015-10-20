@@ -8,7 +8,7 @@
         <div>
           <Jumbotron>
             <h1> Hi {root.CURRENT_USER_SHORTNAME} </h1>
-            <h3> what do you want to do? </h3>
+            <h3> </h3>
           </Jumbotron>
           <div className="row">
             <div className="col-md-4 homepage-element">

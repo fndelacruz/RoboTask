@@ -2,17 +2,23 @@
   'use strict';
 
   root.CreatedTasksIndex = React.createClass({
+    mixins: [ReactRouter.History],
+
+    // NOTE: I don't really use this state anymore since I switched to tab system
+    // for displaying tasks. If I end up not needing this in the end, delete the
+    // state here
     getInitialState: function() {
-      return ({
-        createdTasks: root.CreatedTaskStore.allIncomplete()
-      });
+      return ({ createdTasks: root.CreatedTaskStore.allIncomplete() });
     },
 
     _updateCreatedTasks: function() {
-      this.setState({
-        createdTasks: CreatedTaskStore.allIncomplete()
-      });
+      this.setState({ createdTasks: CreatedTaskStore.allIncomplete() });
     },
+
+    componentWillReceiveProps: function(newProps) {
+      console.log("CreatedTasksIndex WillReceiveProps");
+    },
+
 
     componentDidMount: function() {
       root.ApiUtil.fetchCreatedTasks();
@@ -23,10 +29,15 @@
       root.CreatedTaskStore.removeChangeListener(this._updateCreatedTasks);
     },
 
+    openTab: function(type) {
+      this.history.pushState(null, "/tasks/created/" + type);
+    },
+
     render: function() {
-      var createdTasks = this.state.createdTasks;
+      // var activeTab = this.state.activeTab;
+      var activeTab = this.props.location.pathname.match(/\/(\w+)$/)[1];
       return (
-        <div className="component-container col-12 col-lg-10 col--centered" id="created-tasks-index">
+        <div className="component-container" id="created-tasks-index">
           <div
             className="component-container-heading"
             id="created-tasks-index-heading">
@@ -34,18 +45,29 @@
           </div><br/>
 
           <CreatedTasksFinishedIndexModal tasks={CreatedTaskStore.allComplete()} />
-          <div>
-            {(createdTasks.length === 0) ?
-              <div>You haven't made any new tasks recently. Try creating one!</div>
-            :
-              <div>
-                {createdTasks.map(function(createdTask) {
-                  return <CreatedTasksIndexItem key={createdTask.id} createdTask={createdTask} />;
-                })}
-              </div>
-            }
-          </div>
 
+          <ul className="nav nav-tabs">
+            <li
+              role="presentation"
+              onClick={this.openTab.bind(null, "unassigned")}
+              className={activeTab === "unassigned" ? "active" : ""}>
+              <a>Pending Assignment</a>
+            </li>
+            <li
+              role="presentation"
+              onClick={this.openTab.bind(null, "active")}
+              className={activeTab === "active" ? "active" : ""}>
+              <a>Active</a>
+            </li>
+            <li
+              role="presentation"
+              onClick={this.openTab.bind(null, "history")}
+              className={activeTab === "history" ? "active" : ""}>
+              <a>History</a>
+            </li>
+          </ul>
+
+          {this.props.children}
         </div>
       );
     }
