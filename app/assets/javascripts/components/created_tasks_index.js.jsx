@@ -8,7 +8,7 @@
     // for displaying tasks. If I end up not needing this in the end, delete the
     // state here
     getInitialState: function() {
-      return ({ createdTasks: root.CreatedTaskStore.allIncomplete() });
+      return ({ createdTasks: CreatedTaskStore.allIncomplete() });
     },
 
     _updateCreatedTasks: function() {
@@ -22,11 +22,11 @@
 
     componentDidMount: function() {
       root.ApiUtil.fetchCreatedTasks();
-      root.CreatedTaskStore.addChangeListener(this._updateCreatedTasks);
+      CreatedTaskStore.addChangeListener(this._updateCreatedTasks);
     },
 
     componentWillUnmount: function() {
-      root.CreatedTaskStore.removeChangeListener(this._updateCreatedTasks);
+      CreatedTaskStore.removeChangeListener(this._updateCreatedTasks);
     },
 
     openTab: function(type) {
@@ -38,9 +38,7 @@
       var activeTab = this.props.location.pathname.match(/\/(\w+)$/)[1];
       return (
         <div className="component-container" id="created-tasks-index">
-          <div
-            className="component-container-heading"
-            id="created-tasks-index-heading">
+          <div className="page-heading">
             Tasks
           </div><br/>
 

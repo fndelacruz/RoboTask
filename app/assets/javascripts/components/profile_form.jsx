@@ -183,10 +183,7 @@
       return (
         <div>
           <div className="component-container" id="profile-form">
-            <div className="component-container-heading" id="profile-form-heading">
-              Edit profile
-            </div><br/>
-            <h3>{root.CURRENT_USER_SHORTNAME + "'s profile"}</h3>
+            <div className="page-heading">{root.CURRENT_USER_SHORTNAME + "'s profile"}</div>
 
             <div className="panel">
               <div className="form-group">

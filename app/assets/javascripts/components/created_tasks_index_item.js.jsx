@@ -23,60 +23,59 @@
       var isComplete = (typeof task.review === "undefined") ? false : true;
       // debugger;
       return (
-        <div className="panel">
-          <div className="component-container-index-item" id="created-tasks-index-item">
-            <div className="temp-borders">
-              title: {task.title}<br/>
-              description: {task.description}<br/>
-              location: {task.location}<br/>
-              created: {task.created_at} (TODO: +link to profile for this worker)<br/>
-              worker: {hasWorker ? task.worker_shortname : "UNASSIGNED"}<br/>
-            </div>
+        <div>
+          <div className="panel">
+            <div className="row">
 
-            <div className="temp-borders">
-              {hasWorker ?
-                <img
-                  className="reviewer-profile-pic"
-                  src={ "https://robohash.org/" + task.worker_id } />
-              :
-                ""
-              }
+              <div className="temp-borders col-xs-12 col-sm-3 ">
+                {hasWorker ?
+                  <img
+                    className="worker-taskview-pic"
+                    src={ "https://robohash.org/" + task.worker_id } />
+                :
+                  ""
+                }
 
-              {isComplete ?
-                <div>
-                <img
-                  className="reviewer-profile-pic"
-                  src={ "https://robohash.org/" + task.worker_id } />
-                  {task.review.is_positve ?
-                    "You liked this tasker."
-                  :
-                    "You did not like this tasker."
-                  }<br/>
-                  You said: {task.review.description}<br/>
-                </div>
-              :
-                <div>
-                  {hasWorker ?
+                {isComplete ?
+                  <div>
+                    {task.review.is_positve ?
+                      "You liked this tasker."
+                    :
+                      "You did not like this tasker."
+                    }<br/>
+                    You said: {task.review.description}<br/>
+                  </div>
+                :
+                  <div>
+                    {hasWorker ?
 
-                    <TaskReviewFormModal
-                      task={this.props.createdTask}
-                    />
-                  :
-                    <div>
-                      <Button
-                        bsStyle="info"
-                        bsSize="medium"
-                        onClick={this._findValidWorkers.bind(null, task)}
-                      >Find Worker</Button>
-                    </div>
-                  }
-                  <Button
-                    bsStyle="danger"
-                    bsSize="medium"
-                    onClick={this.cancelTask}
-                  >Cancel Task</Button>
-                </div>
-              }
+                      <TaskReviewFormModal
+                        task={this.props.createdTask}
+                      />
+                    :
+                      <div>
+                        <Button
+                          bsStyle="info"
+                          bsSize="medium"
+                          onClick={this._findValidWorkers.bind(null, task)}
+                        >Find Worker</Button>
+                      </div>
+                    }
+                    <Button
+                      bsStyle="danger"
+                      bsSize="medium"
+                      onClick={this.cancelTask}
+                    >Cancel Task</Button>
+                  </div>
+                }
+              </div>
+              <div className="temp-borders col-xs-12 col-sm-9 ">
+                <span className="task-title">{task.title}</span><br/>
+                description: {task.description}<br/>
+                location: {task.location}<br/>
+                created: {task.created_at} (TODO: +link to profile for this worker)<br/>
+                worker: {hasWorker ? task.worker_shortname : "UNASSIGNED"}<br/>
+              </div>
             </div>
           </div>
         </div>

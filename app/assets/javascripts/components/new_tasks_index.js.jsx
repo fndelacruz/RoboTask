@@ -1,24 +1,33 @@
 (function(root) {
   'use strict';
 
-  var _tasks = [];
-  // this.props.location = :taskType ????
-  root.TasksIndex = React.createClass({
+
+  var TasksIndex = root.TasksIndex = React.createClass({
     getInitialState: function() {
       return ({ tasks: [] });
     },
 
+    _updateTasks: function() {
+      var activeTab = this.props.location.pathname.match(/\/(\w+)$/)[1];
+      this.handleChange(activeTab);
+    },
+
     componentDidMount: function() {
       console.log("TasksIndex DidMount");
-      this.handleTabClick(this.props.params.type);
+      this.handleChange(this.props.params.type);
+      CreatedTaskStore.addChangeListener(this._updateTasks);
+    },
+
+    componentWillUnmount: function () {
+      CreatedTaskStore.removeChangeListener(this._updateTasks);
     },
 
     componentWillReceiveProps: function(newProps) {
       console.log("TasksIndex WillReceiveProps");
-      this.handleTabClick(newProps.params.type);
+      this.handleChange(newProps.params.type);
     },
 
-    handleTabClick: function(taskType) {
+    handleChange: function(taskType) {
       switch (taskType) {
         case "unassigned":
           this.setState({ tasks: CreatedTaskStore.allIncompleteUnassigned() });

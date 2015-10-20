@@ -182,6 +182,7 @@
         success: function(e) {
           if (e.status === "OK") {
             console.log("review submit OK");
+            ApiUtil.fetchCreatedTasks();
             // NOTE: EVENTUALLY REPLACE THIS WITH A REAL FLASH-LIKE SYSTEM
             // root.ApiActions.profileUpdateOK();
           } else if (e.status === "BAD") {

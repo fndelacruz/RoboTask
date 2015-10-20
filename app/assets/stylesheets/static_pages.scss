@@ -211,6 +211,12 @@ button:hover {
 .worker-profile-shortName {
 	margin: 0px;
 }
+
+.worker-taskview-pic {
+	border: 1px solid black;
+	width: 100%;
+}
+
 .reviewer-profile-pic {
   border-radius: 50%;
   border: 1px solid black;
@@ -294,3 +300,19 @@ body {
 .temp-borders {
 	border: 1px solid black;
 }
+
+
+.worker-info {
+	width: 102px;
+}
+
+.page-heading {
+	font-size: 24px;
+	margin-bottom: 10px;
+}
+//
+// .task-index-item-details {
+// 	display: inline-block;
+// 	width: auto;
+// 	vertical-align: top
+// }
