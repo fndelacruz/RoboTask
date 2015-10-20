@@ -8,6 +8,7 @@
   var Modal = ReactBootstrap.Modal;
   var OverlayTrigger = ReactBootstrap.OverlayTrigger;
   var Header = ReactBootstrap.Header;
+  var Input = ReactBootstrap.Input;
 
   root.TaskReviewFormModal = React.createClass({
     getInitialState: function() {
@@ -15,7 +16,12 @@
       // via pagination. for now, will just fetch them all!
       return ({
         showModal: false,
-        description: ""
+        isPositive: "",
+
+        description: "",
+        descriptionEntry: "",
+        descriptionStatus: "",
+        descriptionStatusMessage: ""
       });
     },
 
@@ -27,7 +33,11 @@
     handleChange: function(e) {
       switch (e.currentTarget.id) {
         case "review-description-entry":
-          this.setState({ description: e.currentTarget.value });
+          this.setState({
+            descriptionEntry: e.currentTarget.value,
+            descriptionStatus: "",
+            descriptionStatusMessage: ""
+          });
           break;
         case "is-positive-true":
           this.setState({ isPositive: true });
@@ -35,24 +45,58 @@
         case "is-positive-false":
           this.setState({ isPositive: false });
           break;
-        default: debugger
-
+        default:
+          debugger
       }
     },
 
     handleSubmission: function() {
-      var hasDescription = (this.state.description !== "");
-      var isMarked = (typeof this.state.isPositive !== "undefined");
+      var hasDescription = (this.state.descriptionEntry !== "");
+      var isMarked = (this.state.isPositive !== "");
+
       if (hasDescription && isMarked) {
+        // NOTE: I want a delay for this form not to disappear as soon as it is
+        // submitted. try to incorporate a delay
         ApiUtil.createReview({
           creator_id: root.CURRENT_USER_ID,
           task_id: this.props.task.id,
-          description: this.state.description,
+          description: this.state.descriptionEntry,
           is_positive: this.state.isPositive
         });
+        this.setState({
+          description: this.state.descriptionEntry,
+          descriptionStatus: "success",
+          descriptionStatusMessage: "Thanks for using Robotask!",
+          isPositiveStatus: "success",
+          isPositiveStatusMessage: "",
+        });
+
+
       } else {
-        if (!hasDescription) { console.log("Description can't be blank");}
-        if (!isMarked) { console.log("Yes or no must be selected.");}
+        if (!hasDescription) {
+          this.setState({
+            description: "",
+            descriptionStatus: "error",
+            descriptionStatusMessage: "Can't be blank."
+          });
+        } else {
+          this.setState({
+            descriptionStatus: "success",
+            descriptionStatusMessage: ""
+          });
+        }
+        if (!isMarked) {
+          this.setState({
+            isPositive: "",
+            isPositiveStatus: "error",
+            isPositiveStatusMessage: "Must select yes or no."
+          });
+        } else {
+          this.setState({
+            isPositiveStatus: "success",
+            isPositiveStatusMessage: ""
+          });
+        }
       }
       // NOTE: I believe using root.CURRENT_USER_ID is okay here because I check
       // if current_user.id is == root.CURRENT_USER_ID before saving this review
@@ -78,6 +122,13 @@
       var tooltip = <Tooltip>Tooltip placeholder text</Tooltip>;
 
       var worker_shortname = this.props.task.worker_shortname;
+
+      var descriptionStyle = "";
+      if (this.state.descriptionStatus === "success") {
+        descriptionStyle = "notification-message-success";
+      } else if (this.state.descriptionStatus === "error") {
+        descriptionStyle = "notification-message-error";
+      }
       return (
         <div>
           <Button
@@ -96,7 +147,7 @@
 
             <Modal.Body>
               <div>
-                <div >Would you recommend {worker_shortname} to others?</div><br/>
+                <div>Would you recommend {worker_shortname} to others?</div><br/>
                 <div className="btn-group"
                      data-toggle="buttons">
                   <label
@@ -124,17 +175,28 @@
                     type="text"
                     className="form-control"
                     id="review-description-entry"
-                    value={this.state.description}
+                    value={this.state.descriptionEntry}
                     onChange={this.handleChange}
-                    placeholder={"Example: " + worker_shortname + " was a great worker. very quick. I'll choose him for all my future task needs"}
+                    placeholder={"Example: " + worker_shortname + " was a great worker. very quick. I will choose him for all my future task needs"}
                   />
                 </div>
-                <br/><Button onClick={this.handleSubmission}>Submit Review</Button>
+
+                <Input
+                  type="textarea"
+                  className="form-control"
+                  id="review-description-entry"
+                  value={this.state.descriptionEntry}
+                  onChange={this.handleChange}
+                  bsStyle={this.state.descriptionStatus}
+                  hasFeedback="true"
+                  placeholder={"Example: " + worker_shortname + " was a great worker. very quick. I will choose him for all my future task needs"}
+                />
+                <span className="notification-message" id={descriptionStyle}>{this.state.descriptionStatusMessage}</span><br/>
+                <div id="submit-review-button-container">
+                  <Button onClick={this.handleSubmission} id="submit-review-button">Submit Review</Button>
+                </div>
               </div>
             </Modal.Body>
-            <Modal.Footer>
-              <Button onClick={this.close}>Close</Button>
-            </Modal.Footer>
           </Modal>
         </div>
       );

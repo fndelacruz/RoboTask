@@ -205,13 +205,18 @@ button:hover {
 .worker-profile-pic {
   border-radius: 50%;
   border: 1px solid black;
-	height: 100%;
-	width: 100%;
-  // height: 200px;
-  // width: 200px;
+  height: 100%;
+  width: 100%;
+}
+.confirm-worker-profile-pic {
+	border-radius: 50%;
+	border: 1px solid black;
+	height: 200px;
+	width: 200px;
+
 }
 .worker-profile-shortName {
-	margin: 0px;
+	margin: 0px 0px 10px 0px;
 }
 
 .worker-taskview-pic {
@@ -312,8 +317,60 @@ body {
 	border-bottom:	1px solid #e4e4e4;
 	height: 0px;
 	width: auto;
+	margin: 5px 0px;
 }
 
 .task-location {
 	font-size: 24px;
+}
+
+#submit-review-button-container {
+	position: relative;
+	margin-top: 5px;
+}
+#submit-review-button {
+	position: absolute;
+	right: 0px;
+	bottom: 0px;
+}
+
+#notification-message-error {
+	color: #800000;
+}
+
+#notification-message-success {
+	color: green;
+}
+
+.button-container {
+	position: relative;
+	height: 50px;
+}
+
+#hire-confirm-back-button {
+	float: left;
+}
+
+.task-date-scheduled {
+	text-align: center;
+	font-size: 26px;
+	margin: 0px;
+}
+
+.task-time-scheduled {
+	text-align: center;
+	font-size: 18px;
+	margin: 0px 0px 0px 0px;
+}
+
+.task-description {
+	margin-top: 26px;
+  display: inline-block;
+}
+
+// note: haven't actually used this yet... delete if do not use clearfix
+.clearfix:after {
+  content: "";
+  clear: both;
+  display: block;
 }

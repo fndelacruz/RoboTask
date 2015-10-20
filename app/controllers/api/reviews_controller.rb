@@ -25,6 +25,7 @@ class Api::ReviewsController < ApplicationController
       render json: { status: "BAD" }
     else
 
+
       review = Review.new(review_params.select{ |k,_| k != "creator_id" })
       if review.save
         render json: {status: "OK"}

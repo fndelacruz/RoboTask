@@ -7,11 +7,6 @@
     return result;
   };
 
-  // var _formattedStateDateTime = function() {
-  //   intervalAdjustDate(FindWorkersForm.state.dateTime, FindWorkersForm.state.interval);
-  // };
-
-
   var intervalAdjustDate = function(dateTime, modifier) {
     dateTime.setMinutes(0);
     dateTime.setSeconds(0);
@@ -43,23 +38,13 @@
 
     return [year, month, day].join('-');
   };
-  //
-  // var formatTime = function(dateTime) {
-  //   return dateTime.toTimeString().substring(0, 5);
-  // };
-  //
+
   var dateAdjustDateTime = function(dateTime, date) {
     var yearDayMonth = date.split("-");
     dateTime.setFullYear(yearDayMonth[0]);
     dateTime.setMonth(yearDayMonth[1] - 1);
     dateTime.setDate(yearDayMonth[2]);
   };
-  //
-  // var timeAdjustDateTime = function(dateTime, time) {
-  //   var hoursMinutes = time.split(":");
-  //   dateTime.setHours(hoursMinutes[0]);
-  //   dateTime.setMinutes(hoursMinutes[1]);
-  // };
 
   var FindWorkersForm = root.FindWorkersForm = React.createClass({
     mixins: [ReactRouter.History],
@@ -93,32 +78,6 @@
       root.ApiUtil.fetchValidWorkers(this._formattedStateDateTime());
     },
 
-    // handleSubmission: function(e) {
-    //   debugger
-    //   // NOTE: NOW, do adjustment of dateTime hours based on this.state.interval
-    //
-    //
-    //   // NOTE: Will add start dates later, just getting Ajax working first.
-    //   var newTask = {
-    //     title: this.state.title,
-    //     location: this.state.location,
-    //     description: this.state.description,
-    //   };
-    //
-    //   var dateTimeNow = new Date();
-    //   var dateTimeTomorrow = addDays(dateTimeNow, 1);
-    //
-    //   // NOTE: REMOVE THIS???????????
-    //   this.setState({
-    //     startDateTime: dateTimeNow,
-    //     startDate: intervalAdjustDate(dateTimeNow),
-    //     startTime: formatTime(dateTimeNow),
-    //     endDateTime: dateTimeTomorrow,
-    //     endDate: intervalAdjustDate(dateTimeTomorrow),
-    //     endTime: formatTime(dateTimeTomorrow)
-    //   });
-    // },
-
     _updateValidWorkers: function() {
       // root.ApiUtil.fetchValidWorkers(this._formattedStateDateTime());
       this.setState({
@@ -135,9 +94,6 @@
     },
 
     componentDidMount: function() {
-      // NOTE: add timeslice qualifiers after get timeslice working. Currently,
-      // I consider all workers "valid". eventually, pass the task timeslice
-      // to the below fetchValidWorkers...
       root.ApiUtil.fetchValidWorkers(this._formattedStateDateTime());
       root.WorkerUserStore.addChangeListener(this._updateValidWorkers);
       root.CreatedTaskStore.addAssignTaskWorkerOKListener(this._assignWorkerOK);
@@ -149,18 +105,6 @@
     },
 
     chooseWorker: function(task, worker) {
-      // var formattedDateTime = intervalAdjustDate(
-      //   this.state.dateTime,
-      //   this.state.interval
-      // );
-      // debugger;
-      // NOTE: choose the worker at this.props.worker ! eventually, add a check
-      // to see if the worker is capable of working at the given TimeSlice (when
-      // TimeSlice is implemented...)
-
-      // NOTE: but how do I get the task id associated with this task? answer:
-      // it's in the props!
-
       var date = this.state.dateTime.toLocaleDateString();
       var hours = this.state.dateTime.getHours();
       var datetime = date + " " + hours;
@@ -170,6 +114,8 @@
     render: function() {
       var workers = this.state.validWorkers;
       var task = root.CreatedTaskStore.all()[this.props.params.storeTaskIdx];
+
+
       return (
         <div className="row" id="find-workers-form">
           <div className="temp-borders col-xs-12 col-sm-3">
@@ -196,19 +142,18 @@
           </div>
 
           <div className="temp-borders col-xs-12 col-sm-9">
-          {
-            workers.map(function(worker) {
-              return (
-                <div className="panel" key={worker.id}>
-                  <FindWorkersFormItem
-                    worker={worker}
-                    task={task}
-                    chooseWorker={this.chooseWorker}
-                    key={worker.id}/>
-                </div>
-              );
-            }.bind(this))
-          }
+          {workers.map(function(worker) {
+            return (
+              <div className="panel" key={worker.id}>
+                <FindWorkersFormItem
+                  worker={worker}
+                  task={task}
+                  chooseWorker={this.chooseWorker}
+                  dateTime={[this.state.dateTime.toLocaleDateString(), this.state.interval]}
+                  key={worker.id}/>
+              </div>
+            );
+          }.bind(this))}
           </div>
         </div>
       );

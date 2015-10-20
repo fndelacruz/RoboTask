@@ -76,7 +76,7 @@
                   src={ "https://robohash.org/" + this.props.worker.id } /><br/>
 
 
-                <h1 className="text-center worker-profile-shortName">{shortName}</h1>
+                <h1 className="text-center worker-profile-shortName">{this.props.shortName}</h1>
                 <h3 className="text-center">{rating}% Approval Rating</h3>
                 <p className="text-center">Member since: {this.props.worker.created_at}</p>
 
