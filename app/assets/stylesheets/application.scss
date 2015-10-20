@@ -29,3 +29,17 @@
 	position: absolute;
 	right: 0;
 }
+
+.badge {
+	margin-left: 5px;
+}
+.badge-unassigned-nonempty {
+	background-color: yellow;
+	color: black;
+	border: 2px solid black;
+}
+
+.badge-active-nonempty {
+	background-color: green;
+	border: 2px solid black;
+}

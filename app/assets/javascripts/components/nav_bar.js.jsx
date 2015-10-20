@@ -73,6 +73,10 @@
     },
 
     render: function() {
+      var unassignedCount = this.state.unassignedTaskCount;
+      var assignedCount = this.state.unassignedTaskCount;
+      var pendingClass = "badge" + ((unassignedCount > 0) ? " badge-unassigned-nonempty" : "");
+      var activeClass = "badge" + ((assignedCount > 0) ? " badge-active-nonempty" : "");
       return (
         <nav className="navbar navbar-default">
           <div className="container-fluid">
@@ -90,13 +94,6 @@
 
             <div className="collapse navbar-collapse" id="collapse-menu">
               <ul className="nav navbar-nav navbar-right">
-
-                <li
-                  onClick={this.handleProfileClick}
-                  className="nav-button">
-                  <a>Profile</a>
-                </li>
-
                 <li className="dropdown">
                   <a href="#"
                     className="dropdown-toggle"
@@ -114,12 +111,12 @@
 
                     <li
                       onClick={this.handleTaskClick.bind(null, "unassigned")}>
-                      <a>Incomplete: {this.state.unassignedTaskCount}</a>
+                      <a>Incomplete:<span className={pendingClass}>{unassignedCount}</span></a>
                     </li>
 
                     <li
                       onClick={this.handleTaskClick.bind(null, "active")}>
-                      <a>Assigned: {this.state.assignedTaskCount}</a>
+                      <a>Assigned:<span className={activeClass}>{assignedCount}</span></a>
                     </li>
 
                     <li
@@ -137,12 +134,26 @@
                   </ul>
                 </li>
 
-                <li
-                  onClick={this.handleLogoutClick}
-                  className="nav-button">
-                  <a>Logout</a>
+                <li className="dropdown">
+                  <a href="#"
+                    className="dropdown-toggle"
+                    data-toggle="dropdown"
+                    role="button"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+                    Account
+                    <span className="caret"></span>
+                  </a>
+                  <ul className="dropdown-menu">
+                    <li
+                      onClick={this.handleProfileClick}><a>Edit Profile</a>
+                    </li>
+                    <li role="separator" className="divider"></li>
+                    <li
+                      onClick={this.handleLogoutClick}><a>Log Out</a>
+                    </li>
+                  </ul>
                 </li>
-
               </ul>
             </div>
           </div>
