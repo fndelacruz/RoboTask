@@ -50,8 +50,8 @@
     render: function() {
       var reviews = this.state.reviews;
       var rating = this.state.rating;
-      var shortName = this.props.worker.fname + " " + this.props.worker.lname[0] + ".";
-
+      // var shortName = this.props.worker.fname + " " + this.props.worker.lname[0] + ".";
+      // debugger
       return (
         <div>
           <Button
@@ -65,7 +65,7 @@
 
           <Modal className="modal-fix" show={this.state.showModal} onHide={this.close}>
             <Modal.Header closeButton>
-              <Modal.Title>{shortName}'s reviews</Modal.Title>
+              <Modal.Title>{this.props.shortName}'s reviews</Modal.Title>
             </Modal.Header>
 
 

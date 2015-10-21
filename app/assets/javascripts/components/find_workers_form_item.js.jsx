@@ -25,7 +25,7 @@
               className="worker-profile-pic"
               src={ "https://robohash.org/" + worker.id } /><br/>
             <div className="text-center worker-profile-shortName">{shortName}</div><br/>
-            <ReviewIndexModal worker={this.props.worker} />
+            <ReviewIndexModal worker={this.props.worker} shortName={shortName} />
             <ConfirmHireModal
               handleConfirm={this.props.chooseWorker.bind(null, this.props.task, worker)}
               task={task}
