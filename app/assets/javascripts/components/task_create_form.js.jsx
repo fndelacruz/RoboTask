@@ -227,7 +227,7 @@
       // console.log(this.state);
       return (
         <div className="" id="task-form">
-          <div className="page-heading" id="task-form-heading">New task</div><br/>
+          <div className="page-heading" id="task-form-heading">New Task</div><br/>
 
           <div className="panel">
             <div className="form-group">

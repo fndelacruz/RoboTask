@@ -62,7 +62,7 @@
             Reviews
           </Button>
 
-          <Modal show={this.state.showModal} onHide={this.close}>
+          <Modal className="modal-fix" show={this.state.showModal} onHide={this.close}>
             <Modal.Header closeButton>
               <Modal.Title>{shortName}'s reviews</Modal.Title>
             </Modal.Header>

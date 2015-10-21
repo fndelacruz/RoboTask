@@ -25,7 +25,7 @@
       return (
         <div>
           <div className="panel">
-            <div className="row">
+            <div className="row" id="inner-panel-polaroid-adjust">
 
               <div className="col-xs-12 col-sm-3" id="polaroid">
 
