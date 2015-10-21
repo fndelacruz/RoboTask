@@ -57,17 +57,17 @@
                     :
                       <div>
                         <Button
-                          bsStyle="info"
+                          bsStyle="primary"
                           bsSize="medium"
-                          className="create-tasks-index-item-buttons"
+                          className="centered-buttons"
                           onClick={this._findValidWorkers.bind(null, task)}
                         >Find Worker</Button>
                       </div>
                     }
                     <Button
-                      bsStyle="danger"
+                      bsStyle="default"
                       bsSize="medium"
-                      className="create-tasks-index-item-buttons"
+                      className="centered-buttons"
                       onClick={this.cancelTask}
                     >Cancel Task</Button>
                   </div>

@@ -12,7 +12,7 @@ class Api::ReviewsController < ApplicationController
         created_at: review.created_at.strftime('%m/%d/%Y'),
         isGood: review.is_positive,
         description: review.description,
-        reviewer: review.task.creator.email,
+        reviewer: "#{review.task.creator.fname} #{review.task.creator.lname[0]}.",
         reviewer_id: review.task.creator.id
       })
     end

@@ -163,9 +163,9 @@
       return (
         <div>
           <Button
-            bsStyle="success"
+            bsStyle="primary"
             bsSize="medium"
-            className="create-tasks-index-item-buttons"
+            className="centered-buttons"
             onClick={this.open}
           >
             Task complete!

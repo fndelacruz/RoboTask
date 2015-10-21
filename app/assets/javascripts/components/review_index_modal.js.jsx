@@ -57,6 +57,7 @@
           <Button
             bsStyle="primary"
             bsSize="medium"
+            className="centered-buttons"
             onClick={this.open}
           >
             Reviews
@@ -72,7 +73,7 @@
               <div>
                 [TODO: center profile pic. add background]
                 <img
-                  className="worker-profile-pic center-block"
+                  className="review-worker-profile-pic center-block"
                   src={ "https://robohash.org/" + this.props.worker.id } /><br/>
 
 

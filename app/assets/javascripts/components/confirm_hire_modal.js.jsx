@@ -107,6 +107,7 @@
           <Button
             bsStyle="success"
             bsSize="medium"
+            className="centered-buttons"
             onClick={this.open}
           >
             Select!
