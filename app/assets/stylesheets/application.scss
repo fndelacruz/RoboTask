@@ -51,5 +51,20 @@
 }
 
 .nav {
-	font-size: 20px;
+	font-size: 24px;
+}
+
+.navbar {
+	// background-color: rgb(148, 224, 224); // teal?
+	// background-color: #5C88DF;
+	border-bottom: 1px solid #334d5c;
+}
+
+.navbar-brand {
+	font-size: 48px;
+}
+
+.panel {
+  padding: 20px;
+  border: 1px solid #1e5d88;
 }

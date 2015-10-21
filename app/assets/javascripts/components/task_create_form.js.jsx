@@ -235,7 +235,7 @@
               <label htmlFor="title-entry">Title</label><br/>
               <input
                 type="text"
-                placeholder="default title"
+                placeholder="Example: Walk my dog."
                 className="form-control"
                 value={this.state.entryTitle}
                 onChange={this.handleChange}
@@ -244,7 +244,7 @@
               /><br/>
             </div>
             <Button
-              bsStyle="success"
+              bsStyle="primary"
               bsSize="medium"
               onClick={this._saveTitle}>
               Save Title (eventually, this is "continue")
@@ -276,7 +276,7 @@
               {statusDescriptionGlyph}
               <label htmlFor="description-entry">Description</label><br/>
               <textarea
-                placeholder="default description"
+                placeholder="Example: Need a dog walker to walk my dog, Fluffy. He is a large german shephard and does not like strangers. Please be prepared. You will need to bring extra poop-bags because he is a big guy. If Fluffy likes you, this could be a regular thing. Good luck."
                 className="form-control"
                 value={this.state.entryDescription}
                 onChange={this.handleChange}
@@ -285,7 +285,7 @@
               /><br/>
             </div>
             <Button
-              bsStyle="success"
+              bsStyle="primary"
               bsSize="medium"
               onClick={this._saveDescription}>
               Save Description (eventually, this is "continue" and find Robotaskers?)
@@ -301,7 +301,7 @@
             type="submit"
             value="Signup"
             onClick={this.handleSubmission}>
-            Choose Date and Find RoboTaskers
+            Continue (Select Date and Find RoboTaskers)
           </button><br/>
           {this.state.mainStatusMessage}
         </div>

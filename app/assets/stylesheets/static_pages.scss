@@ -195,10 +195,6 @@ button:hover {
 
 // NOTE: border not showing up on panel component. not sure why. can manually
 // assign it in inspector though...
-.panel {
-  padding: 20px;
-  // border: 2px solid black;
-}
 
 // remove border colors for profile pics later after I establish background colors
 // for the panels behind them. just keep them now for positioning
@@ -294,12 +290,13 @@ button:hover {
 }
 
 .review-description-notification-message {
-	
+
 	float: right;
 }
 
 body {
-	background: rgb(225,225,225) !important; //light grey
+	background: #d5d5d5 !important
+	// background: rgb(225,225,225) !important; //light grey
 	// background: rgb(220,220,220) !important; //light grey
 	// background: rgb(0,0,0) !important; //black
 }
@@ -399,4 +396,12 @@ body {
 	// position: absolute;
 	// margin: 0px 30%;
 	// text-align: center;
+}
+
+.home-header {
+	font-size: 48px;
+}
+
+.home-sub-header {
+	font-size: 36px;
 }
