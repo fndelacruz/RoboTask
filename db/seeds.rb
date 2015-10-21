@@ -19,6 +19,13 @@ INTERVAL = {
   "EVENING" => 16
 }
 
+HOUR_TO_INTERVAL = {
+  0 => "ANY",
+  8 => "MORNING",
+  12 => "AFTERNOON",
+  16 => "EVENING"
+}
+
 INTERVALS_TIMECODE = [0, 8, 12, 16]
 def random_title
   random_titles = [
@@ -311,8 +318,37 @@ ActiveRecord::Base.transaction do
   ])
 
 
-  # generate 20 random workers
-  
+  # generate 50 random workers with random work times
+  50.times do |x|
+    User.create!([
+      {
+        fname: Faker::Name.first_name,
+        lname: Faker::Name.last_name,
+        email: Faker::Internet.email,
+        password_digest: BCrypt::Password.create("password"),
+        bio: Faker::Lorem.sentences(rand(4..10), true).join(" ")
+      }
+    ])
+
+    # 10% of users don't work!
+    chance_to_work_dice = rand
+    if chance_to_work_dice < 0.10
+      (0..6).each do |day_idx|
+        (0..2).each do |interval_idx|
+
+          worktime_dice = rand
+          if worktime_dice > rand(0.2..0.8)
+            User.last.work_times.create!([
+              {
+                day: DAYS[day_idx],
+                interval: INTERVALS[interval_idx]
+              }
+            ])
+          end
+        end
+      end
+    end
+  end
 
 
   User.create!([{
@@ -322,8 +358,16 @@ ActiveRecord::Base.transaction do
     password_digest: BCrypt::Password.create("password"),
     bio: "I am a guest user."
   }])
-  # generate 20 random tasks for guest user, unassigned
-  20.times do |x|
+
+  MIN_CREATED_TASKS = 60
+  MAX_CREATED_TASKS = 80
+  MIN_ASSIGNED_TASKS = 30
+  MAX_ASSIGNED_TASKS = 40
+  MIN_REVIWED_TASKS = 10
+  MAX_REVIEWED_TASKS = 20
+
+  # generate some random tasks for guest user, unassigned
+  rand(MIN_CREATED_TASKS..MAX_CREATED_TASKS).times do |x|
     random_description_arr = []
     rand(4..7).times { |x| random_description_arr.push(Faker::Hacker.say_something_smart)}
     random_description = random_description_arr.join(" ")
@@ -339,4 +383,62 @@ ActiveRecord::Base.transaction do
       }
     ])
   end
+
+  # randomly assign guest user tasks to worker..
+  current_user_id = User.last.id
+  rand(MIN_ASSIGNED_TASKS..MAX_ASSIGNED_TASKS).times do |x|
+    pending_tasks = Task.where("creator_id = #{User.last.id}").where("worker_id IS NULL")
+    # pending_tasks = User.last.created_tasks.where(worker_id = nil)
+    task = pending_tasks[rand(pending_tasks.length)]
+    task_day = task.datetime.strftime("%a").upcase
+    task_hour = task.datetime.hour
+    task_interval = HOUR_TO_INTERVAL[task_hour]
+
+    all_workers = User.joins(:work_times).group("users.id").having("(count(user_id)) > 0")
+    valid_workers = []
+
+    all_workers.each do |worker|
+      canwork = []
+      if task_interval == "ANY"
+        canWork = worker.work_times.where('work_times.day = ?', task_day).references(:work_times)
+      else
+        canWork = worker.work_times.where('work_times.interval = ?', task_interval).where('work_times.day = ?', task_day).references(:work_times)
+      end
+      valid_workers.push(worker) if canWork.count > 0
+    end
+
+    task.worker = valid_workers[rand(valid_workers.length)]
+    # debugger if task.worker == nil
+    # debugger
+    # debugger valid_workers.length = 0
+    task.save!
+  end
+
+  # # assign revies to those assigned Tasks
+  rand(MIN_ASSIGNED_TASKS..MAX_ASSIGNED_TASKS).times do |x|
+    assigned_tasks = User.last.created_tasks.select { |task| task.review == nil }
+    task = assigned_tasks.sample
+    description_arr = Faker::Lorem.sentences(rand(4..10), true)
+
+    # NOTE: THIS IS HACKY. FIND OUT WHY ASSIGNED_TASKS does not filter non-reviewed
+    # tasks appropriately
+    unless task.worker.nil?
+      # debugger
+      rand(2..3).times do
+        description_arr.push(task.worker.fname)
+      end
+      description = description_arr.shuffle!.join(" ")
+      Review.create!([
+        {
+          task: task,
+          is_positive: [true, false][rand(2)],
+          description: description,
+          created_at: task.datetime + rand(1..3).days
+        }
+      ])
+    end
+  end
 end
+
+# NOTE: This should get all guest tasks assigned tasks... is it working?
+# User.last.created_tasks.select {|task| task.worker != nil}
