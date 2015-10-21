@@ -27,10 +27,12 @@
           <div className="panel">
             <div className="row">
 
-              <div className="temp-borders col-xs-12 col-sm-3 ">
+              <div className="col-xs-12 col-sm-3" id="polaroid">
+
                 {hasWorker ?
                   <img
                     className="worker-taskview-pic"
+                    id="polaroid-picture"
                     src={ "https://robohash.org/" + task.worker_id } />
                 :
                   ""
@@ -46,7 +48,7 @@
                     You said: {task.review.description}<br/>
                   </div>
                 :
-                  <div>
+                  <div className="">
                     {hasWorker ?
 
                       <TaskReviewFormModal
@@ -57,6 +59,7 @@
                         <Button
                           bsStyle="info"
                           bsSize="medium"
+                          className="create-tasks-index-item-buttons"
                           onClick={this._findValidWorkers.bind(null, task)}
                         >Find Worker</Button>
                       </div>
@@ -64,6 +67,7 @@
                     <Button
                       bsStyle="danger"
                       bsSize="medium"
+                      className="create-tasks-index-item-buttons"
                       onClick={this.cancelTask}
                     >Cancel Task</Button>
                   </div>

@@ -1,41 +1,110 @@
-<div class="auth-outer-window" id="login-form-outer-window">
-  <div class="auth-inner-window" id="login-form-inner-window">
-    <h3>Login</h3>
-    <form action="<%= session_index_url %>" method="post" class="">
-      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+<div class="auth-container">
+  <nav class="navbar navbar-default">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed"
+              data-toggle="collapse"
+              data-target="#collapse-menu"
+              aria-expanded="false">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand">RoboTask</a>
+    </div>
 
-      <div class="form-group">
-        <label for="session-email">Email</label><br>
-        <input
-          type="text"
-          name="session[email]"
-          class="form-control"
-          id="session-email"><br>
-      </div>
+    <div class="collapse navbar-collapse" id="collapse-menu">
+      <ul class="nav navbar-nav navbar-right">
+        <li
+          class="bigger-test"
+          ><a><strong>New Task</strong></a>
+        </li>
+        <li class="dropdown">
+          <a href="#"
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false">
+            My Tasks
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a>Incomplete</a>
+            </li>
 
-      <div class="form-group">
-        <label for="session-password">Password</label><br>
-        <input
-          type="password"
-          name="session[password]"
-          class="form-control"
-          id="session-password"><br>
-      </div>
-      <div>
-        <button
-          class="btn btn-default"
-          type="submit"
-          value="Login">
-          Login
-        </button>
-      </div><br/>
-      <div><a href="/users/new"> New user? </a></div>
-      <% if flash[:errors] %>
-        <% flash[:errors].each do |error| %>
-          <!-- NOTE: need to make this look more acceptable. ugly right now -->
-          <div><%= error %></div>
+            <li>
+              <a>Assigned</a>
+            </li>
+
+            <li>
+              <a>History</a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="dropdown">
+          <a href="#"
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false">
+            Account
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a>Edit Profile</a>
+            </li>
+            <li role="separator" class="divider"></li>
+            <li>
+              <a>Log Out</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="auth-outer-window" id="login-form-outer-window">
+    <div class="auth-inner-window" id="login-form-inner-window">
+      <h3>Login</h3>
+      <form action="<%= session_index_url %>" method="post" class="">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+        <div class="form-group">
+          <label for="session-email">Email</label><br>
+          <input
+            type="text"
+            name="session[email]"
+            class="form-control"
+            id="session-email"><br>
+        </div>
+
+        <div class="form-group">
+          <label for="session-password">Password</label><br>
+          <input
+            type="password"
+            name="session[password]"
+            class="form-control"
+            id="session-password"><br>
+        </div>
+        <div>
+          <button
+            class="btn btn-default"
+            type="submit"
+            value="Login">
+            Login
+          </button>
+        </div><br/>
+        <div><a href="/users/new"> New user? </a></div>
+        <% if flash[:errors] %>
+          <% flash[:errors].each do |error| %>
+            <!-- NOTE: need to make this look more acceptable. ugly right now -->
+            <div><%= error %></div>
+          <% end %>
         <% end %>
-      <% end %>
-    </form>
+      </form>
+    </div>
   </div>
 </div>

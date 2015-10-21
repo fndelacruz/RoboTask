@@ -123,14 +123,6 @@
                       onClick={this.handleTaskClick.bind(null, "history")}>
                       <a>History</a>
                     </li>
-
-                    <li role="separator" className="divider"></li>
-                    <li
-                      onClick={this.handleTaskViewTestClick}>
-                      <a>TaskViewTest</a>
-                    </li>
-                    <li role="separator" className="divider"></li>
-                    <li><a>PlaceholderLink</a></li>
                   </ul>
                 </li>
 
@@ -161,3 +153,12 @@
     }
   });
 }(this));
+
+// NOTE: delete this after don't need separator 
+// <li role="separator" className="divider"></li>
+// <li
+//   onClick={this.handleTaskViewTestClick}>
+//   <a>TaskViewTest</a>
+// </li>
+// <li role="separator" className="divider"></li>
+// <li><a>PlaceholderLink</a></li>

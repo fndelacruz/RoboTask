@@ -165,6 +165,7 @@
           <Button
             bsStyle="success"
             bsSize="medium"
+            className="create-tasks-index-item-buttons"
             onClick={this.open}
           >
             Task complete!

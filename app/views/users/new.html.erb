@@ -1,74 +1,143 @@
-<div class="auth-outer-window" id="signup-form-outer-window">
-  <div class="auth-inner-window" id="signup-form-inner-window">
-    <h3>Create Account</h3>
-    <form action="<%= users_url %>" method="post">
-      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+<div class="auth-container">
+  <nav class="navbar navbar-default">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed"
+              data-toggle="collapse"
+              data-target="#collapse-menu"
+              aria-expanded="false">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand">RoboTask</a>
+    </div>
 
-      <div class="form-group">
-        <label for="user-fname">First name</label><br>
-        <input
-          type="text"
-          name="user[fname]"
-          class="form-control"
-          value=<%= @user.fname %>
-        ><br>
-      </div>
+    <div class="collapse navbar-collapse" id="collapse-menu">
+      <ul class="nav navbar-nav navbar-right">
+        <li
+          class="bigger-test"
+          ><a><strong>New Task</strong></a>
+        </li>
+        <li class="dropdown">
+          <a href="#"
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false">
+            My Tasks
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a>Incomplete</a>
+            </li>
 
-      <div class="form-group">
-        <label for="user-lname">Last name</label><br>
-        <input
-          type="text"
-          name="user[lname]"
-          class="form-control"
-          value=<%= @user.lname %>
-        ><br>
-      </div>
+            <li>
+              <a>Assigned</a>
+            </li>
 
-      <div class="form-group">
-        <label for="user-email">Email</label><br>
-        <input
-          type="text"
-          name="user[email]"
-          class="form-control"
-          value=<%= @user.email %>
-        ><br>
-      </div>
+            <li>
+              <a>History</a>
+            </li>
+          </ul>
+        </li>
 
-      <div class="form-group">
-        <label for="user-password">Password</label><br>
-        <input
-          type="password"
-          name="user[password]"
-          id="user-password"
-          class="form-control"
-        ><br>
-      </div>
+        <li class="dropdown">
+          <a href="#"
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false">
+            Account
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a>Edit Profile</a>
+            </li>
+            <li role="separator" class="divider"></li>
+            <li>
+              <a>Log Out</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="auth-outer-window" id="signup-form-outer-window">
+    <div class="auth-inner-window" id="signup-form-inner-window">
+      <h3>Create Account</h3>
+      <form action="<%= users_url %>" method="post">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 
-      <div class="form-group">
-        <label for="user-password">Confirm Password</label><br>
-        <input
-          type="password"
-          name="user[password_confirm]"
-          id="user-password-confirm"
-          class="form-control"
-        ><br>
-      </div>
+        <div class="form-group">
+          <label for="user-fname">First name</label><br>
+          <input
+            type="text"
+            name="user[fname]"
+            class="form-control"
+            value=<%= @user.fname %>
+          ><br>
+        </div>
 
-      <div>
-        <button
-          class="btn btn-default"
-          type="submit"
-          value="Signup">
-          Login
-        </button>
-      </div><br/>
-      <div><a href="/session/new"> Already have an account? </a></div>
-      <% if flash[:errors] %>
-        <% flash[:errors].each do |error| %>
-          <!-- NOTE: need to make this look more acceptable. ugly right now -->
-          <div><%= error %></div>
+        <div class="form-group">
+          <label for="user-lname">Last name</label><br>
+          <input
+            type="text"
+            name="user[lname]"
+            class="form-control"
+            value=<%= @user.lname %>
+          ><br>
+        </div>
+
+        <div class="form-group">
+          <label for="user-email">Email</label><br>
+          <input
+            type="text"
+            name="user[email]"
+            class="form-control"
+            value=<%= @user.email %>
+          ><br>
+        </div>
+
+        <div class="form-group">
+          <label for="user-password">Password</label><br>
+          <input
+            type="password"
+            name="user[password]"
+            id="user-password"
+            class="form-control"
+          ><br>
+        </div>
+
+        <div class="form-group">
+          <label for="user-password">Confirm Password</label><br>
+          <input
+            type="password"
+            name="user[password_confirm]"
+            id="user-password-confirm"
+            class="form-control"
+          ><br>
+        </div>
+
+        <div>
+          <button
+            class="btn btn-default"
+            type="submit"
+            value="Signup">
+            Login
+          </button>
+        </div><br/>
+        <div><a href="/session/new"> Already have an account? </a></div>
+        <% if flash[:errors] %>
+          <% flash[:errors].each do |error| %>
+            <!-- NOTE: need to make this look more acceptable. ugly right now -->
+            <div><%= error %></div>
+          <% end %>
         <% end %>
-      <% end %>
-    </form>
+      </form>
+    </div>
   </div>
 </div>

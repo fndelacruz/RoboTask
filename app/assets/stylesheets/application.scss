@@ -66,5 +66,11 @@
 
 .panel {
   padding: 20px;
-  border: 1px solid #1e5d88;
+  border: 2px solid #1e5d88;
+	box-shadow: 3px 3px 5px #888888;
+}
+
+.create-tasks-index-item-buttons {
+	display:block;
+	margin: auto;
 }

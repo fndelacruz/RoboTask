@@ -176,17 +176,6 @@ html {
 a {
   cursor: pointer;
 }
-.auth-outer-window {
-  border: 1px solid black;
-  width: 300px;
-  margin-left: 10%;
-  margin-top: 10%;
-}
-
-.auth-inner-window {
-  // border: 1px solid black;
-  padding: 20px;
-}
 
 button:hover {
   transition: all 0.1s ease-in;
@@ -404,4 +393,41 @@ body {
 
 .home-sub-header {
 	font-size: 36px;
+}
+
+
+.auth-container {
+	height:100vh;
+	position:relative;
+}
+
+.auth-outer-window {
+	border: 1px solid #1e5d88;
+	background-color: white;
+  width: 300px;
+  left: 10%;
+  top: 10%;
+	position:relative;
+}
+
+.auth-inner-window {
+  // border: 1px solid black;
+  padding: 20px;
+}
+
+.splash-logo {
+	// pos
+	// bottom: 0;
+}
+
+#polaroid {
+	padding: 10px 10px 0px 10px;
+	box-shadow: 3px 3px 5px #888888;
+	background-color: rgba(246,243,194,1);
+}
+
+#polaroid-picture {
+	background-color: white;
+	border: 0;
+	margin-bottom: 5px;
 }
