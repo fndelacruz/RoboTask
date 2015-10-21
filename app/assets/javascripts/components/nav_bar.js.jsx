@@ -94,6 +94,10 @@
 
             <div className="collapse navbar-collapse" id="collapse-menu">
               <ul className="nav navbar-nav navbar-right">
+                <li
+                  className="bigger-test"
+                  onClick={this.handleCreateTaskClick}><a><strong>New Task</strong></a>
+                </li>
                 <li className="dropdown">
                   <a href="#"
                     className="dropdown-toggle"
@@ -101,14 +105,10 @@
                     role="button"
                     aria-haspopup="true"
                     aria-expanded="false">
-                    Tasks
+                    My Tasks
                     <span className="caret"></span>
                   </a>
                   <ul className="dropdown-menu">
-                    <li
-                      onClick={this.handleCreateTaskClick}><a>Create</a>
-                    </li>
-
                     <li
                       onClick={this.handleTaskClick.bind(null, "unassigned")}>
                       <a>Incomplete:<span className={pendingClass}>{unassignedCount}</span></a>
