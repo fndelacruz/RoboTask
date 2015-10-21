@@ -26,19 +26,13 @@
               src={ "https://robohash.org/" + worker.id } /><br/>
             <div className="text-center worker-profile-shortName">{shortName}</div><br/>
             <ReviewIndexModal worker={this.props.worker} />
-            <Button
-              bsStyle="success"
-              bsSize="medium"
-              onClick={this.props.chooseWorker.bind(null, this.props.task, worker)}>
-              Hire me
-            </Button>
             <ConfirmHireModal
               handleConfirm={this.props.chooseWorker.bind(null, this.props.task, worker)}
-              task={this.props.task}
+              task={task}
               worker={worker}
               shortName={shortName}
               dateTime={this.props.dateTime}
-              chooseWorker={this.props.chooseWorker}
+              chooseWorker={this.props.chooseWorker.bind(null, this.props.task, worker)}
             />
           </div>
 
