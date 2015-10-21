@@ -18,6 +18,23 @@ INTERVAL = {
   "AFTERNOON" => 12,
   "EVENING" => 16
 }
+
+INTERVALS_TIMECODE = [0, 8, 12, 16]
+def random_title
+  random_titles = [
+    "#{Faker::Hacker.verb} the #{Faker::Hacker.adjective} #{Faker::Hacker.abbreviation}",
+    "#{Faker::Hacker.noun}s. #{Faker::Hacker.verb} the #{Faker::Hacker.adjective} #{Faker::Hacker.abbreviation}",
+    "#{Faker::Hacker.noun}s, #{Faker::Hacker.noun}s, and #{Faker::Hacker.noun}s",
+    "#{Faker::Hacker.adjective} #{Faker::Hacker.noun} with a #{Faker::Hacker.adjective}",
+    "#{Faker::Hacker.ingverb} a #{Faker::Hacker.adjective} #{Faker::Hacker.adjective} #{Faker::Hacker.noun}",
+    "#{Faker::Hacker.ingverb} a #{Faker::Hacker.adjective} #{Faker::Hacker.noun}",
+    "#{Faker::Hacker.verb} the #{Faker::Hacker.verb}",
+    "#{Faker::Hacker.ingverb} #{Faker::Hacker.adjective} #{Faker::Hacker.noun}",
+    "#{Faker::Hacker.noun}s, #{Faker::Hacker.noun}s, and a #{Faker::Hacker.adjective} #{Faker::Hacker.adjective} #{Faker::Hacker.noun}"
+  ]
+  random_titles[rand(random_titles.length)].capitalize
+end
+
 ActiveRecord::Base.transaction do
   User.create!([
     {
@@ -293,6 +310,11 @@ ActiveRecord::Base.transaction do
     }
   ])
 
+
+  # generate 20 random workers
+  
+
+
   User.create!([{
     fname: "guest",
     lname: "guest",
@@ -300,4 +322,21 @@ ActiveRecord::Base.transaction do
     password_digest: BCrypt::Password.create("password"),
     bio: "I am a guest user."
   }])
+  # generate 20 random tasks for guest user, unassigned
+  20.times do |x|
+    random_description_arr = []
+    rand(4..7).times { |x| random_description_arr.push(Faker::Hacker.say_something_smart)}
+    random_description = random_description_arr.join(" ")
+    random_address = "#{Faker::Address.street_address}, San Francisco, CA, #{Faker::Address.zip_code}"
+    random_datetime = Faker::Date.between(1.days.from_now, 20.days.from_now).to_time.utc.change(hour: INTERVALS_TIMECODE.sample)
+
+    User.last.created_tasks.create!([
+      {
+        title: random_title,
+        description: random_description,
+        location: random_address,
+        datetime: random_datetime
+      }
+    ])
+  end
 end

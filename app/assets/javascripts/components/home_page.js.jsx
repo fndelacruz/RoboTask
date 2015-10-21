@@ -2,7 +2,35 @@
   'use strict';
   // this will probably have a bunch of properties...
   root.HomePage = React.createClass({
+    getInitialState: function() {
+      return({
+        recentCreatedTasksUnassigned: [],
+        recentCreatedTasksAssigned: [],
+        workableTasks: []
+      });
+    },
+
+    _updateTasks: function() {
+      this.setState({
+        recentCreatedTasksUnassigned: CreatedTaskStore.allIncompleteUnassigned(),
+        recentCreatedTasksAssigned: CreatedTaskStore.allIncompleteAssigned(),
+        workableTasks: []
+      });
+      // debugger;
+    },
+
+    componentDidMount: function() {
+      root.ApiUtil.fetchCreatedTasks();
+      CreatedTaskStore.addChangeListener(this._updateTasks);
+    },
+
+    componentWillUnmount: function() {
+      CreatedTaskStore.removeChangeListener(this._updateTasks);
+    },
+
     render: function() {
+      // debugger;
+      var recentCreatedTasksAssigned = this.state.recentCreatedTasksAssigned;
       return (
         <div className="row">
           <div className="panel">
@@ -10,14 +38,20 @@
             <span className="home-header">Welcome to RoboTask, {root.CURRENT_USER_SHORTNAME}! </span>
           </div>
           <div className="panel">
-            <span className="home-sub-header">Here's some of your upcoming tasks</span>
-              <div>
-                Here will be 5 tasks that the user already assigned someone to do. Will be the 5 most upcoming. Nullam gravida augue et sem ultrices ullamcorper. Etiam id odio finibus, sagittis neque a, eleifend mauris. Proin elit erat, rutrum ut semper at, pretium sit amet ligula. Morbi dapibus justo massa, vitae mollis sapien ultrices nec. Nam sit amet placerat lorem, at elementum purus. Ut eu ex eu lectus pellentesque dignissim. Vivamus quis urna facilisis, maximus tellus a, feugiat risus. Quisque aliquet cursus metus id viverra. Vivamus quis ex eget mauris mattis faucibus nec ut odio. Nunc ut ultrices enim. Vivamus pulvinar tellus vel consectetur tincidunt. Pellentesque turpis mauris, eleifend et lobortis a, pulvinar eu mauris. Donec venenatis at odio ut maximus. Morbi in suscipit velit, at consequat eros. In ornare bibendum neque sit amet bibendum. Cras placerat mattis nibh sed condimentum.
-              </div>
+            <span className="home-sub-header">Upcoming tasks</span>
+              {(recentCreatedTasksAssigned === 0) ?
+                <div>No upcoming tasks!</div>
+              :
+                <div>
+                  {recentCreatedTasksAssigned.map(function(createdTask) {
+                    return <CreatedTasksIndexItem key={createdTask.id} createdTask={createdTask} />;
+                  })}
+                </div>
+              }
           </div>
 
           <div className="panel">
-            <span className="home-sub-header">Did you forget to assign these tasks? </span>
+            <span className="home-sub-header">Tasks needing assignment</span>
               <div>
                 Here will be 5 tasks that the user created, but don't have workers assigned yet. Aenean eget ex ligula. Nam non malesuada velit. Suspendisse tincidunt odio eu mi sollicitudin condimentum. Proin aliquet ipsum sed urna efficitur aliquam. Nam in eros vel diam bibendum commodo. Sed imperdiet non turpis eget elementum. Nullam nec odio interdum, dignissim dolor et, iaculis erat. Nunc in feugiat quam. In vel velit non arcu tristique maximus elementum quis est. Nam erat arcu, egestas.
               </div>

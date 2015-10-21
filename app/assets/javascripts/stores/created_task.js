@@ -10,6 +10,7 @@
   var _resetCreatedTasks = function(createdTasks) {
     _createdTasks = createdTasks;
     CreatedTaskStore.emit(CHANGE_EVENT);
+    
   };
 
   var _createTask = function(createdTask) {
