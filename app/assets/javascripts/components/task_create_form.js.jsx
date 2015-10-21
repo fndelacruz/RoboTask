@@ -3,7 +3,7 @@
 
   var Button = ReactBootstrap.Button;
 
-  var Glyphicon =ReactBootstrap.Glyphicon;
+  var Glyphicon = ReactBootstrap.Glyphicon;
 
   root.TaskForm = React.createClass({
     mixins: [ReactRouter.History],

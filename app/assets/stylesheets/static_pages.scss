@@ -269,14 +269,22 @@ button:hover {
 .form-group {
 	position: relative;
 }
+
+.glyph-container {
+	position: relative;
+}
 .task-status-icon {
 	position: absolute;
 	right: 0px;
 }
 
+.yes-no-icon {
+	margin-left: 5px;
+}
+
 // red
 #icon-bad {
-	color: red;
+	color: #800000; // maroon
 	// color: rgba(41,193,41,1);
 }
 // green
@@ -285,6 +293,10 @@ button:hover {
 	// color: rgba(41,193,41,1);
 }
 
+.review-description-notification-message {
+	
+	float: right;
+}
 
 body {
 	background: rgb(225,225,225) !important; //light grey

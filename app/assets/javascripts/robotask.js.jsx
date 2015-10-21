@@ -16,8 +16,10 @@ $(function() {
       render: function() {
         return (
           <div>
-            <NavBar /><br/>
-              {this.props.children}
+            <NavBar />
+              <div className="container">
+                {this.props.children}
+              </div>
           </div>
          );
        }

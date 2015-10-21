@@ -9,6 +9,7 @@
   var OverlayTrigger = ReactBootstrap.OverlayTrigger;
   var Header = ReactBootstrap.Header;
   var Input = ReactBootstrap.Input;
+  var Glyphicon = ReactBootstrap.Glyphicon;
 
   root.TaskReviewFormModal = React.createClass({
     getInitialState: function() {
@@ -17,7 +18,8 @@
       return ({
         showModal: false,
         isPositive: "",
-
+        isPositiveStatus: "",
+        isPositiveStatusMessage: "",
         description: "",
         descriptionEntry: "",
         descriptionStatus: "",
@@ -89,7 +91,7 @@
           this.setState({
             isPositive: "",
             isPositiveStatus: "error",
-            isPositiveStatusMessage: "Must select yes or no."
+            isPositiveStatusMessage: "Select yes or no."
           });
         } else {
           this.setState({
@@ -98,17 +100,53 @@
           });
         }
       }
-      // NOTE: I believe using root.CURRENT_USER_ID is okay here because I check
-      // if current_user.id is == root.CURRENT_USER_ID before saving this review
-      // Check with TA if this is ok. otherwise, I can just have a creator_id
-      // associated with the task the whole way through... HOWEVER, I would
-      // check if task.creator_id == current_user.id anyway, so it seems
-      // redundant to attach a creator_id to a task.
+    },
+
+    _getIsPositiveStatusGlyph: function() {
+      switch (this.state.isPositiveStatus) {
+        case "success":
+          return <Glyphicon glyph="ok" className="yes-no-icon" id="icon-ok" />;
+        case "error":
+          return <Glyphicon glyph="remove" className="yes-no-icon" id="icon-bad" />;
+        default:
+          return "";
+      }
+    },
+
+    _checkDescriptionStatus: function() {
+      switch (this.state.descriptionStatus) {
+        case "success":
+          return "notification-message-success";
+        case "error":
+          return "notification-message-error";
+        default:
+          return "";
+      }
+    },
+
+    _getIsPositiveStatusMessageType: function() {
+      switch (this.state.isPositiveStatus) {
+        case "success":
+          return "notification-message-success";
+        case "error":
+          return "notification-message-error";
+        default:
+          return "";
+      }
     },
 
     close: function() {
       // ApiActions.receiveReviews([]);
-      this.setState({ showModal: false });
+      this.setState({
+        showModal: false,
+        isPositive: "",
+        isPositiveStatus: "",
+        isPositiveStatusMessage: "",
+        description: "",
+        descriptionEntry: "",
+        descriptionStatus: "",
+        descriptionStatusMessage: ""
+      });
     },
 
     open: function() {
@@ -117,18 +155,11 @@
     },
 
     render: function() {
-      // NOTE: if don't end up using popover or tooltip here, delete these
-      var popover = <Popover title="popover">Popover placeholder text</Popover>;
-      var tooltip = <Tooltip>Tooltip placeholder text</Tooltip>;
-
       var worker_shortname = this.props.task.worker_shortname;
+      var statusIsPositiveGlyph = this._getIsPositiveStatusGlyph();
 
-      var descriptionStyle = "";
-      if (this.state.descriptionStatus === "success") {
-        descriptionStyle = "notification-message-success";
-      } else if (this.state.descriptionStatus === "error") {
-        descriptionStyle = "notification-message-error";
-      }
+      var isPositiveStyle = this._getIsPositiveStatusMessageType();
+      var descriptionStyle = this._checkDescriptionStatus();
       return (
         <div>
           <Button
@@ -147,53 +178,39 @@
 
             <Modal.Body>
               <div>
-                <div>Would you recommend {worker_shortname} to others?</div><br/>
-                <div className="btn-group"
-                     data-toggle="buttons">
+                <div className="page-heading">Would you recommend {worker_shortname} to others? </div>
+                <div className="btn-group" data-toggle="buttons">
                   <label
                     className="btn btn-primary"
                     onClick={this.handleChange}
                     id="is-positive-true">
-                    <input
-                      type="radio"
-                    />Yes
+                    <input type="radio" />Yes
                   </label>
-
                   <label
                     className="btn btn-primary"
                     onClick={this.handleChange}
                     id="is-positive-false">
-                    <input
-                      type="radio"
-                    />No
+                    <input type="radio" />No
                   </label>
-                </div><br/><br/>
-
+                </div>
+                {statusIsPositiveGlyph}<span className="notification-message" id={isPositiveStyle}> {this.state.isPositiveStatusMessage}</span><br/><br/>
+                <div className="notification-message review-description-notification-message" id={descriptionStyle}>{this.state.descriptionStatusMessage}</div>
                 <div className="form-group">
-                  <label htmlFor="review-description-entry">Go on...</label>
-                  <textarea
-                    type="text"
+                  <label htmlFor="review-description-entry">Details</label>
+                  <Input
+                    type="textarea"
                     className="form-control"
                     id="review-description-entry"
                     value={this.state.descriptionEntry}
                     onChange={this.handleChange}
+                    bsStyle={this.state.descriptionStatus}
+                    hasFeedback={true}
                     placeholder={"Example: " + worker_shortname + " was a great worker. very quick. I will choose him for all my future task needs"}
                   />
-                </div>
+                </div><br/>
 
-                <Input
-                  type="textarea"
-                  className="form-control"
-                  id="review-description-entry"
-                  value={this.state.descriptionEntry}
-                  onChange={this.handleChange}
-                  bsStyle={this.state.descriptionStatus}
-                  hasFeedback="true"
-                  placeholder={"Example: " + worker_shortname + " was a great worker. very quick. I will choose him for all my future task needs"}
-                />
-                <span className="notification-message" id={descriptionStyle}>{this.state.descriptionStatusMessage}</span><br/>
                 <div id="submit-review-button-container">
-                  <Button onClick={this.handleSubmission} id="submit-review-button">Submit Review</Button>
+                  <Button onClick={this.handleSubmission} bsStyle="primary" id="submit-review-button">Submit Review</Button>
                 </div>
               </div>
             </Modal.Body>
