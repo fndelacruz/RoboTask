@@ -13,11 +13,12 @@
   var TaskMap = root.TaskMap = React.createClass({
     // mixins: [ReactRouter.History],
     //
-    // getInitialState: function() {
-    //   return ({
-    //     clicked: false
-    //   });
-    // },
+    getInitialState: function() {
+      return ({
+        clicked: false,
+        markers: []
+      });
+    },
     //
     // _changed: function() {
     //   this._createNewMarkers(BenchStore.all());
@@ -41,23 +42,23 @@
     //   });
     // },
     //
-    // _createNewMarkers: function(benches) {
-    //   benches.forEach(function(bench) {
-    //     var benchId = bench.id.toString();
-    //     if (benchNeedsMarker(benchId)) {
-    //       var marker = new root.google.maps.Marker({
-    //         position: { lat: bench.lat, lng: bench.lng },
-    //         map: this.map,
-    //         animation: root.google.maps.Animation.DROP,
-    //         title: bench.description
-    //       });
-    //
-    //       debugger;
-    //       benchIdsWithMarkers.push(benchId);
-    //       benchIdMarkerDirectory[benchId] = marker;
-    //     }
-    //   }.bind(this));
-    // },
+    _createNewMarkers: function(benches) {
+      benches.forEach(function(bench) {
+        var benchId = bench.id.toString();
+        if (benchNeedsMarker(benchId)) {
+          var marker = new root.google.maps.Marker({
+            position: { lat: bench.lat, lng: bench.lng },
+            map: this.map,
+            animation: root.google.maps.Animation.DROP,
+            title: bench.description
+          });
+
+          debugger;
+          benchIdsWithMarkers.push(benchId);
+          benchIdMarkerDirectory[benchId] = marker;
+        }
+      }.bind(this));
+    },
     //
     // _handleMarkerHighlight: function() {
     //   var highlightedBenchId = IndexStore.getHighlightedBenchId();
@@ -80,8 +81,11 @@
       };
       this.map = new root.google.maps.Map(map, mapOptions);
 
+
+      // this.setState({ markers: [marker] });
+
       this.listenForMove();
-      // this.listenForMapClick();
+      this.listenForMapClick();
       // BenchStore.addChangeListener(this._changed);
       // IndexStore.addChangeListener(this._handleMarkerHighlight);
     },
@@ -113,7 +117,7 @@
     },
 
     listenForMapClick: function() {
-      root.google.maps.event.addListener(this.map, 'click', this.handleMapClick);
+      root.google.maps.event.addListener(this.map, 'click', this._clicky);
     },
 
     handleMapClick: function (e) {
@@ -124,6 +128,16 @@
       //   var coords = { lat: lat, lng: lng } ;
       //   this.history.pushState(null, "benches/new", coords);
       // }
+    },
+
+    _clicky: function() {
+      console.log("clicky");
+      var marker = new root.google.maps.Marker({
+        position: { lat: 37.786723, lng: -122.425569},
+        animation: root.google.maps.Animation.DROP,
+        title: "test title"
+      });
+      marker.setMap(this.map);
     },
 
     render: function() {
@@ -141,3 +155,10 @@
     }
   });
 }(this));
+
+// new this.google.maps.Marker({
+//   position: { lat: 37.786723, lng: -122.425569},
+//   map: this.map,
+//   animation: this.google.maps.Animation.DROP,
+//   title: "test title"
+// });

@@ -26,14 +26,12 @@
     render: function() {
       return (
         <div className="container-fluid">
-          <div className="row">
-            <div className="panel col-xs-12 col-sm-7">
+          <div className="row" id="task-map-row">
+            <div className="col-xs-12 col-sm-7" id="map-col">
               <TaskMap />
-
-              task map above
             </div>
             <div className="panel col-xs-12 col-sm-5">
-              {this.state.qualifyingTasks.map(function(task) {
+              {this.state.qualifyingTasks.slice(0, 5).map(function(task) {
                 return (
                   <div>
                     {task}

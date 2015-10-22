@@ -77,6 +77,7 @@
     },
 
     render: function() {
+      // debugger;
       var unassignedCount = this.state.unassignedTaskCount;
       var assignedCount = this.state.assignedTaskCount;
       var pendingClass = "badge" + ((unassignedCount > 0) ? " badge-unassigned-nonempty" : "");
