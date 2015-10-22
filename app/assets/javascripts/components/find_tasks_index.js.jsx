@@ -25,25 +25,21 @@
 
     render: function() {
       return (
-        <div>
-          FindTasksIndex Placeholder<br/><br/>
-          task map below
-          <div className="container-fluid">
-            <div className="row">
-              <div classname="col-xs-12 col-sm-9">
-                <TaskMap />
+        <div className="container-fluid">
+          <div className="row">
+            <div className="panel col-xs-12 col-sm-7">
+              <TaskMap />
 
-                task map above
-              </div>
-              <div classname="col-xs-12 col-sm-3">
-                {this.state.qualifyingTasks.map(function(task) {
-                  return (
-                    <div>
-                      {task}
-                    </div>
-                  );
-                })}
-              </div>
+              task map above
+            </div>
+            <div className="panel col-xs-12 col-sm-5">
+              {this.state.qualifyingTasks.map(function(task) {
+                return (
+                  <div>
+                    {task}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

@@ -41,7 +41,7 @@
       var pendingClass = "badge" + ((unassignedCount > 0) ? " badge-unassigned-nonempty" : "");
       var activeClass = "badge" + ((assignedCount > 0) ? " badge-active-nonempty" : "");
       return (
-        <div className="component-container" id="created-tasks-index">
+        <div className="container" id="created-tasks-index">
           <div className="page-heading">
             Tasks
           </div><br/>

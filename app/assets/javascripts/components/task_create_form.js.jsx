@@ -226,7 +226,7 @@
       var statusDescriptionGlyph = this._checkDescriptionStatus();
       // console.log(this.state);
       return (
-        <div className="" id="task-form">
+        <div className="container" id="task-form">
           <div className="page-heading" id="task-form-heading">New Task</div><br/>
 
           <div className="panel">

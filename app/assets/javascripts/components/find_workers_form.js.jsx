@@ -127,50 +127,52 @@
       shuffle(workers);
 
       return (
-        <div className="row" id="find-workers-form">
-          <div className="panel" id="find-workers-header">
-            Select Task Date Time and Choose RoboTasker
-          </div>
-          <div className="panel col-xs-12 col-sm-3">
-            <h5
-              className="component-container-heading"
-              id="find-workers-form-heading">
-              Task Date and Time
-            </h5>
-            <div className="filters-container">
-              <input
-                type="date"
-                value={formatSimpleDate(this.state.dateTime)}
-                onChange={this.handleChange}
-                id="date-time-entry"
-              /><br/>
-
-              <select defaultValue="ANY"id="interval-entry" onChange={this.handleChange}>
-                <option value="ANY">ANY TIME</option>
-                <option value="MORNING">MORNING (8AM-12PM)</option>
-                <option value="AFTERNOON">AFTERNOON (12PM-4PM)</option>
-                <option value="EVENING">EVENING (4PM-8PM)</option>
-              </select>
+        <div className="container">
+          <div className="row" id="find-workers-form">
+            <div className="panel" id="find-workers-header">
+              Select Task Date Time and Choose RoboTasker
             </div>
-          </div>
+            <div className="panel col-xs-12 col-sm-3">
+              <h5
+                className="component-container-heading"
+                id="find-workers-form-heading">
+                Task Date and Time
+              </h5>
+              <div className="filters-container">
+                <input
+                  type="date"
+                  value={formatSimpleDate(this.state.dateTime)}
+                  onChange={this.handleChange}
+                  id="date-time-entry"
+                /><br/>
 
-          <div className="col-xs-12 col-sm-9" id="find-workers-form-container">
-            <div className="panel" id="find-workers-form-items-header">
-              {workers.length} RoboTaskers found!
+                <select defaultValue="ANY"id="interval-entry" onChange={this.handleChange}>
+                  <option value="ANY">ANY TIME</option>
+                  <option value="MORNING">MORNING (8AM-12PM)</option>
+                  <option value="AFTERNOON">AFTERNOON (12PM-4PM)</option>
+                  <option value="EVENING">EVENING (4PM-8PM)</option>
+                </select>
+              </div>
             </div>
-            <div className="find-workers-form-items-container">
-              {workers.map(function(worker) {
-                return (
-                  <div className="panel" key={worker.id}>
-                    <FindWorkersFormItem
-                      worker={worker}
-                      task={task}
-                      chooseWorker={this.chooseWorker}
-                      dateTime={[this.state.dateTime.toLocaleDateString(), this.state.interval]}
-                      key={worker.id}/>
-                  </div>
-                );
-              }.bind(this))}
+
+            <div className="col-xs-12 col-sm-9" id="find-workers-form-container">
+              <div className="panel" id="find-workers-form-items-header">
+                {workers.length} RoboTaskers found!
+              </div>
+              <div className="find-workers-form-items-container">
+                {workers.map(function(worker) {
+                  return (
+                    <div className="panel" key={worker.id}>
+                      <FindWorkersFormItem
+                        worker={worker}
+                        task={task}
+                        chooseWorker={this.chooseWorker}
+                        dateTime={[this.state.dateTime.toLocaleDateString(), this.state.interval]}
+                        key={worker.id}/>
+                    </div>
+                  );
+                }.bind(this))}
+              </div>
             </div>
           </div>
         </div>

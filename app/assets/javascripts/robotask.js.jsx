@@ -18,9 +18,7 @@ $(function() {
         return (
           <div>
             <NavBar />
-              <div className="container">
-                {this.props.children}
-              </div>
+            {this.props.children}
           </div>
          );
        }
@@ -33,7 +31,6 @@ $(function() {
         <Route path="task/new" component={TaskForm} />
         <Route path="taskmap" component={TaskMap} />
         <Route path="task/:storeTaskIdx/findWorker" component={FindWorkersForm} />
-        <Route path="TaskViewTest" component={TaskViewTest} />
         <Route path="profile" component={ProfileForm} />
         <Route path="tasks/created" component={CreatedTasksIndex} >
           <Route path=":type" component={TasksIndex} />

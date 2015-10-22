@@ -181,7 +181,7 @@
       var statusWorkTimesGlyph = this._checkStatus("workTimes");
       var that = this;
       return (
-        <div>
+        <div className="container">
           <div className="component-container" id="profile-form">
             <div className="page-heading">{root.CURRENT_USER_SHORTNAME + "'s profile"}</div>
 
