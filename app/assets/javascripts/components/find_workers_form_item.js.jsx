@@ -18,26 +18,31 @@
       // NOTE: eventually make this a <ul> containing <li> with profile pic,
       // info (name, bio), and button to choose worker
       return (
-        <div className="row temp-borders-2">
+        <div className="row" id="find-workers-form-item-container">
 
-          <div className="temp-borders col-xs-12 col-sm-3">
+          <div className="col-xs-12 col-sm-4" id="find-workers-form-item-pic-name-container">
             <img
               className="worker-profile-pic"
               src={ "https://robohash.org/" + worker.id } /><br/>
-            <div className="text-center worker-profile-shortName">{shortName}</div><br/>
-            <ReviewIndexModal worker={this.props.worker} shortName={shortName} />
-            <ConfirmHireModal
-              handleConfirm={this.props.chooseWorker.bind(null, this.props.task, worker)}
-              task={task}
-              worker={worker}
-              shortName={shortName}
-              dateTime={this.props.dateTime}
-              chooseWorker={this.props.chooseWorker.bind(null, this.props.task, worker)}
-            />
+            <div className="text-center" id="worker-profile-shortName">{shortName}</div><br/>
           </div>
 
-          <div className="temp-borders col-xs-12 col-sm-9">
-            About me...<br/>{worker.bio}<br/>
+          <div className="col-xs-12 col-sm-8" id="about-me-container">
+            <div id="find-worker-form-item-about-container">
+              <div id="about-header">About me...</div>
+              <div id="about-content">{worker.bio}</div>
+
+              <ReviewIndexModal worker={this.props.worker} shortName={shortName} />
+              <ConfirmHireModal
+                handleConfirm={this.props.chooseWorker.bind(null, this.props.task, worker)}
+                task={task}
+                worker={worker}
+                shortName={shortName}
+                dateTime={this.props.dateTime}
+                chooseWorker={this.props.chooseWorker.bind(null, this.props.task, worker)}
+              />
+
+            </div>
           </div>
 
         </div>

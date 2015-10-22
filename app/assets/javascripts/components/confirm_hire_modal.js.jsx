@@ -109,6 +109,7 @@
             bsSize="medium"
             className="centered-buttons"
             onClick={this.open}
+            id="confirm-hire-modal-button"
           >
             Select!
           </Button>

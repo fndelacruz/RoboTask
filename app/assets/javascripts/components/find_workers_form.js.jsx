@@ -1,6 +1,19 @@
 (function(root) {
   'use strict';
 
+  var shuffle = function(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex ;
+    while (0 !== currentIndex) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+    return array;
+  };
+
+
   var addDays = function(date, days) {
     var result = new Date(date);
     result.setDate(result.getDate() + days);
@@ -114,11 +127,14 @@
     render: function() {
       var workers = this.state.validWorkers;
       var task = root.CreatedTaskStore.all()[this.props.params.storeTaskIdx];
-
+      shuffle(workers);
 
       return (
         <div className="row" id="find-workers-form">
-          <div className="temp-borders col-xs-12 col-sm-3">
+          <div className="panel" id="find-workers-header">
+            Select Task Date Time and Choose RoboTasker
+          </div>
+          <div className="panel col-xs-12 col-sm-3">
             <h5
               className="component-container-heading"
               id="find-workers-form-heading">
@@ -141,19 +157,24 @@
             </div>
           </div>
 
-          <div className="temp-borders col-xs-12 col-sm-9">
-          {workers.map(function(worker) {
-            return (
-              <div className="panel" key={worker.id}>
-                <FindWorkersFormItem
-                  worker={worker}
-                  task={task}
-                  chooseWorker={this.chooseWorker}
-                  dateTime={[this.state.dateTime.toLocaleDateString(), this.state.interval]}
-                  key={worker.id}/>
-              </div>
-            );
-          }.bind(this))}
+          <div className="col-xs-12 col-sm-9" id="find-workers-form-container">
+            <div className="panel" id="find-workers-form-items-header">
+              {workers.length} RoboTaskers found!
+            </div>
+            <div className="find-workers-form-items-container">
+              {workers.map(function(worker) {
+                return (
+                  <div className="panel" key={worker.id}>
+                    <FindWorkersFormItem
+                      worker={worker}
+                      task={task}
+                      chooseWorker={this.chooseWorker}
+                      dateTime={[this.state.dateTime.toLocaleDateString(), this.state.interval]}
+                      key={worker.id}/>
+                  </div>
+                );
+              }.bind(this))}
+            </div>
           </div>
         </div>
       );

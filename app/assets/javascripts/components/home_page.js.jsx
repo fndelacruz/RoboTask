@@ -1,7 +1,15 @@
 (function(root) {
   'use strict';
   // this will probably have a bunch of properties...
+
+  var OverlayTrigger = ReactBootstrap.OverlayTrigger;
+  var Button = ReactBootstrap.Button;
+  var Popover = ReactBootstrap.Popover;
+
+
   root.HomePage = React.createClass({
+    mixins: [ReactRouter.History],
+
     getInitialState: function() {
       return({
         recentCreatedTasksUnassigned: [],
@@ -28,13 +36,30 @@
       CreatedTaskStore.removeChangeListener(this._updateTasks);
     },
 
+    // _handleCurrentUserClick: function() {
+    //   this.history.pushState(null, "/profile");
+    // },
+
     render: function() {
       // debugger;
       var recentCreatedTasksAssigned = this.state.recentCreatedTasksAssigned;
       return (
         <div className="row">
           <div className="panel">
-
+            <OverlayTrigger
+              trigger="hover"
+              placement="bottom"
+              overlay={
+                <Popover
+                  title="Hello">
+                  Hi there!
+                </Popover>
+              }>
+              <img
+                className="reviewer-profile-pic"
+                id="home-current-user-pic"
+                src={ "https://robohash.org/" + root.CURRENT_USER_ID } />
+            </OverlayTrigger>
             <span className="home-header">Welcome to RoboTask, {root.CURRENT_USER_SHORTNAME}! </span>
           </div>
           <div className="panel">

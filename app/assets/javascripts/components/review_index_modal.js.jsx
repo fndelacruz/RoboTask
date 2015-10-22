@@ -59,6 +59,7 @@
             bsSize="medium"
             className="centered-buttons"
             onClick={this.open}
+            id="reviews-index-modal-button"
           >
             Reviews
           </Button>
@@ -77,9 +78,9 @@
                   src={ "https://robohash.org/" + this.props.worker.id } /><br/>
 
 
-                <h1 className="text-center worker-profile-shortName">{this.props.shortName}</h1>
-                <h3 className="text-center">{rating}% Approval Rating</h3>
-                <p className="text-center">Member since: {this.props.worker.created_at}</p>
+                <div className="text-center" id="worker-profile-shortName">{this.props.shortName}</div>
+                <div className="text-center" id="worker-profile-rating">{rating}% Approval Rating</div>
+                <p className="text-center">Member since: {this.props.worker.created_at.slice(0,10).replace(/-/g,"/")}</p>
 
                 {reviews.map(function(review) {
                   return <ReviewIndexModalItem review={review} key={review.id}/>;
