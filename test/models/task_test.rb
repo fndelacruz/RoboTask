@@ -11,6 +11,8 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  datetime    :datetime
+#  lat         :float            not null
+#  lng         :float            not null
 #
 
 require 'test_helper'

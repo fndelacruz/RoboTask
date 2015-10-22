@@ -357,17 +357,44 @@ ActiveRecord::Base.transaction do
   MIN_REVIWED_TASKS = 10
   MAX_REVIEWED_TASKS = 20
 
+  # NOTE: processed_addresses.sample returns in form of
+  # [["2278 41st Ave", "94116", "37.74431205", "-122.4990945"]]
+  lines = File.readlines("#{Rails.root}/db/sf_final_addresses.txt")
+
+  processed_addresses = []
+  lines.each do |line|
+    init_arr = line.split(/[\t,\n]/)
+    processed_entry = []
+    init_arr.each_with_index do |entry, idx|
+      if idx == 0
+        address = entry.split
+        address.each do |el|
+          el.capitalize!
+        end
+        processed_entry << address.join(" ")
+      else
+        processed_entry << entry
+      end
+    end
+    processed_addresses << processed_entry
+  end
+
   (1..User.count).each do |x|
     chance_to_make_tasks = rand
     user = User.find(x)
-    if rand > 0.8
+
+    # 20% chance for a user to make tasks
+    if rand < 0.2
       # user_id = user.id
       # generate some random tasks for  user, unassigned
       rand(MIN_CREATED_TASKS..MAX_CREATED_TASKS).times do |x|
         random_description_arr = []
         rand(4..7).times { |x| random_description_arr.push(Faker::Hacker.say_something_smart)}
         random_description = random_description_arr.join(" ")
-        random_address = "#{Faker::Address.street_address}, San Francisco, CA, #{Faker::Address.zip_code}"
+
+        rand_addr_raw = processed_addresses.sample
+        random_address = "#{rand_addr_raw[0]}, San Francisco, CA, #{rand_addr_raw[1]}"
+
         random_datetime = Faker::Date.between(1.days.from_now, 20.days.from_now).to_time.utc.change(hour: INTERVALS_TIMECODE.sample)
 
         user.created_tasks.create!([
@@ -375,6 +402,8 @@ ActiveRecord::Base.transaction do
             title: random_title,
             description: random_description,
             location: random_address,
+            lat: rand_addr_raw[2],
+            lng: rand_addr_raw[3],
             datetime: random_datetime
           }
         ])
@@ -454,12 +483,14 @@ ActiveRecord::Base.transaction do
 
   user = user.last
 
-  # generate some random tasks for  user, unassigned
+  # NOTE: generate some random tasks for  user, unassigned
   rand(MIN_CREATED_TASKS..MAX_CREATED_TASKS).times do |x|
     random_description_arr = []
     rand(4..7).times { |x| random_description_arr.push(Faker::Hacker.say_something_smart)}
     random_description = random_description_arr.join(" ")
-    random_address = "#{Faker::Address.street_address}, San Francisco, CA, #{Faker::Address.zip_code}"
+    rand_addr_raw = processed_addresses.sample
+    random_address = "#{rand_addr_raw[0]}, San Francisco, CA, #{rand_addr_raw[1]}"
+
     random_datetime = Faker::Date.between(1.days.from_now, 20.days.from_now).to_time.utc.change(hour: INTERVALS_TIMECODE.sample)
 
     user.created_tasks.create!([
@@ -467,6 +498,8 @@ ActiveRecord::Base.transaction do
         title: random_title,
         description: random_description,
         location: random_address,
+        lat: rand_addr_raw[2],
+        lng: rand_addr_raw[3],
         datetime: random_datetime
       }
     ])

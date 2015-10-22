@@ -11,10 +11,12 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  datetime    :datetime
+#  lat         :float            not null
+#  lng         :float            not null
 #
 
 class Task < ActiveRecord::Base
-  validates :title, :description, :location, :creator_id, presence: true
+  validates :title, :description, :location, :creator_id, :lat, :lng, presence: true
   validate :datetime_formatted
 
   belongs_to(:creator,
