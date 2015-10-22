@@ -423,7 +423,7 @@ ActiveRecord::Base.transaction do
 
         all_workers = User.joins(:work_times).group("users.id").having("(count(user_id)) > 0")
         valid_workers = []
-
+        
         all_workers.each do |worker|
           canwork = []
           if task_interval == "ANY"

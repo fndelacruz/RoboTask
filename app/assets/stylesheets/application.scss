@@ -16,11 +16,23 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+.nav {
+	font-size: 24px;
+}
 
 .navbar-brand {
 	font-family: monospace;
-	font-size: 36px;
+	font-size: 48px;
 }
+
+.navbar {
+	// background-color: rgb(148, 224, 224); // teal?
+	// background-color: #5C88DF;
+	border-bottom: 1px solid #334d5c;
+	margin: 0px
+}
+
+
 
 .form-group {
 	position: relative;
@@ -50,20 +62,7 @@
 	padding-bottom: 0px;
 }
 
-.nav {
-	font-size: 24px;
-}
 
-.navbar {
-	// background-color: rgb(148, 224, 224); // teal?
-	// background-color: #5C88DF;
-	border-bottom: 1px solid #334d5c;
-	margin: 0px
-}
-
-.navbar-brand {
-	font-size: 48px;
-}
 
 .panel {
   padding: 20px;

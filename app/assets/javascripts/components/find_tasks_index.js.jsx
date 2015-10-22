@@ -68,9 +68,9 @@
 
               {shuffled_tasks.map(function(task) {
                 return (
-                    <FindTasksIndexItem
-                      applyToTask={that.applyToTask}
-                      workableTask={task.task} />
+                  <FindTasksIndexItem
+                    applyToTask={that.applyToTask}
+                    workableTask={task.task} />
                 );
               })}
             </div>

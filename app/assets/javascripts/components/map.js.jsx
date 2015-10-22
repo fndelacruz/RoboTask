@@ -61,19 +61,19 @@
         }
       }.bind(this));
     },
-    //
-    // _handleMarkerHighlight: function() {
-    //   var highlightedBenchId = IndexStore.getHighlightedBenchId();
-    //   benchIdsWithMarkers.forEach(function(benchIdWithMarkers) {
-    //     if (benchIdWithMarkers === highlightedBenchId) {
-    //       benchIdMarkerDirectory[benchIdWithMarkers].setAnimation(
-    //         google.maps.Animation.BOUNCE
-    //       );
-    //     } else {
-    //       benchIdMarkerDirectory[benchIdWithMarkers].setAnimation();
-    //     }
-    //   });
-    // },
+
+    _handleMarkerHighlight: function() {
+      var highlightedTaskId = TaskMapHighLightStore.getHighlightedTaskId();
+      taskIdsWithMarkers.forEach(function(taskIdWithMarkers) {
+        if (taskIdWithMarkers === highlightedTaskId) {
+          taskIdMarkerDirectory[taskIdWithMarkers].setAnimation(
+            google.maps.Animation.BOUNCE
+          );
+        } else {
+          taskIdMarkerDirectory[taskIdWithMarkers].setAnimation();
+        }
+      });
+    },
 
     updateTaskMarkers: function() {
       this.setState({ tasks: WorkableTaskStore.all() });
@@ -83,7 +83,7 @@
     componentDidMount: function() {
       var map = React.findDOMNode(this.refs.map);
       var mapOptions = {
-        center: {lat: 37.7758, lng: -122.435},
+        center: {lat: 37.7558, lng: -122.439},
         zoom: 13
       };
       this.map = new root.google.maps.Map(map, mapOptions);
@@ -91,7 +91,7 @@
       this.listenForMapClick();
       WorkableTaskStore.addChangeListener(this.updateTaskMarkers);
       // BenchStore.addChangeListener(this._changed);
-      // IndexStore.addChangeListener(this._handleMarkerHighlight);
+      TaskMapHighLightStore.addChangeListener(this._handleMarkerHighlight);
     },
 
     componentWillReceiveProps: function(tasks) {
@@ -101,7 +101,7 @@
     componentWillUnmount: function() {
       WorkableTaskStore.removeChangeListener(this.updateTaskMarkers);
       // BenchStore.removeChangeListener(this._changed);
-      // IndexStore.removeChangeListener(this._handleMarkerHighlight);
+      TaskMapHighLightStore.removeChangeListener(this._handleMarkerHighlight);
       taskIdsWithMarkers = [];
       taskIdMarkerDirectory = {};
     },
@@ -112,16 +112,29 @@
 
     _handleMove: function() {
       console.log("_handleMove run");
-      // var northEast = this.map.getBounds().getNorthEast();
-      // var southWest = this.map.getBounds().getSouthWest();
-      // var bounds = {
-      //   northEast: { lat: northEast.J, lng: northEast.M },
-      //   southWest: { lat: southWest.J, lng: southWest.M }
-      // };
+      // O: latitude
+      // // O: south
+      // // j: north
 
+      // j: longitude
+      // // O: east
+      // // j: west
+      var northEast = this.map.getBounds().getNorthEast();
+      var southWest = this.map.getBounds().getSouthWest();
+
+      var latSouthNorth = this.map.getBounds().O;
+      var lngEastWest = this.map.getBounds().j;
+      var bounds = {
+        northEast: { lat: latSouthNorth.j, lng: lngEastWest.O },
+        southWest: { lat: latSouthNorth.O, lng: lngEastWest.j }
+      };
+
+
+
+      // debugger;
       // var filterParams = FilterParamsStore.all();
       // filterParams.bounds = bounds;
-      //
+
       // FilterActions.receiveNewFilterParams(filterParams);
     },
 
@@ -151,6 +164,7 @@
 
     render: function() {
       console.log("TaskMap rendered");
+      // debugger;
       return (
         <div
           className="map"
