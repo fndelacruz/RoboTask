@@ -191,6 +191,7 @@
         url: "/api/workers/tasks/",
         method: "get",
         success: function(tasks) {
+          // debugger
           ApiActions.receiveWorkableTasks(tasks);
         }
       });

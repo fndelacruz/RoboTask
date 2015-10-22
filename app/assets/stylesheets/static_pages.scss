@@ -382,3 +382,37 @@ body {
 #task-map-row {
 	position: relative;
 }
+
+#workable-tasks-holder {
+	height: calc(100vh - 51px);
+	overflow: scroll;
+	padding: 0px, 0px, 0px 0px;
+	// border: 10px solid black;
+}
+
+#find-tasks-index-item-creator-holder {
+	height: 100px;
+	width: 100px;
+}
+
+#find-tasks-index-item-creator-pic {
+	border-radius: 50%;
+	border: 1px solid black;
+	height: 100%;
+	width: 100%;
+	// display: inline-block;
+}
+
+#find-tasks-index-item-title {
+	// display: inline-block;
+}
+
+#find-tasks-index-item-creator-name {
+	text-align: center;
+}
+
+#find-tasks-index-items-header {
+	text-align: center;
+	font-size: 36px;
+	padding: 0px;
+}

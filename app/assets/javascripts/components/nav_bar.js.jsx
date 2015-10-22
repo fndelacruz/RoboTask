@@ -142,7 +142,7 @@
                     role="button"
                     aria-haspopup="true"
                     aria-expanded="false">
-                    Account
+                    My Account
                     <span className="caret"></span>
                   </a>
                   <ul className="dropdown-menu">

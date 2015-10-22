@@ -1,14 +1,14 @@
 (function(root) {
   'use strict';
 
-  // var benchIdsWithMarkers = [];
-  // var benchIdMarkerDirectory = {};
-  //
-  // var benchNeedsMarker = function (benchId) {
-  //   if (benchIdsWithMarkers.indexOf(benchId) === -1) {
-  //     return true;
-  //   }
-  // };
+  var taskIdsWithMarkers = [];
+  var taskIdMarkerDirectory = {};
+
+  var taskNeedsMarker = function (taskId) {
+    if (taskIdsWithMarkers.indexOf(taskId) === -1) {
+      return true;
+    }
+  };
 
   var TaskMap = root.TaskMap = React.createClass({
     // mixins: [ReactRouter.History],
@@ -16,6 +16,7 @@
     getInitialState: function() {
       return ({
         clicked: false,
+        tasks: [],
         markers: []
       });
     },
@@ -42,20 +43,21 @@
     //   });
     // },
     //
-    _createNewMarkers: function(benches) {
-      benches.forEach(function(bench) {
-        var benchId = bench.id.toString();
-        if (benchNeedsMarker(benchId)) {
+    _createNewMarkers: function(tasks) {
+      tasks.forEach(function(task_holder) {
+        var task = task_holder.task;
+        var taskId = task.id.toString();
+        if (taskNeedsMarker(taskId)) {
           var marker = new root.google.maps.Marker({
-            position: { lat: bench.lat, lng: bench.lng },
+            position: { lat: task.lat, lng: task.lng },
             map: this.map,
             animation: root.google.maps.Animation.DROP,
-            title: bench.description
+            title: task.description
           });
 
-          debugger;
-          benchIdsWithMarkers.push(benchId);
-          benchIdMarkerDirectory[benchId] = marker;
+          // debugger;
+          taskIdsWithMarkers.push(taskId);
+          taskIdMarkerDirectory[taskId] = marker;
         }
       }.bind(this));
     },
@@ -73,6 +75,11 @@
     //   });
     // },
 
+    updateTaskMarkers: function() {
+      this.setState({ tasks: WorkableTaskStore.all() });
+      this._createNewMarkers(this.state.tasks);
+    },
+
     componentDidMount: function() {
       var map = React.findDOMNode(this.refs.map);
       var mapOptions = {
@@ -80,21 +87,23 @@
         zoom: 13
       };
       this.map = new root.google.maps.Map(map, mapOptions);
-
-
-      // this.setState({ markers: [marker] });
-
       this.listenForMove();
       this.listenForMapClick();
+      WorkableTaskStore.addChangeListener(this.updateTaskMarkers);
       // BenchStore.addChangeListener(this._changed);
       // IndexStore.addChangeListener(this._handleMarkerHighlight);
     },
 
+    componentWillReceiveProps: function(tasks) {
+      // this._createNewMarkers(tasks.tasks);
+    },
+
     componentWillUnmount: function() {
+      WorkableTaskStore.removeChangeListener(this.updateTaskMarkers);
       // BenchStore.removeChangeListener(this._changed);
       // IndexStore.removeChangeListener(this._handleMarkerHighlight);
-      // benchIdsWithMarkers = [];
-      // benchIdMarkerDirectory = {};
+      taskIdsWithMarkers = [];
+      taskIdMarkerDirectory = {};
     },
 
     listenForMove: function() {
@@ -132,12 +141,12 @@
 
     _clicky: function() {
       console.log("clicky");
-      var marker = new root.google.maps.Marker({
-        position: { lat: 37.786723, lng: -122.425569},
-        animation: root.google.maps.Animation.DROP,
-        title: "test title"
-      });
-      marker.setMap(this.map);
+      // var marker = new root.google.maps.Marker({
+      //   position: { lat: 37.786723, lng: -122.425569},
+      //   animation: root.google.maps.Animation.DROP,
+      //   title: "test title"
+      // });
+      // marker.setMap(this.map);
     },
 
     render: function() {

@@ -350,12 +350,15 @@ ActiveRecord::Base.transaction do
     end
   end
 
-  MIN_CREATED_TASKS = 60
-  MAX_CREATED_TASKS = 80
-  MIN_ASSIGNED_TASKS = 30
-  MAX_ASSIGNED_TASKS = 40
-  MIN_REVIWED_TASKS = 10
-  MAX_REVIEWED_TASKS = 20
+  MIN_CREATED_TASKS = 70
+  MAX_CREATED_TASKS = 100
+
+  MIN_ASSIGNED_TASKS = 40
+  MAX_ASSIGNED_TASKS = 70
+
+  MIN_REVIWED_TASKS = 20
+  MAX_REVIEWED_TASKS = 40
+
 
   # NOTE: processed_addresses.sample returns in form of
   # [["2278 41st Ave", "94116", "37.74431205", "-122.4990945"]]
@@ -383,8 +386,8 @@ ActiveRecord::Base.transaction do
     chance_to_make_tasks = rand
     user = User.find(x)
 
-    # 20% chance for a user to make tasks
-    if rand < 0.2
+    # 50% chance for a user to make tasks
+    if rand < 0.5
       # user_id = user.id
       # generate some random tasks for  user, unassigned
       rand(MIN_CREATED_TASKS..MAX_CREATED_TASKS).times do |x|
