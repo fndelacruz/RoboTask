@@ -72,6 +72,10 @@
       this.history.pushState(null, "/tasks/created/" + taskType);
     },
 
+    handleFindTaskClick: function() {
+      this.history.pushState(null, "/findtasks");
+    },
+
     render: function() {
       var unassignedCount = this.state.unassignedTaskCount;
       var assignedCount = this.state.assignedTaskCount;
@@ -97,6 +101,10 @@
                 <li
                   className="bigger-test"
                   onClick={this.handleCreateTaskClick}><a><strong>New Task</strong></a>
+                </li>
+                <li
+                  className="bigger-test"
+                  onClick={this.handleFindTaskClick}><a><strong>Find Task</strong></a>
                 </li>
                 <li className="dropdown">
                   <a href="#"
@@ -154,7 +162,7 @@
   });
 }(this));
 
-// NOTE: delete this after don't need separator 
+// NOTE: delete this after don't need separator
 // <li role="separator" className="divider"></li>
 // <li
 //   onClick={this.handleTaskViewTestClick}>

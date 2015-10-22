@@ -6,6 +6,7 @@
 
   var _resetValidWorkers = function(workers) {
     _validWorkers = workers;
+    
     WorkerUserStore.emit(VALID_WORKERS_CHANGE_EVENT);
   };
 

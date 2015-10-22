@@ -61,6 +61,15 @@ class User < ActiveRecord::Base
     self.session_token
   end
 
+  def workable_tasks(tasks)
+    schedule = WorkTime.schedule_hash(self.work_times)
+    tasks.to_a.select { |task| task.is_workable?(schedule) }
+  end
+
+  def nickname
+    "#{fname} #{lname[0]}."
+  end
+
   private
 
   def ensure_session_token!

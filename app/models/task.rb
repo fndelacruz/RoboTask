@@ -31,12 +31,22 @@ class Task < ActiveRecord::Base
 
   has_one(:review)
 
-  def to_builder
-    Jbuilder.new do |task|
-      task.title title
-      task.description description
-      company.president president.to_builder
+  def is_workable?(schedule)
+    day = datetime.strftime("%a").upcase
+    interval = WorkTime.interval_code(datetime.hour)
+    if interval == "ANYTIME"
+      schedule[day].values.any? { |bool| bool }
+    else
+      schedule[day][interval]
     end
+  end
+
+  def date
+    datetime.strftime("%m/%d/%Y")
+  end
+
+  def interval
+    WorkTime.interval_code(datetime.hour).capitalize
   end
 
   private

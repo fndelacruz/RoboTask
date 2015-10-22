@@ -13,9 +13,9 @@ class Api::UsersController < ApplicationController
 
   def index
     day = params[:dateTime][0..2].upcase
-    interval = params[:dateTime][16..17]
+    interval = params[:dateTime][16..17].to_i
 
-    if interval == "00"
+    if interval == 0
       @users = User.includes(:work_times)
         .where('work_times.day = ?', day)
         .references(:work_times)
@@ -80,16 +80,19 @@ class Api::UsersController < ApplicationController
 
       WorkTime.delete_all(["user_id = ?", current_user.id])
 
+      work_times_payload = []
       work_times.each do |day, intervals|
         intervals.each do |interval, status|
           if status == "true"
-            saveStatus = current_user.work_times.create!({
+            work_times_payload.push({
               day: day,
               interval: interval
-            }) && saveStatus
+            })
           end
         end
       end
+
+      saveStatus = current_user.work_times.create!(work_times_payload) && saveStatus
     end
 
     if saveStatus

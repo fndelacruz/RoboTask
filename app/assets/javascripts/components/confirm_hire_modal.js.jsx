@@ -3,11 +3,8 @@
   // this.props.task
   // this.props.dateTime
   'use strict';
-  var Popover = ReactBootstrap.Popover;
-  var Tooltip = ReactBootstrap.Tooltip;
   var Button = ReactBootstrap.Button;
   var Modal = ReactBootstrap.Modal;
-  var OverlayTrigger = ReactBootstrap.OverlayTrigger;
   var Header = ReactBootstrap.Header;
   var Input = ReactBootstrap.Input;
 
@@ -86,8 +83,6 @@
 
     render: function() {
       // NOTE: if don't end up using popover or tooltip here, delete these
-      var popover = <Popover title="popover">Popover placeholder text</Popover>;
-      var tooltip = <Tooltip>Tooltip placeholder text</Tooltip>;
       var task = this.props.task;
       var worker = this.props.worker;
       var dateTime = this.props.dateTime;

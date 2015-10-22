@@ -68,6 +68,13 @@
         actionType: ReviewConstants.REVIEWS_RECEIVED,
         action: reviews
       });
+    },
+
+    receiveWorkableTasks: function(tasks) {
+      AppDispatcher.dispatch({
+        actionType: TaskConstants.WORKABLE_TASKS_RECEIVED,
+        action: tasks
+      });
     }
 
   };

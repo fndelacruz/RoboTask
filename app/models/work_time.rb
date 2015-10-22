@@ -17,9 +17,10 @@ class WorkTime < ActiveRecord::Base
   DAYS = %w(SUN MON TUE WED THU FRI SAT)
   INTERVALS = %w(MORNING AFTERNOON EVENING)
   INTERVAL_CODE = {
-    "08" => "MORNING",
-    "12" => "AFTERNOON",
-    "16" => "EVENING",
+    0 => "ANYTIME",
+    8 => "MORNING",
+    12 => "AFTERNOON",
+    16 => "EVENING",
   }
 
   belongs_to(:user)
@@ -34,6 +35,23 @@ class WorkTime < ActiveRecord::Base
 
   def self.days
     DAYS
+  end
+
+  # NOTE: I considered making schedule_hash an instance method of user. However,
+  # I believe this will necessarily make a query to fetch those work_times every
+  # time is run. Having schedule_hash here implies a joins/includes association
+  # was already created, hence why work_times is provided here and NOT just a user?
+  def self.schedule_hash(work_times)
+    schedule = {}
+    DAYS.each do |day|
+      schedule[day] = {
+        "MORNING" => false,
+        "AFTERNOON" => false,
+        "EVENING" => false
+      }
+    end
+    work_times.each { |wt| schedule[wt.day][wt.interval] = true }
+    schedule
   end
 
   private

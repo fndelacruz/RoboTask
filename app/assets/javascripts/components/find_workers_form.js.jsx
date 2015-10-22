@@ -13,7 +13,6 @@
     return array;
   };
 
-
   var addDays = function(date, days) {
     var result = new Date(date);
     result.setDate(result.getDate() + days);
@@ -109,12 +108,10 @@
     componentDidMount: function() {
       root.ApiUtil.fetchValidWorkers(this._formattedStateDateTime());
       root.WorkerUserStore.addChangeListener(this._updateValidWorkers);
-      // root.CreatedTaskStore.addAssignTaskWorkerOKListener(this._assignWorkerOK);
     },
 
     componentWillUnmount: function() {
       root.WorkerUserStore.removeChangeListener(this._updateValidWorkers);
-      // root.CreatedTaskStore.removeAssignTaskWorkerOKListener(this._assignWorkerOK);
     },
 
     chooseWorker: function(task, worker) {

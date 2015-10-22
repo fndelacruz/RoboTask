@@ -18,8 +18,6 @@
         method: "POST",
         data: { task: task },
         success: function(createdTask) {
-
-
           // NOTE: Not sure if this is the best way to handle rails database
           // failures to save... I send an object with e._fail === true if the
           // database could not createTask the given task.
@@ -186,7 +184,16 @@
           }
         }
       });
-    }
+    },
 
+    fetchQualifyingTasks: function() {
+      $.ajax({
+        url: "/api/workers/tasks/",
+        method: "get",
+        success: function(tasks) {
+          ApiActions.receiveWorkableTasks(tasks);
+        }
+      });
+    },
   };
 }(this));
