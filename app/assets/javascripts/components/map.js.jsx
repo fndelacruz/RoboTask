@@ -131,11 +131,10 @@
 
 
 
-      // debugger;
-      // var filterParams = FilterParamsStore.all();
-      // filterParams.bounds = bounds;
+      var filterParams = TaskMapFilterParamsStore.all();
+      filterParams.bounds = bounds;
 
-      // FilterActions.receiveNewFilterParams(filterParams);
+      FilterActions.receiveNewFilterParams(filterParams);
     },
 
     listenForMapClick: function() {

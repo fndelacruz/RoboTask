@@ -22,7 +22,7 @@
     },
 
     componentDidMount: function() {
-      ApiUtil.fetchQualifyingTasks();
+      ApiUtil.fetchQualifyingTasks(TaskMapFilterParamsStore.all());
       WorkableTaskStore.addChangeListener(this._receiveQualifyingTasks);
     },
 

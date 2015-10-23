@@ -186,12 +186,14 @@
       });
     },
 
-    fetchQualifyingTasks: function() {
+    fetchQualifyingTasks: function(taskParams) {
+      debugger;
       $.ajax({
         url: "/api/workers/tasks/",
-        method: "get",
+        data: {taskParams: taskParams},
+        method: "GET",
         success: function(tasks) {
-          // debugger
+          debugger
           ApiActions.receiveWorkableTasks(tasks);
         }
       });
