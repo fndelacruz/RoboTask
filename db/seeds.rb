@@ -350,14 +350,14 @@ ActiveRecord::Base.transaction do
     end
   end
 
-  MIN_CREATED_TASKS = 70
-  MAX_CREATED_TASKS = 100
+  MIN_CREATED_TASKS = 20
+  MAX_CREATED_TASKS = 30
 
-  MIN_ASSIGNED_TASKS = 40
-  MAX_ASSIGNED_TASKS = 70
+  MIN_ASSIGNED_TASKS = 10
+  MAX_ASSIGNED_TASKS = 20
 
-  MIN_REVIWED_TASKS = 20
-  MAX_REVIEWED_TASKS = 40
+  MIN_REVIWED_TASKS = 5
+  MAX_REVIEWED_TASKS = 10
 
 
   # NOTE: processed_addresses.sample returns in form of
@@ -387,7 +387,7 @@ ActiveRecord::Base.transaction do
     user = User.find(x)
 
     # 50% chance for a user to make tasks
-    if rand < 0.5
+    if rand < 0.3
       # user_id = user.id
       # generate some random tasks for  user, unassigned
       rand(MIN_CREATED_TASKS..MAX_CREATED_TASKS).times do |x|
@@ -423,7 +423,7 @@ ActiveRecord::Base.transaction do
 
         all_workers = User.joins(:work_times).group("users.id").having("(count(user_id)) > 0")
         valid_workers = []
-        
+
         all_workers.each do |worker|
           canwork = []
           if task_interval == "ANY"

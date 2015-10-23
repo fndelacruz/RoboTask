@@ -40,23 +40,6 @@
       });
     },
 
-    applyFilter: function(currentSortType) {
-      var sortTypes = Object.keys(this.state.sortType);
-      newSortTypes = {};
-      sortTypes.forEach(function(currentSortType) {
-        if (sortType === sortType) {
-          newSortTypes.sortType = true;
-        } else {
-          newSortTypes.sortType = false;
-        }
-      });
-
-      // NOTE: I might not want to use setState here and instead keep track of
-      // a private variable. This is because I suspect this will trigger a
-      // render, but I didn't actually sort the task array yet
-      this.setState({ sortType: newSortTypes });
-    },
-
     handleSort: function(tasks) {
       var sortedTasks = [];
       var sortTypes = Object.keys(this.state.sortType);
@@ -67,9 +50,10 @@
       // NOTE: Currently only considering one sortType, hence the [0]. Later,
       // can support multiple sortTypes - at this point I need to iterate
       // through the activeSortTypes instead of using only the first
+      debugger
       switch (activeSortTypes[0]) {
         case "shuffled":
-          return tasks.shuffle(tasks);
+          return shuffle(tasks);
         case "sortDateAscending":
           return tasks.sort(sortByDate(true));
         case "sortDateDescending":
@@ -113,6 +97,24 @@
       // ApiUtil.createWorkerTaskApplication(task);
     },
 
+    _applyFilter: function(currentSortType) {
+      var sortTypes = Object.keys(this.state.sortType);
+      var newSortTypes = {};
+      sortTypes.forEach(function(sortType) {
+        if (sortType === currentSortType) {
+          newSortTypes[sortType] = true;
+        } else {
+          newSortTypes[sortType] = false;
+        }
+      });
+
+      // NOTE: I might not want to use setState here and instead keep track of
+      // a private variable. This is because I suspect this will trigger a
+      // render, but I didn't actually sort the task array yet
+      debugger;
+      this.setState({ sortType: newSortTypes });
+    },
+
     render: function() {
       console.log("FindTasksIndex rendered.");
       var that = this;
@@ -122,18 +124,18 @@
       // TODO: eventually add sorting capability!!!!
       // ************************************************************
       // var qualfyingTasksRaw = shuffle(this.state.qualifyingTasks.slice());
-      var filters = "";
       var footer = "";
 
       var rawTasks = this.state.qualifyingTasks;
       var filteredTasks = this.handleSort(rawTasks.slice());
-
+      var filters = <div className="panel">Filters loading...</div>;
       if (this.state.finishedLoading) {
         tasksHeader = filteredTasks.length + " jobs found for you.";
         filters = (
-          <div className="panel">
-            Filters placeholder. Sort by (Date?) placeholder.
-          </div>
+          <FindTasksFilters
+            filters={this.state.sortType}
+            filterChange={this._applyFilter}
+          />
         );
         footer = (
           <div className="panel">
