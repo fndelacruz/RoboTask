@@ -13,12 +13,68 @@
     return array;
   };
 
+
+
+  var sortByDate = function(isAscending) {
+    return function(task1, task2) {
+      if (task1.datetime[2] < task2.datetime[2]) {
+        return isAscending ? -1 : 1 ;
+      } else if (task1.datetime[2] > task2.datetime[2]) {
+        return isAscending ? 1 : -1 ;
+      } else {
+        return 0;
+      }
+    };
+  };
+
   var FindTasksIndex = root.FindTasksIndex = React.createClass({
     getInitialState: function() {
       return ({
         qualifyingTasks: WorkableTaskStore.all(),
-        finishedLoading: false
+        finishedLoading: false,
+        sortType: {
+          shuffled: false,
+          sortDateAscending: true,
+          sortDateDescending: false
+        }
       });
+    },
+
+    applyFilter: function(currentSortType) {
+      var sortTypes = Object.keys(this.state.sortType);
+      newSortTypes = {};
+      sortTypes.forEach(function(currentSortType) {
+        if (sortType === sortType) {
+          newSortTypes.sortType = true;
+        } else {
+          newSortTypes.sortType = false;
+        }
+      });
+
+      // NOTE: I might not want to use setState here and instead keep track of
+      // a private variable. This is because I suspect this will trigger a
+      // render, but I didn't actually sort the task array yet
+      this.setState({ sortType: newSortTypes });
+    },
+
+    handleSort: function(tasks) {
+      var sortedTasks = [];
+      var sortTypes = Object.keys(this.state.sortType);
+      var that = this;
+      var activeSortTypes = sortTypes.filter(function(sortType) {
+        return that.state.sortType[sortType];
+      });
+      // NOTE: Currently only considering one sortType, hence the [0]. Later,
+      // can support multiple sortTypes - at this point I need to iterate
+      // through the activeSortTypes instead of using only the first
+      switch (activeSortTypes[0]) {
+        case "shuffled":
+          return tasks.shuffle(tasks);
+        case "sortDateAscending":
+          return tasks.sort(sortByDate(true));
+        case "sortDateDescending":
+          return tasks.sort(sortByDate(false));
+      }
     },
 
     _updateTaskFilters: function() {
@@ -65,11 +121,15 @@
       // NOTE: shuffling tasks for now just to keep it less stale.
       // TODO: eventually add sorting capability!!!!
       // ************************************************************
-      var shuffled_tasks = shuffle(this.state.qualifyingTasks.slice());
+      // var qualfyingTasksRaw = shuffle(this.state.qualifyingTasks.slice());
       var filters = "";
       var footer = "";
+
+      var rawTasks = this.state.qualifyingTasks;
+      var filteredTasks = this.handleSort(rawTasks.slice());
+
       if (this.state.finishedLoading) {
-        tasksHeader = shuffled_tasks.length + " jobs found for you.";
+        tasksHeader = filteredTasks.length + " jobs found for you.";
         filters = (
           <div className="panel">
             Filters placeholder. Sort by (Date?) placeholder.
@@ -84,6 +144,7 @@
       // ************************************************************
       // NOTE: Alter the "Looking for more?" message for final product
       // ************************************************************
+      debugger;
       return (
         <div className="container-fluid">
           <div className="row" id="task-map-row">
@@ -95,7 +156,7 @@
                 {tasksHeader}
               </div>
               {filters}
-              {shuffled_tasks.map(function(task) {
+              {filteredTasks.map(function(task) {
                 return (
                   <FindTasksIndexItem
                     applyToTask={that.applyToTask}

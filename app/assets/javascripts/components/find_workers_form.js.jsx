@@ -125,7 +125,6 @@
       var workers = this.state.validWorkers;
       var task = root.CreatedTaskStore.all()[this.props.params.storeTaskIdx];
       shuffle(workers);
-
       return (
         <div className="container">
           <div className="row" id="find-workers-form">

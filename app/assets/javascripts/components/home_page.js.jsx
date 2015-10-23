@@ -53,7 +53,13 @@
                 src={ "https://robohash.org/" + root.CURRENT_USER_ID } />
               <span className="home-header">Welcome to RoboTask, {root.CURRENT_USER_SHORTNAME}! </span>
             </div>
-            <div className="panel">
+            <div className="panel col-xs-12 col-sm-6 home-sub-header" id="task-create-welcome">
+              Need help with a task? Over 9,000 fellow RoboTaskers at your service. Click here to get started.
+            </div>
+            <div className="panel col-xs-12 col-sm-6 home-sub-header" id="task-find-welcome">
+              Looking for a job? Please visit your account settings and mark when you are availabl  e to work. Then, come back and click here to get started!
+            </div>
+
               <span className="home-sub-header">Upcoming tasks</span>
                 {(recentCreatedTasksAssigned === 0) ?
                   <div>No upcoming tasks!</div>
@@ -64,7 +70,6 @@
                     })}
                   </div>
                 }
-            </div>
 
             <div className="panel">
               <span className="home-sub-header">Tasks needing assignment</span>

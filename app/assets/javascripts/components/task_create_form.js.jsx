@@ -227,7 +227,9 @@
       // console.log(this.state);
       return (
         <div className="container" id="task-form">
-          <div className="page-heading" id="task-form-heading">New Task</div><br/>
+          <div className="section-heading-banner panel" id="task-form-heading">
+            Please describe your task
+          </div>
 
           <div className="panel">
             <div className="form-group">

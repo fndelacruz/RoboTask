@@ -51,6 +51,10 @@ class Task < ActiveRecord::Base
     WorkTime.interval_code(datetime.hour).capitalize
   end
 
+  def datetime_to_epoch_sec
+    datetime.to_i
+  end
+
   def in_bounds?(bounds)
     bounds
     sw_lat = bounds["southWest"]["lat"].to_f

@@ -183,7 +183,9 @@
       return (
         <div className="container">
           <div className="component-container" id="profile-form">
-            <div className="page-heading">{root.CURRENT_USER_SHORTNAME + "'s profile"}</div>
+            <div className="section-heading-banner panel">
+              {root.CURRENT_USER_SHORTNAME + "'s Account Settings"}
+            </div>
 
             <div className="panel">
               <div className="form-group">
@@ -267,6 +269,14 @@
                   {this.state.workTimesStatusMessage}
                </div>
               </div>
+            </div>
+
+            <div className="panel">
+              Change Password
+            </div>
+
+            <div className="panel">
+              Change your name
             </div>
           </div>
         </div>
