@@ -24,7 +24,6 @@
     dispatcherId: AppDispatcher.register(function(payload) {
       switch (payload.actionType) {
         case TaskConstants.WORKABLE_TASKS_RECEIVED:
-          console.log("hello?");
           _resetWorkableTasks(payload.action);
           break;
         default:

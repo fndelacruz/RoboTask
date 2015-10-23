@@ -16,22 +16,35 @@
   var FindTasksIndex = root.FindTasksIndex = React.createClass({
     getInitialState: function() {
       return ({
-        qualifyingTasks: [],
+        qualifyingTasks: WorkableTaskStore.all(),
         finishedLoading: false
       });
     },
 
+    _updateTaskFilters: function() {
+      // NOTE: UNCOMMENT THIS AFTER ADD FILTERS TO MAP (category, etc...)
+      // var newTaskParams = TaskMapFilterParamsStore.all();
+      // this.setState({ taskFilterParams: newTaskParams });
+      ApiUtil.fetchQualifyingTasks();
+      // debugger
+      console.log("_updateTaskFilters run");
+    },
+
     componentDidMount: function() {
-      ApiUtil.fetchQualifyingTasks(TaskMapFilterParamsStore.all());
+      console.log("FindTasksIndex");
       WorkableTaskStore.addChangeListener(this._receiveQualifyingTasks);
+      TaskMapFilterParamsStore.addChangeListener(this._updateTaskFilters);
+      ApiUtil.fetchQualifyingTasks();
     },
 
     componentWillUnmount: function() {
       WorkableTaskStore.removeChangeListener(this._receiveQualifyingTasks);
+      TaskMapFilterParamsStore.removeChangeListener(this._updateTaskFilters);
     },
 
     _receiveQualifyingTasks: function() {
       // NOTE: Limited to 5 tasks for now
+      // debugger
       this.setState({
         qualifyingTasks: WorkableTaskStore.all(),
         finishedLoading: true
@@ -45,6 +58,7 @@
     },
 
     render: function() {
+      console.log("FindTasksIndex rendered.");
       var that = this;
       var tasksHeader = "Finding your qualified jobs ...";
       // ************************************************************
@@ -52,14 +66,14 @@
       // TODO: eventually add sorting capability!!!!
       // ************************************************************
       var shuffled_tasks = shuffle(this.state.qualifyingTasks.slice());
-      if (this.state.finishedLoading) {
-        tasksHeader = shuffled_tasks.length + " jobs found for you!";
-      }
+      // if (this.state.finishedLoading) {
+      //   tasksHeader = shuffled_tasks.length + " jobs found for you!";
+      // }
       return (
         <div className="container-fluid">
           <div className="row" id="task-map-row">
             <div className="col-xs-12 col-sm-7" id="map-col">
-              <TaskMap />
+              <TaskMap tasks={this.state.qualifyingTasks} />
             </div>
             <div className="col-xs-12 col-sm-5" id="workable-tasks-holder">
               <div className="panel" id="find-tasks-index-items-header">

@@ -2,10 +2,11 @@
   'use strict';
 
   root.FilterActions = {
-    receiveNewFilterParams: function(newFilterParams) {
-      root.AppDispatcher.dispatch({
-        actionType: FilterConstants.FILTER_PARAMS_CHANGE,
-        action: newFilterParams
+    updateBounds: function(bounds) {
+      // debugger;
+      AppDispatcher.dispatch({
+        actionType: FilterConstants.UPDATE_MAP_BOUNDS,
+        action: bounds
       });
     }
   };

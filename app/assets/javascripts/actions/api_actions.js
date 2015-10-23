@@ -71,6 +71,7 @@
     },
 
     receiveWorkableTasks: function(tasks) {
+      console.log("receiveWorkableTasks");
       AppDispatcher.dispatch({
         actionType: TaskConstants.WORKABLE_TASKS_RECEIVED,
         action: tasks

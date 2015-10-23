@@ -2,6 +2,6 @@
   'use strict';
 
   root.FilterConstants = {
-    RECEIVED_NEW_FILTER_PARAMS: "RECEIVED_NEW_FILTER_PARAMS"
+    UPDATE_MAP_BOUNDS: "UPDATE_MAP_BOUNDS"
   };
 }(this));

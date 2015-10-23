@@ -47,20 +47,10 @@
         <div className="container">
           <div className="row">
             <div className="panel">
-              <OverlayTrigger
-                trigger="hover"
-                placement="bottom"
-                overlay={
-                  <Popover
-                    title="Hello">
-                    Hi there!
-                  </Popover>
-                }>
-                <img
-                  className="reviewer-profile-pic"
-                  id="home-current-user-pic"
-                  src={ "https://robohash.org/" + root.CURRENT_USER_ID } />
-              </OverlayTrigger>
+              <img
+                className="reviewer-profile-pic"
+                id="home-current-user-pic"
+                src={ "https://robohash.org/" + root.CURRENT_USER_ID } />
               <span className="home-header">Welcome to RoboTask, {root.CURRENT_USER_SHORTNAME}! </span>
             </div>
             <div className="panel">

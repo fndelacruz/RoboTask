@@ -13,13 +13,13 @@
   var TaskMap = root.TaskMap = React.createClass({
     // mixins: [ReactRouter.History],
     //
-    getInitialState: function() {
-      return ({
-        clicked: false,
-        tasks: [],
-        markers: []
-      });
-    },
+    // getInitialState: function() {
+    //   return ({
+    //     clicked: false,
+    //     tasks: [],
+    //     markers: []
+    //   });
+    // },
     //
     // _changed: function() {
     //   this._createNewMarkers(BenchStore.all());
@@ -76,8 +76,9 @@
     },
 
     updateTaskMarkers: function() {
-      this.setState({ tasks: WorkableTaskStore.all() });
-      this._createNewMarkers(this.state.tasks);
+      console.log("updateTaskMarkers");
+      // this.setState({ tasks: WorkableTaskStore.all() });
+      // this._createNewMarkers(this.state.tasks);
     },
 
     componentDidMount: function() {
@@ -89,19 +90,22 @@
       this.map = new root.google.maps.Map(map, mapOptions);
       this.listenForMove();
       this.listenForMapClick();
-      WorkableTaskStore.addChangeListener(this.updateTaskMarkers);
+      // WorkableTaskStore.addChangeListener(this.updateTaskMarkers);
       // BenchStore.addChangeListener(this._changed);
-      TaskMapHighLightStore.addChangeListener(this._handleMarkerHighlight);
+      // TaskMapHighLightStore.addChangeListener(this._handleMarkerHighlight);
+
     },
 
     componentWillReceiveProps: function(tasks) {
-      // this._createNewMarkers(tasks.tasks);
+      // debugger
+      console.log("componentWillReceiveProps");
+      this._createNewMarkers(tasks.tasks);
     },
 
     componentWillUnmount: function() {
-      WorkableTaskStore.removeChangeListener(this.updateTaskMarkers);
+      // WorkableTaskStore.removeChangeListener(this.updateTaskMarkers);
       // BenchStore.removeChangeListener(this._changed);
-      TaskMapHighLightStore.removeChangeListener(this._handleMarkerHighlight);
+      // TaskMapHighLightStore.removeChangeListener(this._handleMarkerHighlight);
       taskIdsWithMarkers = [];
       taskIdMarkerDirectory = {};
     },
@@ -111,7 +115,6 @@
     },
 
     _handleMove: function() {
-      console.log("_handleMove run");
       // O: latitude
       // // O: south
       // // j: north
@@ -131,10 +134,12 @@
 
 
 
-      var filterParams = TaskMapFilterParamsStore.all();
-      filterParams.bounds = bounds;
+      // var filterParams = TaskMapFilterParamsStore.all();
+      // filterParams.bounds = bounds;
+      // debugger;
 
-      FilterActions.receiveNewFilterParams(filterParams);
+      console.log("_handleMove run. bounds: " + bounds);
+      FilterActions.updateBounds(bounds);
     },
 
     listenForMapClick: function() {
@@ -162,6 +167,7 @@
     },
 
     render: function() {
+      // debugger;
       console.log("TaskMap rendered");
       // debugger;
       return (

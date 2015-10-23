@@ -51,13 +51,14 @@ class Task < ActiveRecord::Base
     WorkTime.interval_code(datetime.hour).capitalize
   end
 
-  def in_bounds(bounds)
-    real_bench_params = params["bench"]
-    south_west_lat = real_bench_params["bounds"]["southWest"]["lat"].to_f
-    north_east_lat = real_bench_params["bounds"]["northEast"]["lat"].to_f
-    south_west_lng = real_bench_params["bounds"]["southWest"]["lng"].to_f
-    north_east_lng = real_bench_params["bounds"]["northEast"]["lng"].to_f
-    debugger
+  def in_bounds?(bounds)
+    bounds
+    sw_lat = bounds["southWest"]["lat"].to_f
+    ne_lat = bounds["northEast"]["lat"].to_f
+    sw_lng = bounds["southWest"]["lng"].to_f
+    ne_lng = bounds["northEast"]["lng"].to_f
+
+    lat.between?(sw_lat, ne_lat) && lng.between?(sw_lng, ne_lng)
   end
 
   private

@@ -19,12 +19,12 @@
     // },
 
     handleMouseOver: function(task) {
-      console.log("onMouseOver: " + task.title + new Date());
+      // console.log("onMouseOver: " + task.title + new Date());
       TaskMapActions.taskHighlightOn(task.id);
     },
 
     handleMouseOut: function(task) {
-      console.log("onMouseOut: " + task.title + new Date());
+      // console.log("onMouseOut: " + task.title + new Date());
       TaskMapActions.taskHighlightOff(task.id);
     },
 

@@ -40,7 +40,7 @@
     },
 
     componentDidMount: function() {
-      root.ApiUtil.fetchCreatedTasks();
+      ApiUtil.fetchCreatedTasks();
       root.CreatedTaskStore.addChangeListener(this.updateCreatedTaskCount);
     },
 
