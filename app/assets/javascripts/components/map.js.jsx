@@ -26,26 +26,25 @@
     //   this._deleteOutOfBoundsMarkers(BenchStore.all());
     // },
     //
-    // _deleteOutOfBoundsMarkers: function(storeBenches) {
-    //   var mapBenchIds = Object.keys(benchIdMarkerDirectory);
-    //
-    //   var storeBenchIds = storeBenches.map(function(storeBench) {
-    //     return storeBench.id.toString();
-    //   });
-    //
-    //   mapBenchIds.forEach(function(mapBenchId) {
-    //     if (storeBenchIds.indexOf(mapBenchId) === -1) {
-    //       benchIdMarkerDirectory[mapBenchId].setMap(null);
-    //       delete benchIdMarkerDirectory[mapBenchId];
-    //
-    //       benchIdsWithMarkers.splice(benchIdsWithMarkers.indexOf(mapBenchId), 1);
-    //     }
-    //   });
-    // },
-    //
+    _deleteOutOfBoundsMarkers: function(tasks) {
+      var mapTaskIds = Object.keys(taskIdMarkerDirectory);
+
+      var storeTaskIds = tasks.map(function(task) {
+        return task.id.toString();
+      });
+
+      mapTaskIds.forEach(function(mapTaskId) {
+        if (storeTaskIds.indexOf(mapTaskId) === -1) {
+          taskIdMarkerDirectory[mapTaskId].setMap(null);
+          delete taskIdMarkerDirectory[mapTaskId];
+
+          taskIdsWithMarkers.splice(taskIdsWithMarkers.indexOf(mapTaskId), 1);
+        }
+      });
+    },
+
     _createNewMarkers: function(tasks) {
-      tasks.forEach(function(task_holder) {
-        var task = task_holder.task;
+      tasks.forEach(function(task) {
         var taskId = task.id.toString();
         if (taskNeedsMarker(taskId)) {
           var marker = new root.google.maps.Marker({
@@ -92,7 +91,7 @@
       this.listenForMapClick();
       // WorkableTaskStore.addChangeListener(this.updateTaskMarkers);
       // BenchStore.addChangeListener(this._changed);
-      // TaskMapHighLightStore.addChangeListener(this._handleMarkerHighlight);
+      TaskMapHighLightStore.addChangeListener(this._handleMarkerHighlight);
 
     },
 
@@ -100,12 +99,13 @@
       // debugger
       console.log("componentWillReceiveProps");
       this._createNewMarkers(tasks.tasks);
+      this._deleteOutOfBoundsMarkers(tasks.tasks);
     },
 
     componentWillUnmount: function() {
       // WorkableTaskStore.removeChangeListener(this.updateTaskMarkers);
       // BenchStore.removeChangeListener(this._changed);
-      // TaskMapHighLightStore.removeChangeListener(this._handleMarkerHighlight);
+      TaskMapHighLightStore.removeChangeListener(this._handleMarkerHighlight);
       taskIdsWithMarkers = [];
       taskIdMarkerDirectory = {};
     },

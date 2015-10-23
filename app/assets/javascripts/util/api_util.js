@@ -195,7 +195,6 @@
         data: params,
         method: "GET",
         success: function(tasks) {
-          // debugger
           ApiActions.receiveWorkableTasks(tasks);
         }
       });

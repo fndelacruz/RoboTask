@@ -66,9 +66,9 @@
       // TODO: eventually add sorting capability!!!!
       // ************************************************************
       var shuffled_tasks = shuffle(this.state.qualifyingTasks.slice());
-      // if (this.state.finishedLoading) {
-      //   tasksHeader = shuffled_tasks.length + " jobs found for you!";
-      // }
+      if (this.state.finishedLoading) {
+        tasksHeader = shuffled_tasks.length + " jobs found for you.";
+      }
       return (
         <div className="container-fluid">
           <div className="row" id="task-map-row">
@@ -84,7 +84,7 @@
                 return (
                   <FindTasksIndexItem
                     applyToTask={that.applyToTask}
-                    workableTask={task.task} />
+                    workableTask={task} />
                 );
               })}
             </div>
