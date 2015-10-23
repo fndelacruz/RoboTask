@@ -66,9 +66,24 @@
       // TODO: eventually add sorting capability!!!!
       // ************************************************************
       var shuffled_tasks = shuffle(this.state.qualifyingTasks.slice());
+      var filters = "";
+      var footer = "";
       if (this.state.finishedLoading) {
         tasksHeader = shuffled_tasks.length + " jobs found for you.";
+        filters = (
+          <div className="panel">
+            Filters placeholder. Sort by (Date?) placeholder.
+          </div>
+        );
+        footer = (
+          <div className="panel">
+            Looking for more? Try changing your and qualifications and availability in your account settings.
+          </div>
+        );
       }
+      // ************************************************************
+      // NOTE: Alter the "Looking for more?" message for final product
+      // ************************************************************
       return (
         <div className="container-fluid">
           <div className="row" id="task-map-row">
@@ -79,7 +94,7 @@
               <div className="panel" id="find-tasks-index-items-header">
                 {tasksHeader}
               </div>
-
+              {filters}
               {shuffled_tasks.map(function(task) {
                 return (
                   <FindTasksIndexItem
@@ -87,6 +102,7 @@
                     workableTask={task} />
                 );
               })}
+              {footer}
             </div>
           </div>
         </div>
