@@ -27,6 +27,7 @@ $(function() {
     var routes = (
       <Route path="/" component={App}>
         <Route path="home" component={HomePage} />
+        <Route path="messages" component={UserMessages} />
         <Route path="findtasks" component={FindTasksIndex} />
         <Route path="task/new" component={TaskForm} />
         <Route path="taskmap" component={TaskMap} />

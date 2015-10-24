@@ -387,7 +387,11 @@ ActiveRecord::Base.transaction do
     user = User.find(x)
 
     # 50% chance for a user to make tasks
-    if rand < 0.3
+
+    # ****************************************************************
+    # NOTE: CURRENTLY SET AUTO GENERATED USERS TO NOT CREATE TASKS
+    # ****************************************************************
+    if rand < 0
       # user_id = user.id
       # generate some random tasks for  user, unassigned
       rand(MIN_CREATED_TASKS..MAX_CREATED_TASKS).times do |x|
@@ -435,10 +439,9 @@ ActiveRecord::Base.transaction do
         end
 
         task.worker = valid_workers[rand(valid_workers.length)]
-        # debugger if task.worker == nil
         # debugger
-        # debugger valid_workers.length = 0
         task.save!
+        task.creator.send_message("AUTO-NOTIFICATION: I hired you for this task!", task)
       end
 
       # # assign revies to those assigned Tasks
@@ -531,10 +534,8 @@ ActiveRecord::Base.transaction do
     end
 
     task.worker = valid_workers[rand(valid_workers.length)]
-    # debugger if task.worker == nil
-    # debugger
-    # debugger valid_workers.length = 0
     task.save!
+    task.creator.send_message("AUTO-NOTIFICATION: I hired you for this task!", task)
   end
 
   # # assign revies to those assigned Tasks
@@ -563,6 +564,3 @@ ActiveRecord::Base.transaction do
     end
   end
 end
-
-# NOTE: This should get all guest tasks assigned tasks... is it working?
-# User.last.created_tasks.select {|task| task.worker != nil}

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resources :tasks, only: [:create, :index, :destroy, :update]
     resources :users, only: [:index, :show, :update]
     resources :reviews, only: [:index, :create]
+    resources :messages, only: [:index]
     namespace :workers do
       resources :tasks, only: [:index]
     end

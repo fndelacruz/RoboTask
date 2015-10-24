@@ -80,7 +80,11 @@
         // NOTE: if user presses "enter" on the search field instead of selecting
         // an address below, then an error occurs due to address_component being
         // undefined. HANDLE THIS
-        this.props.adressEntryListener(place.formatted_address);
+        this.props.adressEntryListener(
+          place.formatted_address,
+          place.geometry.location.lat(),
+          place.geometry.location.lng()
+        )
       } else {
         // NOTE: replace this with real feedback message!
         this.props.invalidAddressListener();

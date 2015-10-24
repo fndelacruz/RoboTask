@@ -56,12 +56,16 @@ description       | string    | not null
 qualifiable_id    | integer   | not null, foreign key (references users(workers) or tasks), indexed
 qualifiable_type  | integer   | not null
 
+
 ## notifications (bonus)
+## note: I changed this to make notifications/messages always be associated with
+## a particular task. (no random social messaging, unless it is task associated)
 column name | data type | details
 ------------|-----------|-----------------------
 id          | integer   | not null, primary key
 owner_id    | integer   | not null, foreign key (references users), indexed
 sender_id   | integer   | not null, foreign key (references users), indexed
 receiver_id | integer   | not null, foreign key (references users), indexed
+task_id     | integer   | not null, foreign key (references tasks), indexed
 message     | text      | not null
 is_read     | boolean   | not null, default: false

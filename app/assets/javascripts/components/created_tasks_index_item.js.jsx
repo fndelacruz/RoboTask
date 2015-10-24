@@ -78,7 +78,7 @@
                 <div className="task-title-divider" />
                 <span className="task-location">{task.location}</span><br/>
                 <span className="task-description">{task.description}</span><br/>
-                <span className="task-date-scheduled">{task.worktime_date} {task.worktime_interval}</span><br/>
+                <span className="task-date-scheduled">{task.workTimeDate} {task.workTimeInterval}</span><br/>
                 created: {task.created_at} (TODO: +link to profile for this worker)<br/>
                 worker: {hasWorker ? task.worker_shortname : "UNASSIGNED"}<br/>
               </div>

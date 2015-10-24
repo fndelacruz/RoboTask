@@ -35,6 +35,24 @@ class User < ActiveRecord::Base
 
   has_many(:work_times)
 
+  has_many(:messages,
+    class_name: "Message",
+    foreign_key: :owner_id,
+    primary_key: :id
+  )
+
+  # has_many(:received_messages,
+  #   class_name: "Message",
+  #   foreign_key: :receiver_id,
+  #   primary_key: :id
+  # )
+  #
+  # has_many(:sent_messages,
+  #   class_name: "Message",
+  #   foreign_key: :sender_id,
+  #   primary_key: :id
+  # )
+
   after_initialize :ensure_session_token!
 
   def self.find_by_credentials(email, password)
@@ -68,6 +86,50 @@ class User < ActiveRecord::Base
 
   def nickname
     "#{fname} #{lname[0]}."
+  end
+
+  # NOTE: Possibly change task_id to just task and do the initial
+  # query and validation at the controller level too
+  def send_message(message, task_id)
+    task = Task.find(task_id)
+    isFromCreatorToWorker = task.creator == self
+    if isFromCreatorToWorker
+      Message.create([{
+        owner: self,
+        sender: self,
+        receiver: task.worker,
+        task: task,
+        message: message
+        }, {
+        owner: task.worker,
+        sender: self,
+        receiver: task.worker,
+        task: task,
+        message: message
+      }])
+    else
+      Message.create([{
+        owner: self,
+        sender: self,
+        receiver: task.creator,
+        task: task,
+        message: message
+        }, {
+        owner: task.creator,
+        sender: self,
+        receiver: task.creator,
+        task: task,
+        message: message
+      }])
+    end
+  end
+
+  def received_messages
+    messages.where(receiver: self)
+  end
+
+  def sent_messages
+    messages.where(sender: self)
   end
 
   private

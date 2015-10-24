@@ -27,7 +27,8 @@
 
       return ({
         unassignedTaskCount: unassignedTasks,
-        assignedTaskCount: assignedTasks
+        assignedTaskCount: assignedTasks,
+        message_count: 0
       });
     },
 
@@ -39,13 +40,25 @@
       });
     },
 
+    updateMessages: function() {
+      // *******************************************************
+      // NOTE: MIGHT NEED TO DO MORE HERE
+      // *******************************************************
+      this.setState({ message_count: MessageStore.all().length });
+    },
+
     componentDidMount: function() {
       ApiUtil.fetchCreatedTasks();
-      root.CreatedTaskStore.addChangeListener(this.updateCreatedTaskCount);
+      CreatedTaskStore.addChangeListener(this.updateCreatedTaskCount);
+
+      ApiUtil.fetchMessages();
+      MessageStore.addChangeListener(this.updateMessages);
     },
 
     componentWillUnmount: function() {
-      root.CreatedTaskStore.removeChangeListener(this.updateCreatedTaskCount);
+      CreatedTaskStore.removeChangeListener(this.updateCreatedTaskCount);
+
+      MessageStore.removeChangeListener(this.updateMessages);
     },
 
     handleLogoClick: function() {
@@ -76,6 +89,10 @@
       this.history.pushState(null, "/findtasks");
     },
 
+    handleMessages: function() {
+      this.history.pushState(null, "/messages");
+    },
+
     render: function() {
       // debugger;
       var unassignedCount = this.state.unassignedTaskCount;
@@ -100,11 +117,14 @@
             <div className="collapse navbar-collapse" id="collapse-menu">
               <ul className="nav navbar-nav navbar-right">
                 <li
-                  className="bigger-test"
+                  onClick={this.handleMessages}>
+                  <a><strong>Messages</strong>
+                  <span className="">{this.state.message_count}</span></a>
+                </li>
+                <li
                   onClick={this.handleCreateTaskClick}><a><strong>New Task</strong></a>
                 </li>
                 <li
-                  className="bigger-test"
                   onClick={this.handleFindTaskClick}><a><strong>Find Task</strong></a>
                 </li>
                 <li className="dropdown">

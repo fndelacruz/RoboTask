@@ -25,6 +25,8 @@
 
         entryLocation: "",
         location: "",
+        lat: "",
+        lng: "",
         locationStatus: "",
         locationStatusMessage: "",
 
@@ -58,10 +60,15 @@
         var newTask = {
           title: this.state.title,
           location: this.state.location,
+          lat: this.state.lat,
+          lng: this.state.lng,
           description: this.state.description,
         };
         root.ApiUtil.createTask(newTask);
       } else {
+        // ********************************************************
+        // NOTE: CHANGE THIS TO LOOK BETTER
+        // ********************************************************
         this.setState({ mainStatusMessage: "Please complete the form!!" });
       }
     },
@@ -72,12 +79,14 @@
     },
 
 
-    handleAddressChange: function(address) {
+    handleAddressChange: function(address, lat, lng) {
       // NOTE: Looks like we ONLY get here if address is ok. not sure how to
       // handle if address is NOT ok. Looks like I have to pass a
       // isValidLocation function as props to LocationEntry
       this.setState({
         location: address,
+        lat: lat,
+        lng: lng,
         locationStatus: "OK",
         locationStatusMessage: "Valid location entered!"
       });
@@ -86,6 +95,8 @@
     _handleInvalidAddress: function() {
       this.setState({
         location: "",
+        lat: "",
+        lng: "",
         locationStatus: "BAD",
         locationStatusMessage: "Sorry, RoboTask is currently limited to San Francisco residents!"
       });

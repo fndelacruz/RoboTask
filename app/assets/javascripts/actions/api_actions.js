@@ -76,6 +76,14 @@
         actionType: TaskConstants.WORKABLE_TASKS_RECEIVED,
         action: tasks
       });
+    },
+
+    receiveMessages: function(messages) {
+      console.log("ApiActions.receiveMessages run.");
+      AppDispatcher.dispatch({
+        actionType: MessageConstants.RECEIVED_NEW_MESSAGES,
+        action: messages
+      });
     }
 
   };
