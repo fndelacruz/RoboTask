@@ -75,7 +75,7 @@
                 [TODO: center profile pic. add background]
                 <img
                   className="review-worker-profile-pic center-block"
-                  src={ "https://robohash.org/" + this.props.worker.id } /><br/>
+                  src={ "https://robohash.org/" + this.props.worker.id  + "?bgset=any"} /><br/>
 
 
                 <div className="text-center" id="worker-profile-shortName">{this.props.shortName}</div>

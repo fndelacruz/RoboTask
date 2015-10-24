@@ -33,7 +33,7 @@
                   <img
                     className="worker-taskview-pic"
                     id="polaroid-picture"
-                    src={ "https://robohash.org/" + task.worker_id } />
+                    src={ "https://robohash.org/" + task.worker_id  + "?bgset=any"} />
                 :
                   ""
                 }

@@ -50,7 +50,7 @@
               <img
                 className="reviewer-profile-pic"
                 id="home-current-user-pic"
-                src={ "https://robohash.org/" + root.CURRENT_USER_ID } />
+                src={ "https://robohash.org/" + root.CURRENT_USER_ID  + "?bgset=any"} />
               <span className="home-header">Welcome to RoboTask, {root.CURRENT_USER_SHORTNAME}! </span>
             </div>
             <div className="panel col-xs-12 col-sm-6 home-sub-header" id="task-create-welcome">

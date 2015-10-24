@@ -23,7 +23,7 @@
           <div className="col-xs-12 col-sm-4" id="find-workers-form-item-pic-name-container">
             <img
               className="worker-profile-pic"
-              src={ "https://robohash.org/" + worker.id } /><br/>
+              src={ "https://robohash.org/" + worker.id  + "?bgset=any"} /><br/>
             <div className="text-center" id="worker-profile-shortName">{shortName}</div><br/>
           </div>
 
