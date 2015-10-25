@@ -107,14 +107,48 @@ button:hover {
 	width: 100%;
 }
 
+.reviewer-profile-pic-container {
+		width:100px;
+		height:100px;
+		position:relative;
+}
 .reviewer-profile-pic {
   border-radius: 50%;
   border: 1px solid black;
-  height: 100px;
-  width: 100px;
-	// float: left;
-	// display: inline-block;
+  height: inherit;
+  width: inherit;
 }
+
+.review-icon-holder-ok {
+	display:block;
+	position:absolute;
+	border: 3px solid green;
+	border-radius: 50%;
+	bottom: 10px;
+	right: 10px;
+	height: 30px;
+	width: 30px;
+	background-color: white;
+}
+
+.review-icon-holder-bad {
+	display:block;
+	position:absolute;
+	border: 3px solid red;
+	border-radius: 50%;
+	bottom: 10px;
+	right: 10px;
+	height: 30px;
+	width: 30px;
+	background-color: white;
+}
+
+#review-icon {
+	top: 5px;
+	left: 5px;
+	right: 12px;
+}
+
 .review-info {
 	// float: left;
 	// display: inline-block;

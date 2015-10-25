@@ -97,7 +97,23 @@
             type="submit"
             value="Login">
             Login
-          </button>
+          </button><br/><br/>
+          <form action="<%= session_index_url %>" method="post" class="">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <input type="hidden" name="session[email]" value="client@guest.guest" />
+            <input type="hidden" name="session[password" value="password" />
+            <button class="btn btn-default" type="submit" value="Login">
+              Guest Client Login
+            </button>
+          </form>
+          <form action="<%= session_index_url %>" method="post" class="">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <input type="hidden" name="session[email]" value="robot@guest.guest" />
+            <input type="hidden" name="session[password" value="password" />
+            <button class="btn btn-default" type="submit" value="Login">
+              Guest Robot Login
+            </button>
+          </form>
         </div><br/>
         <div><a href="/users/new"> New user? </a></div>
         <% if flash[:errors] %>

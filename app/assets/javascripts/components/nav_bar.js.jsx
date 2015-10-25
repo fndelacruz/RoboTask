@@ -62,7 +62,7 @@
     },
 
     handleLogoClick: function() {
-      this.history.pushState(null, "/home");
+      this.history.pushState(null, "/");
     },
 
     handleLogoutClick: function() {

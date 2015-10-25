@@ -34,7 +34,8 @@
               <div id="about-content">{worker.bio}</div>
               <div className="worker-stats">
                 <h3>{worker.stats.total_tasks} RoboTasks completed</h3>
-                <h4>{worker.stats.approval_rating} Approval rating</h4>
+                <h4>{worker.stats.approval_rating}% Approval rating</h4>
+                <h3>§{worker.wage}/hr</h3>
               </div>
 
               <ReviewIndexModal worker={this.props.worker} shortName={shortName} />

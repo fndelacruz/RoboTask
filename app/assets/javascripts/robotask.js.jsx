@@ -9,8 +9,21 @@ $(function() {
     var App = root.App = React.createClass({
       mixins: [ReactRouter.History],
 
+      getInitialState: function() {
+        return ({
+          currentUserSettings: []
+        });
+      },
+
       componentDidMount: function() {
-        this.history.pushState(null, "/home");
+
+        // this.history.pushState(null, "/home");
+      },
+
+      updateUserDetails: function() {
+        this.setState({
+          currentUserSettings: CurrentUserStore.all()
+        });
       },
 
       render: function() {
@@ -26,7 +39,7 @@ $(function() {
 
     var routes = (
       <Route path="/" component={App}>
-        <Route path="home" component={HomePage} />
+        <IndexRoute component={HomePage} />
         <Route path="messages" component={UserMessages} />
         <Route path="findtasks" component={FindTasksIndex} />
         <Route path="task/new" component={TaskForm} />

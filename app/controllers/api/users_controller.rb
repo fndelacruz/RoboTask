@@ -25,7 +25,6 @@ class Api::UsersController < ApplicationController
         .where('work_times.day = ?', day)
         .references(:work_times)
     end
-
     # NOTE: this fetches ALL worker users. don't use it anymore but might be
     # useful later
     # @users = User.joins(:work_times)

@@ -12,6 +12,8 @@
 #  fname           :string           not null
 #  lname           :string           not null
 #  is_robot        :boolean          not null
+#  wage            :integer          default(0), not null
+#  skill           :integer
 #
 
 require 'test_helper'

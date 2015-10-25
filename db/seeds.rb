@@ -42,23 +42,39 @@ def random_title
   random_titles[rand(random_titles.length)].capitalize
 end
 
+# ******************************************************************************
+# NOTE: these settings add some variety to robot success on job completion for
+# the simulated job assignments
+def get_wage(skill)
+  modulation = rand(0.05..0.35) * (rand(2) == 0 ? -1 : 1)
+  wage = (rand(0.6..0.8) * skill + (skill * modulation))
+  # debugger
+  return wage < 10 ? 10 : wage
+end
+
+# ******************************************************************************
+
 ActiveRecord::Base.transaction do
   # ****************************************************************************
   # NOTE: generate NUM_ROBOTS random robots...
   # ****************************************************************************
-  NUM_ROBOTS = 10
+  NUM_ROBOTS = 20
   random_robots = []
   NUM_ROBOTS.times do |x|
+    skill = rand(70..90);
     random_robots << {
       is_robot: true,
       fname: Faker::Name.first_name,
       lname: Faker::Name.last_name,
       email: Faker::Internet.email,
       password_digest: BCrypt::Password.create("password"),
-      bio: Faker::Lorem.sentences(rand(4..10), true).join(" ")
+      bio: Faker::Lorem.sentences(rand(4..10), true).join(" "),
+      skill: skill,
+      wage: get_wage(skill).to_i
     }
   end
   User.create!(random_robots)
+
   # ****************************************************************************
   # NOTE: ...and their corresponding work times.
   # ****************************************************************************
@@ -175,7 +191,7 @@ ActiveRecord::Base.transaction do
       task.creator.send_message("AUTO-NOTIFICATION: I hired you for this task!", task)
     end
 
-    # # assign revies to those assigned Tasks
+    # # assign reviews to those assigned Tasks
     rand(MIN_ASSIGNED_TASKS..MAX_ASSIGNED_TASKS).times do |x|
       assigned_tasks = user.created_tasks.select { |task| task.review == nil }
       task = assigned_tasks.sample
@@ -190,16 +206,13 @@ ActiveRecord::Base.transaction do
         end
         description = description_arr.shuffle!.join(" ")
 
-        is_positive = true
-        chance_to_fail = rand(0.05..0.20)
-        if chance_to_fail < rand
-          is_positive = false
-        end
-
+        # NOTE: rolls the dice for job success based on worker's skill attribute
+        chance_to_succeed = task.worker.skill
+        is_positive = chance_to_succeed > (rand * 100).to_i ? true : false
         Review.create!([
           {
             task: task,
-            is_positive: [true, false][rand(2)],
+            is_positive: is_positive,
             description: description,
             created_at: task.datetime + rand(1..3).days
           }
@@ -284,10 +297,13 @@ ActiveRecord::Base.transaction do
       end
       description = description_arr.shuffle!.join(" ")
 
+      chance_to_succeed = task.worker.skill
+      is_positive = chance_to_succeed > (rand * 100).to_i ? false : true
+
       Review.create!([
         {
           task: task,
-          is_positive: [true, false][rand(2)],
+          is_positive: is_positive,
           description: description,
           created_at: task.datetime + rand(1..3).days
         }

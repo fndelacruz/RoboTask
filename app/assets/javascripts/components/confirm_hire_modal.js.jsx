@@ -117,7 +117,7 @@
               <div>
                 <img
                   className="confirm-worker-profile-pic center-block"
-                  src={ "https://robohash.org/" + worker.id + "?bgset=any"} /><br/>
+                  src={ worker.image } /><br/>
 
 
                 <h1 className="text-center worker-profile-shortName">Hire {this.props.shortName} ?</h1>

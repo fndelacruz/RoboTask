@@ -12,6 +12,8 @@
 #  fname           :string           not null
 #  lname           :string           not null
 #  is_robot        :boolean          not null
+#  wage            :integer          default(0), not null
+#  skill           :integer
 #
 
 class User < ActiveRecord::Base
@@ -149,7 +151,7 @@ class User < ActiveRecord::Base
       {
         total_tasks: completed_worked_tasks.count,
         approval_rating: (
-          "#{(good_tasks.count.to_f / completed_worked_tasks.count * 100).round(1)}%"
+          (good_tasks.count.to_f / completed_worked_tasks.count * 100).round(1)
         )
       }
     end
