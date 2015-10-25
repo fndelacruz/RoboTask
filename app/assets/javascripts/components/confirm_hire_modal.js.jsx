@@ -73,6 +73,7 @@
     },
 
     open: function() {
+      debugger
       this.setState({ showModal: true });
     },
 
@@ -86,6 +87,8 @@
       var task = this.props.task;
       var worker = this.props.worker;
       var dateTime = this.props.dateTime;
+      var shortName = this.props.shortName;
+      var wage = worker.wage;
 
       var successHandler = this.props.successHandler;
 
@@ -111,7 +114,7 @@
 
           <Modal show={this.state.showModal} onHide={this.close}>
             <Modal.Header closeButton>
-              <Modal.Title>Confirm RoboTasker</Modal.Title>
+              <Modal.Title><strong>Confirm RoboTasker</strong></Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <div>
@@ -120,7 +123,7 @@
                   src={ worker.image } /><br/>
 
 
-                <h1 className="text-center worker-profile-shortName">Hire {this.props.shortName} ?</h1>
+                <h1 className="text-center" id="worker-profile-shortName">Hire {shortName} at §{wage}/hr?</h1>
                 <div className="task-date-scheduled">{dateTime[0]}</div>
                 <div className="task-time-scheduled">{dateTime[1]}</div><br/>
 

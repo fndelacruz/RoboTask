@@ -121,6 +121,19 @@
       ApiUtil.assignWorkerToTask(task, worker, datetime);
     },
 
+    _parseDateTime: function() {
+      switch (this.state.interval) {
+        case "ANY":
+          return "Anytime";
+        case "MORNING":
+          return "Morning";
+        case "AFTERNOON":
+          return "Afternoon";
+        case "EVENING":
+          return "Evening";
+      }
+    },
+
     render: function() {
       var workers = this.state.validWorkers;
       var task = root.CreatedTaskStore.all()[this.props.params.storeTaskIdx];
@@ -166,7 +179,7 @@
                         worker={worker}
                         task={task}
                         chooseWorker={this.chooseWorker}
-                        dateTime={[this.state.dateTime.toLocaleDateString(), this.state.interval]}
+                        dateTime={[this.state.dateTime.toLocaleDateString(), this._parseDateTime()]}
                         key={worker.id}/>
                     </div>
                   );
