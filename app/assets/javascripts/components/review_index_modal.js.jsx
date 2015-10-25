@@ -80,7 +80,7 @@
 
                 <div className="text-center" id="worker-profile-shortName">{this.props.shortName}</div>
                 <div className="text-center" id="worker-profile-rating">{rating}% Approval Rating</div>
-                <p className="text-center">Member since: {this.props.worker.created_at.slice(0,10).replace(/-/g,"/")}</p>
+                <p className="text-center">Member since: {this.props.worker.created_at}</p>
 
                 {reviews.map(function(review) {
                   return <ReviewIndexModalItem review={review} key={review.id}/>;

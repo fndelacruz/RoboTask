@@ -359,8 +359,12 @@ body {
 	text-align: center;
 }
 
-#find-worker-form-item-about-container {
+.find-worker-form-item-about-container {
 	text-align: left;
+}
+
+.find-worker-form-item-about-container > .worker-stats {
+	margin-top: 30px;
 }
 
 #about-header {

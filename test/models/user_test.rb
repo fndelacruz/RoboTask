@@ -11,6 +11,7 @@
 #  updated_at      :datetime         not null
 #  fname           :string           not null
 #  lname           :string           not null
+#  is_robot        :boolean          not null
 #
 
 require 'test_helper'

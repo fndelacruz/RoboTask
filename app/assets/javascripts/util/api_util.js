@@ -73,6 +73,7 @@
         method: "GET",
         data: {dateTime: dateTime},
         success: function(workers) {
+          // debugger
           ApiActions.receiveValidWorkers(workers);
         }
       });
@@ -207,7 +208,7 @@
         url: "/api/messages/",
         method: "GET",
         success: function(messages) {
-          debugger;
+          // debugger;
           ApiActions.receiveMessages(messages);
         }
       });

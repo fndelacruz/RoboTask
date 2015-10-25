@@ -16,11 +16,11 @@ class Api::UsersController < ApplicationController
     interval = params[:dateTime][16..17].to_i
 
     if interval == 0
-      @users = User.includes(:work_times)
+      @workers = User.includes(:work_times)
         .where('work_times.day = ?', day)
         .references(:work_times)
     else
-      @users = User.includes(:work_times)
+      @workers = User.includes(:work_times)
         .where('work_times.interval = ?', WorkTime.interval_code(interval))
         .where('work_times.day = ?', day)
         .references(:work_times)
@@ -31,8 +31,6 @@ class Api::UsersController < ApplicationController
     # @users = User.joins(:work_times)
     #   .group("users.id")
     #   .having("(count(user_id)) > 0")
-
-    render json: @users
   end
 
   def show

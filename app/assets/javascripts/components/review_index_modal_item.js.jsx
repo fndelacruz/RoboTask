@@ -10,11 +10,11 @@
           <div className="panel row" id="review-entry">
             <img
               className="reviewer-profile-pic"
-              src={ "https://robohash.org/" + review.reviewer_id  + "?bgset=any" } />
+              src={review.reviewer.image} />
             <div className="review-info">
               {review.is_positive}<br/>
               {review.description}<br/>
-              {review.created_at}  {review.reviewer}<br/>
+              {review.created_at}  {review.reviewer.shortName}<br/>
             </div>
           </div>
         );
