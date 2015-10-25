@@ -71,7 +71,6 @@
         url: "/api/tasks",
         method: "GET",
         success: function(tasks) {
-          // debugger
           ApiActions.receiveCreatedTasks(tasks);
         }
       });

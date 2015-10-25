@@ -15,4 +15,9 @@ class Review < ActiveRecord::Base
   validates :is_positive, inclusion: [true, false]
 
   belongs_to(:task)
+
+  def date
+    created_at.strftime("%m/%d/%Y")
+  end
+
 end

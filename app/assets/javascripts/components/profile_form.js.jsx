@@ -33,7 +33,16 @@
         workTimes: root.WorkerUserStore.getWorkTimes(),
         workTimesStatusMessage: "",
         workTimesStatus: "",
-        workTimesGlyphOn: false
+        workTimesGlyphOn: false,
+        userIsRobot: "loading",
+        userShortName: ""
+      });
+    },
+
+    updateUserType: function() {
+      this.setState({
+        userIsRobot: CurrentUserStore.all().isRobot,
+        userShortName: CurrentUserStore.all().shortName
       });
     },
 
@@ -79,11 +88,13 @@
       ApiUtil.fetchCurrentUserDetails();
       WorkerUserStore.addCurrentUserChangeListener(this._updateProfile);
       StatusMessageStore.addNewStatusMessageListener(this._updateStatusMessage);
+      CurrentUserStore.addChangeListener(this.updateUserType);
     },
 
     componentWillUnmount: function() {
       WorkerUserStore.removeCurrentUserChangeListener(this._updateProfile);
       StatusMessageStore.removeNewStatusMessageListener(this._updateStatusMessage);
+      CurrentUserStore.removeChangeListener(this.updateUserType);
     },
 
     handleClick: function(e) {
@@ -180,11 +191,17 @@
       var statusBioGlyph = this._checkStatus("bio");
       var statusWorkTimesGlyph = this._checkStatus("workTimes");
       var that = this;
+      var options = CurrentUserStore.all();
+      var header = "";
+      if (this.state.userIsRobot !== "loading") {
+        header = this.state.userShortName + "'s Account Settings";
+      }
+
       return (
         <div className="container">
           <div className="component-container" id="profile-form">
             <div className="section-heading-banner panel">
-              {root.CURRENT_USER_SHORTNAME + "'s Account Settings"}
+              {header}
             </div>
 
             <div className="panel">

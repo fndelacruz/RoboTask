@@ -60,8 +60,8 @@
               <img
                 className=""
                 id="find-tasks-index-item-creator-pic"
-                src={ "https://robohash.org/" + task.creator_id + "?bgset=any" } />
-              <div id="find-tasks-index-item-creator-name">{task.creator}</div>
+                src={task.creator.image} />
+              <div id="find-tasks-index-item-creator-name">{task.creator.shortName}</div>
             </div>
             <Button
               bsStyle="primary"

@@ -72,10 +72,9 @@
 
             <Modal.Body>
               <div>
-                [TODO: center profile pic. add background]
                 <img
                   className="review-worker-profile-pic center-block"
-                  src={ "https://robohash.org/" + this.props.worker.id  + "?bgset=any"} /><br/>
+                  src={this.props.worker.image} /><br/>
 
 
                 <div className="text-center" id="worker-profile-shortName">{this.props.shortName}</div>

@@ -10,7 +10,7 @@
   var _resetCreatedTasks = function(createdTasks) {
     _createdTasks = createdTasks;
     CreatedTaskStore.emit(CHANGE_EVENT);
-    
+
   };
 
   var _createTask = function(createdTask) {
@@ -41,26 +41,26 @@
 
     allComplete: function() {
       return _createdTasks.filter(function(task) {
-        if (task.is_complete === true) { return task; }
+        if (typeof task.review !== "undefined") { return task; }
       });
     },
 
     allIncomplete: function() {
       return _createdTasks.filter(function(task) {
-        if (task.is_complete === false) { return task; }
+        if (typeof task.review === "undefined") { return task; }
       });
     },
 
     allIncompleteUnassigned: function() {
       return this.allIncomplete().filter(function(task) {
-        if (typeof task.worker_id === "undefined") { return task; }
+        if (typeof task.worker === "undefined") { return task; }
       });
     },
 
     allIncompleteAssigned: function() {
       return this.allIncomplete().filter(function(task) {
         // debugger
-        if (typeof task.worker_id !== "undefined") { return task; }
+        if (typeof task.worker !== "undefined") { return task; }
       });
     },
 

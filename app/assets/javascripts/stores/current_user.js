@@ -8,7 +8,7 @@
       return $.extend({}, _options);
     },
 
-    changeListener: function(callback) {
+    addChangeListener: function(callback) {
       this.on(CHANGE_EVENT, callback);
     },
 

@@ -28,7 +28,14 @@
       return ({
         unassignedTaskCount: unassignedTasks,
         assignedTaskCount: assignedTasks,
-        message_count: 0
+        messageCount: 0,
+        userIsRobot: "loading"
+      });
+    },
+
+    updateUserType: function() {
+      this.setState({
+        userIsRobot: CurrentUserStore.all().isRobot
       });
     },
 
@@ -44,7 +51,7 @@
       // *******************************************************
       // NOTE: MIGHT NEED TO DO MORE HERE
       // *******************************************************
-      this.setState({ message_count: MessageStore.all().length });
+      this.setState({ messageCount: MessageStore.all().length });
     },
 
     componentDidMount: function() {
@@ -53,12 +60,14 @@
 
       ApiUtil.fetchMessages();
       MessageStore.addChangeListener(this.updateMessages);
+      CurrentUserStore.addChangeListener(this.updateUserType);
     },
 
     componentWillUnmount: function() {
       CreatedTaskStore.removeChangeListener(this.updateCreatedTaskCount);
 
       MessageStore.removeChangeListener(this.updateMessages);
+      CurrentUserStore.removeChangeListener(this.updateUserType);
     },
 
     handleLogoClick: function() {
@@ -94,10 +103,10 @@
     },
 
     _handleUserType: function() {
-      var userType = CurrentUserStore.all();
-      if (typeof userType.isRobot === "undefined") {
+      var userIsRobot = this.state.userIsRobot;
+      if (userIsRobot === "loading") {
         return (<li><a><strong>Loading</strong></a></li>);
-      } else if (userType.isRobot === true) {
+      } else if (userIsRobot === true) {
         return (
           <li
             onClick={this.handleFindTaskClick}><a><strong>Task Search</strong></a>
@@ -138,7 +147,7 @@
                 <li
                   onClick={this.handleMessages}>
                   <a><strong>Messages</strong>
-                  <span className="">{this.state.message_count}</span></a>
+                  <span className="">{this.state.messageCount}</span></a>
                 </li>
                 {quickButton}
                 <li className="dropdown">
