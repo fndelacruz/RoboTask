@@ -4,7 +4,7 @@
   var Button = ReactBootstrap.Button;
 
   var Glyphicon = ReactBootstrap.Glyphicon;
-
+  var Input = ReactBootstrap.Input;
   root.TaskForm = React.createClass({
     mixins: [ReactRouter.History],
 
@@ -43,13 +43,25 @@
     handleChange: function(e) {
       switch (e.target.id) {
         case "title-entry":
-          this.setState({ entryTitle: e.target.value });
+          this.setState({
+            entryTitle: e.target.value,
+            titleStatus: "",
+            titleStatusMessage: ""
+          });
           break;
         case "location-entry":
-          this.setState({ location: e.target.value });
+          this.setState({
+            location: e.target.value,
+            locationStatus: "",
+            locationStatusMessage: "",
+          });
           break;
         case "description-entry":
-          this.setState({ entryDescription: e.target.value });
+          this.setState({
+            entryDescription: e.target.value,
+            descriptionStatus: "",
+            descriptionStatusMessage: "",
+          });
           break;
       }
     },
@@ -88,7 +100,7 @@
         lat: lat,
         lng: lng,
         locationStatus: "OK",
-        locationStatusMessage: "Valid location entered!"
+        locationStatusMessage: "Good news: RoboTask is available in your area!"
       });
     },
 
@@ -98,7 +110,7 @@
         lat: "",
         lng: "",
         locationStatus: "BAD",
-        locationStatusMessage: "Sorry, RoboTask is currently limited to San Francisco residents!"
+        locationStatusMessage: "Sorry, RoboTask is currently limited to San Francisco residents."
       });
     },
 
@@ -107,13 +119,11 @@
       if (this.state.entryTitle !== "") {
         this.setState({
           title: this.state.entryTitle,
-          titleStatus: "OK",
-          titleStatusMessage: "valid title entered."
+          titleStatus: "success",
         });
       } else {
         this.setState({
-          titleStatus: "BAD",
-          titleStatusMessage: "Please enter a task title."
+          titleStatus: "error",
         });
 
       }
@@ -122,26 +132,31 @@
 
     // NOTE: Same with _checkTitleStatus and _checkDescriptionStatus
     _checkTitleStatus: function() {
-      if (this.state.titleStatus === "OK") {
-        return (
-          <Glyphicon
+      if (this.state.titleStatus === "success") {
+        return ({
+          icon: <Glyphicon
             glyph="ok"
             className="task-status-icon"
-            id="icon-ok" />
-        );
-      } else if (this.state.titleStatus === "BAD") {
-        return (
-          <Glyphicon
-            glyph="remove"
-            className="task-status-icon"
-            id="icon-bad" />
-        );
+            id="icon-ok"
+          />,
+
+          label: "Title"
+        });
+      } else if (this.state.titleStatus === "error") {
+        return ({
+          icon: <Glyphicon glyph="remove" className="task-status-icon" id="icon-bad" />,
+
+          label: "Title can't be blank"
+        });
       } else {
-        return (
-          <Glyphicon
+        return ({
+          icon: <Glyphicon
             glyph="pencil"
-            className="task-status-icon" />
-        );
+            className="task-status-icon"
+          />,
+
+          label: "Title"
+        });
       }
     },
 
@@ -214,12 +229,24 @@
       console.log("title is focused!");
     },
 
+    handleTitleBlur: function() {
+      console.log("title is blurred!");
+    },
+
     handleLocationFocus: function() {
       console.log("location is focused!");
     },
 
+    handleLocationBlur: function() {
+      console.log("location is blurred!");
+    },
+
     handleDescriptionFocus: function() {
       console.log("description is focused!");
+    },
+
+    handleDescriptionBlur: function() {
+      console.log("description is blurred!");
     },
 
     // NOTE: unsure if I should wrap each div form-group with another div
@@ -232,10 +259,11 @@
     // IDEA: add capability for user to "save". add additional states to keep
     // track of what the user has Saved. this will be what gets sent when do
     render: function() {
-      var statusTitleGlyph = this._checkTitleStatus();
+      var titleFeatures = this._checkTitleStatus();
       var statusLocationGlyph = this._checkLocationStatus();
       var statusDescriptionGlyph = this._checkDescriptionStatus();
       // console.log(this.state);
+      // debugger;
       return (
         <div className="container" id="task-form">
           <div className="section-heading-banner panel" id="task-form-heading">
@@ -244,27 +272,20 @@
 
           <div className="panel">
             <div className="form-group">
-              {statusTitleGlyph}
-              <label htmlFor="title-entry">Title</label><br/>
-              <input
+              {titleFeatures.icon}
+                <Input
                 type="text"
                 placeholder="Example: Walk my dog."
-                className="form-control"
+                className=""
                 value={this.state.entryTitle}
                 onChange={this.handleChange}
                 onFocus={this.handleTitleFocus}
+                onBlur={this._saveTitle}
+                bsStyle={this.state.titleStatus}
+                label={titleFeatures.label}
+                labelClassName="task-create-form-input-labels"
                 id="title-entry"
-              /><br/>
-            </div>
-            <Button
-              bsStyle="primary"
-              bsSize="medium"
-              onClick={this._saveTitle}>
-              Save Title (eventually, this is "continue")
-            </Button>
-
-            <div className="task-status-message">
-              {this.state.titleStatusMessage}
+                />
             </div>
           </div>
 
@@ -276,9 +297,9 @@
                 adressEntryListener={this.handleAddressChange}
                 invalidAddressListener={this._handleInvalidAddress}
                 handleFocus={this.handleLocationFocus}
+                handleBlur={this.handleLocationBlur}
                 id="location-entry"/>
             </div>
-
             <div className="task-status-message">
               {this.state.locationStatusMessage}
             </div>
@@ -294,6 +315,7 @@
                 value={this.state.entryDescription}
                 onChange={this.handleChange}
                 onFocus={this.handleDescriptionFocus}
+                onBlur={this.handleDescriptionBlur}
                 id="description-entry"
               /><br/>
             </div>

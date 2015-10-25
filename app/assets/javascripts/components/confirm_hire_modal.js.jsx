@@ -30,7 +30,7 @@
       var timeout = root.setTimeout(function() {
         that.close();
         clearTimeout(timeout);
-        that.history.pushState(null, "/home");
+        that.history.pushState(null, "/");
       }, 2000);
     },
 

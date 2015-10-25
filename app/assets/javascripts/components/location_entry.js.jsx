@@ -101,6 +101,7 @@
               ref="autocomplete"
               placeholder="Enter your address"
               onFocus={this._handleFocus}
+              onBlur={this.props.handleLocationBlur}
               type="text">
             </input>
           </div>
