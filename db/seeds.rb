@@ -43,7 +43,7 @@ def random_title
 end
 
 # ******************************************************************************
-# NOTE: these settings add some variety to robot success on job completion for
+# NOTE: this function adds some variety to robot success on job completion for
 # the simulated job assignments
 def get_wage(skill)
   modulation = rand(0.05..0.35) * (rand(2) == 0 ? -1 : 1)
@@ -51,7 +51,6 @@ def get_wage(skill)
   # debugger
   return wage < 10 ? 10 : wage
 end
-
 # ******************************************************************************
 
 ActiveRecord::Base.transaction do
@@ -116,7 +115,7 @@ ActiveRecord::Base.transaction do
   MIN_ASSIGNED_TASKS = 10
   MAX_ASSIGNED_TASKS = 20
 
-  MIN_REVIWED_TASKS = 5
+  MIN_REVIEWED_TASKS = 5
   MAX_REVIEWED_TASKS = 10
 
   # NOTE: formats San Francisco addresses into usable array
@@ -137,9 +136,8 @@ ActiveRecord::Base.transaction do
     processed_addresses << processed_entry
   end
 
-  # NOTE: assigns tasks for each client user
+  # NOTE: creates tasks for each client user
   ((NUM_ROBOTS + 1)..(NUM_ROBOTS + NUM_CLIENTS)).each do |x|
-    chance_to_make_tasks = rand
     user = User.find(x)
     rand(MIN_CREATED_TASKS..MAX_CREATED_TASKS).times do |x|
       random_description_arr = []
@@ -163,7 +161,7 @@ ActiveRecord::Base.transaction do
       ])
     end
 
-    # randomly assign  user tasks to worker..
+    # randomly assign user tasks to worker..
     rand(MIN_ASSIGNED_TASKS..MAX_ASSIGNED_TASKS).times do |x|
       pending_tasks = Task.where("creator_id = #{user.id}").where("worker_id IS NULL")
       # pending_tasks = User.last.created_tasks.where(worker_id = nil)
@@ -192,7 +190,7 @@ ActiveRecord::Base.transaction do
     end
 
     # # assign reviews to those assigned Tasks
-    rand(MIN_ASSIGNED_TASKS..MAX_ASSIGNED_TASKS).times do |x|
+    rand(MIN_REVIEWED_TASKS..MAX_REVIEWED_TASKS).times do |x|
       assigned_tasks = user.created_tasks.select { |task| task.review == nil }
       task = assigned_tasks.sample
       description_arr = Faker::Lorem.sentences(rand(4..10), true)
@@ -221,19 +219,21 @@ ActiveRecord::Base.transaction do
     end
   end
 
-  # NOTE: create Guest client user
+
+  # ****************************************************************************
+  # NOTE: create Guest client user and created tasks
+  # ****************************************************************************
   user = User.create!([{
     is_robot: "false",
-    fname: "GuestClient",
+    fname: "Client",
     lname: "Guest",
     email: "client@guest.guest",
     password_digest: BCrypt::Password.create("password"),
     bio: "I am a guest client."
   }])
-
   user = user.last
 
-  # NOTE: generate some random tasks for  user, unassigned
+  # NOTE: generate some unassigned random tasks for the guest client user
   rand(MIN_CREATED_TASKS..MAX_CREATED_TASKS).times do |x|
     random_description_arr = []
     rand(4..7).times { |x| random_description_arr.push(Faker::Hacker.say_something_smart)}
@@ -241,7 +241,8 @@ ActiveRecord::Base.transaction do
     rand_addr_raw = processed_addresses.sample
     random_address = "#{rand_addr_raw[0]}, San Francisco, CA, #{rand_addr_raw[1]}"
 
-    random_datetime = Faker::Date.between(1.days.from_now, 20.days.from_now).to_time.utc.change(hour: INTERVALS_TIMECODE.sample)
+    random_datetime = Faker::Date.between(1.days.from_now, 20.days.from_now)
+      .to_time.utc.change(hour: INTERVALS_TIMECODE.sample)
 
     user.created_tasks.create!([
       {
@@ -255,10 +256,9 @@ ActiveRecord::Base.transaction do
     ])
   end
 
-  # randomly assign  user tasks to worker..
+  # randomly assign guest client user tasks to workers
   rand(MIN_ASSIGNED_TASKS..MAX_ASSIGNED_TASKS).times do |x|
     pending_tasks = Task.where("creator_id = #{user.id}").where("worker_id IS NULL")
-    # pending_tasks = User.last.created_tasks.where(worker_id = nil)
     task = pending_tasks[rand(pending_tasks.length)]
     task_day = task.datetime.strftime("%a").upcase
     task_hour = task.datetime.hour
@@ -282,7 +282,7 @@ ActiveRecord::Base.transaction do
     task.creator.send_message("AUTO-NOTIFICATION: I hired you for this task!", task)
   end
 
-  # # assign revies to those assigned Tasks
+  # assign reviews to those assigned Tasks
   rand(MIN_ASSIGNED_TASKS..MAX_ASSIGNED_TASKS).times do |x|
     assigned_tasks = user.created_tasks.select { |task| task.review == nil }
     task = assigned_tasks.sample
@@ -309,5 +309,63 @@ ActiveRecord::Base.transaction do
         }
       ])
     end
+  end
+
+  # ****************************************************************************
+  # NOTE: create Guest robot user. skill is only for random generation purposes
+  # ****************************************************************************
+  User.create!([{
+    is_robot: "true",
+    fname: "Robot",
+    lname: "Guest",
+    email: "robot@guest.guest",
+    password_digest: BCrypt::Password.create("password"),
+    bio: "I am a guest robot.",
+    wage: 85,
+    skill: 90
+  }])
+  guest_robot_user = User.last
+
+  # NOTE: randomly generate Guest robot user's work times
+  work_times = []
+  DAYS.each do |day|
+    INTERVALS.each do |interval|
+      work_times << { day: day, interval: interval } if rand > rand(0.4)
+    end
+  end
+  guest_robot_user.work_times.create!(work_times)
+
+  # NOTE: randomly assign workable tasks to Guest robot
+  rand(MIN_ASSIGNED_TASKS..MAX_ASSIGNED_TASKS).times do |x|
+    workable_tasks = guest_robot_user.workable_tasks(Task.where("worker_id IS NULL"))
+    task = workable_tasks.sample
+    task.worker_id = guest_robot_user.id
+    task.save!
+    task.creator.send_message("AUTO-NOTIFICATION: I hired you for this task!", task)
+  end
+
+  # NOTE: assign reviews to Guest robot's completed tasks
+  rand(MIN_REVIEWED_TASKS..MAX_REVIEWED_TASKS).times do |x|
+    task = guest_robot_user.worked_tasks_in_progress.sample
+    description_arr = Faker::Lorem.sentences(rand(4..10), true)
+
+    # NOTE: THIS IS HACKY. FIND OUT WHY ASSIGNED_TASKS does not filter non-reviewed
+    # tasks appropriately
+    rand(2..3).times do
+      description_arr.push("#{task.worker.fname} #{Faker::Lorem.sentence.downcase}")
+    end
+    description = description_arr.shuffle!.join(" ")
+
+    # NOTE: rolls the dice for job success based on worker's skill attribute
+    chance_to_succeed = task.worker.skill
+    is_positive = chance_to_succeed > (rand * 100).to_i ? true : false
+    Review.create!([
+      {
+        task: task,
+        is_positive: is_positive,
+        description: description,
+        created_at: task.datetime + rand(1..3).days
+      }
+    ])
   end
 end

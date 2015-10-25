@@ -2,6 +2,13 @@
   'use strict';
 
   root.ApiActions = {
+    setCurrentUserOptions: function(options) {
+      AppDispatcher.dispatch({
+        actionType: UserConstants.CURRENT_USER_SETUP_RECEIVED,
+        action: options
+      });
+    },
+
     createTask: function(task) {
       AppDispatcher.dispatch({
         actionType: TaskConstants.CREATE_TASK,

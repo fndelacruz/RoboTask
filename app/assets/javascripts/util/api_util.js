@@ -12,6 +12,16 @@
       });
     },
 
+    fetchCurrentUserSetup: function() {
+      $.ajax({
+        url: "/api/current_user_options",
+        method: "GET",
+        success: function(details) {
+          ApiActions.setCurrentUserOptions(details);
+        }
+      });
+    },
+
     createTask: function(task) {
       $.ajax({
         url: "/api/tasks",

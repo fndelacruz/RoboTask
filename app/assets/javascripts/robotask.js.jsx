@@ -8,15 +8,8 @@ $(function() {
 
     var App = root.App = React.createClass({
       mixins: [ReactRouter.History],
-
-      getInitialState: function() {
-        return ({
-          currentUserSettings: []
-        });
-      },
-
       componentDidMount: function() {
-
+        ApiUtil.fetchCurrentUserSetup();
         // this.history.pushState(null, "/home");
       },
 

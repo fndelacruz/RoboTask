@@ -40,25 +40,41 @@
     //   this.history.pushState(null, "/profile");
     // },
 
-    render: function() {
-      // debugger;
-      var recentCreatedTasksAssigned = this.state.recentCreatedTasksAssigned;
-      return (
-        <div className="container">
-          <div className="row">
+    _header: function() {
+      if (Object.keys(CurrentUserStore.all()).length !== 0) {
+        var options = CurrentUserStore.all();
+        return (
+          <div>
             <div className="panel">
               <img
                 className="reviewer-profile-pic"
                 id="home-current-user-pic"
-                src={ "https://robohash.org/" + root.CURRENT_USER_ID  + "?bgset=any"} />
-              <span className="home-header">Welcome to RoboTask, {root.CURRENT_USER_SHORTNAME}! </span>
+                src={options.image} />
+              <span className="home-header">Welcome to RoboTask, {options.shortName}!</span>
             </div>
-            <div className="panel col-xs-12 col-sm-6 home-sub-header" id="task-create-welcome">
-              Need help with a task? Over 9,000 fellow RoboTaskers at your service. Click here to get started.
-            </div>
-            <div className="panel col-xs-12 col-sm-6 home-sub-header" id="task-find-welcome">
-              Looking for a job? Please visit your account settings and mark when you are availabl  e to work. Then, come back and click here to get started!
-            </div>
+            {options.isRobot === false ?
+              <div className="panel home-sub-header" id="task-create-welcome">
+                What do you need help with? Over 9,000 RoboTaskers at your service.<br/>
+                <input type="text" />
+              </div>
+            :
+              <div className="panel home-sub-header" id="task-find-welcome">
+                Looking for a job? Please visit your account settings and mark when you are available to work. Then, come back and click here to get started!
+              </div>
+            }
+          </div>
+
+        );
+      }
+    },
+
+    render: function() {
+      debugger;
+      var recentCreatedTasksAssigned = this.state.recentCreatedTasksAssigned;
+      return (
+        <div className="container">
+          <div className="row">
+            {this._header()}
 
               <span className="home-sub-header">Upcoming tasks</span>
                 {(recentCreatedTasksAssigned === 0) ?

@@ -88,6 +88,15 @@ class User < ActiveRecord::Base
     tasks.to_a.select { |task| task.is_workable?(schedule) }
   end
 
+  def worked_tasks_in_progress
+    worked_tasks.includes(:review).to_a.select {|task| task.review.nil?}
+  end
+
+  def worked_tasks_completed
+    worked_tasks.includes(:review).to_a.select {|task| task.review.nil?}
+  end
+
+
   def nickname
     "#{fname} #{lname[0]}."
   end

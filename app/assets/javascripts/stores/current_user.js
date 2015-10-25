@@ -19,13 +19,11 @@
     dispatcherId: AppDispatcher.register(function(payload) {
       switch (payload.actionType) {
         case UserConstants.CURRENT_USER_SETUP_RECEIVED:
-          _options = payload;
+          _options = payload.action;
           CurrentUserStore.emit(CHANGE_EVENT);
           break;
         default:
-
       }
     })
-
   });
 }(this));

@@ -14,7 +14,6 @@
 <% if current_user %>
   <script>
     window.CURRENT_USER_ID = <%= current_user.id %>
-    window.CURRENT_USER_SHORTNAME = "<%= current_user.fname %> <%= current_user.lname[0] %>."
   </script>
   <!-- logged in as: <%#= current_user.email %> -->
   <%#= button_to "Logout", session_url, method: :delete %>

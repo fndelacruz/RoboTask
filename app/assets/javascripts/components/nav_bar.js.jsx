@@ -93,12 +93,31 @@
       this.history.pushState(null, "/messages");
     },
 
+    _handleUserType: function() {
+      var userType = CurrentUserStore.all();
+      if (typeof userType.isRobot === "undefined") {
+        return (<li><a><strong>Loading</strong></a></li>);
+      } else if (userType.isRobot === true) {
+        return (
+          <li
+            onClick={this.handleFindTaskClick}><a><strong>Task Search</strong></a>
+          </li>
+        );
+      } else {
+        return (
+          <li
+            onClick={this.handleCreateTaskClick}><a><strong>New Task</strong></a>
+          </li>
+        );
+      }
+    },
+
     render: function() {
-      // debugger;
       var unassignedCount = this.state.unassignedTaskCount;
       var assignedCount = this.state.assignedTaskCount;
       var pendingClass = "badge" + ((unassignedCount > 0) ? " badge-unassigned-nonempty" : "");
       var activeClass = "badge" + ((assignedCount > 0) ? " badge-active-nonempty" : "");
+      var quickButton = this._handleUserType();
       return (
         <nav className="navbar navbar-default" id="my-navbar-brand">
 
@@ -121,12 +140,7 @@
                   <a><strong>Messages</strong>
                   <span className="">{this.state.message_count}</span></a>
                 </li>
-                <li
-                  onClick={this.handleCreateTaskClick}><a><strong>New Task</strong></a>
-                </li>
-                <li
-                  onClick={this.handleFindTaskClick}><a><strong>Find Task</strong></a>
-                </li>
+                {quickButton}
                 <li className="dropdown">
                   <a href="#"
                     className="dropdown-toggle"
