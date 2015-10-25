@@ -21,7 +21,6 @@
         entryTitle: "",
         title: "",
         titleStatus: "",
-        titleStatusMessage: "",
 
         entryLocation: "",
         location: "",
@@ -33,7 +32,6 @@
         entryDescription: "",
         description: "",
         descriptionStatus: "",
-        descriptionStatusMessage: "",
 
         mainStatusMessage: ""
       });
@@ -46,7 +44,6 @@
           this.setState({
             entryTitle: e.target.value,
             titleStatus: "",
-            titleStatusMessage: ""
           });
           break;
         case "location-entry":
@@ -60,7 +57,6 @@
           this.setState({
             entryDescription: e.target.value,
             descriptionStatus: "",
-            descriptionStatusMessage: "",
           });
           break;
       }
@@ -161,26 +157,31 @@
     },
 
     _checkDescriptionStatus: function() {
-      if (this.state.descriptionStatus === "OK") {
-        return (
-          <Glyphicon
+      if (this.state.descriptionStatus === "success") {
+        return ({
+          icon: <Glyphicon
             glyph="ok"
             className="task-status-icon"
-            id="icon-ok" />
-        );
-      } else if (this.state.descriptionStatus === "BAD") {
-        return (
-          <Glyphicon
-            glyph="remove"
-            className="task-status-icon"
-            id="icon-bad" />
-        );
+            id="icon-ok"
+          />,
+
+          label: "Description"
+        });
+      } else if (this.state.descriptionStatus === "error") {
+        return ({
+          icon: <Glyphicon glyph="remove" className="task-status-icon" id="icon-bad" />,
+
+          label: "Description can't be blank"
+        });
       } else {
-        return (
-          <Glyphicon
+        return ({
+          icon: <Glyphicon
             glyph="pencil"
-            className="task-status-icon" />
-        );
+            className="task-status-icon"
+          />,
+
+          label: "Description"
+        });
       }
     },
 
@@ -212,13 +213,11 @@
       if (this.state.entryDescription !== "") {
         this.setState({
           description: this.state.entryDescription,
-          descriptionStatus: "OK",
-          descriptionStatusMessage: "valid description entered."
+          descriptionStatus: "success",
         });
       } else {
         this.setState({
-          descriptionStatus: "BAD",
-          descriptionStatusMessage: "Please enter a task description."
+          descriptionStatus: "error",
         });
 
       }
@@ -260,6 +259,7 @@
     // track of what the user has Saved. this will be what gets sent when do
     render: function() {
       var titleFeatures = this._checkTitleStatus();
+      var descriptionFeatures = this._checkDescriptionStatus();
       var statusLocationGlyph = this._checkLocationStatus();
       var statusDescriptionGlyph = this._checkDescriptionStatus();
       // console.log(this.state);
@@ -267,7 +267,7 @@
       return (
         <div className="container" id="task-form">
           <div className="section-heading-banner panel" id="task-form-heading">
-            Please describe your task
+            Enter your task details
           </div>
 
           <div className="panel">
@@ -307,27 +307,20 @@
 
           <div className="panel">
             <div className="form-group">
-              {statusDescriptionGlyph}
-              <label htmlFor="description-entry">Description</label><br/>
-              <textarea
+              {descriptionFeatures.icon}
+              <Input
+                type="textarea"
                 placeholder="Example: Need a dog walker to walk my dog, Fluffy. He is a large german shephard and does not like strangers. Please be prepared. You will need to bring extra poop-bags because he is a big guy. If Fluffy likes you, this could be a regular thing. Good luck."
-                className="form-control"
+                className=""
                 value={this.state.entryDescription}
                 onChange={this.handleChange}
                 onFocus={this.handleDescriptionFocus}
-                onBlur={this.handleDescriptionBlur}
+                onBlur={this._saveDescription}
+                bsStyle={this.state.descriptionStatus}
+                label={descriptionFeatures.label}
+                labelClassName="task-create-form-input-labels"
                 id="description-entry"
-              /><br/>
-            </div>
-            <Button
-              bsStyle="primary"
-              bsSize="medium"
-              onClick={this._saveDescription}>
-              Save Description (eventually, this is "continue" and find Robotaskers?)
-            </Button>
-
-            <div className="task-status-message">
-              {this.state.descriptionStatusMessage}
+              />
             </div>
           </div>
 
