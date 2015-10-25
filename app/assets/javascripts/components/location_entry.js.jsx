@@ -85,7 +85,7 @@
           place.formatted_address,
           place.geometry.location.lat(),
           place.geometry.location.lng()
-        )
+        );
       } else {
         // NOTE: replace this with real feedback message!
         this.props.invalidAddressListener();
@@ -100,7 +100,7 @@
             <input
               className="autocomplete form-control"
               ref="autocomplete"
-              placeholder="Enter your address"
+              placeholder="Example"
               onFocus={this._handleFocus}
               onBlur={this.props.handleLocationBlur}
               onChange={this.props.handleChange}

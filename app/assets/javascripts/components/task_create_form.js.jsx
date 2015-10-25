@@ -2,9 +2,22 @@
   'use strict';
 
   var Button = ReactBootstrap.Button;
+  var Tooltip = ReactBootstrap.Tooltip;
+  var Popover = ReactBootstrap.Popover;
+  var OverlayTrigger = ReactBootstrap.OverlayTrigger;
 
   var Glyphicon = ReactBootstrap.Glyphicon;
   var Input = ReactBootstrap.Input;
+
+  var incompleteSubmissionTooltip = (
+    <Tooltip>Please complete the task form first.</Tooltip>
+  );
+
+  var incompleteSubmissionPopover = (
+    <Popover placement="right" positionLeft={200} positionTop={50} title="Popover right">
+      And here's some <strong>amazing</strong> content. It's very engaging. right?
+    </Popover>
+  );
   root.TaskForm = React.createClass({
     mixins: [ReactRouter.History],
 
@@ -67,13 +80,7 @@
       }
     },
 
-    handleLocationEdit: function() {
-      this.setState({
-        location
-      })
-    },
-
-    handleSubmission: function(e) {
+    handleGoodSubmission: function(e) {
       // NOTE: Will add start dates later, just getting Ajax working first.
       if (this.state.title !== "" && this.state.location !== "" && this.state.description !== "") {
         var newTask = {
@@ -106,7 +113,7 @@
         location: address,
         lat: lat,
         lng: lng,
-        locationStatus: "OK",
+        locationStatus: "success",
         locationStatusMessage: "Good news: RoboTask is available in your area!"
       });
     },
@@ -116,7 +123,7 @@
         location: "",
         lat: "",
         lng: "",
-        locationStatus: "BAD",
+        locationStatus: "error",
         locationStatusMessage: "We're sorry, RoboTask service is exclusively available to the City and County of San Francisco."
       });
     },
@@ -197,7 +204,7 @@
     },
 
     _checkLocationStatus: function() {
-      if (this.state.locationStatus === "OK") {
+      if (this.state.locationStatus === "success") {
         return ({
           icon: <Glyphicon
             glyph="ok"
@@ -207,7 +214,7 @@
 
           labelId: "location-ok"
         });
-      } else if (this.state.locationStatus === "BAD") {
+      } else if (this.state.locationStatus === "error") {
         return ({
           icon: <Glyphicon
             glyph="remove"
@@ -242,6 +249,63 @@
 
       }
       console.log("_saveDescription run");
+    },
+
+    handleBadSubmission: function() {
+      var titleStatus = this.state.titleStatus;
+      if (titleStatus === "") {
+        titleStatus = "error";
+      }
+
+      var locationStatus = this.state.locationStatus;
+      var locationStatusMessage = this.state.locationStatusMessage;
+      if (locationStatus === "") {
+        locationStatus = "error";
+        // locationStatusMessage = "Location can't be blank!";
+      }
+
+      var descriptionStatus = this.state.descriptionStatus;
+      if (descriptionStatus === "") {
+        descriptionStatus = "error";
+      }
+
+      this.setState({
+        titleStatus: titleStatus,
+        locationStatus: locationStatus,
+        locationStatusMessage: locationStatusMessage,
+        descriptionStatus: descriptionStatus
+      });
+    },
+
+    handleSubmitButton: function() {
+      var status = {
+        title: this.state.titleStatus,
+        location: this.state.locationStatus,
+        description: this.state.descriptionStatus
+      };
+
+      if (status.title == "success" && status.location == "success" && status.description == "success") {
+        return (
+          <Button
+            bsStyle="primary"
+            onClick={this.handleGoodSubmission}
+            className="centered-buttons">
+            Continue
+          </Button>
+        );
+      } else {
+        return (
+          <OverlayTrigger overlay={incompleteSubmissionTooltip}>
+            <Button
+              bsStyle="primary"
+              onClick={this.handleBadSubmission}
+              className="centered-buttons"
+              id="task-create-form-submission-disabled">
+              Continue
+            </Button>
+          </OverlayTrigger>
+        );
+      }
     },
 
     handleTitleFocus: function() {
@@ -280,12 +344,11 @@
     render: function() {
       var titleFeatures = this._checkTitleStatus();
       var descriptionFeatures = this._checkDescriptionStatus();
-      var statusLocationGlyph = this._checkLocationStatus();
       var locationFeatures = this._checkLocationStatus();
       return (
         <div className="container" id="task-form">
           <div className="section-heading-banner panel" id="task-form-heading">
-            Enter your task details
+            Enter your task Details
           </div>
 
           <div className="panel">
@@ -347,13 +410,8 @@
             </div>
           </div>
 
-          <button
-            className="btn btn-default"
-            type="submit"
-            value="Signup"
-            onClick={this.handleSubmission}>
-            Continue (Select Date and Find RoboTaskers)
-          </button><br/>
+          {this.handleSubmitButton()}<br/>
+          <span className="center-text">Next: Select Task Date and choose RoboTasker</span>
           {this.state.mainStatusMessage}
         </div>
       );
