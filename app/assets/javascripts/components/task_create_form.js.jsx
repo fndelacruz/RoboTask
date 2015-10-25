@@ -44,22 +44,33 @@
           this.setState({
             entryTitle: e.target.value,
             titleStatus: "",
+            title: "",
+            mainStatusMessage: ""
           });
           break;
         case "location-entry":
           this.setState({
-            location: e.target.value,
+            location: "",
             locationStatus: "",
             locationStatusMessage: "",
+            mainStatusMessage: ""
           });
           break;
         case "description-entry":
           this.setState({
+            description: "",
             entryDescription: e.target.value,
             descriptionStatus: "",
+            mainStatusMessage: ""
           });
           break;
       }
+    },
+
+    handleLocationEdit: function() {
+      this.setState({
+        location
+      })
     },
 
     handleSubmission: function(e) {
@@ -106,7 +117,7 @@
         lat: "",
         lng: "",
         locationStatus: "BAD",
-        locationStatusMessage: "Sorry, RoboTask is currently limited to San Francisco residents."
+        locationStatusMessage: "We're sorry, RoboTask service is exclusively available to the City and County of San Francisco."
       });
     },
 
@@ -187,25 +198,34 @@
 
     _checkLocationStatus: function() {
       if (this.state.locationStatus === "OK") {
-        return (
-          <Glyphicon
+        return ({
+          icon: <Glyphicon
             glyph="ok"
             className="task-status-icon"
-            id="icon-ok" />
-        );
+            id="icon-ok"
+          />,
+
+          labelId: "location-ok"
+        });
       } else if (this.state.locationStatus === "BAD") {
-        return (
-          <Glyphicon
+        return ({
+          icon: <Glyphicon
             glyph="remove"
             className="task-status-icon"
-            id="icon-bad" />
-        );
+            id="icon-bad"
+          />,
+
+          labelId: "location-bad"
+        });
       } else {
-        return (
-          <Glyphicon
+        return ({
+          icon: <Glyphicon
             glyph="pencil"
-            className="task-status-icon" />
-        );
+            className="task-status-icon"
+          />,
+
+          labelId: ""
+        });
       }
     },
 
@@ -261,9 +281,7 @@
       var titleFeatures = this._checkTitleStatus();
       var descriptionFeatures = this._checkDescriptionStatus();
       var statusLocationGlyph = this._checkLocationStatus();
-      var statusDescriptionGlyph = this._checkDescriptionStatus();
-      // console.log(this.state);
-      // debugger;
+      var locationFeatures = this._checkLocationStatus();
       return (
         <div className="container" id="task-form">
           <div className="section-heading-banner panel" id="task-form-heading">
@@ -274,30 +292,35 @@
             <div className="form-group">
               {titleFeatures.icon}
                 <Input
-                type="text"
-                placeholder="Example: Walk my dog."
-                className=""
-                value={this.state.entryTitle}
-                onChange={this.handleChange}
-                onFocus={this.handleTitleFocus}
-                onBlur={this._saveTitle}
-                bsStyle={this.state.titleStatus}
-                label={titleFeatures.label}
-                labelClassName="task-create-form-input-labels"
-                id="title-entry"
+                  type="text"
+                  placeholder="Example: Walk my dog."
+                  className=""
+                  value={this.state.entryTitle}
+                  onChange={this.handleChange}
+                  onFocus={this.handleTitleFocus}
+                  onBlur={this._saveTitle}
+                  bsStyle={this.state.titleStatus}
+                  label={titleFeatures.label}
+                  labelClassName="task-create-form-input-labels"
+                  id="title-entry"
                 />
             </div>
           </div>
 
           <div className="panel">
             <div className="form-group">
-              {statusLocationGlyph}
-              <label htmlFor="location-entry">Location</label><br/>
+              {locationFeatures.icon}
+              <label
+                htmlFor="location-entry"
+                className={locationFeatures.labelId + " task-create-form-input-labels "}>
+                Location
+              </label>
               <LocationEntry
                 adressEntryListener={this.handleAddressChange}
                 invalidAddressListener={this._handleInvalidAddress}
                 handleFocus={this.handleLocationFocus}
                 handleBlur={this.handleLocationBlur}
+                handleChange={this.handleChange}
                 id="location-entry"/>
             </div>
             <div className="task-status-message">

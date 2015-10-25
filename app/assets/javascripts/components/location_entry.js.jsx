@@ -3,6 +3,7 @@
   // this.props.adressChangeListener
   // this.props.handleFocus
 
+  var Input = ReactBootstrap.Input;
   // This example displays an address form, using the autocomplete feature
   // of the Google Places API to help users fill in the information.
 
@@ -102,6 +103,8 @@
               placeholder="Enter your address"
               onFocus={this._handleFocus}
               onBlur={this.props.handleLocationBlur}
+              onChange={this.props.handleChange}
+              id="location-entry"
               type="text">
             </input>
           </div>
