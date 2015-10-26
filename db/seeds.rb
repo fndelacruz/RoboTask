@@ -184,6 +184,7 @@ ActiveRecord::Base.transaction do
       end
 
       task.worker = valid_workers[rand(valid_workers.length)]
+      task.wage = task.worker.wage
       # debugger
       task.save!
       task.creator.send_message("AUTO-NOTIFICATION: I hired you for this task!", task)
@@ -278,6 +279,8 @@ ActiveRecord::Base.transaction do
     end
 
     task.worker = valid_workers[rand(valid_workers.length)]
+    task.wage = task.worker.wage
+    # debugger
     task.save!
     task.creator.send_message("AUTO-NOTIFICATION: I hired you for this task!", task)
   end
@@ -340,6 +343,7 @@ ActiveRecord::Base.transaction do
     workable_tasks = guest_robot_user.workable_tasks(Task.where("worker_id IS NULL"))
     task = workable_tasks.sample
     task.worker_id = guest_robot_user.id
+    task.wage = guest_robot_user.wage
     task.save!
     task.creator.send_message("AUTO-NOTIFICATION: I hired you for this task!", task)
   end

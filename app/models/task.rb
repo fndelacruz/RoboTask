@@ -13,6 +13,7 @@
 #  datetime    :datetime
 #  lat         :float            not null
 #  lng         :float            not null
+#  wage        :integer
 #
 
 class Task < ActiveRecord::Base

@@ -97,6 +97,12 @@ button:hover {
 	margin: 0px 0px 10px 0px;
 }
 
+#worker-profile-shortName-no-margin {
+	font-size: 28px;
+	margin: 0px;
+}
+
+
 #worker-profile-rating {
 	font-size: 22px;
 	margin: 10px 0px 2px 0px
@@ -575,4 +581,8 @@ body {
 .center-text {
 	display: block;
 	text-align: center;
+}
+
+.mini-wage {
+	font-size: 24px;
 }

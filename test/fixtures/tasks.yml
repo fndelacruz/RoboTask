@@ -13,6 +13,7 @@
 #  datetime    :datetime
 #  lat         :float            not null
 #  lng         :float            not null
+#  wage        :integer
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

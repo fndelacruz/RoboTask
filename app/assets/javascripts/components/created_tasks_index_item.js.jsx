@@ -40,13 +40,18 @@
               <div className="col-xs-12 col-sm-3" id="polaroid">
 
                 {hasWorker ?
-                  <strong>
+                  <strong className="text-center">
                     <img
                       className="worker-taskview-pic"
                       id="polaroid-picture"
                       src={task.worker.image} />
-                    <div className="text-center" id="worker-profile-shortName">
+                    <div id="worker-profile-shortName-no-margin">
                       {task.worker.shortName}
+                    </div>
+                    <div>
+                      <span className="mini-wage">
+                        §{task.wage}/hr
+                      </span>
                     </div>
                   </strong>
                 :
