@@ -99,7 +99,7 @@
           <input
             className="autocomplete form-control"
             ref="autocomplete"
-            placeholder="Example"
+            placeholder="Example: 1061 Market St, San Franciso, CA 94103"
             onFocus={this._handleFocus}
             onBlur={this.props.handleLocationBlur}
             onChange={this.props.handleChange}

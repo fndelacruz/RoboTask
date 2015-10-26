@@ -4,7 +4,7 @@
   var CHANGE_EVENT = "CREATED_TASK_STORE_CHANGE_EVENT";
   var CREATE_TASK_OK = "CREATE_TASK_OK";
   var ASSIGN_TASK_WORKER_OK = "ASSIGN_TASK_WORKER_OK";
-
+  var ASSIGN_TASK_OPEN_OK = "ASSIGN_TASK_WORKER_OK";
   var _createdTasks = [];
 
   var _resetCreatedTasks = function(createdTasks) {
@@ -25,14 +25,14 @@
     CreatedTaskStore.emit(CHANGE_EVENT);
   };
 
-  var _assignTaskWorker = function(updatedTask) {
-    var taskToAssignWorker = _createdTasks.find(function(task) {
-      return (task.id === updatedTask.id);
-    });
-    taskToAssignWorker.worker_id = updatedTask.worker_id;
-    CreatedTaskStore.emit(CHANGE_EVENT);
-    CreatedTaskStore.emit(ASSIGN_TASK_WORKER_OK);
-  };
+  // var _assignTaskWorker = function(updatedTask) {
+  //   var taskToAssignWorker = _createdTasks.find(function(task) {
+  //     return (task.id === updatedTask.id);
+  //   });
+  //   taskToAssignWorker.worker_id = updatedTask.worker_id;
+  //   CreatedTaskStore.emit(CHANGE_EVENT);
+  //   CreatedTaskStore.emit(ASSIGN_TASK_WORKER_OK);
+  // };
 
   var CreatedTaskStore = root.CreatedTaskStore = $.extend({}, EventEmitter.prototype, {
     all: function() {
@@ -88,6 +88,14 @@
       this.removeListener(ASSIGN_TASK_WORKER_OK, callback);
     },
 
+    addAssignTaskOpenOKListener: function(callback) {
+      this.on(ASSIGN_TASK_OPEN_OK, callback);
+    },
+
+    removeAssignTaskOpenOKListener: function(callback) {
+      this.removeListener(ASSIGN_TASK_OPEN_OK, callback);
+    },
+
     dispatcherID: AppDispatcher.register(function(payload) {
       switch (payload.actionType) {
         case TaskConstants.CREATED_TASKS_RECEIVED:
@@ -99,8 +107,11 @@
         case TaskConstants.DELETE_TASK:
           _deleteTask(payload.action);
           break;
-        case TaskConstants.ASSIGN_TASK_WORKER:
-          _assignTaskWorker(payload.action);
+        case TaskConstants.ASSIGN_TASK_WORKER_OK:
+          CreatedTaskStore.emit(ASSIGN_TASK_WORKER_OK);
+          break;
+        case TaskConstants.ASSIGN_TASK_OPEN_OK:
+          CreatedTaskStore.emit(ASSIGN_TASK_OPEN_OK);
           break;
       }
     })

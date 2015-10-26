@@ -10,6 +10,7 @@ json.array!(@created_tasks) do |task|
       json.id task.worker.id
       json.image task.worker.img_url
     end
+    # debugger
     json.datetime [task.date, task.interval, task.datetime_to_epoch_sec]
     json.wage task.worker.wage
   end

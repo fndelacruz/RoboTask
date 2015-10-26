@@ -22,26 +22,26 @@
       });
     },
 
-    createTask: function(task) {
-      $.ajax({
-        url: "/api/tasks",
-        method: "POST",
-        data: { task: task },
-        success: function(createdTask) {
-          // NOTE: Not sure if this is the best way to handle rails database
-          // failures to save... I send an object with e._fail === true if the
-          // database could not createTask the given task.
-          if (createdTask._fail) {
-            // NOTE: This should probably do a "flash-like" thing via React,
-            // instead of a silly console log
-            console.log("failed to createTask task on controller side!");
-          } else {
-            ApiActions.createTask(createdTask);
-            ApiUtil.fetchMessages();
-          }
-        }
-      });
-    },
+    // createTask: function(task) {
+    //   $.ajax({
+    //     url: "/api/tasks",
+    //     method: "POST",
+    //     data: { task: task },
+    //     success: function(createdTask) {
+    //       // NOTE: Not sure if this is the best way to handle rails database
+    //       // failures to save... I send an object with e._fail === true if the
+    //       // database could not createTask the given task.
+    //       if (createdTask._fail) {
+    //         // NOTE: This should probably do a "flash-like" thing via React,
+    //         // instead of a silly console log
+    //         console.log("failed to createTask task on controller side!");
+    //       } else {
+    //         ApiActions.createTask(createdTask);
+    //         ApiUtil.fetchMessages();
+    //       }
+    //     }
+    //   });
+    // },
 
     // NOTE: I wonder if this is a bad idea to do this. Perhaps on rails server
     // side I should check if the current_user owns the given taskid before
@@ -89,18 +89,35 @@
       });
     },
 
-    assignWorkerToTask: function(task, worker, datetime) {
+    assignWorkerDirectlyToTask: function(task, worker, datetime) {
       $.ajax({
-        url: "/api/tasks/" + task.id,
-        method: "PATCH",
-        data: { task: {worker_id: worker.id, datetime: datetime} },
+        url: "/api/tasks/",
+        method: "POST",
+        data: { task: $.extend(task, {worker_id: worker.id, datetime: datetime}) },
         success: function(task) {
         if (task._fail) {
           // NOTE: This should probably do a "flash-like" thing via React,
           // instead of a silly console log
           console.log("failed to assignWorkerToTask");
           } else {
-            ApiActions.resetTask(task);
+            ApiActions.assignWorkerDirectlyToTaskOK();
+          }
+        }
+      });
+    },
+
+    assignTaskToOpen: function(task, datetime, wage) {
+      $.ajax({
+        url: "/api/tasks/",
+        method: "POST",
+        data: { task: $.extend(task, {is_open: true, datetime: datetime, wage: wage}) },
+        success: function(task) {
+        if (task._fail) {
+          // NOTE: This should probably do a "flash-like" thing via React,
+          // instead of a silly console log
+          console.log("failed to assignTaskToOpen");
+          } else {
+            ApiActions.assignTaskToOpenOK();
           }
         }
       });

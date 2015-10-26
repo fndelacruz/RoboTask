@@ -1,6 +1,9 @@
 (function(root) {
   'use strict';
 
+  var isNumbers = function(string) {
+
+  }
   var shuffle = function(array) {
     var currentIndex = array.length, temporaryValue, randomIndex ;
     while (0 !== currentIndex) {
@@ -82,19 +85,38 @@
       return ({
         validWorkers: WorkerUserStore.all(),
         dateTime: dateTimeTomorrow,
-        interval: "ANY"
+        interval: "ANY",
+        openWage: "",
+        openWageMessage: "",
+        openWageConfirmDisabled: false
       });
     },
 
     handleChange: function(e) {
       switch (e.target.id) {
-          case "date-time-entry":
+        case "date-time-entry":
           dateAdjustDateTime(this.state.dateTime, e.target.value);
           this.setState({ dateTime: this.state.dateTime });
           break;
         case "interval-entry":
           var interval = this.state.interval = e.target.value;
           this.setState({ interval: interval });
+          break;
+        case "open-wage":
+          var value = e.target.value;
+          if (value === "") {
+            this.setState({ openWage: "" });
+          } else if (!/^\d+$/.test(value)) {
+            // do nothing (only numbers allowed)
+            // debugger
+            console.log("nonnumber");
+          } else if (value === "0" && this.state.openWage === "") {
+            // do nothing (no trailing zeros)
+            console.log("trail zeroes");
+          } else {
+            console.log("ok");
+            this.setState({ openWage: e.target.value });
+          }
           break;
       }
       //
@@ -116,12 +138,33 @@
       this.history.pushState(null, "/");
     },
 
+    _updateOpenTaskStatus: function() {
+      this.setState({
+        openWageMessage: "TASK POSTED!",
+        openWageConfirmDisabled: true
+      });
+
+      var that = this;
+      var timeout = root.setTimeout(function() {
+        that.close();
+        clearTimeout(timeout);
+        that.history.pushState(null, "/");
+      }, 2000);
+    },
+
     componentDidMount: function() {
-      root.ApiUtil.fetchValidWorkers(this._formattedStateDateTime());
-      root.WorkerUserStore.addChangeListener(this._updateValidWorkers);
+      debugger
+      if (Object.keys(CurrentCreatedTaskStore.fetch()).length === 0) {
+        this.history.pushState(null, "/task/new");
+      } else {
+        ApiUtil.fetchValidWorkers(this._formattedStateDateTime());
+        CreatedTaskStore.addAssignTaskOpenOKListener(this._updateOpenTaskStatus);
+        WorkerUserStore.addChangeListener(this._updateValidWorkers);
+      }
     },
 
     componentWillUnmount: function() {
+      CreatedTaskStore.removeAssignTaskOpenOKListener(this._updateOpenTaskStatus);
       root.WorkerUserStore.removeChangeListener(this._updateValidWorkers);
     },
 
@@ -129,7 +172,14 @@
       var date = this.state.dateTime.toLocaleDateString();
       var hours = this.state.dateTime.getHours();
       var datetime = date + " " + hours;
-      ApiUtil.assignWorkerToTask(task, worker, datetime);
+      ApiUtil.assignWorkerDirectlyToTask(task, worker, datetime);
+    },
+
+    postTaskToOpen: function(task) {
+      var date = this.state.dateTime.toLocaleDateString();
+      var hours = this.state.dateTime.getHours();
+      var datetime = date + " " + hours;
+      ApiUtil.assignTaskToOpen(task, datetime, this.state.openWage);
     },
 
     _parseDateTime: function() {
@@ -168,8 +218,9 @@
 
     render: function() {
       var workers = this.state.validWorkers;
-      var task = root.CreatedTaskStore.all()[this.props.params.storeTaskIdx];
+      var task = CurrentCreatedTaskStore.fetch();
       // shuffle(workers);
+      debugger;
       return (
         <div className="container">
           <div className="row" id="find-workers-form">
@@ -228,12 +279,33 @@
                 </div>
                 <Input
                   type="text"
+                  value={this.state.openWage}
+                  onChange={this.handleChange}
                   addonBefore="§"
-                  addonAfter="/ hr"/>
-                <Button
-                  bsStyle="primary">
-                  Post Task!
-                </Button>
+                  addonAfter="/ hr"
+                  id="open-wage"
+                  />
+                <OverlayTrigger
+                  rootClose
+                  trigger="click"
+                  placement="right"
+                  overlay={
+                    <Popover title="Confirm Open Task Posting?">
+                      {this.state.openWageConfirmDisabled ?
+                        <Button disabled="true">Yes</Button>
+                      :
+                        <Button onClick={this.postTaskToOpen.bind(null, task)}>Yes</Button>
+                      }
+                      {this.state.openWageMessage}
+                    </Popover>
+                  }>
+                  <Button
+                    bsStyle="primary"
+                    bsSize="medium"
+                    id="">
+                    Post
+                  </Button>
+                </OverlayTrigger>
               </div>
             </div>
 

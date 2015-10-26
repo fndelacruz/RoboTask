@@ -23,11 +23,17 @@
     mixins: [ReactRouter.History],
 
     componentDidMount: function() {
-      CreatedTaskStore.addCreateTaskOKListener(this._findValidWorkers);
+      // CreatedTaskStore.addCreateTaskOKListener(this._findValidWorkers);
+      CurrentCreatedTaskStore.addNewTaskStatedListener(this.findWorker);
     },
 
     componentWillUnmount: function() {
-      CreatedTaskStore.removeCreateTaskOKListener(this._findValidWorkers);
+      // CreatedTaskStore.removeCreateTaskOKListener(this._findValidWorkers);
+      CurrentCreatedTaskStore.removeNewTaskStatedListener(this.findWorker);
+    },
+
+    findWorker: function() {
+      this.history.pushState(null, "/findWorker");
     },
 
     getInitialState: function() {
@@ -97,7 +103,12 @@
           lng: this.state.lng,
           description: this.state.description,
         };
-        root.ApiUtil.createTask(newTask);
+        // NOTE: instead of making task here, will just save it to the
+        // CurrentCreatedTaskStore. I only want tasks to be saved after they
+        // are assigned to a worker OR if they are posted as "open"
+        // root.ApiUtil.createTask(newTask);
+
+        TaskCreateFormActions.saveCurrentTask(newTask);
       } else {
         // ********************************************************
         // NOTE: CHANGE THIS TO LOOK BETTER

@@ -37,10 +37,15 @@
       });
     },
 
-    resetTask: function(task) {
+    assignWorkerDirectlyToTaskOK: function() {
       AppDispatcher.dispatch({
-        actionType: TaskConstants.ASSIGN_TASK_WORKER,
-        action: task
+        actionType: TaskConstants.ASSIGN_TASK_WORKER_OK
+      });
+    },
+
+    assignTaskToOpenOK: function() {
+      AppDispatcher.dispatch({
+        actionType: TaskConstants.ASSIGN_TASK_OPEN_OK
       });
     },
 

@@ -14,10 +14,12 @@
 #  lat         :float            not null
 #  lng         :float            not null
 #  wage        :integer
+#  is_open     :boolean          default(FALSE), not null
 #
 
 class Task < ActiveRecord::Base
   validates :title, :description, :location, :creator_id, :lat, :lng, presence: true
+  validates :is_open, inclusion: { in: [true, false]}
   validate :datetime_formatted
 
   belongs_to(:creator,
