@@ -22,6 +22,18 @@
       });
     },
 
+    approvalRating: function() {
+      if (this.props.worker.stats.total_tasks > 0) {
+        return (
+          <div className="text-center" id="worker-profile-rating">
+            {this.props.worker.stats.approval_rating}% Approval rating
+          </div>
+        );
+      } else {
+        return ("");
+      }
+    },
+
     _updateReviews: function() {
       this.setState({
         reviews: ReviewStore.all(),
@@ -78,7 +90,8 @@
 
 
                 <div className="text-center" id="worker-profile-shortName">{this.props.shortName}</div>
-                <div className="text-center" id="worker-profile-rating">{rating}% Approval Rating</div>
+                <h3 className="text-center">{this.props.worker.stats.total_tasks} RoboTasks completed</h3>
+                {this.approvalRating()}
                 <p className="text-center">Member since: {this.props.worker.created_at}</p>
 
                 {reviews.map(function(review) {
