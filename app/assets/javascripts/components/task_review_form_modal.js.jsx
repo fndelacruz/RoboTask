@@ -155,7 +155,7 @@
     },
 
     render: function() {
-      var worker_shortname = this.props.task.worker_shortname;
+      var shortName = this.props.task.worker.shortName;
       var statusIsPositiveGlyph = this._getIsPositiveStatusGlyph();
 
       var isPositiveStyle = this._getIsPositiveStatusMessageType();
@@ -176,10 +176,9 @@
               <Modal.Title>Thanks for choosing RoboTask!</Modal.Title>
             </Modal.Header>
 
-
             <Modal.Body>
               <div>
-                <div className="page-heading">Would you recommend {worker_shortname} to others? </div>
+                <div className="page-heading">Would you recommend {shortName} to others? </div>
                 <div className="btn-group" data-toggle="buttons">
                   <label
                     className="btn btn-primary"
@@ -206,7 +205,7 @@
                     onChange={this.handleChange}
                     bsStyle={this.state.descriptionStatus}
                     hasFeedback={true}
-                    placeholder={"Example: " + worker_shortname + " was a great worker. very quick. I will choose him for all my future task needs"}
+                    placeholder={"Example: " + shortName + " was a great worker. very quick. I will choose him for all my future task needs"}
                   />
                 </div><br/>
 

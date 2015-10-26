@@ -28,7 +28,7 @@
 .navbar {
 	// background-color: rgb(148, 224, 224); // teal?
 	// background-color: #5C88DF;
-	border-bottom: 1px solid #334d5c;
+	border-bottom: 5px solid #334d5c;
 	margin: 0px
 }
 
@@ -127,4 +127,8 @@
 	border-top: 2px solid #1e5d88;
 	border-left: 2px solid #1e5d88;
 	border-right: 2px solid #1e5d88;
+}
+
+.container {
+	margin-top: 20px;
 }
