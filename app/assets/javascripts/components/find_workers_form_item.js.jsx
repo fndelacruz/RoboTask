@@ -7,6 +7,13 @@
   var Button = ReactBootstrap.Button;
 
   root.FindWorkersFormItem = React.createClass({
+    approvalRating: function() {
+      if (this.props.worker.stats.total_tasks > 0) {
+        return <h4>{this.props.worker.stats.approval_rating}% Approval rating</h4>;
+      } else {
+        return ("");
+      }
+    },
 
     render: function() {
       // NOTE: Was rendering review like below. might change back to it if modal
@@ -34,7 +41,7 @@
               <div id="about-content">{worker.bio}</div>
               <div className="worker-stats">
                 <h3>{worker.stats.total_tasks} RoboTasks completed</h3>
-                <h4>{worker.stats.approval_rating}% Approval rating</h4>
+                {this.approvalRating()}
                 <h3>§{worker.wage}/hr</h3>
               </div>
 
