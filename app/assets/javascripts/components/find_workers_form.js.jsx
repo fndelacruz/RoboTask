@@ -93,7 +93,7 @@
     _updateValidWorkers: function() {
       // root.ApiUtil.fetchValidWorkers(this._formattedStateDateTime());
       this.setState({
-        validWorkers: root.WorkerUserStore.all()
+        validWorkers: WorkerUserStore.all()
       });
     },
 
@@ -134,38 +134,77 @@
       }
     },
 
+    handleSortChange: function(e) {
+      switch (e.target.value) {
+        case "RANDOM":
+          FindWorkersSortActions.randomize();
+          break;
+        case "MOST_EXPENSIVE":
+          FindWorkersSortActions.sortMostExpensive();
+          break;
+        case "LEAST_EXPENSIVE":
+          FindWorkersSortActions.sortLeastExpensive();
+          break;
+        case "MOST_TASKS":
+          FindWorkersSortActions.sortMostTasks();
+          break;
+        case "HIGHEST_RATED":
+          FindWorkersSortActions.sortHighestRated();
+          break;
+        default:
+      }
+    },
+
     render: function() {
       var workers = this.state.validWorkers;
       var task = root.CreatedTaskStore.all()[this.props.params.storeTaskIdx];
-      shuffle(workers);
+      // shuffle(workers);
       return (
         <div className="container">
           <div className="row" id="find-workers-form">
             <div className="panel" id="find-workers-header">
               Select Task Date Time and Choose RoboTasker
             </div>
-            <div className="panel col-xs-12 col-sm-3">
-              <h5
-                className="component-container-heading"
-                id="find-workers-form-heading">
-                Task Date and Time
-              </h5>
-              <div className="filters-container">
-                <input
-                  type="date"
-                  value={formatSimpleDate(this.state.dateTime)}
-                  onChange={this.handleChange}
-                  id="date-time-entry"
-                /><br/>
+            <div className="col-xs-12 col-sm-3">
+              <div className="panel">
+                <h5
+                  className="component-container-heading"
+                  id="find-workers-form-heading">
+                  Task Date and Time
+                </h5>
+                <div className="filters-container">
+                  <input
+                    type="date"
+                    value={formatSimpleDate(this.state.dateTime)}
+                    onChange={this.handleChange}
+                    id="date-time-entry"
+                  /><br/>
 
-                <select defaultValue="ANY"id="interval-entry" onChange={this.handleChange}>
-                  <option value="ANY">ANY TIME</option>
-                  <option value="MORNING">MORNING (8AM-12PM)</option>
-                  <option value="AFTERNOON">AFTERNOON (12PM-4PM)</option>
-                  <option value="EVENING">EVENING (4PM-8PM)</option>
+                  <select defaultValue="ANY"id="interval-entry" onChange={this.handleChange}>
+                    <option value="ANY">ANY TIME</option>
+                    <option value="MORNING">MORNING (8AM-12PM)</option>
+                    <option value="AFTERNOON">AFTERNOON (12PM-4PM)</option>
+                    <option value="EVENING">EVENING (4PM-8PM)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="panel">
+                <h5
+                  className="component-container-heading"
+                  id="find-workers-form-heading">
+                  Robot Sort Options
+                </h5>
+                <select size="5" defaultValue="random"id="interval-entry" onChange={this.handleSortChange}>
+                  <option value="RANDOM">Randomize!</option>
+                  <option value="MOST_EXPENSIVE">Premium Robots</option>
+                  <option value="LEAST_EXPENSIVE">Best Value</option>
+                  <option value="MOST_TASKS">Most Experienced</option>
+                  <option value="HIGHEST_RATED">Best Rating</option>
                 </select>
               </div>
             </div>
+
 
             <div className="col-xs-12 col-sm-9" id="find-workers-form-container">
               <div className="panel" id="find-workers-form-items-header">

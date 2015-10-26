@@ -6,7 +6,7 @@
 
   var _resetValidWorkers = function(workers) {
     _validWorkers = workers;
-    
+
     WorkerUserStore.emit(VALID_WORKERS_CHANGE_EVENT);
   };
 
@@ -21,21 +21,41 @@
     WorkerUserStore.emit(CURRENT_USER_DETAILS_CHANGE_EVENT);
   };
 
-  // NOTE: just do this in Jbuilder
-  // var _formatDetailsArrayToPOJO = function (work_times) {
-  //   var _formattedDetails = {};
-  //   work_times.forEach(function(work_time) {
-  //     _formattedDetails.work_time =  _formattedDetails.work_time || {};
-  //     _formattedDetails(work_time.day)
-  //   });
-  // };
+  var shuffle = function(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex ;
+    while (0 !== currentIndex) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+    return array;
+  };
 
-  // NOTE: go back to this if decide to implement flash like system
-  // var _flashProfileUpdateOK = function() {
-  //
-  // };
+  var sortWorkersByAttribute = function(isAscending, attr1, attr2) {
+    return function(worker1, worker2) {
+      if (typeof attr2 === "undefined") {
+        if (worker1[attr1] < worker2[attr1]) {
+          return isAscending ? -1 : 1 ;
+        } else if (worker1[attr1] > worker2[attr1]) {
+          return isAscending ? 1 : -1 ;
+        } else {
+          return 0;
+        }
+      } else {
+        if (worker1[attr1][attr2] < worker2[attr1][attr2]) {
+          return isAscending ? -1 : 1 ;
+        } else if (worker1[attr1][attr2] > worker2[attr1][attr2]) {
+          return isAscending ? 1 : -1 ;
+        } else {
+          return 0;
+        }
 
-  var _clearFlash = function() { _flashProfile = ""; };
+      }
+    };
+  };
+
 
   var WorkerUserStore = root.WorkerUserStore = $.extend({}, EventEmitter.prototype, {
     all: function() {
@@ -71,26 +91,32 @@
 
     dispatcherId: root.AppDispatcher.register(function(payload) {
       switch (payload.actionType) {
-        case root.UserConstants.VALID_WORKERS_RECEIVED:
+        case UserConstants.VALID_WORKERS_RECEIVED:
           _resetValidWorkers(payload.action);
           break;
-        case root.UserConstants.CURRENT_USER_DETAILS_RECEIVED:
+        case UserConstants.CURRENT_USER_DETAILS_RECEIVED:
           _resetCurrentUserDetails(payload.action);
           break;
-
-        // NOTE: these two methods are getting replaced by a CURRENT_USER_DETAILS_RECEIVED
-        // case root.UserConstants.USER_BIO_RECEIVED:
-        //   _receiveBio(payload.action);
-        //   break;
-        // case root.UserConstants.USER_WORK_TIMES_UPDATED:
-        //   _resetWorkTimes(payload.action);
-        //   break;
-
-
-        // NOTE: having second thoughts about making a flash action...
-        // case root.FlashConstants.PROFILE_FORM_OK:
-        //   _flashProfileUpdateOK();
-        //   break;
+        case UserConstants.SHUFFLE_WORKERS:
+          shuffle(_validWorkers);
+          WorkerUserStore.emit(VALID_WORKERS_CHANGE_EVENT);
+          break;
+        case UserConstants.SORT_WORKERS_MOST_EXPENSIVE:
+          _validWorkers.sort(sortWorkersByAttribute(false, "wage"));
+          WorkerUserStore.emit(VALID_WORKERS_CHANGE_EVENT);
+          break;
+        case UserConstants.SORT_WORKERS_LEAST_EXPENSIVE:
+          _validWorkers.sort(sortWorkersByAttribute(true, "wage"));
+          WorkerUserStore.emit(VALID_WORKERS_CHANGE_EVENT);
+          break;
+        case UserConstants.SORT_WORKERS_MOST_TASKS:
+          _validWorkers.sort(sortWorkersByAttribute(false, "stats", "total_tasks"));
+          WorkerUserStore.emit(VALID_WORKERS_CHANGE_EVENT);
+          break;
+        case UserConstants.SORT_WORKERS_HIGHEST_RATED:
+          _validWorkers.sort(sortWorkersByAttribute(false, "stats", "approval_rating"));
+          WorkerUserStore.emit(VALID_WORKERS_CHANGE_EVENT);
+          break;
       }
     })
 
