@@ -332,16 +332,6 @@ body {
 .home-sub-header {
 	font-size: 36px;
 }
-#find-workers-header {
-	font-size: 36px;
-	padding: 2px 0px;
-	text-align: center;
-}
-#find-workers-form-items-header {
-	font-size: 24px;
-	text-align: center;
-	padding: 2px 0px;
-}
 
 
 .auth-container {
@@ -384,32 +374,6 @@ body {
 #inner-panel-polaroid-adjust {
 	margin: 0px 0px;
 }
-
-.review-worker-profile-pic {
-	border-radius: 50%;
-	border: 2px solid rgba(0,0,0,1);
-}
-
-#find-workers-form-heading {
-	font-size: 24px
-}
-
-#find-workers-form-container {
-	padding: 0px 0px 0px 15px;
-	text-align: center;
-}
-
-
-
-#find-workers-form-item-container {
-	overflow: hidden;
-  position: relative;
-  width: 100%;
-	margin: 0px;
-}
-
-
-
 
 #home-current-user-pic {
 	border-radius: 50%;

@@ -67,8 +67,8 @@
       return (
         <div>
           <Button
-            bsStyle="primary"
-            bsSize="medium"
+            bsStyle="link"
+            bsSize="large"
             className="centered-buttons"
             onClick={this.open}
             id="reviews-index-modal-button"

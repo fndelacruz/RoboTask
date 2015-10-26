@@ -73,7 +73,6 @@
     },
 
     open: function() {
-      debugger
       this.setState({ showModal: true });
     },
 

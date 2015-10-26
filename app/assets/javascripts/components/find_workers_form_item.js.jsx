@@ -32,7 +32,13 @@
             <img
               className="worker-profile-pic"
               src={worker.image} /><br/>
-            <div className="text-center" id="worker-profile-shortName">{shortName}</div><br/>
+            <div className="text-center" id="worker-profile-shortName">
+              {shortName}<br/>
+              <ReviewIndexModal worker={this.props.worker} shortName={shortName} />
+            </div>
+            <div className="text-center">
+
+            </div>
           </div>
 
           <div className="col-xs-12 col-sm-8" id="about-me-container">
@@ -45,7 +51,6 @@
                 <h3>§{worker.wage}/hr</h3>
               </div>
               <div className="find-workers-item-button-holder">
-                <ReviewIndexModal worker={this.props.worker} shortName={shortName} />
                 <ConfirmHireModal
                   handleConfirm={this.props.chooseWorker.bind(null, this.props.task, worker)}
                   task={task}
