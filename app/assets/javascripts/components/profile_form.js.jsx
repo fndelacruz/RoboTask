@@ -86,6 +86,7 @@
 
     componentDidMount: function() {
       ApiUtil.fetchCurrentUserDetails();
+      ApiUtil.fetchCurrentUserSetup();
       WorkerUserStore.addCurrentUserChangeListener(this._updateProfile);
       StatusMessageStore.addNewStatusMessageListener(this._updateStatusMessage);
       CurrentUserStore.addChangeListener(this.updateUserType);
