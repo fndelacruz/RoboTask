@@ -44,16 +44,17 @@
                 {this.approvalRating()}
                 <h3>§{worker.wage}/hr</h3>
               </div>
-
-              <ReviewIndexModal worker={this.props.worker} shortName={shortName} />
-              <ConfirmHireModal
-                handleConfirm={this.props.chooseWorker.bind(null, this.props.task, worker)}
-                task={task}
-                worker={worker}
-                shortName={shortName}
-                dateTime={this.props.dateTime}
-                chooseWorker={this.props.chooseWorker.bind(null, this.props.task, worker)}
-              />
+              <div className="find-workers-item-button-holder">
+                <ReviewIndexModal worker={this.props.worker} shortName={shortName} />
+                <ConfirmHireModal
+                  handleConfirm={this.props.chooseWorker.bind(null, this.props.task, worker)}
+                  task={task}
+                  worker={worker}
+                  shortName={shortName}
+                  dateTime={this.props.dateTime}
+                  chooseWorker={this.props.chooseWorker.bind(null, this.props.task, worker)}
+                />
+              </div>
 
             </div>
           </div>

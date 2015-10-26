@@ -38,6 +38,20 @@
       this.history.pushState(null, "/profile/work_settings");
     },
 
+    handleWorkProfileDisplay: function() {
+      if (this.state.userIsRobot) {
+        return (
+          <Button
+            bsStyle="primary"
+            bsSize="medium"
+            onClick={this.handleWorkProfileClick}
+            block>
+            Work Profile
+          </Button>
+        );
+      }
+    },
+
     render: function() {
       var workTimes = this.state.workTimes;
       var header = "";
@@ -54,7 +68,7 @@
 
             <div className="panel col-xs-12 col-sm-3">
               <Button bsStyle="primary" bsSize="medium" onClick={this.handleGeneralClick} block>General</Button>
-              <Button bsStyle="primary" bsSize="medium" onClick={this.handleWorkProfileClick} block>Work Profile</Button>
+              {this.handleWorkProfileDisplay()}
             </div>
             <div className="col-xs-12 col-sm-9">
               {this.props.children}

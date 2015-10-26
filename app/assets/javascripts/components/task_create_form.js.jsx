@@ -445,7 +445,7 @@
 
           <div>
             {this.handleSubmitButton()}<br/>
-            <span className="center-text">Next: Select Task Date and choose RoboTasker</span>
+            <span className="center-text">Next: Select Task Date and Choose RoboTasker</span>
           </div>
           {this.state.mainStatusMessage}
         </div>

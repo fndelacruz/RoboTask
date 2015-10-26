@@ -50,7 +50,6 @@
       // NOTE: Currently only considering one sortType, hence the [0]. Later,
       // can support multiple sortTypes - at this point I need to iterate
       // through the activeSortTypes instead of using only the first
-      debugger
       switch (activeSortTypes[0]) {
         case "shuffled":
           return shuffle(tasks);
@@ -146,7 +145,6 @@
       // ************************************************************
       // NOTE: Alter the "Looking for more?" message for final product
       // ************************************************************
-      debugger;
       return (
         <div className="container-fluid">
           <div className="row" id="task-map-row">
