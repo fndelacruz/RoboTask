@@ -85,7 +85,7 @@ class User < ActiveRecord::Base
 
   def workable_tasks(tasks)
     schedule = WorkTime.schedule_hash(self.work_times)
-    tasks.to_a.select { |task| task.is_workable?(schedule) }
+    tasks.to_a.select { |task| task.is_workable?(schedule) && task[:is_open] == true }
   end
 
   def worked_tasks_in_progress

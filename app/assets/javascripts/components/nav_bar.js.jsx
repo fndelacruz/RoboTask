@@ -163,7 +163,7 @@
                   <ul className="dropdown-menu">
                     <li
                       onClick={this.handleTaskClick.bind(null, "unassigned")}>
-                      <a>Incomplete:<span className={pendingClass}>{unassignedCount}</span></a>
+                      <a>Open:<span className={pendingClass}>{unassignedCount}</span></a>
                     </li>
 
                     <li

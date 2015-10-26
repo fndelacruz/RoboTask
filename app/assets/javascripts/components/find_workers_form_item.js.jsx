@@ -48,7 +48,7 @@
               <div className="worker-stats">
                 <h3>{worker.stats.total_tasks} RoboTasks completed</h3>
                 {this.approvalRating()}
-                <h3>§{worker.wage}/hr</h3>
+                <span className="find-workers-form-item-wage">§{worker.wage}/hr</span>
               </div>
               <div className="find-workers-item-button-holder">
                 <ConfirmHireModal

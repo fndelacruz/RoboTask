@@ -136,7 +136,7 @@ ActiveRecord::Base.transaction do
     processed_addresses << processed_entry
   end
 
-  # NOTE: creates tasks for each client user
+  # NOTE: creates open tasks for each client user
   ((NUM_ROBOTS + 1)..(NUM_ROBOTS + NUM_CLIENTS)).each do |x|
     user = User.find(x)
     rand(MIN_CREATED_TASKS..MAX_CREATED_TASKS).times do |x|
@@ -156,14 +156,16 @@ ActiveRecord::Base.transaction do
           location: random_address,
           lat: rand_addr_raw[2],
           lng: rand_addr_raw[3],
-          datetime: random_datetime
+          datetime: random_datetime,
+          wage: rand(20..80),
+          is_open: true
         }
       ])
     end
 
     # randomly assign user tasks to worker..
     rand(MIN_ASSIGNED_TASKS..MAX_ASSIGNED_TASKS).times do |x|
-      pending_tasks = Task.where("creator_id = #{user.id}").where("worker_id IS NULL")
+      pending_tasks = Task.where("creator_id = #{user.id}")
       # pending_tasks = User.last.created_tasks.where(worker_id = nil)
       task = pending_tasks[rand(pending_tasks.length)]
       task_day = task.datetime.strftime("%a").upcase
@@ -184,8 +186,6 @@ ActiveRecord::Base.transaction do
       end
 
       task.worker = valid_workers[rand(valid_workers.length)]
-      task.wage = task.worker.wage
-      # debugger
       task.save!
       task.creator.send_message("AUTO-NOTIFICATION: I hired you for this task!", task)
     end
@@ -252,6 +252,8 @@ ActiveRecord::Base.transaction do
         location: random_address,
         lat: rand_addr_raw[2],
         lng: rand_addr_raw[3],
+        wage: rand(20..100),
+        is_open: true,
         datetime: random_datetime
       }
     ])

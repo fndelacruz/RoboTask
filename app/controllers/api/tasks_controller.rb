@@ -31,7 +31,7 @@ class Api::TasksController < ApplicationController
         render json: { _fail: true }
       end
     else
-      # NOTE: I expect task.wage to be defined by this point
+      # NOTE: I expect task.wage to be defined by this point by user at creation
       if task.save
         render json: {
           id: task.id,

@@ -51,7 +51,7 @@
               role="presentation"
               onClick={this.openTab.bind(null, "unassigned")}
               className={activeTab === "unassigned" ? "active" : ""}>
-              <a className="task-tabs">Pending Assignment  <span className={pendingClass}>{unassignedCount}</span></a>
+              <a className="task-tabs">Open<span className={pendingClass}>{unassignedCount}</span></a>
             </li>
             <li
               role="presentation"

@@ -20,19 +20,33 @@
       this.history.pushState(null, "/task/" + idx + "/findWorker");
     },
 
-    _handleSidePanel: function() {
-
+    handleFindWorker: function(task) {
+      if (task.isOpen) {
+        return (
+          <div className="open-task-wage">
+            §{task.wage}/hr
+          </div>
+        );
+      } else {
+        return (
+          <Button
+            bsStyle="primary"
+            bsSize="medium"
+            id="created-task-button-complete-or-find-worker"
+            onClick={this._findValidWorkers.bind(null, task)}
+          >Find Worker</Button>
+        );
+      }
     },
 
     render: function() {
       var task = this.props.createdTask;
       var hasWorker = (typeof task.worker === "undefined") ? false : true;
       var isComplete = (typeof task.review === "undefined") ? false : true;
-      var taskDate = "";
       var taskDescriptionClass = "";
-      if (hasWorker) {
-        taskDate = <span className="task-date-scheduled">{task.datetime[0]} {task.datetime[1]}<br/></span>;
-      }
+      var taskDate = <span className="task-date-scheduled">{task.datetime[0]} {task.datetime[1]}<br/></span>;
+      var isOpen = task.isOpen;
+      debugger;
       return (
         <div>
           <div className="panel">
@@ -108,12 +122,7 @@
                   {hasWorker ?
                     <TaskReviewFormModal task={this.props.createdTask}/>
                   :
-                    <Button
-                      bsStyle="primary"
-                      bsSize="medium"
-                      id="created-task-button-complete-or-find-worker"
-                      onClick={this._findValidWorkers.bind(null, task)}
-                    >Find Worker</Button>
+                    this.handleFindWorker(task)
                   }
                   </div>
                 }
