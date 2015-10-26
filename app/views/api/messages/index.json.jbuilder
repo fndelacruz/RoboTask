@@ -10,6 +10,7 @@ json.array!(@messages) do |message|
   json.created_at message.created_at.to_i
 
   json.task do
+    debugger if message.task.nil?
     json.creator message.task.creator.nickname
     json.creator_id message.task.creator.id
     json.worker message.task.worker.nickname

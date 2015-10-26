@@ -3,6 +3,8 @@
   // this.props.createdTask
   var Button = ReactBootstrap.Button;
   var Glyphicon = ReactBootstrap.Glyphicon;
+  var Popover = ReactBootstrap.Popover;
+  var OverlayTrigger = ReactBootstrap.OverlayTrigger;
 
   root.CreatedTasksIndexItem = React.createClass({
     mixins: [ReactRouter.History],
@@ -27,19 +29,16 @@
       var hasWorker = (typeof task.worker === "undefined") ? false : true;
       var isComplete = (typeof task.review === "undefined") ? false : true;
       var taskDate = "";
+      var taskDescriptionClass = "";
       if (hasWorker) {
         taskDate = <span className="task-date-scheduled">{task.datetime[0]} {task.datetime[1]}<br/></span>;
       }
-      // debugger;
-
       return (
         <div>
           <div className="panel">
             <div className="row" id="inner-panel-polaroid-adjust">
-
-              <div className="col-xs-12 col-sm-3" id="polaroid">
-
-                {hasWorker ?
+              {hasWorker ?
+                <div className="col-xs-12 col-sm-3" id="polaroid">
                   <strong className="text-center">
                     <img
                       className="worker-taskview-pic"
@@ -54,11 +53,11 @@
                       </span>
                     </div>
                   </strong>
-                :
-                  ""
-                }
-              </div>
-              <div className=" col-xs-12 col-sm-9">
+                </div>
+              :
+                ""
+              }
+              <div className={hasWorker ? "col-xs-12 col-sm-9" : ""}>
                 {taskDate}
                 <span className="task-title">{task.title}</span><br/>
                 <div className="task-title-divider" />
@@ -89,30 +88,33 @@
                     You said: {task.review.description}<br/>
                   </div>
                 :
-                  <div>
-                    <div className="">
+                  <div className="created-task-button-holder">
+                    <OverlayTrigger
+                      rootClose
+                      trigger="click"
+                      placement="right"
+                      overlay={
+                        <Popover title="Confirm?">
+                          <Button onClick={this.cancelTask}>Yes</Button>
+                        </Popover>
+                      }>
                       <Button
-                        bsStyle="default"
+                        bsStyle="danger"
                         bsSize="medium"
-                        className="centered-buttons"
-                        onClick={this.cancelTask}
-                      >Cancel Task</Button>
-                    </div>
-                    {hasWorker ?
-
-                      <TaskReviewFormModal
-                        task={this.props.createdTask}
-                      />
-                    :
-                      <div>
-                        <Button
-                          bsStyle="primary"
-                          bsSize="medium"
-                          className="centered-buttons"
-                          onClick={this._findValidWorkers.bind(null, task)}
-                        >Find Worker</Button>
-                      </div>
-                    }
+                        id="created-task-button-cancel">
+                        Cancel Task
+                      </Button>
+                    </OverlayTrigger>
+                  {hasWorker ?
+                    <TaskReviewFormModal task={this.props.createdTask}/>
+                  :
+                    <Button
+                      bsStyle="primary"
+                      bsSize="medium"
+                      id="created-task-button-complete-or-find-worker"
+                      onClick={this._findValidWorkers.bind(null, task)}
+                    >Find Worker</Button>
+                  }
                   </div>
                 }
               </div>

@@ -90,16 +90,16 @@
 
     dispatcherID: AppDispatcher.register(function(payload) {
       switch (payload.actionType) {
-        case root.TaskConstants.CREATED_TASKS_RECEIVED:
+        case TaskConstants.CREATED_TASKS_RECEIVED:
           _resetCreatedTasks(payload.action);
           break;
-        case root.TaskConstants.CREATE_TASK:
+        case TaskConstants.CREATE_TASK:
           _createTask(payload.action);
           break;
-        case root.TaskConstants.DELETE_TASK:
+        case TaskConstants.DELETE_TASK:
           _deleteTask(payload.action);
           break;
-        case root.TaskConstants.ASSIGN_TASK_WORKER:
+        case TaskConstants.ASSIGN_TASK_WORKER:
           _assignTaskWorker(payload.action);
           break;
       }

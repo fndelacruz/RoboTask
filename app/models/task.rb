@@ -34,7 +34,7 @@ class Task < ActiveRecord::Base
 
   has_one(:review)
 
-  has_many(:messages)
+  has_many(:messages, dependent: :destroy)
 
   def is_workable?(schedule)
     day = datetime.strftime("%a").upcase

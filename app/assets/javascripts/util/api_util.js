@@ -37,6 +37,7 @@
             console.log("failed to createTask task on controller side!");
           } else {
             ApiActions.createTask(createdTask);
+            ApiUtil.fetchMessages();
           }
         }
       });
@@ -51,7 +52,7 @@
         method: "DELETE",
         success: function(e) {
           ApiActions.deleteTask(task);
-
+          ApiUtil.fetchMessages();
           // NOTE: Not sure if this is the best way to handle rails database
           // failures to delete... I send an object with e._fail === true if the
           // database could not createTask the given task.

@@ -586,3 +586,18 @@ body {
 .mini-wage {
 	font-size: 24px;
 }
+
+.created-task-button-holder {
+	height: 36px;
+	margin-top: 24px;
+	position: relative;
+}
+
+#created-task-button-cancel {
+	position:absolute;
+}
+
+#created-task-button-complete-or-find-worker {
+	position: absolute;
+	right: 0;
+}

@@ -165,7 +165,7 @@
           <Button
             bsStyle="primary"
             bsSize="medium"
-            className="centered-buttons"
+            id="created-task-button-complete-or-find-worker"
             onClick={this.open}
           >
             Task complete!

@@ -51,19 +51,19 @@
               role="presentation"
               onClick={this.openTab.bind(null, "unassigned")}
               className={activeTab === "unassigned" ? "active" : ""}>
-              <a>Pending Assignment  <span className={pendingClass}>{unassignedCount}</span></a>
+              <a className="task-tabs">Pending Assignment  <span className={pendingClass}>{unassignedCount}</span></a>
             </li>
             <li
               role="presentation"
               onClick={this.openTab.bind(null, "active")}
               className={activeTab === "active" ? "active" : ""}>
-              <a>Active  <span className={activeClass}>{assignedCount}</span></a>
+              <a className="task-tabs">Active  <span className={activeClass}>{assignedCount}</span></a>
             </li>
             <li
               role="presentation"
               onClick={this.openTab.bind(null, "history")}
               className={activeTab === "history" ? "active" : ""}>
-              <a>History</a>
+              <a className="task-tabs">History</a>
             </li>
           </ul>
 
