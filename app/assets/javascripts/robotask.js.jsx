@@ -35,7 +35,7 @@ $(function() {
         <IndexRoute component={HomePage} />
         <Route path="messages" component={UserMessages} />
         <Route path="findtasks" component={FindTasksIndex} />
-        <Route path="task/new" component={TaskForm} />
+        <Route path="task/new(/:title)" component={TaskForm} />
         <Route path="taskmap" component={TaskMap} />
         <Route path="task/:storeTaskIdx/findWorker" component={FindWorkersForm} />
         <Route path="profile" component={ProfileForm} />

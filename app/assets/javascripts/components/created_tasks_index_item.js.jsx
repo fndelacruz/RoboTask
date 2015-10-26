@@ -94,7 +94,7 @@
                       trigger="click"
                       placement="right"
                       overlay={
-                        <Popover title="Confirm?">
+                        <Popover title="Are you sure?">
                           <Button onClick={this.cancelTask}>Yes</Button>
                         </Popover>
                       }>

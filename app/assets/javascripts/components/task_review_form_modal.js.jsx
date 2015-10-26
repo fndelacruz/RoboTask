@@ -42,10 +42,18 @@
           });
           break;
         case "is-positive-true":
-          this.setState({ isPositive: true });
+          this.setState({
+            isPositive: true,
+            isPositiveStatus: "",
+            isPositiveStatusMessage: "",
+          });
           break;
         case "is-positive-false":
-          this.setState({ isPositive: false });
+          this.setState({
+            isPositive: false,
+            isPositiveStatus: "",
+            isPositiveStatusMessage: "",
+          });
           break;
         default:
           debugger

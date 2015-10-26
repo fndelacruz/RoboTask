@@ -18,22 +18,29 @@
       And here's some <strong>amazing</strong> content. It's very engaging. right?
     </Popover>
   );
+
   root.TaskForm = React.createClass({
     mixins: [ReactRouter.History],
 
     componentDidMount: function() {
-      root.CreatedTaskStore.addCreateTaskOKListener(this._findValidWorkers);
+      CreatedTaskStore.addCreateTaskOKListener(this._findValidWorkers);
     },
 
     componentWillUnmount: function() {
-      root.CreatedTaskStore.removeCreateTaskOKListener(this._findValidWorkers);
+      CreatedTaskStore.removeCreateTaskOKListener(this._findValidWorkers);
     },
 
     getInitialState: function() {
+      var title = this.props.params.title;
+      var titleStatus = "success";
+      if (typeof title === "undefined") {
+        title = "";
+        titleStatus = "";
+      }
       return ({
-        entryTitle: "",
-        title: "",
-        titleStatus: "",
+        entryTitle: title,
+        title: title,
+        titleStatus: titleStatus,
 
         entryLocation: "",
         location: "",
@@ -332,6 +339,43 @@
       console.log("description is blurred!");
     },
 
+    handleInputRender: function(titleFeatures) {
+      if (typeof this.props.params.title === "undefined") {
+        return (
+          <Input
+            type="text"
+            placeholder="Example: Walk my dog."
+            className=""
+            value={this.state.entryTitle}
+            onChange={this.handleChange}
+            onFocus={this.handleTitleFocus}
+            onBlur={this._saveTitle}
+            bsStyle={this.state.titleStatus}
+            label={titleFeatures.label}
+            labelClassName="task-create-form-input-labels"
+            id="title-entry"
+            autoFocus
+          />
+        );
+      } else {
+        return (
+          <Input
+            type="text"
+            placeholder="Example: Walk my dog."
+            className=""
+            value={this.state.entryTitle}
+            onChange={this.handleChange}
+            onFocus={this.handleTitleFocus}
+            onBlur={this._saveTitle}
+            bsStyle={this.state.titleStatus}
+            label={titleFeatures.label}
+            labelClassName="task-create-form-input-labels"
+            id="title-entry"
+          />
+        );
+      }
+    },
+
     // NOTE: unsure if I should wrap each div form-group with another div
     // panel . seems redundant. panel will check if that panel is focused. if
     // focused, then it is expanded. otherwise it will minimize.
@@ -354,19 +398,7 @@
           <div className="panel">
             <div className="form-group">
               {titleFeatures.icon}
-                <Input
-                  type="text"
-                  placeholder="Example: Walk my dog."
-                  className=""
-                  value={this.state.entryTitle}
-                  onChange={this.handleChange}
-                  onFocus={this.handleTitleFocus}
-                  onBlur={this._saveTitle}
-                  bsStyle={this.state.titleStatus}
-                  label={titleFeatures.label}
-                  labelClassName="task-create-form-input-labels"
-                  id="title-entry"
-                />
+                {this.handleInputRender(titleFeatures)}
             </div>
           </div>
 
@@ -384,6 +416,7 @@
                 handleFocus={this.handleLocationFocus}
                 handleBlur={this.handleLocationBlur}
                 handleChange={this.handleChange}
+                title={this.props.params.title}
                 id="location-entry"/>
             </div>
             <div className="task-status-message">
@@ -410,8 +443,10 @@
             </div>
           </div>
 
-          {this.handleSubmitButton()}<br/>
-          <span className="center-text">Next: Select Task Date and choose RoboTasker</span>
+          <div>
+            {this.handleSubmitButton()}<br/>
+            <span className="center-text">Next: Select Task Date and choose RoboTasker</span>
+          </div>
           {this.state.mainStatusMessage}
         </div>
       );

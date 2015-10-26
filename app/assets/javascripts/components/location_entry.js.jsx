@@ -93,22 +93,41 @@
       }
     },
 
+    handleInputFocus: function() {
+      if (typeof this.props.title === "undefined") {
+        return (
+          <input
+            className="autocomplete form-control"
+            ref="autocomplete"
+            placeholder="Example"
+            onFocus={this._handleFocus}
+            onBlur={this.props.handleLocationBlur}
+            onChange={this.props.handleChange}
+            id="location-entry"
+            type="text">
+          </input>
+        );
+      } else {
+        return (
+          <input
+            className="autocomplete form-control"
+            ref="autocomplete"
+            placeholder="Example"
+            onFocus={this._handleFocus}
+            onBlur={this.props.handleLocationBlur}
+            onChange={this.props.handleChange}
+            id="location-entry"
+            autoFocus
+            type="text">
+          </input>
+        );
+      }
+    },
+
     render: function() {
       return (
-        <div>
-          <div id="locationField">
-            <input
-              className="autocomplete form-control"
-              ref="autocomplete"
-              placeholder="Example"
-              onFocus={this._handleFocus}
-              onBlur={this.props.handleLocationBlur}
-              onChange={this.props.handleChange}
-              id="location-entry"
-              type="text">
-            </input>
-          </div>
-
+        <div id="locationField">
+          {this.handleInputFocus()}
         </div>
       );
     }
