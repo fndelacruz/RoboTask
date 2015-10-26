@@ -222,6 +222,18 @@
           ApiActions.receiveMessages(messages);
         }
       });
+    },
+
+    updateCurrentUserPassword: function(passwords) {
+      $.ajax({
+        url: "/api/current_user_options/1",
+        data: {user: passwords},
+        method: "PATCH",
+        success: function(e) {
+          debugger
+          ApiActions.receivePasswordChangeStatus(e);
+        }
+      });
     }
   };
 }(this));

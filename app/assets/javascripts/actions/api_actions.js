@@ -91,8 +91,14 @@
         actionType: MessageConstants.RECEIVED_NEW_MESSAGES,
         action: messages
       });
-    }
+    },
 
+    receivePasswordChangeStatus: function(status) {
+      AppDispatcher.dispatch({
+        actionType: UserConstants.PASSWORD_CHANGE_STATUS_RECEIVED,
+        action: status
+      });
+    }
   };
 
 }(this));

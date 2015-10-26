@@ -38,7 +38,10 @@ $(function() {
         <Route path="task/new(/:title)" component={TaskForm} />
         <Route path="taskmap" component={TaskMap} />
         <Route path="task/:storeTaskIdx/findWorker" component={FindWorkersForm} />
-        <Route path="profile" component={ProfileForm} />
+        <Route path="profile" component={ProfileForm}>
+          <Route path="work_settings" component={ProfileFormWork} />
+          <Route path="general_settings" component={ProfileFormGeneral} />
+        </Route>
         <Route path="tasks/created" component={CreatedTasksIndex} >
           <Route path=":type" component={TasksIndex} />
         </Route>
