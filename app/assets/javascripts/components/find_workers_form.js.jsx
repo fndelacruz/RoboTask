@@ -58,6 +58,17 @@
     dateTime.setDate(yearDayMonth[2]);
   };
 
+  var Input = ReactBootstrap.Input;
+  var Button = ReactBootstrap.Button;
+  var Glyphicon = ReactBootstrap.Glyphicon;
+  var Popover = ReactBootstrap.Popover;
+  var OverlayTrigger = ReactBootstrap.OverlayTrigger;
+
+  var autoAssignPopover = (
+    <Popover title="Auto-Assign Information">
+      Want your task done for cheaper? Name your price and open your task to automatic public assignment. Please note that average time to robot assignment varies depending on robot availability.
+    </Popover>
+  );
   var FindWorkersForm = root.FindWorkersForm = React.createClass({
     mixins: [ReactRouter.History],
 
@@ -202,6 +213,27 @@
                   <option value="MOST_TASKS">Most Experienced</option>
                   <option value="HIGHEST_RATED">Best Rating</option>
                 </select>
+              </div>
+
+              <div className="panel">
+                <div className="auto-assign-container">
+                  <h5
+                    className="component-container-heading"
+                    id="find-workers-form-heading">
+                    Auto-Assign
+                    <OverlayTrigger overlay={autoAssignPopover}>
+                      <Glyphicon glyph="info-sign" id="auto-assign-info" />
+                    </OverlayTrigger>
+                  </h5>
+                </div>
+                <Input
+                  type="text"
+                  addonBefore="§"
+                  addonAfter="/ hr"/>
+                <Button
+                  bsStyle="primary">
+                  Post Task!
+                </Button>
               </div>
             </div>
 

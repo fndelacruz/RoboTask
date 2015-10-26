@@ -18,3 +18,13 @@
 #find-workers-form-heading {
 	font-size: 24px
 }
+
+.auto-assign-container {
+	position: relative
+}
+#auto-assign-info {
+	position: absolute;
+	right: 0px;
+	color: rgb(51, 122, 183);
+	cursor: pointer;
+}
