@@ -5,7 +5,9 @@
   var _filterNameCodes = {
     shuffled: "Randomize!",
     sortDateAscending: "Ascending Date",
-    sortDateDescending: "Descending Date"
+    sortDateDescending: "Descending Date",
+    sortWageAscending: "Ascending Wage",
+    sortWageDescending: "Descending Wage"
   };
 
   root.FindTasksFilters = React.createClass({

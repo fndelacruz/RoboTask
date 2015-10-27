@@ -27,6 +27,19 @@
     };
   };
 
+  var sortByWage = function(isAscending) {
+    return function(task1, task2) {
+      if (task1.wage < task2.wage) {
+        return isAscending ? -1 : 1 ;
+      } else if (task1.wage > task2.wage) {
+        return isAscending ? 1 : -1 ;
+      } else {
+        return 0;
+      }
+    };
+  };
+
+
   var FindTasksIndex = root.FindTasksIndex = React.createClass({
     getInitialState: function() {
       return ({
@@ -35,7 +48,9 @@
         sortType: {
           shuffled: false,
           sortDateAscending: true,
-          sortDateDescending: false
+          sortDateDescending: false,
+          sortWageAscending: false,
+          sortWageDescending: false
         },
         assignmentStatus: "",
         assignmentButtonDisabled: false
@@ -56,6 +71,11 @@
           return tasks.sort(sortByDate(true));
         case "sortDateDescending":
           return tasks.sort(sortByDate(false));
+        case "sortWageAscending":
+          debugger
+          return tasks.sort(sortByWage(true));
+        case "sortWageDescending":
+          return tasks.sort(sortByWage(false));
       }
     },
 
