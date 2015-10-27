@@ -124,7 +124,7 @@
             </div>
             {options.isRobot === false ?
               <div className="panel home-sub-header" id="task-create-welcome">
-                Over 9,000 RoboTaskers at your service. How can we help you?<br/>
+                How can we help you?<br/>
                 <Input
                   type="text"
                   id="home-page-task-input"
