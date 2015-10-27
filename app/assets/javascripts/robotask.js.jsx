@@ -10,7 +10,6 @@ $(function() {
       mixins: [ReactRouter.History],
       componentDidMount: function() {
         ApiUtil.fetchCurrentUserSetup();
-        // this.history.pushState(null, "/home");
       },
 
       updateUserDetails: function() {

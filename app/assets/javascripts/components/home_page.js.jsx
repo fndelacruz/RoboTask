@@ -1,7 +1,5 @@
 (function(root) {
   'use strict';
-  // this will probably have a bunch of properties...
-
   var Button = ReactBootstrap.Button;
   var Input = ReactBootstrap.Input;
 
@@ -156,7 +154,6 @@
     },
 
     render: function() {
-      console.log(this.state.newTaskTitle);
       var taskCount;
 
       return (

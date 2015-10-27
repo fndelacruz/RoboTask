@@ -55,8 +55,6 @@
         case 16:
           interval = "Evening";
           break;
-        default:
-          debugger
       }
       return interval;
     },
@@ -71,12 +69,9 @@
     },
 
     _disabledSubmit: function() {
-      // NOTE: delete this console.log eventually
-      console.log("Can't submit anymore!");
     },
 
     render: function() {
-      // NOTE: if don't end up using popover or tooltip here, delete these
       var task = this.props.task;
       var dateTime = this.props.dateTime;
       var wage = this.props.wage;
@@ -87,7 +82,6 @@
         isDisabled = true;
         handleSubmit = this._disabledSubmit;
       }
-      debugger;
       return (
         <div>
           <Button

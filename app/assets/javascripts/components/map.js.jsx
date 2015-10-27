@@ -11,21 +11,6 @@
   };
 
   var TaskMap = root.TaskMap = React.createClass({
-    // mixins: [ReactRouter.History],
-    //
-    // getInitialState: function() {
-    //   return ({
-    //     clicked: false,
-    //     tasks: [],
-    //     markers: []
-    //   });
-    // },
-    //
-    // _changed: function() {
-    //   this._createNewMarkers(BenchStore.all());
-    //   this._deleteOutOfBoundsMarkers(BenchStore.all());
-    // },
-    //
     _deleteOutOfBoundsMarkers: function(tasks) {
       var mapTaskIds = Object.keys(taskIdMarkerDirectory);
 
@@ -53,8 +38,6 @@
             animation: root.google.maps.Animation.DROP,
             title: task.description
           });
-
-          // debugger;
           taskIdsWithMarkers.push(taskId);
           taskIdMarkerDirectory[taskId] = marker;
         }
@@ -75,9 +58,6 @@
     },
 
     updateTaskMarkers: function() {
-      console.log("updateTaskMarkers");
-      // this.setState({ tasks: WorkableTaskStore.all() });
-      // this._createNewMarkers(this.state.tasks);
     },
 
     componentDidMount: function() {
@@ -89,22 +69,16 @@
       this.map = new root.google.maps.Map(map, mapOptions);
       this.listenForMove();
       this.listenForMapClick();
-      // WorkableTaskStore.addChangeListener(this.updateTaskMarkers);
-      // BenchStore.addChangeListener(this._changed);
       TaskMapHighLightStore.addChangeListener(this._handleMarkerHighlight);
 
     },
 
     componentWillReceiveProps: function(tasks) {
-      // debugger
-      console.log("componentWillReceiveProps");
       this._createNewMarkers(tasks.tasks);
       this._deleteOutOfBoundsMarkers(tasks.tasks);
     },
 
     componentWillUnmount: function() {
-      // WorkableTaskStore.removeChangeListener(this.updateTaskMarkers);
-      // BenchStore.removeChangeListener(this._changed);
       TaskMapHighLightStore.removeChangeListener(this._handleMarkerHighlight);
       taskIdsWithMarkers = [];
       taskIdMarkerDirectory = {};
@@ -115,13 +89,6 @@
     },
 
     _handleMove: function() {
-      // O: latitude
-      // // O: south
-      // // j: north
-
-      // j: longitude
-      // // O: east
-      // // j: west
       var northEast = this.map.getBounds().getNorthEast();
       var southWest = this.map.getBounds().getSouthWest();
 
@@ -131,14 +98,6 @@
         northEast: { lat: latSouthNorth.j, lng: lngEastWest.O },
         southWest: { lat: latSouthNorth.O, lng: lngEastWest.j }
       };
-
-
-
-      // var filterParams = TaskMapFilterParamsStore.all();
-      // filterParams.bounds = bounds;
-      // debugger;
-
-      console.log("_handleMove run. bounds: " + bounds);
       FilterActions.updateBounds(bounds);
     },
 
@@ -147,29 +106,12 @@
     },
 
     handleMapClick: function (e) {
-      console.log("handleMapClick run");
-      // if (typeof e.latLng !== "undefined") {
-      //   var lat = e.latLng.J;
-      //   var lng = e.latLng.M;
-      //   var coords = { lat: lat, lng: lng } ;
-      //   this.history.pushState(null, "benches/new", coords);
-      // }
     },
 
     _clicky: function() {
-      console.log("clicky");
-      // var marker = new root.google.maps.Marker({
-      //   position: { lat: 37.786723, lng: -122.425569},
-      //   animation: root.google.maps.Animation.DROP,
-      //   title: "test title"
-      // });
-      // marker.setMap(this.map);
     },
 
     render: function() {
-      // debugger;
-      console.log("TaskMap rendered");
-      // debugger;
       return (
         <div
           className="map"
@@ -183,10 +125,3 @@
     }
   });
 }(this));
-
-// new this.google.maps.Marker({
-//   position: { lat: 37.786723, lng: -122.425569},
-//   map: this.map,
-//   animation: this.google.maps.Animation.DROP,
-//   title: "test title"
-// });

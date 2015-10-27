@@ -7,7 +7,6 @@
     return {messages: this.props.messages};
   },
 
-  // NOTE: why use replaceState for vs setState here?
   messages: function (messageArray) {
     this.replaceState({messages: messageArray});
   },

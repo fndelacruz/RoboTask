@@ -12,8 +12,6 @@
     mixins: [ReactRouter.History],
 
     getInitialState: function() {
-      // NOTE: Idealy, want to limit this reviews state to only a few reviews
-      // via pagination. for now, will just fetch them all!
       return ({
         showModal: false,
         message: "",
@@ -62,7 +60,6 @@
           interval = "Evening";
           break;
         default:
-          debugger
       }
       return interval;
     },
@@ -77,12 +74,9 @@
     },
 
     _disabledSubmit: function() {
-      // NOTE: delete this console.log eventually
-      console.log("Can't submit anymore!");
     },
 
     render: function() {
-      // NOTE: if don't end up using popover or tooltip here, delete these
       var task = this.props.task;
       var worker = this.props.worker;
       var dateTime = this.props.dateTime;
@@ -98,7 +92,6 @@
         isDisabled = true;
         handleSubmit = this._disabledSubmit;
       }
-      // debugger;
       return (
         <div>
           <Button

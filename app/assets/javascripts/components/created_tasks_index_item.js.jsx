@@ -22,8 +22,6 @@
   root.CreatedTasksIndexItem = React.createClass({
     mixins: [ReactRouter.History],
 
-    // NOTE: Ideally, want to popup a warning before deleting a task, or some
-    // kind of double guessing
     cancelTask: function() {
       root.ApiUtil.deleteTask(this.props.createdTask);
     },

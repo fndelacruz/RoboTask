@@ -11,7 +11,6 @@ class SessionController < ApplicationController
     )
     if @user
       login(@user)
-      # NOTE: Unsure how to implement flash well with React. may add back later
       # flash[:notices] ||= []
       # flash[:notices] << "Login OK"
       redirect_to "/"

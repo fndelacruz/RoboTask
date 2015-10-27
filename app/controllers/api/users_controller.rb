@@ -1,16 +1,4 @@
 class Api::UsersController < ApplicationController
-  # NOTE: this controller is really only to fetchValidWorkers, so I won't
-  # consider fetching non-user works on this Api. If it comes to it, I will
-  # split the index, ex:
-  # if user_type == "workers"
-  #   @users = User.workers # where time slices are within
-  #   render json: @users
-  # elsif user_type == "creators" # I might not use this type...
-  #   fail
-  # else
-  #   fail
-  # end
-
   def index
     day = params[:dateTime][0..2].upcase
     interval = params[:dateTime][16..17].to_i
@@ -25,23 +13,9 @@ class Api::UsersController < ApplicationController
         .where('work_times.day = ?', day)
         .references(:work_times)
     end
-    # NOTE: this fetches ALL worker users. don't use it anymore but might be
-    # useful later
-    # @users = User.joins(:work_times)
-    #   .group("users.id")
-    #   .having("(count(user_id)) > 0")
   end
 
   def show
-
-    # # NOTE: only using show to show current_user. seems kind of hacky, in
-    # # particular because I do this by setting "id" to 1
-    # work_times = []
-    # current_user.work_times.each do |work_time|
-    #   work_times.push({ day: work_time.day , interval: work_time.interval })
-    # end
-    #
-
     work_times_hash = {};
 
     current_user.work_times.each do |work_time|
@@ -55,9 +29,6 @@ class Api::UsersController < ApplicationController
         work_times_hash[day][interval] ||= false
       end
     end
-
-    # debugger
-
     render json: {
       bio: current_user.bio,
       work_times: work_times_hash
@@ -65,9 +36,6 @@ class Api::UsersController < ApplicationController
   end
 
   def update
-    # NOTE: I think this should be done in a transaction. not sure how to use
-    # though. actually, can just check if current_user.save succeeds, right?
-
     work_times = params[:user][:workTimes]
 
     saveStatus = true
@@ -100,12 +68,5 @@ class Api::UsersController < ApplicationController
   end
 
   private
-
-  # NOTE: Couldn't get workTimes to be  a permitted parameter. something about
-  # nested hashes not playing well with the regular permitting
-
-  # def user_params
-  #   params.require(:user).permit(:bio, workTimes: [])
-  # end
-
+  
 end

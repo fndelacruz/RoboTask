@@ -73,7 +73,6 @@
 
     allIncompleteAssigned: function() {
       return this.allIncomplete().filter(function(task) {
-        // debugger
         if (typeof task.worker !== "undefined") { return task; }
       });
     },

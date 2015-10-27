@@ -37,10 +37,6 @@ class WorkTime < ActiveRecord::Base
     DAYS
   end
 
-  # NOTE: I considered making schedule_hash an instance method of user. However,
-  # I believe this will necessarily make a query to fetch those work_times every
-  # time is run. Having schedule_hash here implies a joins/includes association
-  # was already created, hence why work_times is provided here and NOT just a user?
   def self.schedule_hash(work_times)
     schedule = {}
     DAYS.each do |day|

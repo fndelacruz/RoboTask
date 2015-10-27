@@ -113,8 +113,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  # NOTE: Possibly change task_id to just task and do the initial
-  # query and validation at the controller level too
   def send_message(message, task_id)
     task = Task.find(task_id)
     isFromCreatorToWorker = task.creator == self

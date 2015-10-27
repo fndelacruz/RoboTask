@@ -81,7 +81,6 @@
 
     getInitialState: function() {
       var dateTimeTomorrow = addDays(new Date(), 1);
-      // intervalAdjustDate(dateTimeTomorrow, "ANY");
       return ({
         validWorkers: WorkerUserStore.all(),
         dateTime: dateTimeTomorrow,
@@ -107,34 +106,22 @@
           if (value === "") {
             this.setState({ openWage: "" });
           } else if (!/^\d+$/.test(value)) {
-            // do nothing (only numbers allowed)
-            // debugger
-            console.log("nonnumber");
           } else if (value === "0" && this.state.openWage === "") {
-            // do nothing (no trailing zeros)
-            console.log("trail zeroes");
           } else {
-            console.log("ok");
             this.setState({ openWage: e.target.value });
           }
           break;
       }
-      //
       root.ApiUtil.fetchValidWorkers(this._formattedStateDateTime());
     },
 
     _updateValidWorkers: function() {
-      // root.ApiUtil.fetchValidWorkers(this._formattedStateDateTime());
       this.setState({
         validWorkers: WorkerUserStore.all()
       });
     },
 
     _assignWorkerOK: function() {
-      // NOTE: Not sure what to do at this point (after worker is assigned OK),
-      // For now, will just redirect to root... Ideally, want to display message
-      // indicating that the task was assigned to a worker OK...
-
       this.history.pushState(null, "/");
     },
 
@@ -152,7 +139,6 @@
     },
 
     componentDidMount: function() {
-      debugger
       if (Object.keys(CurrentCreatedTaskStore.fetch()).length === 0) {
         this.history.pushState(null, "/task/new");
       } else {
@@ -218,8 +204,6 @@
     render: function() {
       var workers = this.state.validWorkers;
       var task = CurrentCreatedTaskStore.fetch();
-      // shuffle(workers);
-      debugger;
       return (
         <div className="container">
           <div className="row" id="find-workers-form">

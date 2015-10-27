@@ -5,11 +5,6 @@
 
   var _filterParams = {};
 
-  // var resetFilterParams = function(filterParams) {
-  //   _filterParams = filterParams;
-  //   TaskMapFilterParamsStore.emit(FILTER_PARAMS_CHANGE_EVENT);
-  // };
-
   var TaskMapFilterParamsStore = root.TaskMapFilterParamsStore = $.extend({}, EventEmitter.prototype, {
     all: function() {
       return _filterParams;
@@ -27,7 +22,6 @@
       switch (payload.actionType) {
         case FilterConstants.UPDATE_MAP_BOUNDS:
           _filterParams.bounds = payload.action;
-          // debugger;
           TaskMapFilterParamsStore.emit(CHANGE_EVENT);
           break;
       }

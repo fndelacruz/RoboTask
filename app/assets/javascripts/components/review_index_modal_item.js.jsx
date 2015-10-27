@@ -33,8 +33,3 @@
     }
   });
 }(this));
-
-// review.task.datetime (just need date, not interval)
-// review.is_positive
-// review.description
-// review.task.creator.email

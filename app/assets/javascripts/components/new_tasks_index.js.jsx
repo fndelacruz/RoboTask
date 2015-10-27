@@ -22,7 +22,6 @@
     },
 
     componentDidMount: function() {
-      console.log("TasksIndex DidMount");
       this.handleChange(this.props.params.type);
       CreatedTaskStore.addChangeListener(this._updateTasks);
 
@@ -36,7 +35,6 @@
     },
 
     componentWillReceiveProps: function(newProps) {
-      console.log("TasksIndex WillReceiveProps");
       this.handleChange(newProps.params.type);
     },
 
@@ -61,7 +59,6 @@
     },
 
     render: function() {
-      console.log("NewTasksIndex Rendered");
       var that = this;
       return (
         <div>

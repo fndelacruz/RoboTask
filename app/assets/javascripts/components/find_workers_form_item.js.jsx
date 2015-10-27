@@ -16,15 +16,9 @@
     },
 
     render: function() {
-      // NOTE: Was rendering review like below. might change back to it if modal
-      // does not work properly  to show review
-      // <ReviewIndex worker={this.props.worker} />
       var worker = this.props.worker;
       var task = this.props.task;
       var shortName = worker.shortName;
-      // NOTE: eventually make this a <ul> containing <li> with profile pic,
-      // info (name, bio), and button to choose worker
-      // debugger
       return (
         <div className="row" id="find-workers-form-item-container">
 

@@ -9,9 +9,6 @@
 
 DAYS = %w(SUN MON TUE WED THU FRI SAT)
 INTERVALS = %w(MORNING AFTERNOON EVENING)
-# NOTE: Having some issues with time being different when generated here, vs
-# time when rails parses during the datetime_formatted validation. Wasn't
-# happening before... now, have to offset by 1 to get it formatted right...
 INTERVAL = {
   "ANY" => 0,
   "MORNING" => 8,
@@ -390,7 +387,7 @@ ActiveRecord::Base.transaction do
     task = guest_robot_user.worked_tasks_in_progress.sample
     description_arr = Faker::Lorem.sentences(rand(4..10), true)
 
-    # NOTE: THIS IS HACKY. FIND OUT WHY ASSIGNED_TASKS does not filter non-reviewed
+    # NOTE: FIND OUT WHY ASSIGNED_TASKS does not filter non-reviewed
     # tasks appropriately
     rand(2..3).times do
       description_arr.push("#{task.worker.fname} #{Faker::Lorem.sentence.downcase}")

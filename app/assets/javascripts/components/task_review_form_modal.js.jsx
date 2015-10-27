@@ -13,8 +13,6 @@
 
   root.TaskReviewFormModal = React.createClass({
     getInitialState: function() {
-      // NOTE: Idealy, want to limit this reviews state to only a few reviews
-      // via pagination. for now, will just fetch them all!
       return ({
         showModal: false,
         isPositive: "",
@@ -55,8 +53,6 @@
             isPositiveStatusMessage: "",
           });
           break;
-        default:
-          debugger
       }
     },
 
@@ -65,8 +61,6 @@
       var isMarked = (this.state.isPositive !== "");
 
       if (hasDescription && isMarked) {
-        // NOTE: I want a delay for this form not to disappear as soon as it is
-        // submitted. try to incorporate a delay
         ApiUtil.createReview({
           creator_id: root.CURRENT_USER_ID,
           task_id: this.props.task.id,
@@ -144,7 +138,6 @@
     },
 
     close: function() {
-      // ApiActions.receiveReviews([]);
       this.setState({
         showModal: false,
         isPositive: "",
@@ -158,7 +151,6 @@
     },
 
     open: function() {
-      // ApiUtil.fetchReviews(this.props.worker);
       this.setState({ showModal: true });
     },
 

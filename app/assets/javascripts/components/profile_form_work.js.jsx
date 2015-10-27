@@ -58,14 +58,12 @@
             bioStatusMessage: messageAndField[1],
             bioStatus: "OK"
           });
-          console.log("bio update received!");
           break;
         case "workTimes":
           this.setState({
             workTimesStatusMessage: messageAndField[1],
             workTimesStatus: "OK"
           });
-          console.log("workTimes update received!");
           break;
         default:
 
@@ -90,9 +88,6 @@
       } else if (id.length === 3) {
         this._toggleInterval(id[1], id[2]);
       } else {
-        debugger;
-        // NOTE: shouldn't get to this point. eventually, remove this note and
-        // replace the else if above with an else
       }
     },
 
@@ -108,13 +103,11 @@
 
     _toggleDay: function(day) {
       if (this._isAnyIntervalTrue(this.state.workTimes[day])) {
-        console.log("this day has intervals");
         this.state.workTimes[day] = {MORNING: false, AFTERNOON: false, EVENING: false};
         this.setState({
           workTimes: this.state.workTimes
         });
       } else {
-        console.log("this day has no intervals.");
         this.state.workTimes[day] = {MORNING: true, AFTERNOON: true, EVENING: true};
         this.setState({
           workTimes: this.state.workTimes
@@ -123,7 +116,6 @@
     },
 
     _toggleInterval: function(day, interval) {
-      console.log("clicked interval");
       if (this.state.workTimes[day][interval]) {
         this.state.workTimes[day][interval] = false;
       } else {

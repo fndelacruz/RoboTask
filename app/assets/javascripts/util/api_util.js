@@ -22,30 +22,6 @@
       });
     },
 
-    // createTask: function(task) {
-    //   $.ajax({
-    //     url: "/api/tasks",
-    //     method: "POST",
-    //     data: { task: task },
-    //     success: function(createdTask) {
-    //       // NOTE: Not sure if this is the best way to handle rails database
-    //       // failures to save... I send an object with e._fail === true if the
-    //       // database could not createTask the given task.
-    //       if (createdTask._fail) {
-    //         // NOTE: This should probably do a "flash-like" thing via React,
-    //         // instead of a silly console log
-    //         console.log("failed to createTask task on controller side!");
-    //       } else {
-    //         ApiActions.createTask(createdTask);
-    //         ApiUtil.fetchMessages();
-    //       }
-    //     }
-    //   });
-    // },
-
-    // NOTE: I wonder if this is a bad idea to do this. Perhaps on rails server
-    // side I should check if the current_user owns the given taskid before
-    // deleting the task
     deleteTask: function(task) {
       $.ajax({
         url: "/api/tasks/" + task.id,
@@ -53,16 +29,6 @@
         success: function(e) {
           ApiActions.deleteTask(task);
           ApiUtil.fetchMessages();
-          // NOTE: Not sure if this is the best way to handle rails database
-          // failures to delete... I send an object with e._fail === true if the
-          // database could not createTask the given task.
-          if (e.status === "BAD") {
-            // NOTE: This should probably do a "flash-like" thing via React,
-            // instead of a silly console log
-            console.log("failed to deleteTask task. do you really own this task?");
-          } else {
-            console.log("successful task deletion.");
-          }
         }
       });
     },
@@ -83,7 +49,6 @@
         method: "GET",
         data: {dateTime: dateTime},
         success: function(workers) {
-          // debugger
           ApiActions.receiveValidWorkers(workers);
         }
       });
@@ -96,9 +61,6 @@
         data: { task: $.extend(task, {worker_id: worker.id, datetime: datetime}) },
         success: function(task) {
         if (task._fail) {
-          // NOTE: This should probably do a "flash-like" thing via React,
-          // instead of a silly console log
-          console.log("failed to assignWorkerToTask");
           } else {
             ApiActions.assignWorkerDirectlyToTaskOK();
           }
@@ -113,9 +75,6 @@
         data: { task: $.extend(task, {is_open: true, datetime: datetime, wage: wage}) },
         success: function(task) {
         if (task._fail) {
-          // NOTE: This should probably do a "flash-like" thing via React,
-          // instead of a silly console log
-          console.log("failed to assignTaskToOpen");
           } else {
             ApiActions.assignTaskToOpenOK();
           }
@@ -155,20 +114,14 @@
         success: function(e) {
           if (e.status === "OK") {
             MessageActions.receiveProfileUpdate("Changes saved!", field);
-            console.log("update OK");
           } else if (e.status === "BAD") {
             MessageActions.receiveProfileUpdate("Error saving changes!", field);
-            console.log("update BAD");
           } else {
-            console.log("update unknown ERROR");
-            // NOTE: shouldn't go here. if it does, check controller for clues
-            debugger;
           }
         }
       });
     },
 
-    // NOTE: this is getting replaced by updateCurrentUserDetails
     updateBio: function(bio) {
       $.ajax({
         url: "/api/users/1",
@@ -176,18 +129,8 @@
         data: { user: bio },
         success: function(e) {
           if (e.status === "OK") {
-            console.log("bio update OK");
-            // NOTE: EVENTUALLY REPLACE THIS WITH A REAL FLASH-LIKE SYSTEM
-            // ApiActions.profileUpdateOK();
           } else if (e.status === "BAD") {
-            console.log("bio update BAD");
-            // NOTE: might not use this... but provide it here in case need to
-            // deal with a profile update error
-            // ApiActions.profileUpdateError();
           } else {
-            console.log("bio unknown ERROR");
-            // NOTE: shouldn't go here. if it does, check back to controller
-            debugger;
           }
         }
       });
@@ -211,27 +154,15 @@
         data: {review: review},
         success: function(e) {
           if (e.status === "OK") {
-            console.log("review submit OK");
             ApiUtil.fetchCreatedTasks();
-            // NOTE: EVENTUALLY REPLACE THIS WITH A REAL FLASH-LIKE SYSTEM
-            // ApiActions.profileUpdateOK();
           } else if (e.status === "BAD") {
-            console.log("review submit BAD");
-            // NOTE: might not use this... but provide it here in case need to
-            // deal with a profile update error
-            // ApiActions.profileUpdateError();
           } else {
-            console.log("review submit ERROR");
-            // NOTE: shouldn't go here. if it does, check back to controller
-            debugger;
           }
         }
       });
     },
 
     fetchQualifyingTasks: function() {
-      console.log("fetchQualifyingTasks");
-      // debugger;
       var params = TaskMapFilterParamsStore.all();
       $.ajax({
         url: "/api/workers/tasks/",
@@ -244,12 +175,10 @@
     },
 
     fetchMessages: function() {
-      console.log("ApiUtil.fetchMessages run.");
       $.ajax({
         url: "/api/messages/",
         method: "GET",
         success: function(messages) {
-          // debugger;
           ApiActions.receiveMessages(messages);
         }
       });
@@ -261,7 +190,6 @@
         data: {user: passwords},
         method: "PATCH",
         success: function(e) {
-          debugger
           ApiActions.receivePasswordChangeStatus(e);
         }
       });

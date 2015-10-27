@@ -7,14 +7,11 @@
   var Modal = ReactBootstrap.Modal;
   var OverlayTrigger = ReactBootstrap.OverlayTrigger;
 
-  // NOTE: if don't end up using popover or tooltip here, delete these
   var popover = <Popover title="popover">Popover placeholder text</Popover>;
   var tooltip = <Tooltip>Tooltip placeholder text</Tooltip>;
 
   root.ReviewIndexModal = React.createClass({
     getInitialState: function() {
-      // NOTE: Idealy, want to limit this reviews state to only a few reviews
-      // via pagination. for now, will just fetch them all!
       return ({
         showModal: false,
         reviews: ReviewStore.all(),
@@ -62,8 +59,6 @@
     render: function() {
       var reviews = this.state.reviews;
       var rating = this.state.rating;
-      // var shortName = this.props.worker.fname + " " + this.props.worker.lname[0] + ".";
-      // debugger
       return (
         <div>
           <Button

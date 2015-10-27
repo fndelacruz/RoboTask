@@ -23,12 +23,10 @@
     mixins: [ReactRouter.History],
 
     componentDidMount: function() {
-      // CreatedTaskStore.addCreateTaskOKListener(this._findValidWorkers);
       CurrentCreatedTaskStore.addNewTaskStatedListener(this.findWorker);
     },
 
     componentWillUnmount: function() {
-      // CreatedTaskStore.removeCreateTaskOKListener(this._findValidWorkers);
       CurrentCreatedTaskStore.removeNewTaskStatedListener(this.findWorker);
     },
 
@@ -63,7 +61,6 @@
       });
     },
 
-    // NOTE: Make this more DRY when I can
     handleChange: function(e) {
       switch (e.target.id) {
         case "title-entry":
@@ -94,7 +91,6 @@
     },
 
     handleGoodSubmission: function(e) {
-      // NOTE: Will add start dates later, just getting Ajax working first.
       if (this.state.title !== "" && this.state.location !== "" && this.state.description !== "") {
         var newTask = {
           title: this.state.title,
@@ -103,16 +99,8 @@
           lng: this.state.lng,
           description: this.state.description,
         };
-        // NOTE: instead of making task here, will just save it to the
-        // CurrentCreatedTaskStore. I only want tasks to be saved after they
-        // are assigned to a worker OR if they are posted as "open"
-        // root.ApiUtil.createTask(newTask);
-
         TaskCreateFormActions.saveCurrentTask(newTask);
       } else {
-        // ********************************************************
-        // NOTE: CHANGE THIS TO LOOK BETTER
-        // ********************************************************
         this.setState({ mainStatusMessage: "Please complete the form!!" });
       }
     },
@@ -124,9 +112,6 @@
 
 
     handleAddressChange: function(address, lat, lng) {
-      // NOTE: Looks like we ONLY get here if address is ok. not sure how to
-      // handle if address is NOT ok. Looks like I have to pass a
-      // isValidLocation function as props to LocationEntry
       this.setState({
         location: address,
         lat: lat,
@@ -146,7 +131,6 @@
       });
     },
 
-    // NOTE: Can probably DRY _saveTitle and _saveDescription into a single function
     _saveTitle: function() {
       if (this.state.entryTitle !== "") {
         this.setState({
@@ -157,12 +141,9 @@
         this.setState({
           titleStatus: "error",
         });
-
       }
-      console.log("_saveTitle run");
     },
 
-    // NOTE: Same with _checkTitleStatus and _checkDescriptionStatus
     _checkTitleStatus: function() {
       if (this.state.titleStatus === "success") {
         return ({
@@ -266,7 +247,6 @@
         });
 
       }
-      console.log("_saveDescription run");
     },
 
     handleBadSubmission: function() {
@@ -279,7 +259,6 @@
       var locationStatusMessage = this.state.locationStatusMessage;
       if (locationStatus === "") {
         locationStatus = "error";
-        // locationStatusMessage = "Location can't be blank!";
       }
 
       var descriptionStatus = this.state.descriptionStatus;
@@ -327,27 +306,21 @@
     },
 
     handleTitleFocus: function() {
-      console.log("title is focused!");
     },
 
     handleTitleBlur: function() {
-      console.log("title is blurred!");
     },
 
     handleLocationFocus: function() {
-      console.log("location is focused!");
     },
 
     handleLocationBlur: function() {
-      console.log("location is blurred!");
     },
 
     handleDescriptionFocus: function() {
-      console.log("description is focused!");
     },
 
     handleDescriptionBlur: function() {
-      console.log("description is blurred!");
     },
 
     handleInputRender: function(titleFeatures) {
@@ -387,15 +360,6 @@
       }
     },
 
-    // NOTE: unsure if I should wrap each div form-group with another div
-    // panel . seems redundant. panel will check if that panel is focused. if
-    // focused, then it is expanded. otherwise it will minimize.
-
-    // IDEA: add green indicator in top right corner (green check mark /red x)
-    // if input is saved OK.
-
-    // IDEA: add capability for user to "save". add additional states to keep
-    // track of what the user has Saved. this will be what gets sent when do
     render: function() {
       var titleFeatures = this._checkTitleStatus();
       var descriptionFeatures = this._checkDescriptionStatus();

@@ -67,9 +67,6 @@
     },
 
     getWorkTimes: function() {
-      // NOTE: WARNING: this returns a pointer to this private store variable
-      // NOTE: Ideally, want to return a deep duplication of this object if have
-      // NOTE: time to make it
       return _workTimes;
     },
 

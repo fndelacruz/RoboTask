@@ -63,8 +63,6 @@
 	background-color: rgba(0,255,0,0.3);
 }
 
-// NOTE: concerned about mobile user- does the margin-top look weird since it's
-// a percentage? perhaps switch to fixed pixel margin-top?
 a {
   cursor: pointer;
 }
@@ -74,11 +72,6 @@ button:hover {
   background: rgba(0,255,0,0.6);
 }
 
-// NOTE: border not showing up on panel component. not sure why. can manually
-// assign it in inspector though...
-
-// remove border colors for profile pics later after I establish background colors
-// for the panels behind them. just keep them now for positioning
 .worker-profile-pic {
   border-radius: 50%;
   border: 1px solid black;
@@ -161,9 +154,6 @@ button:hover {
 	// padding: 5px;
 }
 
-// NOTE: This is supposed to fix issue with Modal sometimes not allowing scroll
-// when it overflows over the page. check if this fixes it..
-// max-height DOES seem to fix it, but it makes the bottom half ugly..
 .modal {
     overflow-y:auto;
     max-height: 90%;
@@ -307,7 +297,6 @@ body {
   display: inline-block;
 }
 
-// note: haven't actually used this yet... delete if do not use clearfix
 .clearfix:after {
   content: "";
   clear: both;

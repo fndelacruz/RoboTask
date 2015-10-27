@@ -72,7 +72,6 @@
         <div><a href="/users/new"> New user? </a></div>
         <% if flash[:errors] %>
           <% flash[:errors].each do |error| %>
-            <!-- NOTE: need to make this look more acceptable. ugly right now -->
             <div><%= error %></div>
           <% end %>
         <% end %>
@@ -80,34 +79,3 @@
     </div>
   </div>
 </div>
-<!-- <div class="container-fluid">
-  <div class="row intro-layer-1">
-    <h1>
-      Welcome to RoboTask. the best!
-    </h1>
-  </div>
-
-  <div class="row intro-layer-2">
-    <div class="center-block col-xs-4">
-      Salami hamburger beef ribs bresaola. Pig turkey brisket, leberkas tri-tip corned beef swine fatback meatball. Pork belly chicken beef, ball tip picanha sausage drumstick jowl bacon meatball porchetta spare ribs turducken pork chop tongue.
-    </div>
-    <div class="center-block col-xs-4">
-      Drumstick short ribs corned beef, chicken doner kielbasa jowl cow andouille porchetta. Ribeye turkey flank doner kielbasa. Shankle boudin turducken, flank sirloin jowl cupim.
-    </div>
-    <div class="center-block col-xs-4">
-      Bresaola picanha biltong pork chop tri-tip fatback pork loin pork shankle filet mignon andouille shank. Turkey chuck ground round tongue, picanha ham hock ball tip pancetta.
-    </div>
-  </div>
-
-  <div class="row intro-layer-3">
-    <div class="center-block">
-      Bacon ipsum dolor amet t-bone ham corned beef tri-tip picanha. Salami pork doner, chicken pork loin sirloin pancetta porchetta picanha
-    </div>
-  </div>
-
-  <div class="row intro-layer-4">
-    <div class="center-block">
-      Picanha chicken shoulder strip steak ham hock fatback beef ribeye shankle pork chop spare ribs. Filet mignon meatloaf prosciutto sirloin, pig frankfurter ribeye shank biltong kielbasa chicken turkey pork tail shoulder
-    </div>
-  </div>
-</div> -->

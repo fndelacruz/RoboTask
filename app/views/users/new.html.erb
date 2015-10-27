@@ -84,7 +84,6 @@
         <div><a href="/session/new"> Already have an account? </a></div>
         <% if flash[:errors] %>
           <% flash[:errors].each do |error| %>
-            <!-- NOTE: need to make this look more acceptable. ugly right now -->
             <div><%= error %></div>
           <% end %>
         <% end %>

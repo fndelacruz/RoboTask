@@ -1,15 +1,5 @@
 (function(root) {
   'use strict';
-  // NOTE: ReactBootstrap wasn't playing well with the navbar example. may just
-  // need to stick with regular bootstrap for nav.
-  // var Navbar = ReactBootstrap.NavBar;
-  // var NavBrand = ReactBootstrap.NavBrand;
-  // var CollapsibleNav = ReactBootstrap.CollapsibleNav;
-  // var Nav = ReactBootstrap.Nav;
-  // var NavItem = ReactBootstrap.NavItem;
-  // var NavDropdown = ReactBootstrap.NavDropdown;
-  // var MenuItem = ReactBootstrap.MenuItem;
-
 
   root.NavBar = React.createClass({
     mixins: [ReactRouter.History],
@@ -174,7 +164,6 @@
 
 
       var openSection = "";
-      // debugger
       if (!this.state.userIsRobot) {
         openSection = (
           <li
@@ -186,8 +175,6 @@
         );
       }
 
-      console.log(unassignedCount);
-      // debugger
       return (
         <nav className="navbar navbar-default" id="my-navbar-brand">
 
@@ -251,12 +238,3 @@
     }
   });
 }(this));
-
-// NOTE: delete this after don't need separator
-// <li role="separator" className="divider"></li>
-// <li
-//   onClick={this.handleTaskViewTestClick}>
-//   <a>TaskViewTest</a>
-// </li>
-// <li role="separator" className="divider"></li>
-// <li><a>PlaceholderLink</a></li>

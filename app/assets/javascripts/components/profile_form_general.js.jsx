@@ -86,8 +86,6 @@
     },
 
     render: function() {
-      // var statusBioGlyph = this._checkStatus("bio");
-      // var statusWorkTimesGlyph = this._checkStatus("workTimes");
       var that = this;
       return (
         <div>

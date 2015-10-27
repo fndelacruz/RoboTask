@@ -9,24 +9,11 @@
   root.FindTasksIndexItem = React.createClass({
     mixins: [ReactRouter.History],
 
-    // NOTE: Ideally, want to popup a warning before deleting a task, or some
-    // kind of double guessing
-    // cancelTask: function() {
-    //   root.ApiUtil.deleteTask(this.props.createdTask);
-    // },
-
-    // _findValidWorkers: function(task) {
-    //   var idx = root.CreatedTaskStore.all().indexOf(task);
-    //   this.history.pushState(null, "/task/" + idx + "/findWorker");
-    // },
-
     handleMouseOver: function(task) {
-      // console.log("onMouseOver: " + task.title + new Date());
       TaskMapActions.taskHighlightOn(task.id);
     },
 
     handleMouseOut: function(task) {
-      // console.log("onMouseOut: " + task.title + new Date());
       TaskMapActions.taskHighlightOff(task.id);
     },
 

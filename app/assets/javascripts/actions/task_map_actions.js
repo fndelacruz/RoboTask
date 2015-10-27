@@ -3,7 +3,6 @@
 
   root.TaskMapActions = {
     taskHighlightOn: function(taskId) {
-      // debugger;
       AppDispatcher.dispatch({
         actionType: TaskMapConstants.TASK_MAP_HIGHLIGHT_ON,
         taskId: taskId

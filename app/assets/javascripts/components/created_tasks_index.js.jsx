@@ -4,9 +4,6 @@
   root.CreatedTasksIndex = React.createClass({
     mixins: [ReactRouter.History],
 
-    // NOTE: I don't really use this state anymore since I switched to tab system
-    // for displaying tasks. If I end up not needing this in the end, delete the
-    // state here
     getInitialState: function() {
       return ({
         createdTasks: CreatedTaskStore.allIncomplete(),
@@ -20,7 +17,6 @@
     },
 
     componentWillReceiveProps: function(newProps) {
-      console.log("CreatedTasksIndex WillReceiveProps");
     },
 
     updateUserType: function() {
@@ -114,7 +110,7 @@
 
 
     render: function() {
-      // var activeTab = this.state.activeTab;
+      var activeTab = this.state.activeTab;
       var activeTab = this.props.location.pathname.match(/\/(\w+)$/)[1];
       var unassignedCount = CreatedTaskStore.allIncompleteUnassigned().length;
       var assignedCount = "";
