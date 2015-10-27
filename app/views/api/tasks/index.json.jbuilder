@@ -23,4 +23,10 @@ json.array!(@created_tasks) do |task|
       json.datetime task.review.date
     end
   end
+  json.creator do
+    json.shortName task.creator.nickname
+    json.image task.creator.img_url
+    json.id task.creator.id
+  end
+
 end
