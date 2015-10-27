@@ -112,22 +112,20 @@
           ><br>
         </div>
 
-        <div class="form-group">
-          <label for="user-password">Confirm Password</label><br>
-          <input
-            type="password"
-            name="user[password_confirm]"
-            id="user-password-confirm"
-            class="form-control"
-          ><br>
-        </div>
+        <input type="radio" name="user[is_robot]" id="is_robot_true" value=false>
+        <label for="is_robot_true">I seek Robot help.</label>
+        <br>
+
+        <input type="radio" name="user[is_robot]" id="is_robot_true" value=true>
+        <label for="is_robot_false">I am a robot looking for work.</label>
+        <br>
 
         <div>
           <button
             class="btn btn-default"
             type="submit"
             value="Signup">
-            Login
+            Create Account
           </button>
         </div><br/>
         <div><a href="/session/new"> Already have an account? </a></div>

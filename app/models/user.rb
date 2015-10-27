@@ -17,11 +17,33 @@
 #
 
 class User < ActiveRecord::Base
-  validates :password_digest, :session_token, :fname, :lname, presence: true
-  validates :email, uniqueness: true
-  validates :is_robot, inclusion: { in: [true, false]}
+  validates :password_digest, :session_token, presence: true
+  validates :email, uniqueness: { message: "is already taken."}
   validate :email_valid
   validates :password, length: { minimum: 6, allow_nil: true }
+  validate :fname_valid
+  validate :lname_valid
+  validate :is_robot_valid
+
+  def fname_valid
+    unless fname.length > 1
+      errors.add(:First, "name is required.")
+    end
+  end
+
+  def lname_valid
+    unless lname.length >1
+      errors.add(:Last, "name is required.")
+    end
+  end
+
+  def is_robot_valid
+    unless is_robot == true || is_robot == false
+      errors.add(:Do, "you need robot help, or are you a robot?")
+    end
+  end
+
+
 
   attr_reader :password
 
@@ -156,7 +178,7 @@ class User < ActiveRecord::Base
 
   def email_valid
     unless email.match(/\w+@\w+(\.\w+)+/)
-      errors.add(:email, "Please provide a valid email address.")
+      errors.add(:email, "is invalid.")
     end
   end
 end
