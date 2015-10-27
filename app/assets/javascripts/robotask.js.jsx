@@ -36,7 +36,6 @@ $(function() {
         <Route path="messages" component={UserMessages} />
         <Route path="findtasks" component={FindTasksIndex} />
         <Route path="task/new(/:title)" component={TaskForm} />
-        <Route path="taskmap" component={TaskMap} />
         <Route path="findWorker" component={FindWorkersForm} />
         <Route path="profile" component={ProfileForm}>
           <Route path="work_settings" component={ProfileFormWork} />

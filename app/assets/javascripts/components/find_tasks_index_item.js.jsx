@@ -63,7 +63,7 @@
               <ConfirmOpenTaskApplyModal
                 applyToTask={this.props.applyToTask.bind(null, this.props.workableTask)}
                 task={this.props.workableTask}
-
+                resetAssignmentStatus={this.props.resetAssignmentStatus}
                />
             </div>
           </div>

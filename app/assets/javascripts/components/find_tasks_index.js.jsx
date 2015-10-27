@@ -62,6 +62,14 @@
       }
     },
 
+    resetAssignmentStatus: function() {
+      debugger
+      this.setState({
+        assignmentStatus: "",
+        assignmentButtonDisabled: false
+      });
+    },
+
     _updateTaskFilters: function() {
       // NOTE: UNCOMMENT THIS AFTER ADD FILTERS TO MAP (category, etc...)
       // var newTaskParams = TaskMapFilterParamsStore.all();
@@ -71,22 +79,22 @@
       console.log("_updateTaskFilters run");
     },
 
-    _receiveAssignmentStatus: function() {
-      var assignmentButtonDisabled;
-      var assignmentStatus = WorkableTaskStore.getOpenTaskAssignmentStatus();
-      if (assignmentStatus === "success") {
-        this.setState({
-          assignmentStatus: assignmentStatus,
-          assignmentButtonDisabled: true
-        });
-        var that = this;
-        var timeout = root.setTimeout(function() {
-          that.close();
-          clearTimeout(timeout);
-          that.history.pushState(null, "/findtasks");
-        }, 2000);
-      }
-    },
+    // _receiveAssignmentStatus: function() {
+    //   var assignmentButtonDisabled;
+    //   var assignmentStatus = WorkableTaskStore.getOpenTaskAssignmentStatus();
+    //   if (assignmentStatus === "success") {
+    //     this.setState({
+    //       assignmentStatus: assignmentStatus,
+    //       assignmentButtonDisabled: true
+    //     });
+    //     var that = this;
+    //     var timeout = root.setTimeout(function() {
+    //       that.close();
+    //       clearTimeout(timeout);
+    //       that.history.pushState(null, "/findtasks");
+    //     }, 2000);
+    //   }
+    // },
 
     componentDidMount: function() {
       console.log("FindTasksIndex");
@@ -94,13 +102,13 @@
       TaskMapFilterParamsStore.addChangeListener(this._updateTaskFilters);
       ApiUtil.fetchQualifyingTasks();
 
-      WorkableTaskStore.addOpenTaskAssignmentStatusListener(this._receiveAssignmentStatus);
+      // WorkableTaskStore.addOpenTaskAssignmentStatusListener(this._receiveAssignmentStatus);
     },
 
     componentWillUnmount: function() {
       WorkableTaskStore.removeChangeListener(this._receiveQualifyingTasks);
       TaskMapFilterParamsStore.removeChangeListener(this._updateTaskFilters);
-      WorkableTaskStore.removeOpenTaskAssignmentStatusListener(this._receiveAssignmentStatus);
+      // WorkableTaskStore.removeOpenTaskAssignmentStatusListener(this._receiveAssignmentStatus);
       ApiActions.receiveAssignWorkerToOpenTaskStatus("");
     },
 
@@ -184,7 +192,8 @@
                     applyToTask={that.applyToTask}
                     workableTask={task}
                     isApplyDisabled={that.state.assignmentButtonDisabled}
-                    assignmentStatus={that.state.assignmentStatus}/>
+                    assignmentStatus={that.state.assignmentStatus}
+                    resetAssignmentStatus={that.resetAssignmentStatus}/>
                 );
               })}
               {footer}

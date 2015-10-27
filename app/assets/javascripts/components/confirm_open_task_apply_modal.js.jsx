@@ -22,6 +22,7 @@
     },
 
     _assignWorkerOK: function() {
+      debugger
       this.setState({
         message: "SIGNED UP FOR TASK!",
         inputDisabled: true
@@ -30,7 +31,9 @@
       var timeout = root.setTimeout(function() {
         that.close();
         clearTimeout(timeout);
-        that.history.pushState(null, "/");
+        ApiUtil.fetchQualifyingTasks();
+        that.props.resetAssignmentStatus();
+        // that.history.pushState(null, "/");
       }, 2000);
     },
 
@@ -69,11 +72,19 @@
 
 
     close: function() {
-      this.setState({ showModal: false });
+      this.setState({
+        showModal: false,
+        message: "",
+        inputDisabled: ""
+      });
     },
 
     open: function() {
-      this.setState({ showModal: true });
+      this.setState({
+        showModal: true,
+        message: "",
+        inputDisabled: ""
+      });
     },
 
     _disabledSubmit: function() {

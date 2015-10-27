@@ -45,7 +45,7 @@
 
     receiveAssignWorkerToOpenTaskStatus: function(status) {
       AppDispatcher.dispatch({
-        actionType: TaskConstants.ASSIGN_TASK_OPEN_OK,
+        actionType: TaskConstants.RECEIVED_WORKER_ASSIGNED_TO_OPEN_TASKS_STATUS,
         action: status
       });
     },
