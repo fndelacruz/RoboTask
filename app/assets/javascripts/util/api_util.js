@@ -123,6 +123,8 @@
       });
     },
 
+    
+
     fetchCurrentUserDetails: function() {
       $.ajax({
         url: "/api/users/1",

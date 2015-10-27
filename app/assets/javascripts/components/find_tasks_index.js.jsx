@@ -92,8 +92,7 @@
     },
 
     applyToTask: function(task) {
-      console.log("applied to task#" + task.id +": " + task.title);
-      // ApiUtil.createWorkerTaskApplication(task);
+      ApiUtil.assignWorkerToOpenTask(task);
     },
 
     _applyFilter: function(currentSortType) {
@@ -135,7 +134,7 @@
           <FindTasksFilters
             filters={this.state.sortType}
             filterChange={this._applyFilter}
-            
+
           />
         );
         footer = (

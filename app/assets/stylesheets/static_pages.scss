@@ -291,6 +291,9 @@ body {
 	text-align: center;
 	font-size: 36px;
 	margin: 0px;
+	background-color: rgb(219, 234, 234);
+	box-shadow: 3px 3px 5px #888888;
+	border-radius: 5px;
 }
 
 .task-time-scheduled {
@@ -361,7 +364,7 @@ body {
 #polaroid {
 	padding: 13px 13px 0px 13px;
 	box-shadow: 3px 3px 5px #888888;
-	background-color: rgba(0,0,0,0.02);
+	background-color: rgb(227, 236, 222);
 	border: 1px solid rgba(0,0,0,0.02);
 	border-radius: 20px
 }
@@ -505,7 +508,7 @@ body {
 .created-task-button-holder {
 	height: 36px;
 	margin-top: 24px;
-	position: relative;
+	// position: relative;
 }
 
 #created-task-button-cancel {

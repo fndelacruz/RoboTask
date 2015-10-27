@@ -186,7 +186,7 @@
 
             <Modal.Body>
               <div>
-                <div className="page-heading">Would you recommend {shortName} to others? </div>
+                <div className="">Would you recommend {shortName} to others? </div>
                 <div className="btn-group" data-toggle="buttons">
                   <label
                     className="btn btn-primary"

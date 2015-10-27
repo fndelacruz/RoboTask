@@ -131,7 +131,7 @@
       var userIsRobot = this.state.userIsRobot;
       return (
         <div className="container" id="created-tasks-index">
-          <div className="page-heading">
+          <div id="page-heading">
             Tasks
           </div><br/>
 

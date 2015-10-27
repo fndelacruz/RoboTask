@@ -57,7 +57,7 @@
       var hasWorker = (typeof task.worker === "undefined") ? false : true;
       var isComplete = (typeof task.review === "undefined") ? false : true;
       var taskDescriptionClass = "";
-      var taskDate = <span className="task-date-scheduled">{task.datetime[0]} {task.datetime[1]}<br/></span>;
+      var taskDate = <div className="task-date-scheduled">{task.datetime[0]} {task.datetime[1]}<br/></div>;
       var isOpen = task.isOpen;
       var userIsRobot = this.props.userIsRobot;
       return (

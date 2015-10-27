@@ -28,14 +28,6 @@
       TaskMapActions.taskHighlightOff(task.id);
     },
 
-    //     onBenchOver: function(benchId, e) {
-    //   IndexActions.benchHighLightOn(benchId);
-    // },
-    //
-    // onBenchOut: function(benchId, e) {
-    //   IndexActions.benchHighLightOff(benchId);
-    // },
-
     render: function() {
       var task = this.props.workableTask;
       // debugger;
