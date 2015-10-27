@@ -38,6 +38,12 @@
         case "history":
           this.setState({ tasks: CreatedTaskStore.allComplete() });
           break;
+        case "worker_active":
+          this.setState({ tasks: WorkedTaskStore.allIncomplete() });
+          break;
+        case "worker_history":
+          this.setState({ tasks: WorkedTaskStore.allComplete() });
+          break;
       }
     },
 

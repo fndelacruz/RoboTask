@@ -64,13 +64,13 @@
     },
 
     componentDidMount: function() {
+      ApiUtil.fetchCurrentUserSetup();
       ApiUtil.fetchCreatedTasks();
-      CreatedTaskStore.addChangeListener(this.updateCreatedTaskCount);
       ApiUtil.fetchMessages();
+      ApiUtil.fetchWorkedTasks();
+      CreatedTaskStore.addChangeListener(this.updateCreatedTaskCount);
       MessageStore.addChangeListener(this.updateMessages);
       CurrentUserStore.addChangeListener(this.updateUserType);
-
-      ApiUtil.fetchWorkedTasks();
       WorkedTaskStore.addChangeListener(this.updateWorkedTaskCount);
     },
 
@@ -133,29 +133,58 @@
       }
     },
 
-    render: function() {
+    handleActiveBar: function() {
       var assignedCount;
-      var quickButton = this._handleUserType();
-
-      var unassignedCount = this.state.unassignedTaskCount;
-      var pendingClass = "badge" + ((unassignedCount > 0) ? " badge-unassigned-nonempty" : "");
-
       if (this.state.userIsRobot) {
         assignedCount = this.state.workedTaskCountUpcoming;
       } else {
         assignedCount = this.state.assignedTaskCount;
       }
       var activeClass = "badge" + ((assignedCount > 0) ? " badge-active-nonempty" : "");
+      if (this.state.userIsRobot === false) {
+        return (
+          <li
+            onClick={this.handleTaskClick.bind(null, "active")}>
+            <a>Active:<span className={activeClass}>{assignedCount}</span></a>
+          </li>
+        );
+      } else if (this.state.userIsRobot === true) {
+        return (
+          <li
+            onClick={this.handleTaskClick.bind(null, "worker_active")}>
+            <a>Active:<span className={activeClass}>{assignedCount}</span></a>
+          </li>
+        );
+      }
+    },
 
-      var activeSection = (
-        <li
-          onClick={this.handleTaskClick.bind(null, "active")}>
-          <a>Active:<span className={activeClass}>{assignedCount}</span></a>
-        </li>
-      );
+    handleHistoryBar: function() {
+      if (this.state.userIsRobot === true) {
+        return (
+          <li
+            onClick={this.handleTaskClick.bind(null, "worker_history")}>
+            <a>History</a>
+          </li>
+        );
+      } else if (this.state.userIsRobot === false) {
+        return (
+          <li
+            onClick={this.handleTaskClick.bind(null, "history")}>
+            <a>History</a>
+          </li>
+        );
+      }
+    },
+
+    render: function() {
+      var quickButton = this._handleUserType();
+
+      var unassignedCount = this.state.unassignedTaskCount;
+      var pendingClass = "badge" + ((unassignedCount > 0) ? " badge-unassigned-nonempty" : "");
+
 
       var openSection = "";
-      debugger
+      // debugger
       if (!this.state.userIsRobot) {
         openSection = (
           <li
@@ -204,11 +233,9 @@
                   </a>
                   <ul className="dropdown-menu">
                     {openSection}
-                    {activeSection}
-                    <li
-                      onClick={this.handleTaskClick.bind(null, "history")}>
-                      <a>History</a>
-                    </li>
+                    {this.handleActiveBar()}
+                    {this.handleHistoryBar()}
+
                   </ul>
                 </li>
 
