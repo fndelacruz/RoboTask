@@ -29,7 +29,9 @@
         unassignedTaskCount: unassignedTasks,
         assignedTaskCount: assignedTasks,
         messageCount: 0,
-        userIsRobot: "loading"
+        userIsRobot: "loading",
+
+        workedTaskCountUpcoming: 0
       });
     },
 
@@ -47,6 +49,13 @@
       });
     },
 
+    updateWorkedTaskCount: function() {
+      // debugger
+      this.setState({
+        workedTaskCountUpcoming: WorkedTaskStore.allIncomplete().length
+      });
+    },
+
     updateMessages: function() {
       // *******************************************************
       // NOTE: MIGHT NEED TO DO MORE HERE
@@ -57,10 +66,12 @@
     componentDidMount: function() {
       ApiUtil.fetchCreatedTasks();
       CreatedTaskStore.addChangeListener(this.updateCreatedTaskCount);
-
       ApiUtil.fetchMessages();
       MessageStore.addChangeListener(this.updateMessages);
       CurrentUserStore.addChangeListener(this.updateUserType);
+
+      ApiUtil.fetchWorkedTasks();
+      WorkedTaskStore.addChangeListener(this.updateWorkedTaskCount);
     },
 
     componentWillUnmount: function() {
@@ -68,6 +79,7 @@
 
       MessageStore.removeChangeListener(this.updateMessages);
       CurrentUserStore.removeChangeListener(this.updateUserType);
+      WorkedTaskStore.addChangeListener(this.updateWorkedTaskCount);
     },
 
     handleLogoClick: function() {
@@ -122,11 +134,41 @@
     },
 
     render: function() {
-      var unassignedCount = this.state.unassignedTaskCount;
-      var assignedCount = this.state.assignedTaskCount;
-      var pendingClass = "badge" + ((unassignedCount > 0) ? " badge-unassigned-nonempty" : "");
-      var activeClass = "badge" + ((assignedCount > 0) ? " badge-active-nonempty" : "");
+      var assignedCount;
       var quickButton = this._handleUserType();
+
+      var unassignedCount = this.state.unassignedTaskCount;
+      var pendingClass = "badge" + ((unassignedCount > 0) ? " badge-unassigned-nonempty" : "");
+
+      if (this.state.userIsRobot) {
+        assignedCount = this.state.workedTaskCountUpcoming;
+      } else {
+        assignedCount = this.state.assignedTaskCount;
+      }
+      var activeClass = "badge" + ((assignedCount > 0) ? " badge-active-nonempty" : "");
+
+      var activeSection = (
+        <li
+          onClick={this.handleTaskClick.bind(null, "active")}>
+          <a>Active:<span className={activeClass}>{assignedCount}</span></a>
+        </li>
+      );
+
+      var openSection = "";
+      debugger
+      if (!this.state.userIsRobot) {
+        openSection = (
+          <li
+            onClick={this.handleTaskClick.bind(null, "unassigned")}>
+            <a>
+              Open:<span className={pendingClass}>{unassignedCount}</span>
+            </a>
+          </li>
+        );
+      }
+
+      console.log(unassignedCount);
+      // debugger
       return (
         <nav className="navbar navbar-default" id="my-navbar-brand">
 
@@ -161,16 +203,8 @@
                     <span className="caret"></span>
                   </a>
                   <ul className="dropdown-menu">
-                    <li
-                      onClick={this.handleTaskClick.bind(null, "unassigned")}>
-                      <a>Open:<span className={pendingClass}>{unassignedCount}</span></a>
-                    </li>
-
-                    <li
-                      onClick={this.handleTaskClick.bind(null, "active")}>
-                      <a>Assigned:<span className={activeClass}>{assignedCount}</span></a>
-                    </li>
-
+                    {openSection}
+                    {activeSection}
                     <li
                       onClick={this.handleTaskClick.bind(null, "history")}>
                       <a>History</a>

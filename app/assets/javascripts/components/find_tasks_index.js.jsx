@@ -115,6 +115,7 @@
     },
 
     render: function() {
+      debugger;
       console.log("FindTasksIndex rendered.");
       var that = this;
       var tasksHeader = "Finding your qualified jobs ...";

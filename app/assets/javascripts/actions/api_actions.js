@@ -103,6 +103,13 @@
         actionType: UserConstants.PASSWORD_CHANGE_STATUS_RECEIVED,
         action: status
       });
+    },
+
+    receiveWorkedTasks: function(tasks) {
+      AppDispatcher.dispatch({
+        actionType: UserConstants.WORKED_TASKS_RECEIVED,
+        action: tasks
+      });
     }
   };
 

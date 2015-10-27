@@ -251,6 +251,16 @@
           ApiActions.receivePasswordChangeStatus(e);
         }
       });
+    },
+
+    fetchWorkedTasks: function() {
+      $.ajax({
+        url: "/api/workers/worked_tasks",
+        method: "GET",
+        success: function(tasks) {
+          ApiActions.receiveWorkedTasks(tasks);
+        }
+      });
     }
   };
 }(this));

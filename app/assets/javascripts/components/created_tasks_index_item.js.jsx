@@ -46,7 +46,6 @@
       var taskDescriptionClass = "";
       var taskDate = <span className="task-date-scheduled">{task.datetime[0]} {task.datetime[1]}<br/></span>;
       var isOpen = task.isOpen;
-      debugger;
       return (
         <div>
           <div className="panel">

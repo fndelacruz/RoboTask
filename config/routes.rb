@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     resources :messages, only: [:index]
     namespace :workers do
       resources :tasks, only: [:index]
+      resources :worked_tasks, only: [:index]
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.

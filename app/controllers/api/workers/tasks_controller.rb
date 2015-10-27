@@ -2,10 +2,8 @@ class Api::Workers::TasksController < ApplicationController
   def index
     # debugger
     # NOTE: THIS WILL BE USED TO FILTER TASK BY LAT AND LNG
-    unassigned_tasks = Task.includes(:creator).where("worker_id IS NOT NULL")
+    unassigned_tasks = Task.includes(:creator).where("worker_id IS NULL")
     @workable_tasks = current_user.workable_tasks(unassigned_tasks)
-    # debugger
-
     if params["bounds"]
       @workable_tasks.select! { |task| task.in_bounds?(params["bounds"])}
     end

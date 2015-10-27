@@ -16,6 +16,12 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+.modal {
+    overflow-y:auto;
+    max-height: 90%;
+    // margin-top:-45%;
+}
+
 .nav {
 	font-size: 24px;
 }
