@@ -124,7 +124,7 @@
         );
         footer = (
           <div className="panel">
-            Looking for more? Try changing your and qualifications and availability in your account settings.
+            Looking for more? Try increasing your work availability in your account settings.
           </div>
         );
       }
