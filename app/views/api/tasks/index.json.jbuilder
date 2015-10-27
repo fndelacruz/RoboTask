@@ -12,7 +12,6 @@ json.array!(@created_tasks) do |task|
       json.id task.worker.id
       json.image task.worker.img_url
     end
-    # debugger
   end
   json.datetime [task.date, task.interval, task.datetime_to_epoch_sec]
 

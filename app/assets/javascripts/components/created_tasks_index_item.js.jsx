@@ -118,11 +118,6 @@
                         </strong>
                       }
                     </span><br/>
-                    {userIsRobot ?
-                      "Your client said: "
-                    :
-                      "You said: "
-                    }
                     Review Details: {task.review.description}<br/>
                   </div>
                 :

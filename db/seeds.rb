@@ -60,13 +60,48 @@ def random_bios
   ]
 end
 
+def random_bad_reviews
+  random_bad_reviews = [
+    "Finished the job #{rand(2..5)} hours too late.",
+    "Was #{rand(3..8)} hours late to the task site.",
+    "Didn't really know how to play #{FFaker::Sport.name}.",
+    "Did not have experience with #{FFaker::Skill.specialty}.",
+    "Claimed to be an expert at #{FFaker::Skill.specialty}. Lies!",
+    "Did not deliver.",
+    "I was promised a #{FFaker::Food.ingredient}. I got a #{FFaker::Food.ingredient} instead.",
+    "I want a refund",
+    "I don't think he really was a #{FFaker::Job.title} for #{rand(2..10)} years...",
+    "#{FFaker::Job.title} expert? I don't think so...",
+    "I don't think she really was a #{FFaker::Job.title} for #{rand(2..10)} years...",
+    "I don't like his #{FFaker::HipsterIpsum.word}",
+    "I don't like her #{FFaker::HipsterIpsum.word}",
+  ]
+end
+
+def random_good_reviews
+  random_good_reviews = [
+    "Great job. Finished the job #{rand(2..5)} hours early.",
+    "Was excellent at #{FFaker::Sport.name}.",
+    "Very good at #{FFaker::Skill.specialty}!",
+    "#{FFaker::Skill.specialty} is this one's specialty",
+    "Found my lost #{FFaker::Food.ingredient}!",
+    "Bought some gourmet #{FFaker::Food.ingredient} thanks!",
+    "A+++",
+    "A+++++++++",
+    "Great job!",
+    "I think his years as a #{FFaker::Job.title} really helped.",
+    "I think her years as a #{FFaker::Job.title} really helped.",
+    "I'm a lot better at #{FFaker::Sport.name} now.",
+    "I really liked his #{FFaker::HipsterIpsum.word}",
+    "I really liked her #{FFaker::HipsterIpsum.word}",
+  ]
+end
 # ******************************************************************************
 # NOTE: this function adds some variety to robot success on job completion for
 # the simulated job assignments
 def get_wage(skill)
   modulation = rand(0.05..0.35) * (rand(2) == 0 ? -1 : 1)
   wage = (rand(0.6..0.8) * skill + (skill * modulation))
-  # debugger
   return wage < 10 ? 10 : wage
 end
 # ******************************************************************************
@@ -228,18 +263,22 @@ ActiveRecord::Base.transaction do
       task = assigned_tasks.sample
       description_arr = Faker::Lorem.sentences(rand(4..10), true)
 
-      # NOTE: THIS IS HACKY. FIND OUT WHY ASSIGNED_TASKS does not filter non-reviewed
+      # NOTE: FIND OUT WHY ASSIGNED_TASKS does not filter non-reviewed
       # tasks appropriately
       unless task.worker.nil?
-        # debugger
         rand(2..3).times do
           description_arr.push("#{task.worker.fname} #{Faker::Lorem.sentence.downcase}")
         end
-        description = description_arr.shuffle!.join(" ")
+        description = ""
 
         # NOTE: rolls the dice for job success based on worker's skill attribute
         chance_to_succeed = task.worker.skill
         is_positive = chance_to_succeed > (rand * 100).to_i ? true : false
+        if is_positive
+          description = random_good_reviews.sample
+        else
+          description = random_bad_reviews.sample
+        end
         Review.create!([
           {
             task: task,
@@ -325,18 +364,22 @@ ActiveRecord::Base.transaction do
     task = assigned_tasks.sample
     description_arr = Faker::Lorem.sentences(rand(4..10), true)
 
-    # NOTE: THIS IS HACKY. FIND OUT WHY ASSIGNED_TASKS does not filter non-reviewed
+    # NOTE: FIND OUT WHY ASSIGNED_TASKS does not filter non-reviewed
     # tasks appropriately
     unless task.worker.nil?
       # debugger
       rand(2..3).times do
         description_arr.push("#{task.worker.fname} #{Faker::Lorem.sentence.downcase}")
       end
-      description = description_arr.shuffle!.join(" ")
+      description = ""
 
       chance_to_succeed = task.worker.skill
       is_positive = chance_to_succeed > (rand * 100).to_i ? false : true
-
+      if is_positive
+        description = random_good_reviews.sample
+      else
+        description = random_bad_reviews.sample
+      end
       Review.create!([
         {
           task: task,
@@ -392,11 +435,16 @@ ActiveRecord::Base.transaction do
     rand(2..3).times do
       description_arr.push("#{task.worker.fname} #{Faker::Lorem.sentence.downcase}")
     end
-    description = description_arr.shuffle!.join(" ")
+    description = ""
 
     # NOTE: rolls the dice for job success based on worker's skill attribute
     chance_to_succeed = task.worker.skill
     is_positive = chance_to_succeed > (rand * 100).to_i ? true : false
+    if is_positive
+      description = random_good_reviews.sample
+    else
+      description = random_bad_reviews.sample
+    end
     Review.create!([
       {
         task: task,

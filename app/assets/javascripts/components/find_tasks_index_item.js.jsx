@@ -19,7 +19,6 @@
 
     render: function() {
       var task = this.props.workableTask;
-      debugger;
       return (
         <div
           className="panel"
