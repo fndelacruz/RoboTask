@@ -29,6 +29,7 @@
                   }
                   onClick={that.props.filterChange.bind(null, sortType)}
                   id=""
+                  key={sortType}
                 >
                   <input type="checkbox" autoComplete="off" /> {_filterNameCodes[sortType]}
                 </label>

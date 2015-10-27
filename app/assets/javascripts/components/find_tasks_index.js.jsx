@@ -72,7 +72,6 @@
         case "sortDateDescending":
           return tasks.sort(sortByDate(false));
         case "sortWageAscending":
-          debugger
           return tasks.sort(sortByWage(true));
         case "sortWageDescending":
           return tasks.sort(sortByWage(false));
@@ -166,7 +165,9 @@
                     workableTask={task}
                     isApplyDisabled={that.state.assignmentButtonDisabled}
                     assignmentStatus={that.state.assignmentStatus}
-                    resetAssignmentStatus={that.resetAssignmentStatus}/>
+                    resetAssignmentStatus={that.resetAssignmentStatus}
+                    key={task.id}
+                    />
                 );
               })}
               {footer}

@@ -113,48 +113,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  def send_message(message, task_id)
-    task = Task.find(task_id)
-    isFromCreatorToWorker = task.creator == self
-    if isFromCreatorToWorker
-      Message.create([{
-        owner: self,
-        sender: self,
-        receiver: task.worker,
-        task: task,
-        message: message
-        }, {
-        owner: task.worker,
-        sender: self,
-        receiver: task.worker,
-        task: task,
-        message: message
-      }])
-    else
-      Message.create([{
-        owner: self,
-        sender: self,
-        receiver: task.creator,
-        task: task,
-        message: message
-        }, {
-        owner: task.creator,
-        sender: self,
-        receiver: task.creator,
-        task: task,
-        message: message
-      }])
-    end
-  end
-
-  def received_messages
-    messages.where(receiver: self)
-  end
-
-  def sent_messages
-    messages.where(sender: self)
-  end
-
   def stats
     if is_robot
       completed_worked_tasks = worked_tasks.joins(:review)

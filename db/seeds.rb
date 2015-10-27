@@ -152,7 +152,7 @@ ActiveRecord::Base.transaction do
   # ****************************************************************************
   # NOTE: generate NUM_CLIENTS random clients
   # ****************************************************************************
-  NUM_CLIENTS = 30
+  NUM_CLIENTS = 20
   random_clients = []
   NUM_CLIENTS.times do |x|
     bio = []
@@ -176,14 +176,14 @@ ActiveRecord::Base.transaction do
 # # ******************************************************************************
 # # NOTE: generating random tasks created by non robot users
 # # ******************************************************************************
-  MIN_CREATED_TASKS = 25
-  MAX_CREATED_TASKS = 30
+  MIN_CREATED_TASKS = 20
+  MAX_CREATED_TASKS = 25
 
-  MIN_ASSIGNED_TASKS = 20
-  MAX_ASSIGNED_TASKS = 25
+  MIN_ASSIGNED_TASKS = 15
+  MAX_ASSIGNED_TASKS = 20
 
-  MIN_REVIEWED_TASKS = 15
-  MAX_REVIEWED_TASKS = 20
+  MIN_REVIEWED_TASKS = 10
+  MAX_REVIEWED_TASKS = 15
 
   # NOTE: formats San Francisco addresses into usable array
   lines = File.readlines("#{Rails.root}/db/sf_final_addresses.txt")

@@ -217,7 +217,7 @@
                   });
                 }
                 return (
-                  <div className="day-group">
+                  <div className="day-group" key={day}>
                     <div className="btn-group" data-toggle="buttons" id="profile-day">
 
                       <label
@@ -239,6 +239,7 @@
                               }
                               onClick={that.handleClick}
                               id={"worktime-" + day + "-" + interval}
+                              key={"worktime-" + day + "-" + interval}
                             >
                               <input type="checkbox" autoComplete="off" /> {interval}
                             </label>

@@ -28,7 +28,6 @@
         method: "DELETE",
         success: function(e) {
           ApiActions.deleteTask(task);
-          ApiUtil.fetchMessages();
         }
       });
     },
@@ -170,16 +169,6 @@
         method: "GET",
         success: function(tasks) {
           ApiActions.receiveWorkableTasks(tasks);
-        }
-      });
-    },
-
-    fetchMessages: function() {
-      $.ajax({
-        url: "/api/messages/",
-        method: "GET",
-        success: function(messages) {
-          ApiActions.receiveMessages(messages);
         }
       });
     },

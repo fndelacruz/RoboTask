@@ -46,7 +46,6 @@
     componentDidMount: function() {
       ApiUtil.fetchCurrentUserSetup();
       ApiUtil.fetchCreatedTasks();
-      ApiUtil.fetchMessages();
       ApiUtil.fetchWorkedTasks();
       CreatedTaskStore.addChangeListener(this.updateCreatedTaskCount);
       // MessageStore.addChangeListener(this.updateMessages);
