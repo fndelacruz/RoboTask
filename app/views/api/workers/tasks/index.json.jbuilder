@@ -10,4 +10,5 @@ json.array!(@workable_tasks) do |task|
   json.datetime [task.date, task.interval, task.datetime_to_epoch_sec]
   json.lat task.lat
   json.lng task.lng
+  json.wage task.wage
 end

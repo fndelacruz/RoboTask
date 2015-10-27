@@ -15,7 +15,7 @@
       var that = this;
       return (
         <div className="panel">
-          <span id="sort-tasks-header">Sort tasks by...</span>
+          <div id="sort-tasks-header">Sort tasks by</div>
           <div className="btn-group" data-toggle="buttons" id="">
             {allSortTypes.map(function(sortType) {
               return (

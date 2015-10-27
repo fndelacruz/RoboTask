@@ -123,7 +123,19 @@
       });
     },
 
-    
+    assignWorkerToOpenTask: function(task) {
+      $.ajax({
+        url: "/api/workers/tasks/" + task.id,
+        method: "PATCH",
+        success: function(task) {
+          if (task.status === "success") {
+            ApiActions.receiveAssignWorkerToOpenTaskStatus("success");
+          } else {
+            ApiActions.receiveAssignWorkerToOpenTaskStatus("error");
+          }
+        }
+      });
+    },
 
     fetchCurrentUserDetails: function() {
       $.ajax({

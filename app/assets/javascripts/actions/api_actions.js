@@ -43,9 +43,22 @@
       });
     },
 
+    receiveAssignWorkerToOpenTaskStatus: function(status) {
+      AppDispatcher.dispatch({
+        actionType: TaskConstants.ASSIGN_TASK_OPEN_OK,
+        action: status
+      });
+    },
+
     assignTaskToOpenOK: function() {
       AppDispatcher.dispatch({
         actionType: TaskConstants.ASSIGN_TASK_OPEN_OK
+      });
+    },
+
+    assignWorkerToOpenTaskOK: function() {
+      AppDispatcher.dispatch({
+        actionType: TaskConstants.WORKER_ASSIGNED_TO_OPEN_TASKS_OK
       });
     },
 

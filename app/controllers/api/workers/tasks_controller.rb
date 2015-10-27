@@ -23,4 +23,20 @@ class Api::Workers::TasksController < ApplicationController
     # debugger
     # render json:
   end
+
+  def update
+    task = Task.find(params[:id])
+    task.worker = current_user
+    if task.save
+      render json: {status: "success"}
+    else
+      render json: {status: "error"}
+    end
+  end
+
+  private
+
+  def task_params
+    params.require(:task).permit(:id)
+  end
 end

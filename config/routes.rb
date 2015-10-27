@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     resources :reviews, only: [:index, :create]
     resources :messages, only: [:index]
     namespace :workers do
-      resources :tasks, only: [:index]
+      resources :tasks, only: [:index, :update]
       resources :worked_tasks, only: [:index]
     end
   end

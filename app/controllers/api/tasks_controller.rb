@@ -52,28 +52,29 @@ class Api::TasksController < ApplicationController
   end
 
   # NOTE: update is used for the assignment of a worker to a task
-  def update
-    # NOTE: this conditional ensures current_user owns the task being assigned
-    # a worker
-    if current_user.created_tasks.map { |task| task.id }.include?(params[:id].to_i)
-      @task = Task.find(params[:id])
-      worker = User.find(task_params["worker_id"])
-      @task.worker = worker
-      datetime_arr = task_params["datetime"].split
-      date = datetime_arr[0].split("/")
-      datetime = DateTime.new(date[2].to_i, date[0].to_i, date[1].to_i, datetime_arr[1].to_i)
-      @task[:datetime] = datetime
-      @task[:wage] = worker.wage
-      if @task.save
-        current_user.send_message("AUTO-NOTIFICATION: I hired you for this task!", @task)
-        render json: @task
-      else
-        render json: { _fail: true }
-      end
-    else
-      render json: { _fail: true }
-    end
-  end
+  # def update
+    # debugger
+    # # NOTE: this conditional ensures current_user owns the task being assigned
+    # # a worker
+    # if current_user.created_tasks.map { |task| task.id }.include?(params[:id].to_i)
+    #   @task = Task.find(params[:id])
+    #   worker = User.find(task_params["worker_id"])
+    #   @task.worker = worker
+    #   datetime_arr = task_params["datetime"].split
+    #   date = datetime_arr[0].split("/")
+    #   datetime = DateTime.new(date[2].to_i, date[0].to_i, date[1].to_i, datetime_arr[1].to_i)
+    #   @task[:datetime] = datetime
+    #   @task[:wage] = worker.wage
+    #   if @task.save
+    #     current_user.send_message("AUTO-NOTIFICATION: I hired you for this task!", @task)
+    #     render json: @task
+    #   else
+    #     render json: { _fail: true }
+    #   end
+    # else
+    #   render json: { _fail: true }
+    # end
+  # end
 
   def destroy
     @task = Task.find(params[:id])

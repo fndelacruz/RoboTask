@@ -36,7 +36,9 @@
           shuffled: false,
           sortDateAscending: true,
           sortDateDescending: false
-        }
+        },
+        assignmentStatus: "",
+        assignmentButtonDisabled: false
       });
     },
 
@@ -69,16 +71,37 @@
       console.log("_updateTaskFilters run");
     },
 
+    _receiveAssignmentStatus: function() {
+      var assignmentButtonDisabled;
+      var assignmentStatus = WorkableTaskStore.getOpenTaskAssignmentStatus();
+      if (assignmentStatus === "success") {
+        this.setState({
+          assignmentStatus: assignmentStatus,
+          assignmentButtonDisabled: true
+        });
+        var that = this;
+        var timeout = root.setTimeout(function() {
+          that.close();
+          clearTimeout(timeout);
+          that.history.pushState(null, "/findtasks");
+        }, 2000);
+      }
+    },
+
     componentDidMount: function() {
       console.log("FindTasksIndex");
       WorkableTaskStore.addChangeListener(this._receiveQualifyingTasks);
       TaskMapFilterParamsStore.addChangeListener(this._updateTaskFilters);
       ApiUtil.fetchQualifyingTasks();
+
+      WorkableTaskStore.addOpenTaskAssignmentStatusListener(this._receiveAssignmentStatus);
     },
 
     componentWillUnmount: function() {
       WorkableTaskStore.removeChangeListener(this._receiveQualifyingTasks);
       TaskMapFilterParamsStore.removeChangeListener(this._updateTaskFilters);
+      WorkableTaskStore.removeOpenTaskAssignmentStatusListener(this._receiveAssignmentStatus);
+      ApiActions.receiveAssignWorkerToOpenTaskStatus("");
     },
 
     _receiveQualifyingTasks: function() {
@@ -109,12 +132,10 @@
       // NOTE: I might not want to use setState here and instead keep track of
       // a private variable. This is because I suspect this will trigger a
       // render, but I didn't actually sort the task array yet
-      debugger;
       this.setState({ sortType: newSortTypes });
     },
 
     render: function() {
-      debugger;
       console.log("FindTasksIndex rendered.");
       var that = this;
       var tasksHeader = "Finding your qualified jobs ...";
@@ -161,7 +182,9 @@
                 return (
                   <FindTasksIndexItem
                     applyToTask={that.applyToTask}
-                    workableTask={task} />
+                    workableTask={task}
+                    isApplyDisabled={that.state.assignmentButtonDisabled}
+                    assignmentStatus={that.state.assignmentStatus}/>
                 );
               })}
               {footer}
