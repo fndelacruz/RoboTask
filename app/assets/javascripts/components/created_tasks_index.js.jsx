@@ -8,7 +8,11 @@
     // for displaying tasks. If I end up not needing this in the end, delete the
     // state here
     getInitialState: function() {
-      return ({ createdTasks: CreatedTaskStore.allIncomplete() });
+      return ({
+        createdTasks: CreatedTaskStore.allIncomplete(),
+        workedTasksActive: [],
+        userIsRobot: "",
+      });
     },
 
     _updateCreatedTasks: function() {
@@ -19,14 +23,34 @@
       console.log("CreatedTasksIndex WillReceiveProps");
     },
 
+    updateUserType: function() {
+      this.setState({
+        userIsRobot: CurrentUserStore.all().isRobot
+      });
+    },
+
+    updateWorkedTasks: function() {
+      this.setState({
+        workedTasksActive: WorkedTaskStore.allIncomplete(),
+      });
+    },
 
     componentDidMount: function() {
-      root.ApiUtil.fetchCreatedTasks();
+      CurrentUserStore.addChangeListener(this.updateUserType);
+
+      ApiUtil.fetchCreatedTasks();
       CreatedTaskStore.addChangeListener(this._updateCreatedTasks);
+
+      ApiUtil.fetchWorkedTasks();
+      WorkedTaskStore.addChangeListener(this.updateWorkedTasks);
     },
 
     componentWillUnmount: function() {
+      CurrentUserStore.removeChangeListener(this.updateUserType);
+
       CreatedTaskStore.removeChangeListener(this._updateCreatedTasks);
+
+      WorkedTaskStore.addChangeListener(this.updateWorkedTasks);
     },
 
     openTab: function(type) {
@@ -37,9 +61,19 @@
       // var activeTab = this.state.activeTab;
       var activeTab = this.props.location.pathname.match(/\/(\w+)$/)[1];
       var unassignedCount = CreatedTaskStore.allIncompleteUnassigned().length;
-      var assignedCount = CreatedTaskStore.allIncompleteAssigned().length;
+      var assignedCount = "";
+      if (this.state.userIsRobot) {
+        assignedCount = WorkedTaskStore.allIncomplete().length;
+      } else {
+        assignedCount = CreatedTaskStore.allIncompleteAssigned().length;
+      }
+      var workedTasksActiveCount = this.state.workedTasksActive.length;
+
       var pendingClass = "badge" + ((unassignedCount > 0) ? " badge-unassigned-nonempty" : "");
       var activeClass = "badge" + ((assignedCount > 0) ? " badge-active-nonempty" : "");
+
+      var userIsRobot = this.state.userIsRobot;
+      debugger
       return (
         <div className="container" id="created-tasks-index">
           <div className="page-heading">
@@ -47,12 +81,17 @@
           </div><br/>
 
           <ul className="nav nav-tabs">
-            <li
-              role="presentation"
-              onClick={this.openTab.bind(null, "unassigned")}
-              className={activeTab === "unassigned" ? "active" : ""}>
-              <a className="task-tabs">Open<span className={pendingClass}>{unassignedCount}</span></a>
-            </li>
+            {userIsRobot ?
+              ""
+            :
+              <li
+                role="presentation"
+
+                onClick={this.openTab.bind(null, "unassigned")}
+                className={activeTab === "unassigned" ? "active" : ""}>
+                <a className="task-tabs">Open<span className={pendingClass}>{unassignedCount}</span></a>
+              </li>
+            }
             <li
               role="presentation"
               onClick={this.openTab.bind(null, "active")}
