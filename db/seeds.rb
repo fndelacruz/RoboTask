@@ -44,7 +44,22 @@ end
 
 def random_bios
   random_bios = [
-
+    "I worked for #{rand(2..40)} years as a #{FFaker::Job.title}.",
+    "I used to work as a #{FFaker::Job.title} for #{rand(2..40)} years.",
+    "#{FFaker::Job.title} was my job title for #{rand(2..40)} years.",
+    "I am highly skilled in #{FFaker::Sport.name}.",
+    "My favorite non-work activity is #{FFaker::Sport.name}.",
+    "I'm saving up to buy a new #{FFaker::Product.product_name}.",
+    "I really need a new #{FFaker::Product.product_name}.",
+    "I am fluent in #{FFaker::Locale.language}.",
+    "I was a #{FFaker::Locale.language} translator for #{rand(2..40)} years.",
+    "I am fond of #{FFaker::HipsterIpsum.word}.",
+    "I dislike #{FFaker::HipsterIpsum.word}.",
+    "Occasionally, I like to eat a #{FFaker::Food.ingredient}.",
+    "I cannot tolerate #{FFaker::Food.ingredient}.",
+    "I specialize in #{FFaker::Skill.specialty}.",
+    "#{FFaker::Skill.specialty} comes easy to me.",
+    "#{FFaker::Product.product_name}s scare me.",
   ]
 end
 
@@ -65,9 +80,15 @@ ActiveRecord::Base.transaction do
   # ****************************************************************************
   # NOTE: generate NUM_ROBOTS random robots...
   # ****************************************************************************
-  NUM_ROBOTS = 20
+  NUM_ROBOTS = 30
   random_robots = []
   NUM_ROBOTS.times do |x|
+    bio = []
+    4.times do
+      bio << random_bios.sample
+    end
+
+    bio_line = bio.join(" ")
     skill = rand(70..90);
     random_robots << {
       is_robot: true,
@@ -75,7 +96,7 @@ ActiveRecord::Base.transaction do
       lname: FFaker::Name.last_name,
       email: FFaker::Internet.email,
       password_digest: BCrypt::Password.create("password"),
-      bio: Faker::Lorem.sentences(rand(4..10), true).join(" "),
+      bio: bio_line,
       skill: skill,
       wage: get_wage(skill).to_i
     }
@@ -99,16 +120,22 @@ ActiveRecord::Base.transaction do
   # ****************************************************************************
   # NOTE: generate NUM_CLIENTS random clients
   # ****************************************************************************
-  NUM_CLIENTS = 20
+  NUM_CLIENTS = 30
   random_clients = []
   NUM_CLIENTS.times do |x|
+    bio = []
+    4.times do
+      bio << random_bios.sample
+    end
+
+    bio_line = bio.join(" ")
     random_clients << {
       is_robot: false,
       fname: FFaker::Name.first_name,
       lname: FFaker::Name.last_name,
       email: FFaker::Internet.email,
       password_digest: BCrypt::Password.create("password"),
-      bio: Faker::Lorem.sentences(rand(4..10), true).join(" ")
+      bio: bio_line
     }
   end
   User.create!(random_clients)
@@ -117,14 +144,14 @@ ActiveRecord::Base.transaction do
 # # ******************************************************************************
 # # NOTE: generating random tasks created by non robot users
 # # ******************************************************************************
-  MIN_CREATED_TASKS = 20
+  MIN_CREATED_TASKS = 25
   MAX_CREATED_TASKS = 30
 
-  MIN_ASSIGNED_TASKS = 10
-  MAX_ASSIGNED_TASKS = 20
+  MIN_ASSIGNED_TASKS = 20
+  MAX_ASSIGNED_TASKS = 25
 
-  MIN_REVIEWED_TASKS = 5
-  MAX_REVIEWED_TASKS = 10
+  MIN_REVIEWED_TASKS = 15
+  MAX_REVIEWED_TASKS = 20
 
   # NOTE: formats San Francisco addresses into usable array
   lines = File.readlines("#{Rails.root}/db/sf_final_addresses.txt")
