@@ -29,8 +29,8 @@
         that.close();
         clearTimeout(timeout);
         ApiUtil.fetchQualifyingTasks();
-        that.props.resetAssignmentStatus();
-      }, 0);
+        // that.props.resetAssignmentStatus();
+      }, 1000);
     },
 
     _test: function() {
