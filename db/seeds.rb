@@ -77,7 +77,7 @@ ActiveRecord::Base.transaction do
   # ****************************************************************************
   # NOTE: generate NUM_ROBOTS random robots...
   # ****************************************************************************
-  NUM_ROBOTS = 30
+  NUM_ROBOTS = 200
   random_robots = []
   NUM_ROBOTS.times do |x|
     bio = []
@@ -117,7 +117,7 @@ ActiveRecord::Base.transaction do
   # ****************************************************************************
   # NOTE: generate NUM_CLIENTS random clients
   # ****************************************************************************
-  NUM_CLIENTS = 30
+  NUM_CLIENTS = 200
   random_clients = []
   NUM_CLIENTS.times do |x|
     bio = []
