@@ -6,7 +6,11 @@ json.array!(@worked_tasks) do |task|
   json.wage task.wage
   json.datetime [task.date, task.interval, task.datetime_to_epoch_sec]
   json.isOpen task.is_open
-
+  json.creator do
+    json.shortName task.creator.nickname
+    json.image task.creator.img_url
+    json.id task.creator.id
+  end
   json.worker do
     json.shortName task.worker.nickname
     json.id task.worker.id

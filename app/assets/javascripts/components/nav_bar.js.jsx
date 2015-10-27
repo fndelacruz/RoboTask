@@ -121,7 +121,7 @@
       } else if (userIsRobot === true) {
         return (
           <li
-            onClick={this.handleFindTaskClick}><a><strong>Task Search</strong></a>
+            onClick={this.handleFindTaskClick}><a><strong>Open Task Search</strong></a>
           </li>
         );
       } else {

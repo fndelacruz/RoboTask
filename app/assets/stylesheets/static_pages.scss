@@ -363,6 +363,7 @@ body {
 	box-shadow: 3px 3px 5px #888888;
 	background-color: rgba(0,0,0,0.02);
 	border: 1px solid rgba(0,0,0,0.02);
+	border-radius: 20px
 }
 
 #polaroid-picture {
@@ -404,13 +405,6 @@ body {
 	position: relative;
 }
 
-#workable-tasks-holder {
-	height: calc(100vh - 51px);
-	overflow: scroll;
-	padding: 0px, 0px, 0px 0px;
-	// border: 10px solid black;
-}
-
 #find-tasks-index-item-creator-holder {
 	height: 100px;
 	width: 100px;
@@ -430,12 +424,6 @@ body {
 
 #find-tasks-index-item-creator-name {
 	text-align: center;
-}
-
-#find-tasks-index-items-header {
-	text-align: center;
-	font-size: 36px;
-	padding: 0px;
 }
 
 .section-heading-banner {

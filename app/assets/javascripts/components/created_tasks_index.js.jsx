@@ -129,7 +129,6 @@
       var activeClass = "badge" + ((assignedCount > 0) ? " badge-active-nonempty" : "");
 
       var userIsRobot = this.state.userIsRobot;
-      debugger
       return (
         <div className="container" id="created-tasks-index">
           <div className="page-heading">

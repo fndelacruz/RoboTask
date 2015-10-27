@@ -128,13 +128,14 @@
 
       var rawTasks = this.state.qualifyingTasks;
       var filteredTasks = this.handleSort(rawTasks.slice());
-      var filters = <div className="panel">Filters loading...</div>;
+      var filters = <div className="panel" id="find-tasks-filter-panel">Filters loading...</div>;
       if (this.state.finishedLoading) {
         tasksHeader = filteredTasks.length + " jobs found for you.";
         filters = (
           <FindTasksFilters
             filters={this.state.sortType}
             filterChange={this._applyFilter}
+            
           />
         );
         footer = (

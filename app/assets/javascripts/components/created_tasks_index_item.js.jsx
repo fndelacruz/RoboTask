@@ -1,10 +1,23 @@
 (function(root) {
   'use strict';
   // this.props.createdTask
+  // this.props.userIsRobot
   var Button = ReactBootstrap.Button;
   var Glyphicon = ReactBootstrap.Glyphicon;
   var Popover = ReactBootstrap.Popover;
   var OverlayTrigger = ReactBootstrap.OverlayTrigger;
+
+  var hashCode = function(string) {
+    var hash = 0, i, chr, len;
+    if (string.length === 0) return hash;
+    for (i = 0, len = string.length; i < len; i++) {
+      chr   = string.charCodeAt(i);
+      hash  = ((hash << 5) - hash) + chr;
+      hash |= 0;
+    }
+    return hash;
+  };
+
 
   root.CreatedTasksIndexItem = React.createClass({
     mixins: [ReactRouter.History],
@@ -46,6 +59,7 @@
       var taskDescriptionClass = "";
       var taskDate = <span className="task-date-scheduled">{task.datetime[0]} {task.datetime[1]}<br/></span>;
       var isOpen = task.isOpen;
+      var userIsRobot = this.props.userIsRobot;
       return (
         <div>
           <div className="panel">
@@ -56,9 +70,9 @@
                     <img
                       className="worker-taskview-pic"
                       id="polaroid-picture"
-                      src={task.worker.image} />
+                      src={userIsRobot ? task.creator.image : task.worker.image} />
                     <div id="worker-profile-shortName-no-margin">
-                      {task.worker.shortName}
+                      {userIsRobot ? task.creator.shortName : task.worker.shortName}
                     </div>
                     <div>
                       <span className="mini-wage">
@@ -86,7 +100,11 @@
                             glyph="thumbs-up"
                             className="review-icon-holder-ok-inline"
                             id="review-icon" />
-                        You liked this tasker.
+                          {userIsRobot ?
+                            "You received a good rating for this task."
+                          :
+                            "You liked this RoboTasker for this task."
+                          }
                         </strong>
                       :
                         <strong className="">
@@ -94,35 +112,52 @@
                             glyph="thumbs-down"
                             className="review-icon-holder-bad-inline"
                             id="review-icon" />
-                            You did not like this tasker.
+                          {userIsRobot ?
+                            "You received a bad rating for this."
+                          :
+                            "You did not like this RoboTasker for this task."
+                          }
                         </strong>
                       }
                     </span><br/>
-                    You said: {task.review.description}<br/>
+                    {userIsRobot ?
+                      "Your client said: "
+                    :
+                      "You said: "
+                    }
+                    Review Details: {task.review.description}<br/>
                   </div>
                 :
                   <div className="created-task-button-holder">
-                    <OverlayTrigger
-                      rootClose
-                      trigger="click"
-                      placement="right"
-                      overlay={
-                        <Popover title="Are you sure?">
-                          <Button onClick={this.cancelTask}>Yes</Button>
-                        </Popover>
-                      }>
-                      <Button
-                        bsStyle="danger"
-                        bsSize="medium"
-                        id="created-task-button-cancel">
-                        Cancel Task
-                      </Button>
-                    </OverlayTrigger>
-                  {hasWorker ?
-                    <TaskReviewFormModal task={this.props.createdTask}/>
-                  :
-                    this.handleFindWorker(task)
-                  }
+                    {userIsRobot ?
+                      <div className="robot-helper-message">
+                        If your client does not mark this task as complete upon completion within 3 business days, please contact us and provide the following reference number: {hashCode(String(task.id))*hashCode(String(task.id))}
+                      </div>
+                    :
+                      <div>
+                        <OverlayTrigger
+                          rootClose
+                          trigger="click"
+                          placement="right"
+                          overlay={
+                            <Popover title="Are you sure?">
+                              <Button onClick={this.cancelTask}>Yes</Button>
+                            </Popover>
+                          }>
+                          <Button
+                            bsStyle="danger"
+                            bsSize="medium"
+                            id="created-task-button-cancel">
+                            Cancel Task
+                          </Button>
+                        </OverlayTrigger>
+                        {hasWorker ?
+                          <TaskReviewFormModal task={this.props.createdTask}/>
+                        :
+                          this.handleFindWorker(task)
+                        }
+                      </div>
+                    }
                   </div>
                 }
               </div>
