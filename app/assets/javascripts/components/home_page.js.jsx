@@ -12,10 +12,11 @@
       return({
         recentCreatedTasksUnassigned: [],
         recentCreatedTasksAssigned: [],
-        workableTasks: [],
         newTaskTitle: "",
         newTaskTitleStatus: "",
-        newTaskTitleStatusMessage: ""
+        newTaskTitleStatusMessage: "",
+        workedTasksUpcoming: [],
+        userIsRobot: "loading",
       });
     },
 
@@ -23,17 +24,34 @@
       this.setState({
         recentCreatedTasksUnassigned: CreatedTaskStore.allIncompleteUnassigned(),
         recentCreatedTasksAssigned: CreatedTaskStore.allIncompleteAssigned(),
-        workableTasks: []
+      });
+    },
+
+    updateUserType: function() {
+      this.setState({
+        userIsRobot: CurrentUserStore.all().isRobot
+      });
+    },
+
+    updateWorkedTasks: function() {
+      this.setState({
+        workedTasksUpcoming: WorkedTaskStore.allIncomplete()
       });
     },
 
     componentDidMount: function() {
-      root.ApiUtil.fetchCreatedTasks();
+      ApiUtil.fetchCreatedTasks();
       CreatedTaskStore.addChangeListener(this._updateTasks);
+      ApiUtil.fetchCurrentUserSetup();
+      ApiUtil.fetchWorkedTasks();
+      CurrentUserStore.addChangeListener(this.updateUserType);
+      WorkedTaskStore.addChangeListener(this.updateWorkedTasks);
     },
 
     componentWillUnmount: function() {
       CreatedTaskStore.removeChangeListener(this._updateTasks);
+      CurrentUserStore.removeChangeListener(this.updateUserType);
+      WorkedTaskStore.addChangeListener(this.updateWorkedTasks);
     },
 
     handleChange: function(e) {
@@ -61,6 +79,36 @@
         this.handleSubmit();
       } else {
         this.handleChange(e);
+      }
+    },
+
+    handleUpcomingTasks: function() {
+      var tasks;
+      var userIsRobot = this.state.userIsRobot;
+      if (userIsRobot === false) {
+        tasks = this.state.recentCreatedTasksAssigned;
+        return ((tasks.length === 0) ?
+          <div className="panel center-block home-sub-header">You have no upcoming tasks.</div>
+        :
+          <div>
+            <div className="panel center-block home-sub-header">My Upcoming Tasks</div>
+            {tasks.map(function(createdTask) {
+              return <CreatedTasksIndexItem userIsRobot={userIsRobot} key={createdTask.id} createdTask={createdTask} />;
+            })}
+          </div>
+        );
+      } else if (this.state.userIsRobot === true) {
+        tasks = this.state.workedTasksUpcoming;
+        return ((tasks.length === 0) ?
+          <div className="panel center-block home-sub-header">You have no upcoming tasks.</div>
+        :
+          <div>
+            <div className="panel center-block home-sub-header">My Upcoming Tasks</div>
+            {tasks.map(function(createdTask) {
+              return <CreatedTasksIndexItem userIsRobot={userIsRobot} key={createdTask.id} createdTask={createdTask} />;
+            })}
+          </div>
+        );
       }
     },
 
@@ -98,7 +146,7 @@
               </div>
             :
               <div className="panel home-sub-header" id="task-find-welcome">
-                Looking for a job? Please visit your account settings and mark when you are available to work. Then, come back and click here to get started!
+                Hello! Looking for a job? Try the Open Task Search. Don't forget to set your work availability in your account settings.
               </div>
             }
           </div>
@@ -109,36 +157,13 @@
 
     render: function() {
       console.log(this.state.newTaskTitle);
-      var recentCreatedTasksAssigned = this.state.recentCreatedTasksAssigned;
+      var taskCount;
+
       return (
         <div className="container">
           <div className="row">
             {this._header()}
-
-              <span className="home-sub-header">Upcoming tasks</span>
-                {(recentCreatedTasksAssigned === 0) ?
-                  <div>No upcoming tasks!</div>
-                :
-                  <div>
-                    {recentCreatedTasksAssigned.map(function(createdTask) {
-                      return <CreatedTasksIndexItem key={createdTask.id} createdTask={createdTask} />;
-                    })}
-                  </div>
-                }
-
-            <div className="panel">
-              <span className="home-sub-header">Tasks needing assignment</span>
-                <div>
-                  Here will be 5 tasks that the user created, but don't have workers assigned yet. Aenean eget ex ligula. Nam non malesuada velit. Suspendisse tincidunt odio eu mi sollicitudin condimentum. Proin aliquet ipsum sed urna efficitur aliquam. Nam in eros vel diam bibendum commodo. Sed imperdiet non turpis eget elementum. Nullam nec odio interdum, dignissim dolor et, iaculis erat. Nunc in feugiat quam. In vel velit non arcu tristique maximus elementum quis est. Nam erat arcu, egestas.
-                </div>
-            </div>
-
-            <div className="panel">
-              <span className="home-sub-header">Want to get paid? Here are some tasks that you are qualified for, today! </span>
-                <div>
-                  Here will be 5 random tasks pending assignment that the user is qualified for (has open time-slots scheduled via Profile). Aliquam non facilisis quam. Proin vel tristique dolor. Proin placerat quam eget eros gravida, in efficitur dolor porttitor. Maecenas ipsum dolor, iaculis id feugiat tincidunt, blandit vitae elit. Sed sollicitudin erat eget semper gravida. Etiam eget magna magna. Integer facilisis, diam eget rhoncus vulputate, arcu elit egestas elit, at condimentum turpis erat at justo. Aenean et euismod dui, et rutrum risus.
-                </div>
-            </div>
+            {this.handleUpcomingTasks()}
           </div>
         </div>
       );

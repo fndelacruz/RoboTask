@@ -25,14 +25,28 @@
     CreatedTaskStore.emit(CHANGE_EVENT);
   };
 
-  // var _assignTaskWorker = function(updatedTask) {
-  //   var taskToAssignWorker = _createdTasks.find(function(task) {
-  //     return (task.id === updatedTask.id);
-  //   });
-  //   taskToAssignWorker.worker_id = updatedTask.worker_id;
-  //   CreatedTaskStore.emit(CHANGE_EVENT);
-  //   CreatedTaskStore.emit(ASSIGN_TASK_WORKER_OK);
-  // };
+  var sortTasksByAttribute = function(isAscending, attr1, attr2) {
+    return function(task1, task2) {
+      if (typeof attr2 === "undefined") {
+        if (task1[attr1] < task2[attr1]) {
+          return isAscending ? -1 : 1 ;
+        } else if (task1[attr1] > task2[attr1]) {
+          return isAscending ? 1 : -1 ;
+        } else {
+          return 0;
+        }
+      } else {
+        if (task1[attr1][attr2] < task2[attr1][attr2]) {
+          return isAscending ? -1 : 1 ;
+        } else if (task1[attr1][attr2] > task2[attr1][attr2]) {
+          return isAscending ? 1 : -1 ;
+        } else {
+          return 0;
+        }
+
+      }
+    };
+  };
 
   var CreatedTaskStore = root.CreatedTaskStore = $.extend({}, EventEmitter.prototype, {
     all: function() {
@@ -62,6 +76,29 @@
         // debugger
         if (typeof task.worker !== "undefined") { return task; }
       });
+    },
+
+    sortTasksByAttribute: function(isAscending, attr1, attr2) {
+      return function(task1, task2) {
+        if (typeof attr2 === "undefined") {
+          if (task1[attr1] < task2[attr1]) {
+            return isAscending ? -1 : 1 ;
+          } else if (task1[attr1] > task2[attr1]) {
+            return isAscending ? 1 : -1 ;
+          } else {
+            return 0;
+          }
+        } else {
+          if (task1[attr1][attr2] < task2[attr1][attr2]) {
+            return isAscending ? -1 : 1 ;
+          } else if (task1[attr1][attr2] > task2[attr1][attr2]) {
+            return isAscending ? 1 : -1 ;
+          } else {
+            return 0;
+          }
+
+        }
+      };
     },
 
     addChangeListener: function(callback) {
