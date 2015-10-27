@@ -33,7 +33,6 @@ $(function() {
     var routes = (
       <Route path="/" component={App}>
         <IndexRoute component={HomePage} />
-        <Route path="messages" component={UserMessages} />
         <Route path="findtasks" component={FindTasksIndex} />
         <Route path="task/new(/:title)" component={TaskForm} />
         <Route path="findWorker" component={FindWorkersForm} />

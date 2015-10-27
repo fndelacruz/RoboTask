@@ -39,24 +39,6 @@ class User < ActiveRecord::Base
 
   has_many(:work_times)
 
-  has_many(:messages,
-    class_name: "Message",
-    foreign_key: :owner_id,
-    primary_key: :id
-  )
-
-  # has_many(:received_messages,
-  #   class_name: "Message",
-  #   foreign_key: :receiver_id,
-  #   primary_key: :id
-  # )
-  #
-  # has_many(:sent_messages,
-  #   class_name: "Message",
-  #   foreign_key: :sender_id,
-  #   primary_key: :id
-  # )
-
   after_initialize :ensure_session_token!
 
   def self.find_by_credentials(email, password)

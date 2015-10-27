@@ -28,7 +28,6 @@
       return ({
         unassignedTaskCount: unassignedTasks,
         assignedTaskCount: assignedTasks,
-        messageCount: 0,
         userIsRobot: "loading",
 
         workedTaskCountUpcoming: 0
@@ -42,7 +41,6 @@
     },
 
     updateCreatedTaskCount: function() {
-      // debugger;
       this.setState({
         unassignedTaskCount: CreatedTaskStore.allIncompleteUnassigned().length,
         assignedTaskCount: CreatedTaskStore.allIncompleteAssigned().length
@@ -50,17 +48,9 @@
     },
 
     updateWorkedTaskCount: function() {
-      // debugger
       this.setState({
         workedTaskCountUpcoming: WorkedTaskStore.allIncomplete().length
       });
-    },
-
-    updateMessages: function() {
-      // *******************************************************
-      // NOTE: MIGHT NEED TO DO MORE HERE
-      // *******************************************************
-      this.setState({ messageCount: MessageStore.all().length });
     },
 
     componentDidMount: function() {
@@ -69,7 +59,7 @@
       ApiUtil.fetchMessages();
       ApiUtil.fetchWorkedTasks();
       CreatedTaskStore.addChangeListener(this.updateCreatedTaskCount);
-      MessageStore.addChangeListener(this.updateMessages);
+      // MessageStore.addChangeListener(this.updateMessages);
       CurrentUserStore.addChangeListener(this.updateUserType);
       WorkedTaskStore.addChangeListener(this.updateWorkedTaskCount);
     },
@@ -77,7 +67,7 @@
     componentWillUnmount: function() {
       CreatedTaskStore.removeChangeListener(this.updateCreatedTaskCount);
 
-      MessageStore.removeChangeListener(this.updateMessages);
+      // MessageStore.removeChangeListener(this.updateMessages);
       CurrentUserStore.removeChangeListener(this.updateUserType);
       WorkedTaskStore.addChangeListener(this.updateWorkedTaskCount);
     },
@@ -110,9 +100,9 @@
       this.history.pushState(null, "/findtasks");
     },
 
-    handleMessages: function() {
-      this.history.pushState(null, "/messages");
-    },
+    // handleMessages: function() {
+    //   this.history.pushState(null, "/messages");
+    // },
 
     _handleUserType: function() {
       var userIsRobot = this.state.userIsRobot;
@@ -215,11 +205,6 @@
 
             <div className="collapse navbar-collapse" id="collapse-menu">
               <ul className="nav navbar-nav navbar-right">
-                <li
-                  onClick={this.handleMessages}>
-                  <a><strong>Messages</strong>
-                  <span className="">{this.state.messageCount}</span></a>
-                </li>
                 {quickButton}
                 <li className="dropdown">
                   <a href="#"

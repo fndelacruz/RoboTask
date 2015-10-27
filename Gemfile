@@ -33,7 +33,7 @@ gem 'newrelic_rpm'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
-
+gem 'ffaker'
 
 gem 'react-rails', '1.3.0'
 gem 'flux-rails-assets', '1.0.1'
