@@ -149,15 +149,15 @@ def random_food_object
 end
 
 def random_movie_rating
-  %w(R, PG, PG-13, G)
+  %w(R PG PG-13 G)
 end
 
 def random_container
-  %w(package, box, envelope, container, drum, backpack, sack, bag, satchel, truckload, trunk, chest, coffer, carton, vessel, pouch).sample
+  %w(package box envelope container drum backpack sack bag satchel truckload trunk chest coffer carton vessel pouch).sample
 end
 
 def random_car_part
-  %w(steering\ wheel, windows, seat, trunk, hood, engine, transmission, brakes, tank, catalytic\ converter, radio, shifter, carpet, wheels, air\ filter, exhaust\ pipe, fuel\ tank, carburetor).sample
+  %w(steering\ wheel windows seat trunk hood engine transmission brakes tank catalytic\ converter radio shifter carpet wheels air\ filter exhaust\ pipe fuel\ tank carburetor).sample
 end
 
 def random_job_generator(location)
@@ -179,17 +179,17 @@ def random_job_generator(location)
       ]},
     {"Buy me a product" => [
       "I need a new #{random_object}. Please get me one with a #{random_object}.",
-      "Pick up a #{random_object} at the #{%w(store, office, pier).sample} for me.",
+      "Pick up a #{random_object} at the #{%w(store office pier).sample} for me.",
       "#{random_object} and a #{random_object} needed ASAP.",
       "Please buy me a #{random_object} in a #{random_object}. I need it with extra #{random_object}s.",
-      "Need some #{random_food_object} for my #{%w(breakfast, lunch, dinner).sample}."
+      "Need some #{random_food_object} for my #{%w(breakfast lunch dinner).sample}."
     ]},
     {"Cook me something" => [
       "Please make me a #{random_food_object} and #{random_food_object} sandwich.",
-      "Make me a #{random_food_object} #{%w(pizza, stew, chili, sausage, burger).sample} with extra #{random_food_object}s",
-      "Cook me some #{random_food_object} #{%w(soup, waffles, pancakes, eggs, omelettes).sample}.",
+      "Make me a #{random_food_object} #{%w(pizza stew chili sausage burger).sample} with extra #{random_food_object}s",
+      "Cook me some #{random_food_object} #{%w(soup waffles pancakes eggs omelettes).sample}.",
       "Please boil me some #{random_food_object}s and #{random_food_object}s.",
-      "I would like a #{random_food_object} #{%w(pie, tart, burrito, casserole, taco).sample}.",
+      "I would like a #{random_food_object} #{%w(pie tart burrito casserole taco).sample}.",
     ]},
     {"Help with language" => [
       "I need a #{FFaker::Locale.language} tutor to help me pass my class.",
@@ -214,9 +214,9 @@ def random_job_generator(location)
       "Need a coder with #{rand(5..10)}+ years experience with #{FFaker::Skill.specialty}.",
       "#{FFaker::Skill.tech_skill} coder needed. Will be doing a lot of #{FFaker::Skill.specialty}.",
       "#{FFaker::Skill.specialty} expert needed. Experience with #{FFaker::Skill.tech_skill} and #{FFaker::Skill.tech_skill} is necessary.",
-      "#{FFaker::Skill.tech_skill} needed for #{FFaker::Skill.specialty} design.",
+      "#{FFaker::Skill.tech_skill} expert needed for a #{FFaker::Skill.specialty} project.",
       "Expert with #{FFaker::Skill.tech_skill} and #{FFaker::Skill.tech_skill} needed for some #{FFaker::Skill.specialty}.",
-      "#{%w(Junior, Senior).sample} #{FFaker::Skill.specialty} designer needed to program in #{FFaker::Skill.tech_skill}."
+      "#{%w(Junior Senior).sample} #{FFaker::Skill.specialty} designer needed to program in #{FFaker::Skill.tech_skill}."
     ]},
     {"Repair a vehicle" => [
       "My #{random_vehicle}'s #{random_car_part} stopped working, need a repair bot.",
@@ -228,10 +228,10 @@ def random_job_generator(location)
       "My hover #{random_vehicle} stopped working. Please help!"
     ]},
     {"Sport trainer needed" => [
-      "Need a good #{FFaker::Sport.name} trainer to help prepare for #{%w(a\ competition, the\ olympics, an\ upcoming match, the\ big\ leagues).sample}.",
-      "#{FFaker::Sport.name} expert needed to teach #{%w(me, my\ son, my\ daughter, my\ friend, ).sample}.",
+      "Need a good #{FFaker::Sport.name} trainer to help prepare for #{%w(a\ competition the\ olympics an\ upcoming match the\ big\ leagues).sample}.",
+      "#{FFaker::Sport.name} expert needed to teach #{%w(me my\ son my\ daughter my\ friend ).sample}.",
       "#{FFaker::Sport.name} and #{FFaker::Sport.name} master needed to help me up my game.",
-      "Champion level #{FFaker::Sport.name} expert needed to entertain at my #{%w(school, birthday\ party, engagement\ party, wedding, graduation).sample}.",
+      "Champion level #{FFaker::Sport.name} expert needed to entertain at my #{%w(school birthday\ party engagement\ party wedding graduation).sample}.",
       "Amateur #{FFaker::Sport.name} robot needed to practice my moves.",
       "#{FFaker::Sport.name} profesional neeeded to critique my skill.",
       "One on one #{FFaker::Sport.name} training needed ASAP!"
@@ -239,7 +239,7 @@ def random_job_generator(location)
     {"Find me a movie" => [
       "Rent me a good movie, something like a #{random_movie_rating}-rated #{FFaker::Movie.title}.",
       "#{FFaker::Movie.title} needed for a party.",
-      "Please find a good #{random_movie_rating} movie to play at my #{%w(wedding, party, social\ gathering,).sample}.",
+      "Please find a good #{random_movie_rating} movie to play at my #{%w(wedding party social\ gathering).sample}.",
       "Id like to watch a movie like #{FFaker::Movie.title} and #{FFaker::Movie.title}.",
       "I need a copy of #{FFaker::Movie.title}",
       "Looking for a movie like #{FFaker::Movie.title}, but #{random_movie_rating} rated.",
