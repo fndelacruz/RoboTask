@@ -149,7 +149,7 @@ def random_food_object
 end
 
 def random_movie_rating
-  %w(R PG PG-13 G)
+  %w(R PG PG-13 G).sample
 end
 
 def random_container
