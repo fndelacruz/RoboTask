@@ -25,8 +25,8 @@ class SessionController < ApplicationController
     logout
     # Note: obj is created to trigger ajax success callback
     obj = User.new
-    flash[:notices] ||= []
-    flash[:notices] << "Logout OK"
+    # flash[:notices] ||= []
+    # flash[:notices] << "Logout OK"
     render json: obj
   end
 

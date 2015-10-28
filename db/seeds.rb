@@ -24,23 +24,23 @@ HOUR_TO_INTERVAL = {
 }
 
 INTERVALS_TIMECODE = [0, 8, 12, 16]
-def random_title
-  random_titles = [
-    "#{Faker::Hacker.verb} the #{Faker::Hacker.adjective} #{Faker::Hacker.abbreviation}",
-    "#{Faker::Hacker.noun}s. #{Faker::Hacker.verb} the #{Faker::Hacker.adjective} #{Faker::Hacker.abbreviation}",
-    "#{Faker::Hacker.noun}s, #{Faker::Hacker.noun}s, and #{Faker::Hacker.noun}s",
-    "#{Faker::Hacker.adjective} #{Faker::Hacker.noun} with a #{Faker::Hacker.adjective}",
-    "#{Faker::Hacker.ingverb} a #{Faker::Hacker.adjective} #{Faker::Hacker.adjective} #{Faker::Hacker.noun}",
-    "#{Faker::Hacker.ingverb} a #{Faker::Hacker.adjective} #{Faker::Hacker.noun}",
-    "#{Faker::Hacker.verb} the #{Faker::Hacker.verb}",
-    "#{Faker::Hacker.ingverb} #{Faker::Hacker.adjective} #{Faker::Hacker.noun}",
-    "#{Faker::Hacker.noun}s, #{Faker::Hacker.noun}s, and a #{Faker::Hacker.adjective} #{Faker::Hacker.adjective} #{Faker::Hacker.noun}"
-  ]
-  random_titles[rand(random_titles.length)].capitalize
-end
+# def random_title
+#   random_titles = [
+#     "#{Faker::Hacker.verb} the #{Faker::Hacker.adjective} #{Faker::Hacker.abbreviation}",
+#     "#{Faker::Hacker.noun}s. #{Faker::Hacker.verb} the #{Faker::Hacker.adjective} #{Faker::Hacker.abbreviation}",
+#     "#{Faker::Hacker.noun}s, #{Faker::Hacker.noun}s, and #{Faker::Hacker.noun}s",
+#     "#{Faker::Hacker.adjective} #{Faker::Hacker.noun} with a #{Faker::Hacker.adjective}",
+#     "#{Faker::Hacker.ingverb} a #{Faker::Hacker.adjective} #{Faker::Hacker.adjective} #{Faker::Hacker.noun}",
+#     "#{Faker::Hacker.ingverb} a #{Faker::Hacker.adjective} #{Faker::Hacker.noun}",
+#     "#{Faker::Hacker.verb} the #{Faker::Hacker.verb}",
+#     "#{Faker::Hacker.ingverb} #{Faker::Hacker.adjective} #{Faker::Hacker.noun}",
+#     "#{Faker::Hacker.noun}s, #{Faker::Hacker.noun}s, and a #{Faker::Hacker.adjective} #{Faker::Hacker.adjective} #{Faker::Hacker.noun}"
+#   ]
+#   random_titles[rand(random_titles.length)].capitalize
+# end
 
-def random_bios
-  random_bios = [
+def generate_random_bio_line
+  [
     "I worked for #{rand(2..40)} years as a #{FFaker::Job.title}.",
     "I used to work as a #{FFaker::Job.title} for #{rand(2..40)} years.",
     "#{FFaker::Job.title} was my job title for #{rand(2..40)} years.",
@@ -57,28 +57,19 @@ def random_bios
     "I specialize in #{FFaker::Skill.specialty}.",
     "#{FFaker::Skill.specialty} comes easy to me.",
     "#{FFaker::Product.product_name}s scare me.",
-  ]
+  ].sample
 end
 
-def random_bad_reviews
-  random_bad_reviews = [
-    "Finished the job #{rand(2..5)} hours too late.",
-    "Was #{rand(3..8)} hours late to the task site.",
-    "Didn't really know how to play #{FFaker::Sport.name}.",
-    "Did not have experience with #{FFaker::Skill.specialty}.",
-    "Claimed to be an expert at #{FFaker::Skill.specialty}. Lies!",
-    "Did not deliver.",
-    "I was promised a #{FFaker::Food.ingredient}. I got a #{FFaker::Food.ingredient} instead.",
-    "I want a refund",
-    "I don't think he really was a #{FFaker::Job.title} for #{rand(2..10)} years...",
-    "#{FFaker::Job.title} expert? I don't think so...",
-    "I don't think she really was a #{FFaker::Job.title} for #{rand(2..10)} years...",
-    "I don't like his #{FFaker::HipsterIpsum.word}",
-    "I don't like her #{FFaker::HipsterIpsum.word}",
-  ]
+def random_bio
+  bio = []
+  rand(3..7).times do
+    bio << generate_random_bio_line
+  end
+  bio.join(" ")
 end
 
-def random_good_reviews
+
+def random_review(is_good)
   random_good_reviews = [
     "Great job. Finished the job #{rand(2..5)} hours early.",
     "Was excellent at #{FFaker::Sport.name}.",
@@ -95,16 +86,189 @@ def random_good_reviews
     "I really liked his #{FFaker::HipsterIpsum.word}",
     "I really liked her #{FFaker::HipsterIpsum.word}",
   ]
+  random_bad_reviews = [
+    "Finished the job #{rand(2..5)} hours too late.",
+    "Was #{rand(3..8)} hours late to the task site.",
+    "Didn't really know how to play #{FFaker::Sport.name}.",
+    "Did not have experience with #{FFaker::Skill.specialty}.",
+    "Claimed to be an expert at #{FFaker::Skill.specialty}. Lies!",
+    "Did not deliver.",
+    "I was promised a #{FFaker::Food.ingredient}. I got a #{FFaker::Food.ingredient} instead.",
+    "I want a refund",
+    "I don't think he really was a #{FFaker::Job.title} for #{rand(2..10)} years...",
+    "#{FFaker::Job.title} expert? I don't think so...",
+    "I don't think she really was a #{FFaker::Job.title} for #{rand(2..10)} years...",
+    "I don't like his #{FFaker::HipsterIpsum.word}",
+    "I don't like her #{FFaker::HipsterIpsum.word}",
+  ]
+  if is_good
+    random_good_reviews.sample
+  else
+    random_bad_reviews.sample
+  end
 end
 # ******************************************************************************
 # NOTE: this function adds some variety to robot success on job completion for
 # the simulated job assignments
-def get_wage(skill)
+
+def random_skill
+  rand(70..90)
+end
+
+def random_wage(skill)
   modulation = rand(0.05..0.35) * (rand(2) == 0 ? -1 : 1)
   wage = (rand(0.6..0.8) * skill + (skill * modulation))
-  return wage < 10 ? 10 : wage
+  return wage < 10 ? 10 : wage.to_i
 end
+
 # ******************************************************************************
+def random_object
+  [
+    "#{FFaker::Product.product}",
+    "#{FFaker::Product.product_name}",
+    "#{FFaker::Product.brand} #{FFaker::Product.product}",
+    "#{FFaker::Product.brand} #{FFaker::Product.product_name}",
+    "#{FFaker::Product.model} #{FFaker::Product.product}",
+    "#{FFaker::Product.model} #{FFaker::Product.product_name}",
+    "#{FFaker::Food.fruit}",
+    "#{FFaker::Food.herb_or_spice}",
+    "#{FFaker::Food.ingredient}",
+    "#{FFaker::Food.meat}",
+    "#{FFaker::Food.vegetable}",
+  ].sample
+end
+
+def random_food_object
+  [
+    "#{FFaker::Food.fruit}",
+    "#{FFaker::Food.herb_or_spice}",
+    "#{FFaker::Food.ingredient}",
+    "#{FFaker::Food.meat}",
+    "#{FFaker::Food.vegetable}"
+  ].sample
+end
+
+def random_movie_rating
+  %w(R, PG, PG-13, G)
+end
+
+def random_container
+  %w(package, box, envelope, container, drum, backpack, sack, bag, satchel, truckload, trunk, chest, coffer, carton, vessel, pouch).sample
+end
+
+def random_car_part
+  %w(steering\ wheel, windows, seat, trunk, hood, engine, transmission, brakes, tank, catalytic\ converter, radio, shifter, carpet, wheels, air\ filter, exhaust\ pipe, fuel\ tank, carburetor).sample
+end
+
+def random_job_generator(location)
+  random_vehicle = "#{FFaker::Vehicle.year} #{FFaker::Vehicle.make} #{FFaker::Vehicle.model}"
+  random_job_title = "#{FFaker::Job.title}"
+  job_ed = ["repaired", "fixed", "cleaned", "demolished", "overhauled", "painted", "washed", "adjusted"]
+  jobs = [
+    {"Wait in line" => [
+      "Wait in line at #{location} to buy me a #{random_object}",
+      "Wait in line to buy me a #{random_object} at #{location}",
+      "At #{location}, buy me a #{random_object}",
+      "Please wait at #{location} and buy me a #{random_object}"
+      ]},
+    {"Find a lost item" => [
+      "Please help me find my lost #{random_object}. I last saw it at #{location}.",
+      "Someone stole my #{random_object}. It was last seen at #{location}",
+      "I can't find my #{random_object}. Can you help me find it?",
+      "Misplaced my #{random_object}. I need it found ASAP."
+      ]},
+    {"Buy me a product" => [
+      "I need a new #{random_object}. Please get me one with a #{random_object}.",
+      "Pick up a #{random_object} at the #{%w(store, office, pier).sample} for me.",
+      "#{random_object} and a #{random_object} needed ASAP.",
+      "Please buy me a #{random_object} in a #{random_object}. I need it with extra #{random_object}s.",
+      "Need some #{random_food_object} for my #{%w(breakfast, lunch, dinner).sample}."
+    ]},
+    {"Cook me something" => [
+      "Please make me a #{random_food_object} and #{random_food_object} sandwich.",
+      "Make me a #{random_food_object} #{%w(pizza, stew, chili, sausage, burger).sample} with extra #{random_food_object}s",
+      "Cook me some #{random_food_object} #{%w(soup, waffles, pancakes, eggs, omelettes).sample}.",
+      "Please boil me some #{random_food_object}s and #{random_food_object}s.",
+      "I would like a #{random_food_object} #{%w(pie, tart, burrito, casserole, taco).sample}.",
+    ]},
+    {"Help with language" => [
+      "I need a #{FFaker::Locale.language} tutor to help me pass my class.",
+      "Need a #{FFaker::Locale.language} to #{FFaker::Locale.language} translator.",
+      "#{FFaker::Locale.language} professor needed for local research project.",
+      "#{FFaker::Locale.language} to #{FFaker::Locale.language} translator needed.",
+      "Need a #{FFaker::Locale.language} to #{FFaker::Locale.language} translator with #{rand(2..10)} years experience.",
+      "Need a #{FFaker::Locale.language} to translate some ancient texts.",
+      "#{FFaker::Locale.language} linguist needed to teach #{["my mom", "my friend", "my daughter", "my son", "my dad", "my cousin"].sample}",
+      "Need a robot versed in #{FFaker::Locale.language} sign language."
+    ]},
+    {"Deliver something" => [
+      "I have a #{rand(2..200)} #{FFaker::UnitEnglish.mass_name} #{random_container} to deliver to #{location}.",
+      "#{rand(2..200)} #{random_container} of #{random_object}s need to be delivered to #{location}.",
+      "#{random_container} of #{random_object} needs to be delivered to #{location}.",
+      "A #{rand(2..200)} #{FFaker::UnitEnglish.mass_name} #{random_container} needs to be picked up from #{location} and be delivered to a secret location.",
+      "Fast courier needed to deliver a #{random_container} of #{random_object}s.",
+      "#{random_object} transporter needed. Please bring your own #{random_container}.",
+      "#{random_container} of #{random_object}s need to be delivered to #{location}."
+    ]},
+    {"Build a website" => [
+      "Need a coder with #{rand(5..10)}+ years experience with #{FFaker::Skill.specialty}.",
+      "#{FFaker::Skill.tech_skill} coder needed. Will be doing a lot of #{FFaker::Skill.specialty}.",
+      "#{FFaker::Skill.specialty} expert needed. Experience with #{FFaker::Skill.tech_skill} and #{FFaker::Skill.tech_skill} is necessary.",
+      "#{FFaker::Skill.tech_skill} needed for #{FFaker::Skill.specialty} design.",
+      "Expert with #{FFaker::Skill.tech_skill} and #{FFaker::Skill.tech_skill} needed for some #{FFaker::Skill.specialty}.",
+      "#{%w(Junior, Senior).sample} #{FFaker::Skill.specialty} designer needed to program in #{FFaker::Skill.tech_skill}."
+    ]},
+    {"Repair a vehicle" => [
+      "My #{random_vehicle}'s #{random_car_part} stopped working, need a repair bot.",
+      "The #{random_car_part} on my #{random_vehicle} needs a tune-up.",
+      "Need someone to repair my #{random_vehicle}'s broken #{random_car_part}.",
+      "I broke my #{random_vehicle}'s #{random_car_part}. Need a repair-bot ASAP.",
+      "My #{random_vehicle}'s #{random_car_part} and #{random_car_part} stopped working. Help!",
+      "I need help installing a #{random_car_part} in my #{random_vehicle}.",
+      "My hover #{random_vehicle} stopped working. Please help!"
+    ]},
+    {"Sport trainer needed" => [
+      "Need a good #{FFaker::Sport.name} trainer to help prepare for #{%w(a\ competition, the\ olympics, an\ upcoming match, the\ big\ leagues).sample}.",
+      "#{FFaker::Sport.name} expert needed to teach #{%w(me, my\ son, my\ daughter, my\ friend, ).sample}.",
+      "#{FFaker::Sport.name} and #{FFaker::Sport.name} master needed to help me up my game.",
+      "Champion level #{FFaker::Sport.name} expert needed to entertain at my #{%w(school, birthday\ party, engagement\ party, wedding, graduation).sample}.",
+      "Amateur #{FFaker::Sport.name} robot needed to practice my moves.",
+      "#{FFaker::Sport.name} profesional neeeded to critique my skill.",
+      "One on one #{FFaker::Sport.name} training needed ASAP!"
+    ]},
+    {"Find me a movie" => [
+      "Rent me a good movie, something like a #{random_movie_rating}-rated #{FFaker::Movie.title}.",
+      "#{FFaker::Movie.title} needed for a party.",
+      "Please find a good #{random_movie_rating} movie to play at my #{%w(wedding, party, social\ gathering,).sample}.",
+      "Id like to watch a movie like #{FFaker::Movie.title} and #{FFaker::Movie.title}.",
+      "I need a copy of #{FFaker::Movie.title}",
+      "Looking for a movie like #{FFaker::Movie.title}, but #{random_movie_rating} rated.",
+      "#{random_movie_rating} rated movie needed for a local event. Something like #{FFaker::Movie.title} or #{FFaker::Movie.title}.",
+    ]},
+
+    {"Hacker needed" => [
+      "#{Faker::Hacker.say_something_smart} #{Faker::Hacker.say_something_smart} #{Faker::Hacker.say_something_smart}",
+      "#{Faker::Hacker.say_something_smart} #{Faker::Hacker.say_something_smart}",
+      "#{Faker::Hacker.say_something_smart} #{Faker::Hacker.say_something_smart} #{Faker::Hacker.say_something_smart} #{Faker::Hacker.say_something_smart}"
+    ]},
+    {"General help" => [
+      "Making some art. I need a #{random_object} in a #{random_container}.",
+      "Need help stuffing a #{random_object} into a #{random_container}.",
+      "Please fix my broken #{random_object}.",
+      "My #{random_object} needs a new #{random_object}, but I'm not sure what to do.",
+      "There are too many #{random_object}s on my lawn. Please pack them in a #{random_container} and get rid of them.",
+      "Need help hiding a #{random_object}. I have a #{random_container} full of #{random_object}s that might help.",
+      "Need help digging some #{random_object}s that I buried in a #{random_container}.",
+      "I found a locked #{random_container}. I think it might have #{random_object}s and #{random_object}s. Help me unlock it!",
+      "My security #{random_object} got stolen. Please get me a new one.",
+      "Need a #{random_container} of #{random_object}s to replace my #{random_object}."
+    ]}
+  ]
+      job = jobs.sample
+    job_title = job.keys[0]
+    job_description = job.values[0].sample
+    { title: job_title, description: job_description }
+end
 
 ActiveRecord::Base.transaction do
 
@@ -113,24 +277,19 @@ ActiveRecord::Base.transaction do
   # NOTE: generate NUM_ROBOTS random robots...
   # ****************************************************************************
   NUM_ROBOTS = 40
+
   random_robots = []
   NUM_ROBOTS.times do |x|
-    bio = []
-    4.times do
-      bio << random_bios.sample
-    end
-
-    bio_line = bio.join(" ")
-    skill = rand(70..90);
+    skill = random_skill
     random_robots << {
       is_robot: true,
       fname: FFaker::Name.first_name,
       lname: FFaker::Name.last_name,
       email: FFaker::Internet.email,
       password_digest: BCrypt::Password.create("password"),
-      bio: bio_line,
+      bio: random_bio,
       skill: skill,
-      wage: get_wage(skill).to_i
+      wage: random_wage(skill)
     }
   end
   User.create!(random_robots)
@@ -152,22 +311,15 @@ ActiveRecord::Base.transaction do
   # ****************************************************************************
   # NOTE: generate NUM_CLIENTS random clients
   # ****************************************************************************
-  NUM_CLIENTS = 20
+  NUM_CLIENTS = 50
   random_clients = []
   NUM_CLIENTS.times do |x|
-    bio = []
-    4.times do
-      bio << random_bios.sample
-    end
-
-    bio_line = bio.join(" ")
     random_clients << {
       is_robot: false,
       fname: FFaker::Name.first_name,
       lname: FFaker::Name.last_name,
       email: FFaker::Internet.email,
       password_digest: BCrypt::Password.create("password"),
-      bio: bio_line
     }
   end
   User.create!(random_clients)
@@ -213,13 +365,13 @@ ActiveRecord::Base.transaction do
 
       rand_addr_raw = processed_addresses.sample
       random_address = "#{rand_addr_raw[0]}, San Francisco, CA, #{rand_addr_raw[1]}"
-
       random_datetime = Faker::Date.between(1.days.from_now, 20.days.from_now).to_time.utc.change(hour: INTERVALS_TIMECODE.sample)
 
+      job = random_job_generator(random_address)
       user.created_tasks.create!([
         {
-          title: random_title,
-          description: random_description,
+          title: job[:title],
+          description: job[:description],
           location: random_address,
           lat: rand_addr_raw[2],
           lng: rand_addr_raw[3],
@@ -274,11 +426,8 @@ ActiveRecord::Base.transaction do
         # NOTE: rolls the dice for job success based on worker's skill attribute
         chance_to_succeed = task.worker.skill
         is_positive = chance_to_succeed > (rand * 100).to_i ? true : false
-        if is_positive
-          description = random_good_reviews.sample
-        else
-          description = random_bad_reviews.sample
-        end
+
+        description = random_review(is_positive)
         Review.create!([
           {
             task: task,
@@ -316,10 +465,12 @@ ActiveRecord::Base.transaction do
     random_datetime = Faker::Date.between(1.days.from_now, 20.days.from_now)
       .to_time.utc.change(hour: INTERVALS_TIMECODE.sample)
 
+    job = random_job_generator(random_address)
+
     user.created_tasks.create!([
       {
-        title: random_title,
-        description: random_description,
+        title: job[:title],
+        description: job[:description],
         location: random_address,
         lat: rand_addr_raw[2],
         lng: rand_addr_raw[3],
@@ -353,7 +504,6 @@ ActiveRecord::Base.transaction do
 
     task.worker = valid_workers[rand(valid_workers.length)]
     task.wage = task.worker.wage
-    # debugger
     task.save!
     # task.creator.send_message("AUTO-NOTIFICATION: I hired you for this task!", task)
   end
@@ -367,7 +517,6 @@ ActiveRecord::Base.transaction do
     # NOTE: FIND OUT WHY ASSIGNED_TASKS does not filter non-reviewed
     # tasks appropriately
     unless task.worker.nil?
-      # debugger
       rand(2..3).times do
         description_arr.push("#{task.worker.fname} #{Faker::Lorem.sentence.downcase}")
       end
@@ -375,11 +524,7 @@ ActiveRecord::Base.transaction do
 
       chance_to_succeed = task.worker.skill
       is_positive = chance_to_succeed > (rand * 100).to_i ? false : true
-      if is_positive
-        description = random_good_reviews.sample
-      else
-        description = random_bad_reviews.sample
-      end
+      description = random_review(is_positive)
       Review.create!([
         {
           task: task,
@@ -440,11 +585,7 @@ ActiveRecord::Base.transaction do
     # NOTE: rolls the dice for job success based on worker's skill attribute
     chance_to_succeed = task.worker.skill
     is_positive = chance_to_succeed > (rand * 100).to_i ? true : false
-    if is_positive
-      description = random_good_reviews.sample
-    else
-      description = random_bad_reviews.sample
-    end
+    description = random_review(is_positive)
     Review.create!([
       {
         task: task,
