@@ -160,22 +160,31 @@ def random_car_part
   %w(steering\ wheel windows seat trunk hood engine transmission brakes tank catalytic\ converter radio shifter carpet wheels air\ filter exhaust\ pipe fuel\ tank carburetor).sample
 end
 
+def random_vehicle
+  "#{FFaker::Vehicle.year} #{FFaker::Vehicle.make} #{FFaker::Vehicle.model}"
+end
+
+def random_job_title
+  "#{FFaker::Job.title}"
+end
+
 def random_job_generator(location)
-  random_vehicle = "#{FFaker::Vehicle.year} #{FFaker::Vehicle.make} #{FFaker::Vehicle.model}"
-  random_job_title = "#{FFaker::Job.title}"
   job_ed = ["repaired", "fixed", "cleaned", "demolished", "overhauled", "painted", "washed", "adjusted"]
   jobs = [
     {"Wait in line" => [
-      "Wait in line at #{location} to buy me a #{random_object}",
-      "Wait in line to buy me a #{random_object} at #{location}",
-      "At #{location}, buy me a #{random_object}",
-      "Please wait at #{location} and buy me a #{random_object}"
+      "Wait in line here to buy me a #{random_object}.",
+      "Wait in line to buy me a #{random_object}.",
+      "Please wait at #{location} to pick up #{random_object}.",
+      "Stand in line to pickup my tickets to the #{FFaker::Name.name} show.",
+      "Hold my spot in line at the #{%w(bank amusement\ park supermarket produce\ stand movie\ theater electronics\ store).sample}."
       ]},
     {"Find a lost item" => [
-      "Please help me find my lost #{random_object}. I last saw it at #{location}.",
-      "Someone stole my #{random_object}. It was last seen at #{location}",
+      "Please help me find my lost #{random_object}.",
+      "Someone stole my #{random_object}. I last saw it at #{location}",
       "I can't find my #{random_object}. Can you help me find it?",
-      "Misplaced my #{random_object}. I need it found ASAP."
+      "Misplaced my #{random_object}. I need it found ASAP.",
+      "I'm looking for my lost #{random_object} and #{random_object}.",
+      "#{random_object} missing. Need help ASAP!!"
       ]},
     {"Buy me a product" => [
       "I need a new #{random_object}. Please get me one with a #{random_object}.",
@@ -264,11 +273,53 @@ def random_job_generator(location)
       "Need a #{random_container} of #{random_object}s to replace my #{random_object}."
     ]}
   ]
-      job = jobs.sample
+    job = jobs.sample
     job_title = job.keys[0]
-    job_description = job.values[0].sample
-    { title: job_title, description: job_description }
+
+    description = [job.values[0].sample]
+    rand(4..8).times do
+      description << job_flavor_text
+    end
+
+    description = description.join(" ")
+
+    { title: job_title, description: description }
 end
+
+def job_flavor_text
+  [
+      "Could take #{rand(2..14)} hours, please be prepared.",
+      "Please bring a #{random_object}.",
+      "No #{FFaker::Name.first_name} robots please.",
+      "#{random_object} and a #{random_object} could come handy.",
+      "FYI, I am allergic to #{random_food_object}s and #{random_food_object}s.",
+      "#{random_object} bonus if done well.",
+      "Please bring a #{random_object}.",
+      "Do not apply if you own a #{random_vehicle}.",
+      "Knowledge of #{FFaker::Sport.name} is a plus.",
+      "Experience with #{FFaker::Skill.specialty} is crucial.",
+      "Please bring an empty #{random_container}.",
+      "A #{random_container} of #{random_object}s is required.",
+      "Priority given to #{random_vehicle} owners.",
+      "Bonus #{random_object} if job done well.",
+      "Please don't bring a #{random_container} of #{random_object}s.",
+      "No #{random_object}s or #{random_object}s!",
+      "A #{random_car_part} module should suffice.",
+      "#{FFaker::Skill.tech_skill} knowledge is preferred, but not necessary.",
+      "Experience as #{random_job_title} would be great!",
+      "#{random_job_title}s need not apply!",
+      "No #{FFaker::Name.last_name} robots please.",
+      "#{FFaker::Name.last_name} robots are preferred.",
+      "#{FFaker::Name.first_name} robots are preferred.",
+      "Special consideration given to #{random_job_title}s.",
+      "Driving a #{random_vehicle} would really help.",
+      "Please don't bring #{random_object}s in #{random_container}s",
+      "Experience using #{random_food_object} is a plus. Using #{random_food_object}? Even better!",
+      "Attention to #{%w(time detail skill your\ battery\ level temperature spatial\ awareness).sample} is crucial"
+    ].sample
+end
+
+
 
 ActiveRecord::Base.transaction do
 

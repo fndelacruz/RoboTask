@@ -134,7 +134,7 @@ class User < ActiveRecord::Base
 
   def email_valid
     unless email.match(/\w+@\w+(\.\w+)+/)
-      errors.add(:email, "is invalid.")
+      errors.add(:Please, "enter a valid email address.")
     end
   end
 end
