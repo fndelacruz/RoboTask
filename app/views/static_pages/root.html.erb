@@ -5,15 +5,123 @@
   <div class="container-fluid">
     <div class="row panel1">
       <div class="button-holders">
-        <a href="users/new"class="create-account-button" id="create-account-link">
+
+        <div class="create-account-button" id="create-account-link">
           Create an Account
-        </a>
+        </div>
 
-        <a href="session/new" class="login-button">
+        <div class="auth-outer-window" id="signup-form-outer-window">
+          <div class="auth-inner-window" id="signup-form-inner-window">
+            <form action="<%= users_url %>" method="post">
+              <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+              <div class="form-group">
+                <label for="user-fname">First name</label><br>
+                <input
+                  type="text"
+                  name="user[fname]"
+                  class="form-control"
+                ><br>
+              </div>
+
+              <div class="form-group">
+                <label for="user-lname">Last name</label><br>
+                <input
+                  type="text"
+                  name="user[lname]"
+                  class="form-control"
+                ><br>
+              </div>
+
+              <div class="form-group">
+                <label for="user-email">Email</label><br>
+                <input
+                  type="text"
+                  name="user[email]"
+                  class="form-control"
+                ><br>
+              </div>
+
+              <div class="form-group">
+                <label for="user-password">Password</label><br>
+                <input
+                  type="password"
+                  name="user[password]"
+                  id="user-password"
+                  class="form-control"
+                ><br>
+              </div>
+
+              <input type="radio" name="user[is_robot]" id="is_robot_true" value=false>
+              <label for="is_robot_true">I seek robot help.</label>
+              <br>
+
+              <input type="radio" name="user[is_robot]" id="is_robot_true" value=true>
+              <label for="is_robot_false">I'm a robot looking for work.</label>
+              <br>
+
+              <div>
+                <button
+                  class="btn btn-default"
+                  type="submit"
+                  value="Signup">
+                  Create Account
+                </button>
+              </div>
+              <% if flash[:create_account_errors] %>
+                <% flash[:create_account_errors].each do |error| %>
+                  <div><%= error %></div>
+                <% end %>
+              <% end %>
+            </form>
+          </div>
+        </div>
+
+
+        <div class="login-button">
           Login
-        </a>
+        </div>
 
+        <div class="auth-outer-window login-user" id="login-form-outer-window">
+          <div class="auth-inner-window" id="login-form-inner-window">
+            <form action="<%= session_index_url %>" method="post" class="">
+              <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 
+              <div class="form-group">
+                <label for="session-email">Email</label><br>
+                <input
+                  type="text"
+                  name="session[email]"
+                  class="form-control"
+                  value=""
+                  id="session-email"><br>
+              </div>
+
+              <div class="form-group">
+                <label for="session-password">Password</label><br>
+                <input
+                  type="password"
+                  name="session[password]"
+                  class="form-control"
+                  value=""
+                  id="session-password"><br>
+              </div>
+              <div>
+                <button
+                  class="btn btn-default"
+                  type="submit"
+                  value="Login">
+                  Login
+                </button>
+              </div>
+              <% if flash[:login_errors] %>
+                <% flash[:login_errors].each do |error| %>
+                  <div><%= error %></div>
+                <% end %>
+              <% end %>
+            </form>
+          </div>
+        </div>
 
       </div>
       <div class="panel1-main">
@@ -121,4 +229,24 @@
   } else {
     $("div.splash-page-holder").css('display', "block");
   }
+
+  $('.login-button').click(function() {
+    $('#login-form-outer-window').toggle();
+  });
+  $('.create-account-button').click(function() {
+    $('#signup-form-outer-window').toggle();
+  });
+
 </script>
+
+<% if flash[:login_errors] %>
+  <script>
+    $('#login-form-outer-window').show();
+  </script>
+<% end %>
+
+<% if flash[:create_account_errors] %>
+  <script>
+    $('#signup-form-outer-window').show();
+  </script>
+<% end %>

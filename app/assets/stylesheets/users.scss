@@ -4,20 +4,29 @@
 
 .auth-outer-window {
   display:block;
-}
-
-.auth-container {
-	height:100vh;
-	position:relative;
-}
-
-.auth-outer-window {
+  font-size: 12px;
+  color: black;
+  display:none;
+  position:fixed;
 	border: 1px solid #1e5d88;
 	background-color: white;
   width: 300px;
-  left: 10%;
-  top: 10%;
-	position:relative;
+  top: 40px;
+  z-index: 9000;
+}
+
+.create-account {
+  left: 20px;
+}
+
+.login-user {
+  right: 20px;
+}
+
+
+.auth-container {
+	height:100vh;
+	// position:relative;
 }
 
 .auth-inner-window {

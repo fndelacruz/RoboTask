@@ -11,22 +11,16 @@ class SessionController < ApplicationController
     )
     if @user
       login(@user)
-      # flash[:notices] ||= []
-      # flash[:notices] << "Login OK"
-      redirect_to "/"
     else
-      flash.now[:errors] ||= []
-      flash.now[:errors] << "We don't recognize your email address or password. Please try again."
-      render :new
+      flash[:login_errors] ||= []
+      flash[:login_errors] << "We don't recognize your email address or password. Please try again."
     end
+      redirect_to "/"
   end
 
   def destroy
     logout
-    # Note: obj is created to trigger ajax success callback
     obj = User.new
-    # flash[:notices] ||= []
-    # flash[:notices] << "Logout OK"
     render json: obj
   end
 

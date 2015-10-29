@@ -13,14 +13,11 @@ class UsersController < ApplicationController
     @user.lname = @user.lname.capitalize
     if @user.save
       login(@user)
-      # flash[:notices] ||= []
-      # flash[:notices] << "User creation OK"
-      redirect_to "/"
     else
-      flash.now[:errors] ||= []
-      flash.now[:errors].concat(@user.errors.full_messages)
-      render :new
+      flash[:create_account_errors] ||= []
+      flash[:create_account_errors].concat(@user.errors.full_messages)
     end
+      redirect_to "/"
   end
 
   def show
