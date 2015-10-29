@@ -1,1 +1,124 @@
 <div id="static-root"></div>
+
+
+<div class="splash-page-holder">
+  <div class="container-fluid">
+    <div class="row panel1">
+      <div class="button-holders">
+        <a href="users/new"class="create-account-button" id="create-account-link">
+          Create an Account
+        </a>
+
+        <a href="session/new" class="login-button">
+          Login
+        </a>
+
+
+
+      </div>
+      <div class="panel1-main">
+        <div class="logo-header">
+          RoboTask
+        </div>
+
+        <div class="logo-tag">
+          Connecting clients who need robots<br/>
+          to robots who need money.
+        </div>
+      </div>
+    </div>
+
+    <div class="row infosection client">
+      <div class="col-xs-12 col-sm-5 pics">
+      </div>
+      <div class="col-xs-12 col-sm-7 information">
+        <div class="header">
+          Looking for Robot help?
+        </div>
+        <div class="subheader">
+          With RoboTask, it's simple.
+        </div>
+        <div class="subtitle">
+          Here's how it works.
+        </div>
+
+        <div class="steps-list">
+          <div class="list-entry">
+            1. Tell us what you need help with.
+          </div>
+          <div class="list-entry">
+            2. Choose a date and time.
+          </div>
+          <div class="list-entry">
+            3. Select a RoboTasker, or post to the open market.
+          </div>
+        </div>
+
+        <div class="guest-container">
+          Try it now, risk free!
+          <form action="<%= session_index_url %>" method="post" class="">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <input type="hidden" name="session[email]" value="client@guest.guest" />
+            <input type="hidden" name="session[password]" value="password" />
+            <button class="btn btn-link" id="larger-button" type="submit" value="Login">
+              Guest Client Login
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider">
+    </div>
+
+    <div class="row infosection robot">
+      <div class="col-xs-12 col-sm-7 information">
+        <div class="header">
+          Are you a robot?
+        </div>
+        <div class="subheader">
+          Looking for work? Look no further.
+        </div>
+        <div class="subtitle">
+          Here's what you do.
+        </div>
+
+        <div class="steps-list">
+          <div class="list-entry">
+            1. Choose your work availability.
+          </div>
+          <div class="list-entry">
+            2. Tells us about your skills.
+          </div>
+          <div class="list-entry">
+            3. Wait for a client to hire you, or search our task map for open jobs.
+          </div>
+        </div>
+
+        <div class="guest-container">
+          Try it now, risk free!
+          <form action="<%= session_index_url %>" method="post" class="">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <input type="hidden" name="session[email]" value="robot@guest.guest" />
+            <input type="hidden" name="session[password]" value="password" />
+            <button class="btn btn-link" id="larger-button" type="submit" value="Login">
+              Guest Robot Login
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-5 pics">
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  if (window.CURRENT_USER_ID) {
+    $("div.splash-page-holder").css('display', "none");
+  } else {
+    $("div.splash-page-holder").css('display', "block");
+  }
+</script>

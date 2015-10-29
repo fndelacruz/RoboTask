@@ -1,4 +1,4 @@
-<!-- <div class="auth-container">
+<div class="auth-container">
   <nav class="navbar navbar-default">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed"
@@ -52,6 +52,22 @@
             value="Login">
             Login
           </button><br/><br/>
+          <form action="<%= session_index_url %>" method="post" class="">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <input type="hidden" name="session[email]" value="client@guest.guest" />
+            <input type="hidden" name="session[password]" value="password" />
+            <button class="btn btn-default" type="submit" value="Login">
+              Guest Client Login
+            </button>
+          </form>
+          <form action="<%= session_index_url %>" method="post" class="">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <input type="hidden" name="session[email]" value="robot@guest.guest" />
+            <input type="hidden" name="session[password]" value="password" />
+            <button class="btn btn-default" type="submit" value="Login">
+              Guest Robot Login
+            </button>
+          </form>
         </div><br/>
         <div><a href="/users/new"> New user? </a></div>
         <% if flash[:errors] %>
@@ -62,237 +78,4 @@
       </form>
     </div>
   </div>
-</div> -->
-
-<div class="container-fluid">
-  <div class="row panel1">
-    <div class="button-holders">
-      <div class="create-account-button" id="create-account-link">
-        Create an Account
-      </div>
-
-      <div class="auth-outer-window" id="signup-form-outer-window">
-        <div class="auth-inner-window" id="signup-form-inner-window">
-          <h3>Create Account</h3>
-          <form action="<%= users_url %>" method="post">
-            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-
-            <div class="form-group">
-              <label for="user-fname">First name</label><br>
-              <input
-                type="text"
-                name="user[fname]"
-                class="form-control"
-                value=
-              ><br>
-            </div>
-
-            <div class="form-group">
-              <label for="user-lname">Last name</label><br>
-              <input
-                type="text"
-                name="user[lname]"
-                class="form-control"
-                value=
-              ><br>
-            </div>
-
-            <div class="form-group">
-              <label for="user-email">Email</label><br>
-              <input
-                type="text"
-                name="user[email]"
-                class="form-control"
-                value=
-              ><br>
-            </div>
-
-            <div class="form-group">
-              <label for="user-password">Password</label><br>
-              <input
-                type="password"
-                name="user[password]"
-                id="user-password"
-                class="form-control"
-              ><br>
-            </div>
-
-            <input type="radio" name="user[is_robot]" id="is_robot_true" value=false>
-            <label for="is_robot_true">I seek robot help.</label>
-            <br>
-
-            <input type="radio" name="user[is_robot]" id="is_robot_true" value=true>
-            <label for="is_robot_false">I'm a robot looking for work.</label>
-            <br>
-
-            <div>
-              <button
-                class="btn btn-default"
-                type="submit"
-                value="Signup">
-                Create Account
-              </button>
-            </div>
-            <% if flash[:errors] %>
-              <% flash[:errors].each do |error| %>
-                <div><%= error %></div>
-              <% end %>
-            <% end %>
-          </form>
-        </div>
-      </div>
-
-      <div class="login-button">
-        Login
-      </div>
-
-      <div class="auth-outer-window" id="login-form-outer-window">
-        <div class="auth-inner-window" id="login-form-inner-window">
-          <h3>Login</h3>
-          <form action="<%= session_index_url %>" method="post" class="">
-            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-
-            <div class="form-group">
-              <label for="session-email">Email</label><br>
-              <input
-                type="text"
-                name="session[email]"
-                class="form-control"
-                value=""
-                id="session-email"><br>
-            </div>
-
-            <div class="form-group">
-              <label for="session-password">Password</label><br>
-              <input
-                type="password"
-                name="session[password]"
-                class="form-control"
-                value=""
-                id="session-password"><br>
-            </div>
-            <div>
-              <button
-                class="btn btn-default"
-                type="submit"
-                value="Login">
-                Login
-              </button>
-            </div>
-            <% if flash[:errors] %>
-              <% flash[:errors].each do |error| %>
-                <div><%= error %></div>
-              <% end %>
-            <% end %>
-          </form>
-        </div>
-      </div>
-
-    </div>
-    <div class="panel1-main">
-      <div class="logo-header">
-        RoboTask
-      </div>
-
-      <div class="logo-tag">
-        Connecting clients who need robots<br/>
-        to robots who need money.
-      </div>
-    </div>
-  </div>
-
-  <div class="row infosection client">
-    <div class="col-xs-12 col-sm-5 pics">
-    </div>
-    <div class="col-xs-12 col-sm-7 information">
-      <div class="header">
-        Looking for Robot help?
-      </div>
-      <div class="subheader">
-        With RoboTask, it's simple.
-      </div>
-      <div class="subtitle">
-        Here's how it works.
-      </div>
-
-      <div class="steps-list">
-        <div class="list-entry">
-          1. Tell us what you need help with.
-        </div>
-        <div class="list-entry">
-          2. Choose a date and time.
-        </div>
-        <div class="list-entry">
-          3. Select a RoboTasker, or post to the open market.
-        </div>
-      </div>
-
-      <div class="guest-container">
-        Try it now, risk free!
-        <form action="<%= session_index_url %>" method="post" class="">
-          <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-          <input type="hidden" name="session[email]" value="client@guest.guest" />
-          <input type="hidden" name="session[password]" value="password" />
-          <button class="btn btn-link" id="larger-button" type="submit" value="Login">
-            Guest Client Login
-          </button>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <div class="divider">
-  </div>
-
-  <div class="row infosection robot">
-    <div class="col-xs-12 col-sm-7 information">
-      <div class="header">
-        Are you a robot?
-      </div>
-      <div class="subheader">
-        Looking for work? Look no further.
-      </div>
-      <div class="subtitle">
-        Here's what you do.
-      </div>
-
-      <div class="steps-list">
-        <div class="list-entry">
-          1. Choose your work availability.
-        </div>
-        <div class="list-entry">
-          2. Tells us about your skills.
-        </div>
-        <div class="list-entry">
-          3. Wait for a client to hire you, or search our task map for open jobs.
-        </div>
-      </div>
-
-      <div class="guest-container">
-        Try it now, risk free!
-        <form action="<%= session_index_url %>" method="post" class="">
-          <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-          <input type="hidden" name="session[email]" value="robot@guest.guest" />
-          <input type="hidden" name="session[password]" value="password" />
-          <button class="btn btn-link" id="larger-button" type="submit" value="Login">
-            Guest Robot Login
-          </button>
-        </form>
-      </div>
-    </div>
-
-    <div class="col-xs-12 col-sm-5 pics">
-    </div>
-
-  </div>
 </div>
-
-<script>
-$('.login-button').click(function() {
-  $('#login-form-outer-window').toggle();
-});
-$('.create-account-button').click(function() {
-  $('#signup-form-outer-window').toggle();
-});
-
-</script>

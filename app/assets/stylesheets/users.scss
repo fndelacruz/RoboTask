@@ -8,19 +8,16 @@
 
 .auth-container {
 	height:100vh;
-	// position:absolute;
-  display:none;
+	position:relative;
 }
 
 .auth-outer-window {
-  display:none;
-  color: black;
 	border: 1px solid #1e5d88;
 	background-color: white;
   width: 300px;
-  right: 10%;
+  left: 10%;
   top: 10%;
-	// position:relative;
+	position:relative;
 }
 
 .auth-inner-window {

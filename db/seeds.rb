@@ -193,7 +193,7 @@ def random_job_generator(location)
       ]},
     {"Find a lost item" => [
       "Please help me find my lost #{random_object}.",
-      "Someone stole my #{random_object}. I last saw it at #{location}",
+      "Someone stole my #{random_object}. I last saw it at #{location}.",
       "I can't find my #{random_object}. Can you help me find it?",
       "Misplaced my #{random_object}. I need it found ASAP.",
       "I'm looking for my lost #{random_object} and #{random_object}.",
@@ -208,7 +208,7 @@ def random_job_generator(location)
     ]},
     {"Cook me something" => [
       "Please make me a #{random_food_object} and #{random_food_object} sandwich.",
-      "Make me a #{random_food_object} #{%w(pizza stew chili sausage burger).sample} with extra #{random_food_object}s",
+      "Make me a #{random_food_object} #{%w(pizza stew chili sausage burger).sample} with extra #{random_food_object}s.",
       "Cook me some #{random_food_object} #{%w(soup waffles pancakes eggs omelettes).sample}.",
       "Please boil me some #{random_food_object}s and #{random_food_object}s.",
       "I would like a #{random_food_object} #{%w(pie tart burrito casserole taco).sample}.",
