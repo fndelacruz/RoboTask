@@ -42,10 +42,10 @@ INTERVALS_TIMECODE = [0, 8, 12, 16]
 def generate_random_bio_line
   [
     "I worked for #{rand(2..40)} years as a #{FFaker::Job.title}.",
-    "I used to work as a #{FFaker::Job.title} for #{rand(2..40)} years.",
+    "I worked as a #{FFaker::Job.title} for #{rand(2..40)} years.",
     "#{FFaker::Job.title} was my job title for #{rand(2..40)} years.",
     "I am highly skilled in #{FFaker::Sport.name}.",
-    "My favorite non-work activity is #{FFaker::Sport.name}.",
+    "I enjoy #{FFaker::Sport.name}.",
     "I'm saving up to buy a new #{FFaker::Product.product_name}.",
     "I really need a new #{FFaker::Product.product_name}.",
     "I am fluent in #{FFaker::Locale.language}.",
@@ -57,12 +57,25 @@ def generate_random_bio_line
     "I specialize in #{FFaker::Skill.specialty}.",
     "#{FFaker::Skill.specialty} comes easy to me.",
     "#{FFaker::Product.product_name}s scare me.",
+    "I own a #{random_vehicle}.",
+    "I like to #{FFaker::Sport.name} when I can.",
+    "#{FFaker::HipsterIpsum.word} baffles me.",
+    "I would like #{FFaker::HipsterIpsum.word}, but I like #{FFaker::HipsterIpsum.word} even more.",
+    "I wish I was named #{FFaker::Name.name}.",
+    "#{FFaker::Name.name} is my favorite actor.",
+    "I love watching #{FFaker::Name.name} perform live.",
+    "I once met #{FFaker::Name.name} at a #{FFaker::Sport.name} match.",
+    "I wish I was more like #{FFaker::Name.name}.",
+    "I really like the color #{FFaker::Color.name}.",
+    "My dream is to own a #{%w(random_vehicle random_object random_food_object).sample}.",
+    "I carry a #{random_container} of #{random_object}s wherever I go."
+
   ].sample
 end
 
 def random_bio
   bio = []
-  rand(3..7).times do
+  rand(3..9).times do
     bio << generate_random_bio_line
   end
   bio.join(" ")
@@ -74,9 +87,9 @@ def random_review(is_good)
     "Great job. Finished the job #{rand(2..5)} hours early.",
     "Was excellent at #{FFaker::Sport.name}.",
     "Very good at #{FFaker::Skill.specialty}!",
-    "#{FFaker::Skill.specialty} is this one's specialty",
+    "#{FFaker::Skill.specialty} is this one's specialty.",
     "Found my lost #{FFaker::Food.ingredient}!",
-    "Bought some gourmet #{FFaker::Food.ingredient} thanks!",
+    "Bought some gourmet #{FFaker::Food.ingredient} thanks!.",
     "A+++",
     "A+++++++++",
     "Great job!",
@@ -277,7 +290,7 @@ def random_job_generator(location)
     job_title = job.keys[0]
 
     description = [job.values[0].sample]
-    rand(4..8).times do
+    rand(2..3).times do
       description << job_flavor_text
     end
 
@@ -313,9 +326,9 @@ def job_flavor_text
       "#{FFaker::Name.first_name} robots are preferred.",
       "Special consideration given to #{random_job_title}s.",
       "Driving a #{random_vehicle} would really help.",
-      "Please don't bring #{random_object}s in #{random_container}s",
+      "Please don't bring #{random_object}s in #{random_container}s.",
       "Experience using #{random_food_object} is a plus. Using #{random_food_object}? Even better!",
-      "Attention to #{%w(time detail skill your\ battery\ level temperature spatial\ awareness).sample} is crucial"
+      "Attention to #{%w(time detail skill your\ battery\ level temperature spatial\ awareness).sample} is crucial."
     ].sample
 end
 
