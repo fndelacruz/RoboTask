@@ -187,7 +187,7 @@ def random_job_generator(location)
     {"Wait in line" => [
       "Wait in line here to buy me a #{random_object}.",
       "Wait in line to buy me a #{random_object}.",
-      "Please wait at #{location} to pick up #{random_object}.",
+      "Please wait at #{location} to pick up a #{random_object}.",
       "Stand in line to pickup my tickets to the #{FFaker::Name.name} show.",
       "Hold my spot in line at the #{%w(bank amusement\ park supermarket produce\ stand movie\ theater electronics\ store).sample}."
       ]},
@@ -290,9 +290,7 @@ def random_job_generator(location)
     job_title = job.keys[0]
 
     description = [job.values[0].sample]
-    rand(2..3).times do
-      description << job_flavor_text
-    end
+    rand(2..4).times { |_| description << job_flavor_text }
 
     description = description.join(" ")
 
@@ -303,8 +301,8 @@ def job_flavor_text
   [
       "Could take #{rand(2..14)} hours, please be prepared.",
       "Please bring a #{random_object}.",
-      "No #{FFaker::Name.first_name} robots please.",
-      "#{random_object} and a #{random_object} could come handy.",
+      "No #{FFaker::Name.first_name} or #{FFaker::Name.first_name} robots.",
+      "Bringing a #{random_object} and a #{random_object} could come handy.",
       "FYI, I am allergic to #{random_food_object}s and #{random_food_object}s.",
       "#{random_object} bonus if done well.",
       "Please bring a #{random_object}.",
@@ -319,16 +317,16 @@ def job_flavor_text
       "No #{random_object}s or #{random_object}s!",
       "A #{random_car_part} module should suffice.",
       "#{FFaker::Skill.tech_skill} knowledge is preferred, but not necessary.",
-      "Experience as #{random_job_title} would be great!",
+      "Experience as a #{random_job_title} would be great!",
       "#{random_job_title}s need not apply!",
       "No #{FFaker::Name.last_name} robots please.",
-      "#{FFaker::Name.last_name} robots are preferred.",
+      "#{FFaker::Name.last_name} or #{FFaker::Name.first_name} robots are preferred.",
       "#{FFaker::Name.first_name} robots are preferred.",
       "Special consideration given to #{random_job_title}s.",
       "Driving a #{random_vehicle} would really help.",
       "Please don't bring #{random_object}s in #{random_container}s.",
       "Experience using #{random_food_object} is a plus. Using #{random_food_object}? Even better!",
-      "Attention to #{%w(time detail skill your\ battery\ level temperature spatial\ awareness).sample} is crucial."
+      "Attention to #{%w(time detail skill your\ battery\ level temperature spatial\ awareness).sample} is critical."
     ].sample
 end
 

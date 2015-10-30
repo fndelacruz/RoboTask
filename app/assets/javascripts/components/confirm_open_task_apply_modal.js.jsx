@@ -123,9 +123,7 @@
 
 
                 <h1 className="text-center" id="worker-profile-shortName">Work for {shortName} at §{wage}/hr?</h1>
-                <div className="task-date-scheduled">{dateTime[0]}</div>
-                <div className="task-time-scheduled">{dateTime[1]}</div><br/>
-
+                <div className="task-date-scheduled">{dateTime[0]} {dateTime[1]}</div>
                 <span className="task-title">{task.title}</span><br/>
                 <div className="task-title-divider" />
                 <span className="task-location">{task.location}</span><br/>
