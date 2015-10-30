@@ -258,6 +258,19 @@
 </div>
 
 <script type="text/javascript">
+  if (window.CURRENT_USER_ID) {
+    $("div.splash-page-holder").css('display', "none");
+  } else {
+    $("div.splash-page-holder").css('display', "block");
+  }
+
+  $('.login-button').click(function() {
+    $('#login-form-outer-window').toggle();
+  });
+  $('.create-account-button').click(function() {
+    $('#signup-form-outer-window').toggle();
+  });
+
   $(".thumb-robot").each(function(idx) {
     // debugger
     var url = "https://robohash.org/" + Math.round(Math.random() * 1000) + "?bgset=any";
@@ -353,19 +366,6 @@
     });
   });
 
-
-  if (window.CURRENT_USER_ID) {
-    $("div.splash-page-holder").css('display', "none");
-  } else {
-    $("div.splash-page-holder").css('display', "block");
-  }
-
-  $('.login-button').click(function() {
-    $('#login-form-outer-window').toggle();
-  });
-  $('.create-account-button').click(function() {
-    $('#signup-form-outer-window').toggle();
-  });
 
 </script>
 
