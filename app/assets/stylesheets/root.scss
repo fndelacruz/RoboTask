@@ -54,7 +54,7 @@ form {
 .panel1 {
   position:relative;
   background-color: black;
-  height: 700px;
+  // height: 700px;
   color: white;
 }
 
@@ -75,23 +75,23 @@ form {
 
 .panel1-main {
   text-align: center;
-  margin-top: 150px;
+  margin: 150px 0;
 }
 
-.logo-header {
-  font-size: 200px;
+.panel1-main .header {
+  font-size: 15.25vw;
 }
 
-.logo-tag {
-  font-size: 30px;
-  position: relative;
-  top: -30px;
+.panel1-main .tag {
+  font-size: 2.29vw;
+  // position: relative;
+  // top: -30px;
 }
 
 
 .infosection {
   background: white;
-  height: 100%;
+  // height: 100%;
 }
 .infosection {
   text-align: center;
@@ -143,10 +143,22 @@ form {
 
 
 .divider {
-  height: 500px;
   background-color: black;
+  text-align: center;
+  color: white;
 }
 
+.divider .content {
+  padding:150px 0;
+}
+
+.divider .header {
+  font-size: 7.64vw;
+}
+
+.divider .tag {
+  font-size: 2.65vw;
+}
 .pics {
 
 }

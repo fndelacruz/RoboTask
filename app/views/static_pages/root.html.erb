@@ -125,11 +125,11 @@
 
       </div>
       <div class="panel1-main">
-        <div class="logo-header">
+        <div class="header">
           RoboTask
         </div>
 
-        <div class="logo-tag">
+        <div class="tag">
           Connecting clients who need robots<br/>
           to robots who need money.
         </div>
@@ -189,6 +189,15 @@
     </div>
 
     <div class="row divider">
+      <div class="content">
+        <div class="header">
+          Satisfaction Guaranteed.
+        </div>
+
+        <div class="tag">
+          Or your money back.
+        </div>
+      </div>
     </div>
 
     <div class="row infosection robot">
@@ -249,10 +258,6 @@
 </div>
 
 <script type="text/javascript">
-  window.setInterval(function() {
-    console.log(window.innerWidth);
-  }, 1000)
-
   $(".thumb-robot").each(function(idx) {
     // debugger
     var url = "https://robohash.org/" + Math.round(Math.random() * 1000) + "?bgset=any";
@@ -304,7 +309,28 @@
   });
 
   $(window).resize(function() {
-    $(".thumb").each(function(idx) {
+    $(".thumb-robot").each(function(idx) {
+      if (idx >= 18) {
+        if (window.innerWidth > 1539) {
+          $(this).css("display", "inline")
+        } else {
+          $(this).css("display", "none")
+        }
+      } else if (idx >= 15) {
+        if (window.innerWidth > 1310) {
+          $(this).css("display", "inline")
+        } else {
+          $(this).css("display", "none")
+        }
+      } else if (idx >= 12) {
+        if (window.innerWidth > 1127) {
+          $(this).css("display", "inline")
+        } else {
+          $(this).css("display", "none")
+        }
+      }
+    });
+    $(".thumb-client").each(function(idx) {
       if (idx >= 18) {
         if (window.innerWidth > 1539) {
           $(this).css("display", "inline")
