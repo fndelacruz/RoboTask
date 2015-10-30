@@ -14,7 +14,7 @@
 <% if current_user %>
   <script>
     window.CURRENT_USER_ID = <%= current_user.id %>
-    window.IS_ROBOT = <% current_user.is_robot %>
+    window.IS_ROBOT = <%= current_user.is_robot %>
   </script>
 <% end %>
 
