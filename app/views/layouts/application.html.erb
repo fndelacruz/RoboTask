@@ -14,24 +14,8 @@
 <% if current_user %>
   <script>
     window.CURRENT_USER_ID = <%= current_user.id %>
+    window.IS_ROBOT = <% current_user.is_robot %>
   </script>
-  <!-- logged in as: <%#= current_user.email %> -->
-  <%#= button_to "Logout", session_url, method: :delete %>
-<% else %>
-  <%#= link_to "Signup", new_user_url %>
-  <%#= link_to "Login", new_session_url %>
-<% end %>
-
-<% if flash[:errors] %>
-  <!-- <script>
-    window.FLASH_ERRORS = <%= flash[:errors] %>
-  </script> -->
-<% end %>
-
-<% if flash[:notices] %>
-  <!-- <script>
-    window.FLASH_NOTICES = <%= flash[:notices] %>
-  </script> -->
 <% end %>
 
   <%= yield %>

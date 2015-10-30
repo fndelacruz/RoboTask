@@ -208,7 +208,7 @@ def random_job_generator(location)
     ]},
     {"Cook me something" => [
       "Please make me a #{random_food_object} and #{random_food_object} sandwich.",
-      "Make me a #{random_food_object} #{%w(pizza stew chili sausage burger).sample} with extra #{random_food_object}s.",
+      "Make me a #{random_food_object} #{%w(pizza stew chili sausage burger soup pie).sample} with extra #{random_food_object}s.",
       "Cook me some #{random_food_object} #{%w(soup waffles pancakes eggs omelettes).sample}.",
       "Please boil me some #{random_food_object}s and #{random_food_object}s.",
       "I would like a #{random_food_object} #{%w(pie tart burrito casserole taco).sample}.",

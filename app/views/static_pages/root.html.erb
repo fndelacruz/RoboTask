@@ -137,11 +137,23 @@
     </div>
 
     <div class="row infosection client">
-      <div class="col-xs-12 col-sm-5 pics">
+      <div class="col-xs-12 col-sm-7 pics">
+        <div class="thumb-holder">
+          <img class="thumb thumb-robot thumb-1"/><img class="thumb thumb-robot thumb-2"/><img class="thumb thumb-robot thumb-3"/>
+          <img class="thumb thumb-robot thumb-4"/><img class="thumb thumb-robot thumb-5"/><img class="thumb thumb-robot thumb-5"/>
+          <img class="thumb thumb-robot thumb-6"/><img class="thumb thumb-robot thumb-8"/><img class="thumb thumb-robot thumb-9"/>
+          <img class="thumb thumb-robot thumb-10"/><img class="thumb thumb-robot thumb-11"/><img class="thumb thumb-robot thumb-12"/>
+          <img class="thumb thumb-robot thumb-13"/><img class="thumb thumb-robot thumb-14"/><img class="thumb thumb-robot thumb-15"/>
+          <img class="thumb thumb-robot thumb-16"/><img class="thumb thumb-robot thumb-17"/><img class="thumb thumb-robot thumb-18"/>
+          <img class="thumb thumb-robot thumb-19"/><img class="thumb thumb-robot thumb-20"/><img class="thumb thumb-robot thumb-21"/>
+        </div>
+        <div class="thumb-tagline">
+          We have Robots.
+        </div>
       </div>
-      <div class="col-xs-12 col-sm-7 information">
+      <div class="col-xs-12 col-sm-5 information">
         <div class="header">
-          Looking for Robot help?
+          Need Robot help?
         </div>
         <div class="subheader">
           With RoboTask, it's simple.
@@ -176,11 +188,11 @@
       </div>
     </div>
 
-    <div class="divider">
+    <div class="row divider">
     </div>
 
     <div class="row infosection robot">
-      <div class="col-xs-12 col-sm-7 information">
+      <div class="col-xs-12 col-sm-5 information">
         <div class="header">
           Are you a robot?
         </div>
@@ -216,7 +228,20 @@
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-5 pics">
+      <div class="col-xs-12 col-sm-7 pics">
+        <div class="thumb-holder">
+          <img class="thumb thumb-client thumb-1"/><img class="thumb thumb-client thumb-2"/><img class="thumb thumb-client thumb-3"/>
+          <img class="thumb thumb-client thumb-4"/><img class="thumb thumb-client thumb-5"/><img class="thumb thumb-client thumb-5"/>
+          <img class="thumb thumb-client thumb-6"/><img class="thumb thumb-client thumb-8"/><img class="thumb thumb-client thumb-9"/>
+          <img class="thumb thumb-client thumb-10"/><img class="thumb thumb-client thumb-11"/><img class="thumb thumb-client thumb-12"/>
+          <img class="thumb thumb-client thumb-13"/><img class="thumb thumb-client thumb-14"/><img class="thumb thumb-client thumb-15"/>
+          <img class="thumb thumb-client thumb-16"/><img class="thumb thumb-client thumb-17"/><img class="thumb thumb-client thumb-18"/>
+          <img class="thumb thumb-client thumb-19"/><img class="thumb thumb-client thumb-20"/><img class="thumb thumb-client thumb-21"/>
+        </div>
+        <div class="thumb-tagline">
+          Plenty of Clients.
+        </div>
+
       </div>
 
     </div>
@@ -224,6 +249,85 @@
 </div>
 
 <script type="text/javascript">
+  window.setInterval(function() {
+    console.log(window.innerWidth);
+  }, 1000)
+
+  $(".thumb-robot").each(function(idx) {
+    // debugger
+    var url = "https://robohash.org/" + Math.round(Math.random() * 1000) + "?bgset=any";
+    $(this).attr("src", url)
+    if (idx >= 18) {
+      if (window.innerWidth > 1539) {
+        $(this).css("display", "inline")
+      } else {
+        $(this).css("display", "none")
+      }
+    } else if (idx >= 15) {
+      if (window.innerWidth > 1310) {
+        $(this).css("display", "inline")
+      } else {
+        $(this).css("display", "none")
+      }
+    } else if (idx >= 12) {
+      if (window.innerWidth > 1127) {
+        $(this).css("display", "inline")
+      } else {
+        $(this).css("display", "none")
+      }
+    }
+  });
+
+  $(".thumb-client").each(function(idx) {
+    // debugger
+    var url = "https://robohash.org/" + Math.round(Math.random() * 1000) + "?set=set2&bgset=any";
+    $(this).attr("src", url)
+    if (idx >= 18) {
+      if (window.innerWidth > 1539) {
+        $(this).css("display", "inline")
+      } else {
+        $(this).css("display", "none")
+      }
+    } else if (idx >= 15) {
+      if (window.innerWidth > 1310) {
+        $(this).css("display", "inline")
+      } else {
+        $(this).css("display", "none")
+      }
+    } else if (idx >= 12) {
+      if (window.innerWidth > 1127) {
+        $(this).css("display", "inline")
+      } else {
+        $(this).css("display", "none")
+      }
+    }
+  });
+
+  $(window).resize(function() {
+    $(".thumb").each(function(idx) {
+      if (idx >= 18) {
+        if (window.innerWidth > 1539) {
+          $(this).css("display", "inline")
+        } else {
+          $(this).css("display", "none")
+        }
+      } else if (idx >= 15) {
+        if (window.innerWidth > 1310) {
+          $(this).css("display", "inline")
+        } else {
+          $(this).css("display", "none")
+        }
+      } else if (idx >= 12) {
+        if (window.innerWidth > 1127) {
+          $(this).css("display", "inline")
+        } else {
+          $(this).css("display", "none")
+        }
+      }
+    });
+  });
+
+
   if (window.CURRENT_USER_ID) {
     $("div.splash-page-holder").css('display', "none");
   } else {
