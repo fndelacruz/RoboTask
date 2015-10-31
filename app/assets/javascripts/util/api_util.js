@@ -109,7 +109,7 @@
       $.ajax({
         url: "/api/users/1",
         method: "PATCH",
-        data: { user: userDetails },
+        data: { user: userDetails, field: field },
         success: function(e) {
           if (e.status === "OK") {
             MessageActions.receiveProfileUpdate("Changes saved!", field);

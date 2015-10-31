@@ -16,57 +16,39 @@ class Api::UsersController < ApplicationController
   end
 
   def show
-    work_times_hash = {};
-
-    current_user.work_times.each do |work_time|
-      work_times_hash[work_time.day] ||= {}
-      work_times_hash[work_time.day][work_time.interval] = true
-    end
-
-    WorkTime.days.each do |day|
-      work_times_hash[day] = {} if !work_times_hash[day]
-      WorkTime.intervals.each do |interval|
-        work_times_hash[day][interval] ||= false
-      end
-    end
-    render json: {
-      bio: current_user.bio,
-      work_times: work_times_hash
-    }
   end
 
   def update
-    work_times = params[:user][:workTimes]
-
-    saveStatus = true
-    ActiveRecord::Base.transaction do
-      current_user.bio = params[:user][:bio]
-      saveStatus = current_user.save! ? true : false
-
-      WorkTime.delete_all(["user_id = ?", current_user.id])
-
-      work_times_payload = []
-      work_times.each do |day, intervals|
-        intervals.each do |interval, status|
-          if status == "true"
-            work_times_payload.push({
-              day: day,
-              interval: interval
-            })
+    case params[:field]
+    when "bio"
+      current_user.bio = params[:user]
+      render json: { status: current_user.save ? "OK" : "BAD" }
+    when "workTimes"
+      ActiveRecord::Base.transaction do
+        WorkTime.delete_all(["user_id = ?", current_user.id])
+        work_times_payload = []
+        params[:user].each do |day, intervals|
+          intervals.each do |interval, status|
+            if status == "true"
+              work_times_payload.push({ day: day, interval: interval })
+            end
           end
         end
+
+        if current_user.work_times.create(work_times_payload)
+          render json: {status: "OK"}
+        else
+          render json: {status: "BAD"}
+        end
       end
-
-      saveStatus = current_user.work_times.create!(work_times_payload) && saveStatus
+    when "wage"
+      current_user.wage = params[:user]
+      render json: current_user.save ?  {status: "OK"} : {status: "BAD"}
     end
 
-    if saveStatus
-      render json: {status: "OK"}
-    else
-      render json: {status: "BAD"}
-    end
+
   end
 
   private
-  
+
 end

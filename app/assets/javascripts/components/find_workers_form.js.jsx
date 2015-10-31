@@ -96,10 +96,12 @@
         case "date-time-entry":
           dateAdjustDateTime(this.state.dateTime, e.target.value);
           this.setState({ dateTime: this.state.dateTime });
+          ApiUtil.fetchValidWorkers(this._formattedStateDateTime());
           break;
         case "interval-entry":
           var interval = this.state.interval = e.target.value;
           this.setState({ interval: interval });
+          ApiUtil.fetchValidWorkers(this._formattedStateDateTime());
           break;
         case "open-wage":
           var value = e.target.value;
@@ -112,7 +114,7 @@
           }
           break;
       }
-      root.ApiUtil.fetchValidWorkers(this._formattedStateDateTime());
+
     },
 
     _updateValidWorkers: function() {

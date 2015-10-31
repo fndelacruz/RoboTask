@@ -1,6 +1,8 @@
 (function(root) {
   'use strict';
 
+  var Input = ReactBootstrap.Input;
+
   var ALL_INTERVALS = ["MORNING", "AFTERNOON", "EVENING"];
   var INTERVALS = ["MORNING", "AFTERNOON", "EVENING"];
   var DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
@@ -13,15 +15,18 @@
 
     getInitialState: function() {
       return ({
-        bio: root.WorkerUserStore.getBio(),
+        bio: WorkerUserStore.getBio(),
         bioStatusMessage: "",
         bioStatus: "",
-        bioGlyphOn: false,
 
-        workTimes: root.WorkerUserStore.getWorkTimes(),
+        workTimes: WorkerUserStore.getWorkTimes(),
         workTimesStatusMessage: "",
         workTimesStatus: "",
-        workTimesGlyphOn: false,
+
+        wage: WorkerUserStore.getWage(),
+        wageStatusMessage: "",
+        wageStatus: "",
+
         userIsRobot: "loading",
         userShortName: ""
       });
@@ -36,22 +41,37 @@
 
     _updateProfile: function() {
       this.setState({
-        bio: root.WorkerUserStore.getBio(),
-        workTimes: root.WorkerUserStore.getWorkTimes()
+        bio: WorkerUserStore.getBio(),
+        workTimes: WorkerUserStore.getWorkTimes(),
+        wage: WorkerUserStore.getWage()
       });
     },
 
-    handleBioChange: function(e) {
-      this.setState({ bio: e.target.value });
-    },
+    // handleBioChange: function(e) {
+    //   this.setState({ bio: e.target.value });
+    // },
 
     handleSubmission: function(section) {
-      ApiUtil.updateCurrentUserDetails(this.state, section);
+      switch (section) {
+        case "bio":
+          ApiUtil.updateCurrentUserDetails(this.state.bio, section);
+          break;
+        case "workTimes":
+          ApiUtil.updateCurrentUserDetails(this.state.workTimes, section);
+          break;
+        case "wage":
+          ApiUtil.updateCurrentUserDetails(this.state.wage, section);
+          break;
+      }
     },
 
     _updateStatusMessage: function() {
       var messageAndField = StatusMessageStore.getMessageAndField();
-      this.setState({ bioStatusMessage: "", workTimesStatusMessage: "" });
+      this.setState({
+        bioStatusMessage: "",
+        workTimesStatusMessage: "",
+        wageStatusMessage: ""
+      });
       switch (messageAndField[0]) {
         case "bio":
           this.setState({
@@ -63,6 +83,12 @@
           this.setState({
             workTimesStatusMessage: messageAndField[1],
             workTimesStatus: "OK"
+          });
+          break;
+        case "wage":
+          this.setState({
+            wageStatusMessage: messageAndField[1],
+            wageStatus: "OK"
           });
           break;
         default:
@@ -105,12 +131,16 @@
       if (this._isAnyIntervalTrue(this.state.workTimes[day])) {
         this.state.workTimes[day] = {MORNING: false, AFTERNOON: false, EVENING: false};
         this.setState({
-          workTimes: this.state.workTimes
+          workTimes: this.state.workTimes,
+          workTimesStatusMessage: "",
+          workTimesStatus: ""
         });
       } else {
         this.state.workTimes[day] = {MORNING: true, AFTERNOON: true, EVENING: true};
         this.setState({
-          workTimes: this.state.workTimes
+          workTimes: this.state.workTimes,
+          workTimesStatusMessage: "",
+          workTimesStatus: ""
         });
       }
     },
@@ -121,7 +151,11 @@
       } else {
         this.state.workTimes[day][interval] = true;
       }
-      this.setState({workTimes: this.state.workTimes});
+      this.setState({
+        workTimes: this.state.workTimes,
+        workTimesStatusMessage: "",
+        workTimesStatus: ""
+      });
     },
 
     _countWorkDays: function() {
@@ -166,23 +200,38 @@
       this.history.pushState(null, "/profile/bio");
     },
 
+    handleChange: function(e) {
+      switch (e.target.id) {
+        case "bio-entry":
+          this.setState({ bio: e.target.value, bioStatus: "", bioStatusMessage: "" });
+          break;
+        case "wage":
+          var value = e.target.value;
+          if (value === "") {
+            this.setState({ wage: "" });
+          } else if (!/^\d+$/.test(value)) {
+          } else if (value === "0" && this.state.wage === "") {
+          } else {
+            this.setState({ wage: e.target.value, wageStatus: "", wageStatusMessage: "" });
+          }
+          break;
+      }
+    },
 
     render: function() {
       var workTimes = this.state.workTimes;
       var workTimesDay = Object.keys(workTimes);
-      var statusBioGlyph = this._checkStatus("bio");
-      var statusWorkTimesGlyph = this._checkStatus("workTimes");
       var that = this;
       return (
         <div>
           <div className="panel">
             <div>
-              {statusBioGlyph}
+              {this._checkStatus("bio")}
               <label htmlFor="bio-entry">How can you help?</label>
               <textarea
                 className="form-control"
                 value={this.state.bio}
-                onChange={this.handleBioChange}
+                onChange={this.handleChange}
                 id="bio-entry"
                 placeholder="Example: I've been a food delivery robot for 20 years. I know the ins and outs about everything food delivery related. I also have extensive experience finding lost pets, buying cat food, and piloting spacecraft."
               />
@@ -200,7 +249,7 @@
           </div>
 
           <div className="form-group panel">
-            {statusWorkTimesGlyph}
+            {this._checkStatus("workTimes")}
             <label htmlFor="worktimes-entry">Select your work time availability.</label><br/>
             {(this._countWorkDays() === 0) ? "No work times selected." : ""}
 
@@ -261,6 +310,32 @@
               </div>
            </div>
           </div>
+
+          <div className="panel">
+            <div>
+              {this._checkStatus("wage")}
+              <label htmlFor="wage">How much will you charge per hour?</label>
+              <Input
+                type="text"
+                value={this.state.wage}
+                onChange={this.handleChange}
+                addonBefore="§"
+                addonAfter="/ hr"
+                id="wage"
+                />
+              <div className="profile-section-footer">
+                <Button
+                  bsStyle="primary"
+                  bsSize="medium"
+                  id="profile-save-button"
+                  onClick={this.handleSubmission.bind(null, "wage")}>
+                Update Wage
+                </Button>
+                <span className="profile-status-message">{this.state.wageStatusMessage} </span>
+              </div>
+            </div>
+          </div>
+
         </div>
       );
     }

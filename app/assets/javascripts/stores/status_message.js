@@ -27,6 +27,7 @@
     dispatcherId: AppDispatcher.register(function(payload) {
       switch (payload.actionType) {
         case StatusMessageConstants.RECEIVE_NEW_MESSAGE:
+          debugger
           _resetMessage(payload.action, payload.field);
           break;
       }

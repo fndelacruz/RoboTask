@@ -14,10 +14,12 @@
   var _workTimes = {};
   var _bio = "";
   var _flashProfile = "";
+  var _wage = "";
 
   var _resetCurrentUserDetails = function(details) {
     _bio = details.bio;
     _workTimes = details.work_times;
+    _wage = details.wage;
     WorkerUserStore.emit(CURRENT_USER_DETAILS_CHANGE_EVENT);
   };
 
@@ -68,6 +70,10 @@
 
     getWorkTimes: function() {
       return _workTimes;
+    },
+
+    getWage: function() {
+      return _wage;
     },
 
     addChangeListener: function(callback) {
