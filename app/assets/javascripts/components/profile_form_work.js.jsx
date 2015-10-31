@@ -6,6 +6,7 @@
   var ALL_INTERVALS = ["MORNING", "AFTERNOON", "EVENING"];
   var INTERVALS = ["MORNING", "AFTERNOON", "EVENING"];
   var DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+  var CATEGORIES = ["bio", "workTimes", "wage"];
 
   var Button = ReactBootstrap.Button;
   var Glyphicon = ReactBootstrap.Glyphicon;
@@ -39,17 +40,13 @@
       });
     },
 
-    _updateProfile: function() {
+    updateProfile: function() {
       this.setState({
         bio: WorkerUserStore.getBio(),
         workTimes: WorkerUserStore.getWorkTimes(),
         wage: WorkerUserStore.getWage()
       });
     },
-
-    // handleBioChange: function(e) {
-    //   this.setState({ bio: e.target.value });
-    // },
 
     handleSubmission: function(section) {
       switch (section) {
@@ -60,51 +57,42 @@
           ApiUtil.updateCurrentUserDetails(this.state.workTimes, section);
           break;
         case "wage":
-          ApiUtil.updateCurrentUserDetails(this.state.wage, section);
+          if (this.state.wage === "") {
+            this.setState({
+              wageStatus: "error",
+              wageStatusMessage: "Can't be blank."
+            });
+          } else {
+            ApiUtil.updateCurrentUserDetails(this.state.wage, section);
+          }
           break;
       }
     },
 
-    _updateStatusMessage: function() {
-      var messageAndField = StatusMessageStore.getMessageAndField();
-      this.setState({
-        bioStatusMessage: "",
-        workTimesStatusMessage: "",
-        wageStatusMessage: ""
+    updateStatusMessage: function() {
+      var status = StatusMessageStore.fetch();
+      var state = {};
+      CATEGORIES.forEach(function(category) {
+        if (status.field === category) {
+          state[category + "Status"] = status.status;
+          state[category + "StatusMessage"] = status.message;
+        } else {
+          state[category + "StatusMessage"] = "";
+          state[category + "Status"] = "";
+        }
       });
-      switch (messageAndField[0]) {
-        case "bio":
-          this.setState({
-            bioStatusMessage: messageAndField[1],
-            bioStatus: "OK"
-          });
-          break;
-        case "workTimes":
-          this.setState({
-            workTimesStatusMessage: messageAndField[1],
-            workTimesStatus: "OK"
-          });
-          break;
-        case "wage":
-          this.setState({
-            wageStatusMessage: messageAndField[1],
-            wageStatus: "OK"
-          });
-          break;
-        default:
-
-      }
+      this.setState(state);
     },
 
     componentDidMount: function() {
       ApiUtil.fetchCurrentUserDetails();
-      WorkerUserStore.addCurrentUserChangeListener(this._updateProfile);
-      StatusMessageStore.addNewStatusMessageListener(this._updateStatusMessage);
+      WorkerUserStore.addCurrentUserChangeListener(this.updateProfile);
+      StatusMessageStore.addNewStatusMessageListener(this.updateStatusMessage);
     },
 
     componentWillUnmount: function() {
-      WorkerUserStore.removeCurrentUserChangeListener(this._updateProfile);
-      StatusMessageStore.removeNewStatusMessageListener(this._updateStatusMessage);
+      WorkerUserStore.removeCurrentUserChangeListener(this.updateProfile);
+      StatusMessageStore.removeNewStatusMessageListener(this.updateStatusMessage);
     },
 
     handleClick: function(e) {
@@ -113,7 +101,6 @@
         this._toggleDay(id[1]);
       } else if (id.length === 3) {
         this._toggleInterval(id[1], id[2]);
-      } else {
       }
     },
 
@@ -161,7 +148,6 @@
     _countWorkDays: function() {
       var count = 0;
       var workTimes = this.state.workTimes;
-      var workTimesDay = Object.keys(workTimes);
       DAYS.forEach(function(day) {
         var isDaySelected = false;
         if (workTimes[day]) {
@@ -179,20 +165,24 @@
       return count;
     },
 
-    _checkStatus: function(field) {
-      if (this.state[field + "Status"] === "OK") {
-        return (
-          <Glyphicon
-            glyph="ok"
-            className="profile-icon"
-            id="icon-ok" />
-        );
-      } else {
-        return (
-          <Glyphicon
-            glyph="pencil"
-            className="profile-icon" />
-        );
+    checkStatus: function(field) {
+      var status = this.state[field + "Status"];
+      var that = this;
+      switch (status) {
+        case "success":
+          return <Glyphicon glyph="ok" className="profile-icon success" />;
+        case "error":
+          return <Glyphicon glyph="remove" className="profile-icon error" />;
+        case "warning":
+          root.setTimeout(function() {
+            var state = {};
+            state[field + "StatusMessage"] = "";
+            state[field + "Status"] = "";
+            that.setState(state);
+          }, 2000);
+          return <Glyphicon glyph="warning-sign" className="profile-icon warning" />;
+        case "":
+          return <Glyphicon glyph="pencil" className="profile-icon" />;
       }
     },
 
@@ -210,7 +200,9 @@
           if (value === "") {
             this.setState({ wage: "" });
           } else if (!/^\d+$/.test(value)) {
+            this.setState({ wageStatus: "warning", wageStatusMessage: "Integer numbers only." });
           } else if (value === "0" && this.state.wage === "") {
+            this.setState({ wageStatus: "warning", wageStatusMessage: "Can't start with 0." });
           } else {
             this.setState({ wage: e.target.value, wageStatus: "", wageStatusMessage: "" });
           }
@@ -218,20 +210,28 @@
       }
     },
 
+    handleStatusMessage: function(field) {
+      var status = this.state[field + "Status"];
+      var statusMessage = this.state[field + "StatusMessage"];
+      var className = "profile-status-message " + status;
+      return <span className={className}>{statusMessage}</span>;
+    },
+
     render: function() {
       var workTimes = this.state.workTimes;
-      var workTimesDay = Object.keys(workTimes);
       var that = this;
       return (
         <div>
           <div className="panel">
             <div>
-              {this._checkStatus("bio")}
+              {this.checkStatus("bio")}
               <label htmlFor="bio-entry">How can you help?</label>
-              <textarea
+              <Input
+                type="textarea"
                 className="form-control"
                 value={this.state.bio}
                 onChange={this.handleChange}
+                bsStyle={this.state.bioStatus}
                 id="bio-entry"
                 placeholder="Example: I've been a food delivery robot for 20 years. I know the ins and outs about everything food delivery related. I also have extensive experience finding lost pets, buying cat food, and piloting spacecraft."
               />
@@ -243,17 +243,15 @@
                   onClick={this.handleSubmission.bind(null, "bio")}>
                 Update Bio
                 </Button>
-                <span className="profile-status-message">{this.state.bioStatusMessage} </span>
+                {this.handleStatusMessage("bio")}
               </div>
             </div>
           </div>
 
           <div className="form-group panel">
-            {this._checkStatus("workTimes")}
+            {this.checkStatus("workTimes")}
             <label htmlFor="worktimes-entry">Select your work time availability.</label><br/>
             {(this._countWorkDays() === 0) ? "No work times selected." : ""}
-
-
             <div className="worktimes-entry" id="">
               {DAYS.map(function(day) {
                 var isDaySelected = false;
@@ -306,14 +304,14 @@
                   onClick={this.handleSubmission.bind(null, "workTimes")}>
                 Update Work Times
                 </Button>
-                <span className="profile-status-message">{this.state.workTimesStatusMessage}</span>
+                {this.handleStatusMessage("workTimes")}
               </div>
            </div>
           </div>
 
           <div className="panel">
             <div>
-              {this._checkStatus("wage")}
+              {this.checkStatus("wage")}
               <label htmlFor="wage">How much will you charge per hour?</label>
               <Input
                 type="text"
@@ -321,6 +319,7 @@
                 onChange={this.handleChange}
                 addonBefore="§"
                 addonAfter="/ hr"
+                bsStyle={this.state.wageStatus}
                 id="wage"
                 />
               <div className="profile-section-footer">
@@ -331,11 +330,10 @@
                   onClick={this.handleSubmission.bind(null, "wage")}>
                 Update Wage
                 </Button>
-                <span className="profile-status-message">{this.state.wageStatusMessage} </span>
+                {this.handleStatusMessage("wage")}
               </div>
             </div>
           </div>
-
         </div>
       );
     }

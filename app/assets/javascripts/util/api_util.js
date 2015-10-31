@@ -111,12 +111,13 @@
         method: "PATCH",
         data: { user: userDetails, field: field },
         success: function(e) {
-          if (e.status === "OK") {
-            MessageActions.receiveProfileUpdate("Changes saved!", field);
-          } else if (e.status === "BAD") {
-            MessageActions.receiveProfileUpdate("Error saving changes!", field);
-          } else {
-          }
+          MessageActions.receiveProfileUpdateStatus(e.status, field);
+          // if (e.status === "error") {
+          //   MessageActions.receiveProfileUpdate("Changes saved!", field);
+          // } else if (e.status === "success") {
+          //   MessageActions.receiveProfileUpdate("Error saving changes!", field);
+          // } else {
+          // }
         }
       });
     },

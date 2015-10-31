@@ -11,8 +11,19 @@
 }
 .profile-status-message {
   margin-left: 15px;
-  color: rgb(0,128,0);
   font-weight:bold;
+}
+
+.success {
+  color: rgb(0,128,0);
+}
+
+.error {
+  color: #800000;
+}
+
+.warning {
+  color:rgb(138, 109, 59)
 }
 .form-group {
   margin-bottom: 0;

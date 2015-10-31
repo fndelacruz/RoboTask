@@ -22,7 +22,7 @@ class Api::UsersController < ApplicationController
     case params[:field]
     when "bio"
       current_user.bio = params[:user]
-      render json: { status: current_user.save ? "OK" : "BAD" }
+      render json: { status: current_user.save ? "success" : "error" }
     when "workTimes"
       ActiveRecord::Base.transaction do
         WorkTime.delete_all(["user_id = ?", current_user.id])
@@ -36,14 +36,14 @@ class Api::UsersController < ApplicationController
         end
 
         if current_user.work_times.create(work_times_payload)
-          render json: {status: "OK"}
+          render json: {status: "success"}
         else
-          render json: {status: "BAD"}
+          render json: {status: "error"}
         end
       end
     when "wage"
       current_user.wage = params[:user]
-      render json: current_user.save ?  {status: "OK"} : {status: "BAD"}
+      render json: current_user.save ?  {status: "success"} : {status: "error"}
     end
 
 
