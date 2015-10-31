@@ -210,7 +210,7 @@
             <div className="panel" id="find-workers-header">
               Select Task Date Time and Choose RoboTasker
             </div>
-            <div className="col-xs-12 col-sm-3 affix">
+            <div className="col-xs-12 col-sm-3">
               <div className="panel">
                 <h5
                   className="component-container-heading"
@@ -293,7 +293,7 @@
             </div>
 
 
-            <div className="col-xs-12 col-sm-9 col-sm-offset-3" id="find-workers-form-container">
+            <div className="col-xs-12 col-sm-9" id="find-workers-form-container">
               <div className="panel" id="find-workers-form-items-header">
                 {workers.length} RoboTaskers found!
               </div>
