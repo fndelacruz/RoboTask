@@ -24,20 +24,6 @@ HOUR_TO_INTERVAL = {
 }
 
 INTERVALS_TIMECODE = [0, 8, 12, 16]
-# def random_title
-#   random_titles = [
-#     "#{Faker::Hacker.verb} the #{Faker::Hacker.adjective} #{Faker::Hacker.abbreviation}",
-#     "#{Faker::Hacker.noun}s. #{Faker::Hacker.verb} the #{Faker::Hacker.adjective} #{Faker::Hacker.abbreviation}",
-#     "#{Faker::Hacker.noun}s, #{Faker::Hacker.noun}s, and #{Faker::Hacker.noun}s",
-#     "#{Faker::Hacker.adjective} #{Faker::Hacker.noun} with a #{Faker::Hacker.adjective}",
-#     "#{Faker::Hacker.ingverb} a #{Faker::Hacker.adjective} #{Faker::Hacker.adjective} #{Faker::Hacker.noun}",
-#     "#{Faker::Hacker.ingverb} a #{Faker::Hacker.adjective} #{Faker::Hacker.noun}",
-#     "#{Faker::Hacker.verb} the #{Faker::Hacker.verb}",
-#     "#{Faker::Hacker.ingverb} #{Faker::Hacker.adjective} #{Faker::Hacker.noun}",
-#     "#{Faker::Hacker.noun}s, #{Faker::Hacker.noun}s, and a #{Faker::Hacker.adjective} #{Faker::Hacker.adjective} #{Faker::Hacker.noun}"
-#   ]
-#   random_titles[rand(random_titles.length)].capitalize
-# end
 
 def generate_random_bio_line
   [
@@ -50,15 +36,15 @@ def generate_random_bio_line
     "I really need a new #{FFaker::Product.product_name}.",
     "I am fluent in #{FFaker::Locale.language}.",
     "I was a #{FFaker::Locale.language} translator for #{rand(2..40)} years.",
-    "I am fond of #{FFaker::HipsterIpsum.word}.",
-    "I dislike #{FFaker::HipsterIpsum.word}.",
+    "I am fond of #{FFaker::HipsterIpsum.word}s.",
+    "I dislike #{FFaker::HipsterIpsum.word}s.",
     "Occasionally, I like to eat a #{FFaker::Food.ingredient}.",
     "I cannot tolerate #{FFaker::Food.ingredient}.",
     "I specialize in #{FFaker::Skill.specialty}.",
     "#{FFaker::Skill.specialty} comes easy to me.",
     "#{FFaker::Product.product_name}s scare me.",
     "I own a #{random_vehicle}.",
-    "I like to #{FFaker::Sport.name} when I can.",
+    "I enjoy #{FFaker::Sport.name} whenever I can.",
     "#{FFaker::HipsterIpsum.word} baffles me.",
     "I would like #{FFaker::HipsterIpsum.word}, but I like #{FFaker::HipsterIpsum.word} even more.",
     "I wish I was named #{FFaker::Name.name}.",
@@ -66,9 +52,14 @@ def generate_random_bio_line
     "I love watching #{FFaker::Name.name} perform live.",
     "I once met #{FFaker::Name.name} at a #{FFaker::Sport.name} match.",
     "I wish I was more like #{FFaker::Name.name}.",
-    "I really like the color #{FFaker::Color.name}.",
-    "My dream is to own a #{%w(random_vehicle random_object random_food_object).sample}.",
-    "I carry a #{random_container} of #{random_object}s wherever I go."
+    "I like the color #{FFaker::Color.name}.",
+    "My dream is to own a #{[random_vehicle random_object random_food_object].sample}.",
+    "I carry a #{random_container} of #{random_object}s wherever I go.",
+    "I am known for my premium #{random_car_part}.",
+    "I am augmented with extra #{random_object}s.",
+    "Sorry, I can't work with #{random_object}s.",
+    "I am the new #{FFaker::Name.name} bot.",
+    ""
 
   ].sample
 end
@@ -326,7 +317,8 @@ def job_flavor_text
       "Driving a #{random_vehicle} would really help.",
       "Please don't bring #{random_object}s in #{random_container}s.",
       "Experience using #{random_food_object} is a plus. Using #{random_food_object}? Even better!",
-      "Attention to #{%w(time detail skill your\ battery\ level temperature spatial\ awareness).sample} is critical."
+      "Attention to #{%w(time detail skill your\ battery\ level temperature spatial\ awareness).sample} is critical.",
+
     ].sample
 end
 

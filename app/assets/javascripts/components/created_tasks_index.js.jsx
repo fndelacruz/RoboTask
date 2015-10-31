@@ -69,7 +69,7 @@
           <li
             role="presentation"
             onClick={this.openTab.bind(null, "worker_active")}
-            className={activeTab === "worker_ active" ? "active" : ""}>
+            className={activeTab === "worker_active" ? "active" : ""}>
             <a className="task-tabs">Active  <span className={activeClass}>{assignedCount}</span></a>
           </li>
         );
@@ -110,7 +110,7 @@
 
 
     render: function() {
-      var activeTab = this.state.activeTab;
+      // var activeTab = this.state.activeTab;
       var activeTab = this.props.location.pathname.match(/\/(\w+)$/)[1];
       var unassignedCount = CreatedTaskStore.allIncompleteUnassigned().length;
       var assignedCount = "";
