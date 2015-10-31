@@ -43,20 +43,22 @@
             <div className="task-title-divider" />
             <span className="task-location">{task.location}</span><br/>
             <span className="task-description">{task.description}</span><br/>
-            <div id="find-tasks-index-item-creator-holder">
-              <img
-                className=""
-                id="find-tasks-index-item-creator-pic"
-                src={task.creator.image} />
-              <div id="find-tasks-index-item-creator-name">{task.creator.shortName}</div>
+            <div className="footer">
+              <div id="find-tasks-index-item-creator-holder">
+                <img
+                  className=""
+                  id="find-tasks-index-item-creator-pic"
+                  src={task.creator.image} />
+                <div id="find-tasks-index-item-creator-name">{task.creator.shortName}</div>
 
-            </div>
-            <div className="apply-button-holder">
-              <ConfirmOpenTaskApplyModal
-                applyToTask={this.props.applyToTask.bind(null, this.props.workableTask)}
-                task={this.props.workableTask}
-                resetAssignmentStatus={this.props.resetAssignmentStatus}
-               />
+              </div>
+              <div className="apply-button-holder">
+                <ConfirmOpenTaskApplyModal
+                  applyToTask={this.props.applyToTask.bind(null, this.props.workableTask)}
+                  task={this.props.workableTask}
+                  resetAssignmentStatus={this.props.resetAssignmentStatus}
+                 />
+              </div>
             </div>
           </div>
         </div>
