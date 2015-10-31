@@ -38,6 +38,13 @@
             animation: root.google.maps.Animation.DROP,
             title: task.description
           });
+          marker.addListener('click', function() {
+            var container = $("#workable-tasks-holder");
+            var scrollTo = $("#task-" + task.id);
+            container.animate({
+              scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
+            });
+          });
           taskIdsWithMarkers.push(taskId);
           taskIdMarkerDirectory[taskId] = marker;
         }
@@ -68,9 +75,9 @@
       };
       this.map = new root.google.maps.Map(map, mapOptions);
       this.listenForMove();
-      this.listenForMapClick();
+      // this.listenForMapClick();
       TaskMapHighLightStore.addChangeListener(this._handleMarkerHighlight);
-
+      TaskMapHighLightStore.addZoomListener(this.zoomToTask);
     },
 
     componentWillReceiveProps: function(tasks) {
@@ -80,6 +87,7 @@
 
     componentWillUnmount: function() {
       TaskMapHighLightStore.removeChangeListener(this._handleMarkerHighlight);
+      TaskMapHighLightStore.removeZoomListener(this.zoomToTask);
       taskIdsWithMarkers = [];
       taskIdMarkerDirectory = {};
     },
@@ -101,14 +109,16 @@
       FilterActions.updateBounds(bounds);
     },
 
-    listenForMapClick: function() {
-      root.google.maps.event.addListener(this.map, 'click', this._clicky);
-    },
+    // listenForMapClick: function() {
+    //   root.google.maps.event.addListener(this.map, 'click', this._clicky);
+    // },
+    //
+    // _clicky: function() {
+    // },
 
-    handleMapClick: function (e) {
-    },
-
-    _clicky: function() {
+    zoomToTask: function() {
+      this.map.panTo(TaskMapHighLightStore.getZoomLatLng());
+      this.map.setZoom(18);
     },
 
     render: function() {

@@ -15,5 +15,12 @@
         taskId: taskId
       });
     },
+
+    zoomToTask: function(latLng) {
+      AppDispatcher.dispatch({
+        actionType: TaskMapConstants.ZOOM_TO_TASK,
+        latLng: ({lat: latLng.lat, lng: latLng.lng})
+      });
+    }
   };
 }(this));

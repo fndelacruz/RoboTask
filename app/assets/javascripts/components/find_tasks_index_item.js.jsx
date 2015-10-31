@@ -17,13 +17,19 @@
       TaskMapActions.taskHighlightOff(task.id);
     },
 
+    handleClick: function(task) {
+      TaskMapActions.zoomToTask({ lat: task.lat, lng: task.lng });
+    },
+
     render: function() {
       var task = this.props.workableTask;
       return (
         <div
-          className="panel"
+          className="panel workable-task-item"
           onMouseEnter={this.handleMouseOver.bind(null, task)}
           onMouseLeave={this.handleMouseOut.bind(null, task)}
+          onClick={this.handleClick.bind(null, task)}
+          id={"task-" + task.id}
         >
           <div
             className="row"
