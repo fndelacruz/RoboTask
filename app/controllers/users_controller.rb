@@ -17,7 +17,7 @@ class UsersController < ApplicationController
       flash[:create_account_errors] ||= []
       flash[:create_account_errors].concat(@user.errors.full_messages)
     end
-      redirect_to "/"
+    redirect_to root_url(user: user_params.reject { |k,_| k == "password" })
   end
 
   def show

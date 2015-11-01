@@ -1,6 +1,4 @@
 <div id="static-root"></div>
-
-
 <div class="splash-page-holder">
   <div class="container-fluid">
     <div class="row panel1">
@@ -21,6 +19,7 @@
                   type="text"
                   name="user[fname]"
                   class="form-control"
+                  value=<%= params[:user][:fname] if params[:user] %>
                 ><br>
               </div>
 
@@ -30,6 +29,7 @@
                   type="text"
                   name="user[lname]"
                   class="form-control"
+                  value=<%= params[:user][:fname] if params[:user] %>
                 ><br>
               </div>
 
@@ -39,6 +39,7 @@
                   type="text"
                   name="user[email]"
                   class="form-control"
+                  value=<%= params[:user][:email] if params[:user] %>
                 ><br>
               </div>
 
@@ -52,11 +53,13 @@
                 ><br>
               </div>
 
-              <input type="radio" name="user[is_robot]" id="is_robot_true" value=false>
+              <input type="radio" name="user[is_robot]" id="is_robot_true" value=false
+                <%= "checked" if params[:user] && params[:user][:is_robot] == "false" %>>
               <label for="is_robot_true">I seek robot help.</label>
               <br>
 
-              <input type="radio" name="user[is_robot]" id="is_robot_true" value=true>
+              <input type="radio" name="user[is_robot]" id="is_robot_true" value=true
+                <%= "checked" if params[:user] && params[:user][:is_robot] == "true" %>>
               <label for="is_robot_false">I'm a robot looking for work.</label>
               <br>
 

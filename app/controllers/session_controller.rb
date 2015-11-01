@@ -15,7 +15,7 @@ class SessionController < ApplicationController
       flash[:login_errors] ||= []
       flash[:login_errors] << "We don't recognize your email address or password. Please try again."
     end
-      redirect_to "/"
+      redirect_to root_url(session: session_params["email"])
   end
 
   def destroy
