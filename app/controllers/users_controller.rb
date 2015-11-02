@@ -13,11 +13,12 @@ class UsersController < ApplicationController
     @user.lname = @user.lname.capitalize
     if @user.save
       login(@user)
+      redirect_to root_url
     else
       flash[:create_account_errors] ||= []
       flash[:create_account_errors].concat(@user.errors.full_messages)
+      redirect_to root_url(user: user_params.reject { |k,_| k == "password" })
     end
-    redirect_to root_url(user: user_params.reject { |k,_| k == "password" })
   end
 
   def show
