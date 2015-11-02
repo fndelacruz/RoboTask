@@ -48,4 +48,7 @@
       }
     })
   });
+
+  WorkableTaskStore.setMaxListeners(0);
+
 }(this));

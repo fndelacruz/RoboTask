@@ -153,4 +153,6 @@
     })
   });
 
+  CreatedTaskStore.setMaxListeners(0);
+
 }(this));

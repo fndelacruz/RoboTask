@@ -110,6 +110,20 @@
       }
     },
 
+    handleInput: function() {
+      return (
+        <Input
+          type="text"
+          id="home-page-task-input"
+          value={this.state.newTaskTitle}
+          placeholder={"Example: " + RandomTasks.titles[Math.floor(Math.random() * RandomTasks.titles.length)]}
+          onChange={this.handleChange}
+          bsStyle={this.state.newTaskTitleStatus}
+          onKeyDown={this.handleKeyDown}
+          hasFeedback />
+      );
+    },
+
     _header: function() {
       if (Object.keys(CurrentUserStore.all()).length !== 0) {
         var options = CurrentUserStore.all();
@@ -125,15 +139,7 @@
             {options.isRobot === false ?
               <div className="panel home-sub-header" id="task-create-welcome">
                 How can we help you?<br/>
-                <Input
-                  type="text"
-                  id="home-page-task-input"
-                  value={this.state.newTaskTitle}
-                  placeholder={"Example: " + RandomTasks.titles[Math.floor(Math.random() * RandomTasks.titles.length)]}
-                  onChange={this.handleChange}
-                  bsStyle={this.state.newTaskTitleStatus}
-                  onKeyDown={this.handleKeyDown}
-                  hasFeedback />
+                {this.handleInput()}
                 <Button
                   className="home-task-create-button"
                   bsStyle="primary"

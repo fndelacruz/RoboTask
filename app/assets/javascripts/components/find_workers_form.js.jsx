@@ -152,7 +152,7 @@
 
     componentWillUnmount: function() {
       CreatedTaskStore.removeAssignTaskOpenOKListener(this._updateOpenTaskStatus);
-      root.WorkerUserStore.removeChangeListener(this._updateValidWorkers);
+      WorkerUserStore.removeChangeListener(this._updateValidWorkers);
     },
 
     chooseWorker: function(task, worker) {

@@ -44,4 +44,6 @@
     })
   });
 
+  ReviewStore.setMaxListeners(0);
+
 }(this));
