@@ -36,24 +36,32 @@ gem 'ffaker'
 gem 'react-rails', '1.3.0'
 gem 'flux-rails-assets', '1.0.1'
 
-gem 'react-bootstrap-rails'
+gem 'react-bootstrap-rails', '0.23.7'
 gem 'bootstrap-sass'
 gem 'faker'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-
+  gem 'rspec-rails', '~> 3.0'
+  gem 'capybara'
   gem 'factory_girl_rails'
+  gem 'shoulda-matchers'
+
+  gem 'spring'
+
+  gem 'launchy'
+  gem 'pry-rails'
+  gem 'capybara-screenshot'
+  gem 'selenium-webdriver'
+  gem 'capybara-webkit'
 end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
 
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
-
-  gem 'pry-rails'
+  gem 'spring-commands-rspec'
+  gem 'guard-rspec'
   gem 'annotate'
   gem 'better_errors'
   gem 'binding_of_caller'

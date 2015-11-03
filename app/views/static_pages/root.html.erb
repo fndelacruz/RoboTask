@@ -19,6 +19,7 @@
                   type="text"
                   name="user[fname]"
                   class="form-control"
+                  id="user-fname"
                   value=<%= params[:user][:fname] if params[:user] %>
                 ><br>
               </div>
@@ -29,6 +30,7 @@
                   type="text"
                   name="user[lname]"
                   class="form-control"
+                  id="user-lname"
                   value=<%= params[:user][:fname] if params[:user] %>
                 ><br>
               </div>
@@ -39,6 +41,7 @@
                   type="text"
                   name="user[email]"
                   class="form-control"
+                  id="user-email"
                   value=<%= params[:user][:email] if params[:user] %>
                 ><br>
               </div>
@@ -81,7 +84,7 @@
         </div>
 
 
-        <div class="login-button">
+        <div class="login-button" id="login-button">
           Login
         </div>
 

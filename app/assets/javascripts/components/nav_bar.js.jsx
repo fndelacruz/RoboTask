@@ -99,14 +99,14 @@
         return (<li><a><strong>Loading</strong></a></li>);
       } else if (userIsRobot === true) {
         return (
-          <li
-            onClick={this.handleFindTaskClick}><a><strong>Open Task Search</strong></a>
+          <li>
+            <a href="/#/findtasks"><strong>Open Task Search</strong></a>
           </li>
         );
       } else {
         return (
-          <li
-            onClick={this.handleCreateTaskClick}><a><strong>New Task</strong></a>
+          <li>
+            <a href="/#/task/new"><strong>New Task</strong></a>
           </li>
         );
       }
@@ -122,16 +122,14 @@
       var activeClass = "badge" + ((assignedCount > 0) ? " badge-active-nonempty" : "");
       if (this.state.userIsRobot === false) {
         return (
-          <li
-            onClick={this.handleTaskClick.bind(null, "active")}>
-            <a>Active:<span className={activeClass}>{assignedCount}</span></a>
+          <li>
+            <a href="/#/tasks/created/active">Active:<span className={activeClass}>{assignedCount}</span></a>
           </li>
         );
       } else if (this.state.userIsRobot === true) {
         return (
-          <li
-            onClick={this.handleTaskClick.bind(null, "worker_active")}>
-            <a>Active:<span className={activeClass}>{assignedCount}</span></a>
+          <li>
+            <a href="/#/tasks/created/worker_active">Active:<span className={activeClass}>{assignedCount}</span></a>
           </li>
         );
       }
@@ -216,17 +214,19 @@
                     data-toggle="dropdown"
                     role="button"
                     aria-haspopup="true"
-                    aria-expanded="false">
+                    aria-expanded="false"
+                    id="my-account">
                     My Account
                     <span className="caret"></span>
                   </a>
                   <ul className="dropdown-menu">
-                    <li
-                      onClick={this.handleProfileClick}><a>Edit Profile</a>
+                    <li>
+                      <a href="/#/profile">Edit Profile</a>
                     </li>
                     <li role="separator" className="divider"></li>
                     <li
-                      onClick={this.handleLogoutClick}><a>Log Out</a>
+                      onClick={this.handleLogoutClick}>
+                      <a href="#" role="button"id="log-out">Log Out</a>
                     </li>
                   </ul>
                 </li>
