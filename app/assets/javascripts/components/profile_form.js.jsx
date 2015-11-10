@@ -9,25 +9,9 @@
 
     getInitialState: function() {
       return ({
-        userIsRobot: "loading",
-        userShortName: ""
-      });
-    },
-
-    updateUserType: function() {
-      this.setState({
         userIsRobot: CurrentUserStore.all().isRobot,
         userShortName: CurrentUserStore.all().shortName
       });
-    },
-
-    componentDidMount: function() {
-      ApiUtil.fetchCurrentUserSetup();
-      CurrentUserStore.addChangeListener(this.updateUserType);
-    },
-
-    componentWillUnmount: function() {
-      CurrentUserStore.removeChangeListener(this.updateUserType);
     },
 
     handleGeneralClick: function() {
@@ -53,17 +37,11 @@
     },
 
     render: function() {
-      var workTimes = this.state.workTimes;
-      var header = "";
-      if (this.state.userIsRobot !== "loading") {
-        header = this.state.userShortName + "'s Account Settings";
-      }
-
       return (
         <div className="container">
           <div className="component-container" id="profile-form">
             <div className="section-heading-banner panel">
-              {header}
+              {this.state.userShortName + "'s Account Settings"}
             </div>
 
             <div className="panel col-xs-12 col-sm-3">
@@ -73,7 +51,6 @@
             <div className="col-xs-12 col-sm-9">
               {this.props.children}
             </div>
-
 
           </div>
         </div>

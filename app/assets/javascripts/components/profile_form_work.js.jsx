@@ -27,16 +27,6 @@
         wage: WorkerUserStore.getWage(),
         wageStatusMessage: "",
         wageStatus: "",
-
-        userIsRobot: "loading",
-        userShortName: ""
-      });
-    },
-
-    updateUserType: function() {
-      this.setState({
-        userIsRobot: CurrentUserStore.all().isRobot,
-        userShortName: CurrentUserStore.all().shortName
       });
     },
 

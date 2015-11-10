@@ -10,6 +10,11 @@ $(function() {
       mixins: [ReactRouter.History],
       componentDidMount: function() {
         ApiUtil.fetchCurrentUserSetup();
+        CurrentUserStore.addChangeListener(this.updateUserDetails);
+      },
+
+      componentWillUnmount: function() {
+        CurrentUserStore.removeChangeListener(this.updateUserDetails);
       },
 
       updateUserDetails: function() {
@@ -19,11 +24,15 @@ $(function() {
       },
 
       render: function() {
-
         return (
           <div>
-            <NavBar />
-            {this.props.children}
+            {this.state ?
+              <div>
+                <NavBar />
+                {this.props.children}
+              </div>
+            :
+              ""}
           </div>
          );
        }

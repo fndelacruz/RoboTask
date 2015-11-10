@@ -4,10 +4,7 @@
 
   var TasksIndex = root.TasksIndex = React.createClass({
     getInitialState: function() {
-      return ({
-        tasks: [],
-        userIsRobot: "loading"
-      });
+      return ({ tasks: [] });
     },
 
     _updateTasks: function() {
@@ -15,23 +12,15 @@
       this.handleChange(activeTab);
     },
 
-    updateUserType: function() {
-      this.setState({
-        userIsRobot: CurrentUserStore.all().isRobot
-      });
-    },
-
     componentDidMount: function() {
       this.handleChange(this.props.params.type);
       CreatedTaskStore.addChangeListener(this._updateTasks);
 
       ApiUtil.fetchCurrentUserSetup();
-      CurrentUserStore.addChangeListener(this.updateUserType);
     },
 
     componentWillUnmount: function () {
       CreatedTaskStore.removeChangeListener(this._updateTasks);
-      CurrentUserStore.removeChangeListener(this.updateUserType);
     },
 
     componentWillReceiveProps: function(newProps) {
@@ -69,7 +58,7 @@
               {this.state.tasks.map(function(createdTask) {
                 return (
                   <CreatedTasksIndexItem
-                    userIsRobot={that.state.userIsRobot}
+                    userIsRobot={CurrentUserStore.all().isRobot}
                     key={createdTask.id}
                     createdTask={createdTask}/>
                 );

@@ -1,6 +1,8 @@
 (function(root) {
   'use strict';
 
+  var userIsRobot;
+
   root.NavBar = React.createClass({
     mixins: [ReactRouter.History],
 
@@ -18,15 +20,8 @@
       return ({
         unassignedTaskCount: unassignedTasks,
         assignedTaskCount: assignedTasks,
-        userIsRobot: "loading",
 
         workedTaskCountUpcoming: 0
-      });
-    },
-
-    updateUserType: function() {
-      this.setState({
-        userIsRobot: CurrentUserStore.all().isRobot
       });
     },
 
@@ -44,29 +39,22 @@
     },
 
     componentDidMount: function() {
-      ApiUtil.fetchCurrentUserSetup();
+      userIsRobot = CurrentUserStore.all().isRobot;
       ApiUtil.fetchCreatedTasks();
       ApiUtil.fetchWorkedTasks();
       CreatedTaskStore.addChangeListener(this.updateCreatedTaskCount);
       // MessageStore.addChangeListener(this.updateMessages);
-      CurrentUserStore.addChangeListener(this.updateUserType);
       WorkedTaskStore.addChangeListener(this.updateWorkedTaskCount);
     },
 
     componentWillUnmount: function() {
       CreatedTaskStore.removeChangeListener(this.updateCreatedTaskCount);
-
       // MessageStore.removeChangeListener(this.updateMessages);
-      CurrentUserStore.removeChangeListener(this.updateUserType);
       WorkedTaskStore.addChangeListener(this.updateWorkedTaskCount);
     },
 
     handleLogoClick: function() {
       this.history.pushState(null, "/");
-    },
-
-    handleLogoutClick: function() {
-      root.ApiUtil.logout();
     },
 
     handleProfileClick: function() {
@@ -94,7 +82,6 @@
     // },
 
     _handleUserType: function() {
-      var userIsRobot = this.state.userIsRobot;
       if (userIsRobot === "loading") {
         return (<li><a><strong>Loading</strong></a></li>);
       } else if (userIsRobot === true) {
@@ -114,19 +101,19 @@
 
     handleActiveBar: function() {
       var assignedCount;
-      if (this.state.userIsRobot) {
+      if (userIsRobot) {
         assignedCount = this.state.workedTaskCountUpcoming;
       } else {
         assignedCount = this.state.assignedTaskCount;
       }
       var activeClass = "badge" + ((assignedCount > 0) ? " badge-active-nonempty" : "");
-      if (this.state.userIsRobot === false) {
+      if (userIsRobot === false) {
         return (
           <li>
             <a href="/#/tasks/created/active">Active:<span className={activeClass}>{assignedCount}</span></a>
           </li>
         );
-      } else if (this.state.userIsRobot === true) {
+      } else if (userIsRobot === true) {
         return (
           <li>
             <a href="/#/tasks/created/worker_active">Active:<span className={activeClass}>{assignedCount}</span></a>
@@ -136,14 +123,14 @@
     },
 
     handleHistoryBar: function() {
-      if (this.state.userIsRobot === true) {
+      if (userIsRobot === true) {
         return (
           <li
             onClick={this.handleTaskClick.bind(null, "worker_history")}>
             <a>History</a>
           </li>
         );
-      } else if (this.state.userIsRobot === false) {
+      } else if (userIsRobot === false) {
         return (
           <li
             onClick={this.handleTaskClick.bind(null, "history")}>
@@ -154,14 +141,10 @@
     },
 
     render: function() {
-      var quickButton = this._handleUserType();
-
       var unassignedCount = this.state.unassignedTaskCount;
       var pendingClass = "badge" + ((unassignedCount > 0) ? " badge-unassigned-nonempty" : "");
-
-
       var openSection = "";
-      if (!this.state.userIsRobot) {
+      if (!userIsRobot) {
         openSection = (
           <li
             onClick={this.handleTaskClick.bind(null, "unassigned")}>
@@ -189,7 +172,7 @@
 
             <div className="collapse navbar-collapse" id="collapse-menu">
               <ul className="nav navbar-nav navbar-right">
-                {quickButton}
+                {this._handleUserType()}
                 <li className="dropdown">
                   <a href="#"
                     className="dropdown-toggle"
@@ -225,8 +208,8 @@
                     </li>
                     <li role="separator" className="divider"></li>
                     <li
-                      onClick={this.handleLogoutClick}>
-                      <a href="#" role="button"id="log-out">Log Out</a>
+                      onClick={ApiUtil.logout}>
+                      <a role="button"id="log-out">Log Out</a>
                     </li>
                   </ul>
                 </li>

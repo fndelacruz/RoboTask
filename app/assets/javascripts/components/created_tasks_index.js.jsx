@@ -1,5 +1,6 @@
 (function(root) {
   'use strict';
+  var userIsRobot;
 
   root.CreatedTasksIndex = React.createClass({
     mixins: [ReactRouter.History],
@@ -7,8 +8,7 @@
     getInitialState: function() {
       return ({
         createdTasks: CreatedTaskStore.allIncomplete(),
-        workedTasksActive: [],
-        userIsRobot: CurrentUserStore.all().isRobot,
+        workedTasksActive: []
       });
     },
 
@@ -19,12 +19,6 @@
     componentWillReceiveProps: function(newProps) {
     },
 
-    updateUserType: function() {
-      this.setState({
-        userIsRobot: CurrentUserStore.all().isRobot
-      });
-    },
-
     updateWorkedTasks: function() {
       this.setState({
         workedTasksActive: WorkedTaskStore.allIncomplete(),
@@ -32,18 +26,15 @@
     },
 
     componentDidMount: function() {
-      CurrentUserStore.addChangeListener(this.updateUserType);
-
       ApiUtil.fetchCreatedTasks();
       CreatedTaskStore.addChangeListener(this._updateCreatedTasks);
+      userIsRobot = CurrentUserStore.all().isRobot;
 
       ApiUtil.fetchWorkedTasks();
       WorkedTaskStore.addChangeListener(this.updateWorkedTasks);
     },
 
     componentWillUnmount: function() {
-      CurrentUserStore.removeChangeListener(this.updateUserType);
-
       CreatedTaskStore.removeChangeListener(this._updateCreatedTasks);
 
       WorkedTaskStore.addChangeListener(this.updateWorkedTasks);
@@ -55,7 +46,7 @@
 
     handleActiveTab: function() {
       var assignedCount;
-      if (this.state.userIsRobot) {
+      if (userIsRobot) {
         assignedCount = WorkedTaskStore.allIncomplete().length;
       } else {
         assignedCount = CreatedTaskStore.allIncompleteAssigned().length;
@@ -64,7 +55,7 @@
 
       var activeClass = "badge" + ((assignedCount > 0) ? " badge-active-nonempty" : "");
       var activeTab = this.props.location.pathname.match(/\/(\w+)$/)[1];
-      if (this.state.userIsRobot === true) {
+      if (userIsRobot) {
         return (
           <li
             role="presentation"
@@ -73,7 +64,7 @@
             <a className="task-tabs">Active  <span className={activeClass}>{assignedCount}</span></a>
           </li>
         );
-      } else if (this.state.userIsRobot === false) {
+      } else if (userIsRobot === false) {
         return (
           <li
             role="presentation"
@@ -87,7 +78,7 @@
 
     handleHistoryTab: function() {
       var activeTab = this.props.location.pathname.match(/\/(\w+)$/)[1];
-      if (this.state.userIsRobot === true) {
+      if (userIsRobot === true) {
         return (
           <li
             role="presentation"
@@ -96,7 +87,7 @@
             <a className="task-tabs">History</a>
           </li>
         );
-      } else if (this.state.userIsRobot === false) {
+      } else if (userIsRobot === false) {
         return (
           <li
             role="presentation"
@@ -114,7 +105,7 @@
       var activeTab = this.props.location.pathname.match(/\/(\w+)$/)[1];
       var unassignedCount = CreatedTaskStore.allIncompleteUnassigned().length;
       var assignedCount = "";
-      if (this.state.userIsRobot) {
+      if (userIsRobot) {
         assignedCount = WorkedTaskStore.allIncomplete().length;
       } else {
         assignedCount = CreatedTaskStore.allIncompleteAssigned().length;
@@ -124,7 +115,6 @@
       var pendingClass = "badge" + ((unassignedCount > 0) ? " badge-unassigned-nonempty" : "");
       var activeClass = "badge" + ((assignedCount > 0) ? " badge-active-nonempty" : "");
 
-      var userIsRobot = this.state.userIsRobot;
       return (
         <div className="container" id="created-tasks-index">
           <div id="page-heading">

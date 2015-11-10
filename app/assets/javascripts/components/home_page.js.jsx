@@ -13,8 +13,7 @@
         newTaskTitle: "",
         newTaskTitleStatus: "",
         newTaskTitleStatusMessage: "",
-        workedTasksUpcoming: [],
-        userIsRobot: "loading",
+        workedTasksUpcoming: []
       });
     },
 
@@ -22,12 +21,6 @@
       this.setState({
         recentCreatedTasksUnassigned: CreatedTaskStore.allIncompleteUnassigned(),
         recentCreatedTasksAssigned: CreatedTaskStore.allIncompleteAssigned(),
-      });
-    },
-
-    updateUserType: function() {
-      this.setState({
-        userIsRobot: CurrentUserStore.all().isRobot
       });
     },
 
@@ -42,13 +35,11 @@
       CreatedTaskStore.addChangeListener(this._updateTasks);
       ApiUtil.fetchCurrentUserSetup();
       ApiUtil.fetchWorkedTasks();
-      CurrentUserStore.addChangeListener(this.updateUserType);
       WorkedTaskStore.addChangeListener(this.updateWorkedTasks);
     },
 
     componentWillUnmount: function() {
       CreatedTaskStore.removeChangeListener(this._updateTasks);
-      CurrentUserStore.removeChangeListener(this.updateUserType);
       WorkedTaskStore.addChangeListener(this.updateWorkedTasks);
     },
 
@@ -82,7 +73,7 @@
 
     handleUpcomingTasks: function() {
       var tasks;
-      var userIsRobot = this.state.userIsRobot;
+      var userIsRobot = CurrentUserStore.all().isRobot;
       if (userIsRobot === false) {
         tasks = this.state.recentCreatedTasksAssigned;
         return ((tasks.length === 0) ?
@@ -125,38 +116,35 @@
     },
 
     _header: function() {
-      if (Object.keys(CurrentUserStore.all()).length !== 0) {
-        var options = CurrentUserStore.all();
-        return (
-          <div>
-            <div className="panel">
-              <img
-                className="reviewer-profile-pic"
-                id="home-current-user-pic"
-                src={options.image} />
-              <span className="home-header">Welcome to RoboTask, {options.shortName}!</span>
-            </div>
-            {options.isRobot === false ?
-              <div className="panel home-sub-header" id="task-create-welcome">
-                How can we help you?<br/>
-                {this.handleInput()}
-                <Button
-                  className="home-task-create-button"
-                  bsStyle="primary"
-                  onClick={this.handleSubmit}>
-                  Continue!
-                </Button>
-                <span className="home-task-create-status">{this.state.newTaskTitleStatusMessage}</span>
-              </div>
-            :
-              <div className="panel home-sub-header" id="task-find-welcome">
-                Hello! Looking for a job? Try the Open Task Search. Don't forget to set your work availability in your account settings.
-              </div>
-            }
+      var options = CurrentUserStore.all();
+      return (
+        <div>
+          <div className="panel">
+            <img
+              className="reviewer-profile-pic"
+              id="home-current-user-pic"
+              src={options.image} />
+            <span className="home-header">Welcome to RoboTask, {options.shortName}!</span>
           </div>
-
-        );
-      }
+          {options.isRobot === false ?
+            <div className="panel home-sub-header" id="task-create-welcome">
+              How can we help you?<br/>
+              {this.handleInput()}
+              <Button
+                className="home-task-create-button"
+                bsStyle="primary"
+                onClick={this.handleSubmit}>
+                Continue!
+              </Button>
+              <span className="home-task-create-status">{this.state.newTaskTitleStatusMessage}</span>
+            </div>
+          :
+            <div className="panel home-sub-header" id="task-find-welcome">
+              Hello! Looking for a job? Try the Open Task Search. Don't forget to set your work availability in your account settings.
+            </div>
+          }
+        </div>
+      );
     },
 
     render: function() {
