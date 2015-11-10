@@ -1,8 +1,6 @@
 (function(root) {
   'use strict';
 
-  var userIsRobot;
-
   root.NavBar = React.createClass({
     mixins: [ReactRouter.History],
 
@@ -20,37 +18,26 @@
       return ({
         unassignedTaskCount: unassignedTasks,
         assignedTaskCount: assignedTasks,
-
-        workedTaskCountUpcoming: 0
+        userIsRobot: CurrentUserStore.all().isRobot
       });
     },
 
-    updateCreatedTaskCount: function() {
+    updateTaskCount: function() {
       this.setState({
         unassignedTaskCount: CreatedTaskStore.allIncompleteUnassigned().length,
         assignedTaskCount: CreatedTaskStore.allIncompleteAssigned().length
       });
     },
 
-    updateWorkedTaskCount: function() {
-      this.setState({
-        workedTaskCountUpcoming: WorkedTaskStore.allIncomplete().length
-      });
-    },
-
     componentDidMount: function() {
-      userIsRobot = CurrentUserStore.all().isRobot;
       ApiUtil.fetchCreatedTasks();
-      ApiUtil.fetchWorkedTasks();
-      CreatedTaskStore.addChangeListener(this.updateCreatedTaskCount);
+      CreatedTaskStore.addChangeListener(this.updateTaskCount);
       // MessageStore.addChangeListener(this.updateMessages);
-      WorkedTaskStore.addChangeListener(this.updateWorkedTaskCount);
     },
 
     componentWillUnmount: function() {
-      CreatedTaskStore.removeChangeListener(this.updateCreatedTaskCount);
+      CreatedTaskStore.removeChangeListener(this.updateTaskCount);
       // MessageStore.removeChangeListener(this.updateMessages);
-      WorkedTaskStore.addChangeListener(this.updateWorkedTaskCount);
     },
 
     handleLogoClick: function() {
@@ -82,9 +69,7 @@
     // },
 
     _handleUserType: function() {
-      if (userIsRobot === "loading") {
-        return (<li><a><strong>Loading</strong></a></li>);
-      } else if (userIsRobot === true) {
+      if (this.state.userIsRobot) {
         return (
           <li>
             <a href="/#/findtasks"><strong>Open Task Search</strong></a>
@@ -100,37 +85,30 @@
     },
 
     handleActiveBar: function() {
-      var assignedCount;
-      if (userIsRobot) {
-        assignedCount = this.state.workedTaskCountUpcoming;
-      } else {
-        assignedCount = this.state.assignedTaskCount;
-      }
+      var assignedCount = this.state.assignedTaskCount;
       var activeClass = "badge" + ((assignedCount > 0) ? " badge-active-nonempty" : "");
-      if (userIsRobot === false) {
-        return (
-          <li>
-            <a href="/#/tasks/created/active">Active:<span className={activeClass}>{assignedCount}</span></a>
-          </li>
-        );
-      } else if (userIsRobot === true) {
-        return (
-          <li>
-            <a href="/#/tasks/created/worker_active">Active:<span className={activeClass}>{assignedCount}</span></a>
-          </li>
-        );
-      }
+      return (
+        <li>
+          <a href={this.state.userIsRobot ?
+              "/#/tasks/created/worker_active"
+            :
+              "/#/tasks/created/active"
+            }>
+          Active:<span className={activeClass}>{assignedCount}</span>
+          </a>
+        </li>
+      );
     },
 
     handleHistoryBar: function() {
-      if (userIsRobot === true) {
+      if (this.state.userIsRobot) {
         return (
           <li
             onClick={this.handleTaskClick.bind(null, "worker_history")}>
             <a>History</a>
           </li>
         );
-      } else if (userIsRobot === false) {
+      } else {
         return (
           <li
             onClick={this.handleTaskClick.bind(null, "history")}>
@@ -144,7 +122,7 @@
       var unassignedCount = this.state.unassignedTaskCount;
       var pendingClass = "badge" + ((unassignedCount > 0) ? " badge-unassigned-nonempty" : "");
       var openSection = "";
-      if (!userIsRobot) {
+      if (!this.state.userIsRobot) {
         openSection = (
           <li
             onClick={this.handleTaskClick.bind(null, "unassigned")}>

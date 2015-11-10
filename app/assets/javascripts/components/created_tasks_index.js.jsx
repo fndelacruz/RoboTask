@@ -1,43 +1,27 @@
 (function(root) {
   'use strict';
-  var userIsRobot;
 
-  root.CreatedTasksIndex = React.createClass({
+  var CreatedTasksIndex = root.CreatedTasksIndex = React.createClass({
     mixins: [ReactRouter.History],
 
     getInitialState: function() {
       return ({
-        createdTasks: CreatedTaskStore.allIncomplete(),
-        workedTasksActive: []
+        tasks: CreatedTaskStore.allIncomplete(),
+        userIsRobot: CurrentUserStore.all().isRobot
       });
     },
 
-    _updateCreatedTasks: function() {
-      this.setState({ createdTasks: CreatedTaskStore.allIncomplete() });
-    },
-
-    componentWillReceiveProps: function(newProps) {
-    },
-
-    updateWorkedTasks: function() {
-      this.setState({
-        workedTasksActive: WorkedTaskStore.allIncomplete(),
-      });
+    _updateTasks: function() {
+      this.setState({ tasks: CreatedTaskStore.allIncomplete() });
     },
 
     componentDidMount: function() {
       ApiUtil.fetchCreatedTasks();
-      CreatedTaskStore.addChangeListener(this._updateCreatedTasks);
-      userIsRobot = CurrentUserStore.all().isRobot;
-
-      ApiUtil.fetchWorkedTasks();
-      WorkedTaskStore.addChangeListener(this.updateWorkedTasks);
+      CreatedTaskStore.addChangeListener(this._updateTasks);
     },
 
     componentWillUnmount: function() {
-      CreatedTaskStore.removeChangeListener(this._updateCreatedTasks);
-
-      WorkedTaskStore.addChangeListener(this.updateWorkedTasks);
+      CreatedTaskStore.removeChangeListener(this._updateTasks);
     },
 
     openTab: function(type) {
@@ -45,89 +29,50 @@
     },
 
     handleActiveTab: function() {
-      var assignedCount;
-      if (userIsRobot) {
-        assignedCount = WorkedTaskStore.allIncomplete().length;
-      } else {
-        assignedCount = CreatedTaskStore.allIncompleteAssigned().length;
-      }
-      var workedTasksActiveCount = this.state.workedTasksActive.length;
-
+      var assignedCount = CreatedTaskStore.allIncompleteAssigned().length;
       var activeClass = "badge" + ((assignedCount > 0) ? " badge-active-nonempty" : "");
       var activeTab = this.props.location.pathname.match(/\/(\w+)$/)[1];
-      if (userIsRobot) {
-        return (
-          <li
-            role="presentation"
-            onClick={this.openTab.bind(null, "worker_active")}
-            className={activeTab === "worker_active" ? "active" : ""}>
-            <a className="task-tabs">Active  <span className={activeClass}>{assignedCount}</span></a>
-          </li>
-        );
-      } else if (userIsRobot === false) {
-        return (
-          <li
-            role="presentation"
-            onClick={this.openTab.bind(null, "active")}
-            className={activeTab === "active" ? "active" : ""}>
-            <a className="task-tabs">Active  <span className={activeClass}>{assignedCount}</span></a>
-          </li>
-        );
-      }
+      var activeTabLabel = this.state.userIsRobot ? "worker_active" : "active";
+      return (
+        <li
+          role="presentation"
+          onClick={this.openTab.bind(null, activeTabLabel)}
+          className={activeTab === activeTabLabel ? "active" : ""}>
+          <a className="task-tabs">Active  <span className={activeClass}>{assignedCount}</span></a>
+        </li>
+      );
     },
 
     handleHistoryTab: function() {
       var activeTab = this.props.location.pathname.match(/\/(\w+)$/)[1];
-      if (userIsRobot === true) {
-        return (
-          <li
-            role="presentation"
-            onClick={this.openTab.bind(null, "worker_history")}
-            className={activeTab === "worker_history" ? "active" : ""}>
-            <a className="task-tabs">History</a>
-          </li>
-        );
-      } else if (userIsRobot === false) {
-        return (
-          <li
-            role="presentation"
-            onClick={this.openTab.bind(null, "history")}
-            className={activeTab === "history" ? "active" : ""}>
-            <a className="task-tabs">History</a>
-          </li>
-        );
-      }
+      var activeTabLabel = this.state.userIsRobot ? "worker_history" : "history";
+      return (
+        <li
+          role="presentation"
+          onClick={this.openTab.bind(null, activeTabLabel)}
+          className={activeTab === activeTabLabel ? "active" : ""}>
+          <a className="task-tabs">History</a>
+        </li>
+      );
     },
 
-
     render: function() {
-      // var activeTab = this.state.activeTab;
       var activeTab = this.props.location.pathname.match(/\/(\w+)$/)[1];
       var unassignedCount = CreatedTaskStore.allIncompleteUnassigned().length;
-      var assignedCount = "";
-      if (userIsRobot) {
-        assignedCount = WorkedTaskStore.allIncomplete().length;
-      } else {
-        assignedCount = CreatedTaskStore.allIncompleteAssigned().length;
-      }
-      var workedTasksActiveCount = this.state.workedTasksActive.length;
-
-      var pendingClass = "badge" + ((unassignedCount > 0) ? " badge-unassigned-nonempty" : "");
-      var activeClass = "badge" + ((assignedCount > 0) ? " badge-active-nonempty" : "");
+      var assignedCount = CreatedTaskStore.allIncompleteAssigned().length;
+      var pendingClass = "badge" + (unassignedCount > 0 ? " badge-unassigned-nonempty" : "");
+      var activeClass = "badge" + (assignedCount > 0 ? " badge-active-nonempty" : "");
 
       return (
         <div className="container" id="created-tasks-index">
-          <div id="page-heading">
-            Tasks
-          </div><br/>
+          <div id="page-heading">Tasks</div><br/>
 
           <ul className="nav nav-tabs">
-            {userIsRobot ?
+            {this.state.userIsRobot ?
               ""
             :
               <li
                 role="presentation"
-
                 onClick={this.openTab.bind(null, "unassigned")}
                 className={activeTab === "unassigned" ? "active" : ""}>
                 <a className="task-tabs">Open<span className={pendingClass}>{unassignedCount}</span></a>
@@ -135,7 +80,6 @@
             }
             {this.handleActiveTab()}
             {this.handleHistoryTab()}
-
           </ul>
 
           {this.props.children}

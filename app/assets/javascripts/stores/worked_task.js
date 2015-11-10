@@ -9,19 +9,7 @@
     WorkedTaskStore.emit(CHANGE_EVENT);
 
   };
-
-  var _createTask = function(workedTask) {
-    _workedTasks.push(workedTask);
-    WorkedTaskStore.emit(CHANGE_EVENT);
-    WorkedTaskStore.emit(CREATE_TASK_OK);
-  };
-
-  var _deleteTask = function(workedTask) {
-    var taskIdx = _workedTasks.indexOf(workedTask);
-    _workedTasks.splice(taskIdx, 1);
-    WorkedTaskStore.emit(CHANGE_EVENT);
-  };
-
+  
   var WorkedTaskStore = root.WorkedTaskStore = $.extend({}, EventEmitter.prototype, {
     all: function() {
       return _workedTasks.slice();

@@ -92,7 +92,7 @@
 
     receiveCreatedTasks: function(tasks) {
       AppDispatcher.dispatch({
-        actionType: TaskConstants.CREATED_TASKS_RECEIVED,
+        actionType: TaskConstants.TASKS_RECEIVED,
         action: tasks
       });
     },

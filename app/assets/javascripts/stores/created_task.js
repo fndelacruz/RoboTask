@@ -134,7 +134,7 @@
 
     dispatcherID: AppDispatcher.register(function(payload) {
       switch (payload.actionType) {
-        case TaskConstants.CREATED_TASKS_RECEIVED:
+        case TaskConstants.TASKS_RECEIVED:
           _resetCreatedTasks(payload.action);
           break;
         case TaskConstants.CREATE_TASK:

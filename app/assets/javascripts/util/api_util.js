@@ -184,15 +184,5 @@
         }
       });
     },
-
-    fetchWorkedTasks: function() {
-      $.ajax({
-        url: "/api/tasks",
-        method: "GET",
-        success: function(tasks) {
-          ApiActions.receiveWorkedTasks(tasks);
-        }
-      });
-    }
   };
 }(this));

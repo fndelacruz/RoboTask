@@ -9,24 +9,17 @@
     getInitialState: function() {
       return({
         recentCreatedTasksUnassigned: [],
-        recentCreatedTasksAssigned: [],
+        upcomingTasks: [],
         newTaskTitle: "",
         newTaskTitleStatus: "",
-        newTaskTitleStatusMessage: "",
-        workedTasksUpcoming: []
+        newTaskTitleStatusMessage: ""
       });
     },
 
     _updateTasks: function() {
       this.setState({
         recentCreatedTasksUnassigned: CreatedTaskStore.allIncompleteUnassigned(),
-        recentCreatedTasksAssigned: CreatedTaskStore.allIncompleteAssigned(),
-      });
-    },
-
-    updateWorkedTasks: function() {
-      this.setState({
-        workedTasksUpcoming: WorkedTaskStore.allIncomplete()
+        upcomingTasks: CreatedTaskStore.allIncompleteAssigned(),
       });
     },
 
@@ -34,13 +27,10 @@
       ApiUtil.fetchCreatedTasks();
       CreatedTaskStore.addChangeListener(this._updateTasks);
       ApiUtil.fetchCurrentUserSetup();
-      ApiUtil.fetchWorkedTasks();
-      WorkedTaskStore.addChangeListener(this.updateWorkedTasks);
     },
 
     componentWillUnmount: function() {
       CreatedTaskStore.removeChangeListener(this._updateTasks);
-      WorkedTaskStore.addChangeListener(this.updateWorkedTasks);
     },
 
     handleChange: function(e) {
@@ -72,33 +62,23 @@
     },
 
     handleUpcomingTasks: function() {
-      var tasks;
+      var tasks = this.state.upcomingTasks;
       var userIsRobot = CurrentUserStore.all().isRobot;
-      if (userIsRobot === false) {
-        tasks = this.state.recentCreatedTasksAssigned;
-        return ((tasks.length === 0) ?
-          <div className="panel center-block home-sub-header">You have no upcoming tasks.</div>
-        :
-          <div>
-            <div className="panel center-block home-sub-header">My Upcoming Tasks</div>
-            {tasks.map(function(createdTask) {
-              return <CreatedTasksIndexItem userIsRobot={userIsRobot} key={createdTask.id} createdTask={createdTask} />;
-            })}
-          </div>
-        );
-      } else if (userIsRobot === true) {
-        tasks = this.state.workedTasksUpcoming;
-        return ((tasks.length === 0) ?
-          <div className="panel center-block home-sub-header">You have no upcoming tasks.</div>
-        :
-          <div>
-            <div className="panel center-block home-sub-header">My Upcoming Tasks</div>
-            {tasks.map(function(createdTask) {
-              return <CreatedTasksIndexItem userIsRobot={userIsRobot} key={createdTask.id} createdTask={createdTask} />;
-            })}
-          </div>
-        );
-      }
+      return ((tasks.length === 0) ?
+        <div className="panel center-block home-sub-header">You have no upcoming tasks.</div>
+      :
+        <div>
+          <div className="panel center-block home-sub-header">My Upcoming Tasks</div>
+          {tasks.map(function(createdTask) {
+            return (
+              <CreatedTasksIndexItem
+                userIsRobot={userIsRobot}
+                key={createdTask.id}
+                createdTask={createdTask}/>
+            );
+          })}
+        </div>
+      );
     },
 
     handleInput: function() {
@@ -148,8 +128,6 @@
     },
 
     render: function() {
-      var taskCount;
-
       return (
         <div className="container">
           <div className="row">
