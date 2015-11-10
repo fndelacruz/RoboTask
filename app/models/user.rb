@@ -43,8 +43,6 @@ class User < ActiveRecord::Base
     end
   end
 
-
-
   attr_reader :password
 
   has_many(:created_tasks,

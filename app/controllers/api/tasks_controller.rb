@@ -1,7 +1,11 @@
 class Api::TasksController < ApplicationController
   def index
-    @created_tasks = Task.includes(:review).includes(:worker)
-      .where(creator_id: current_user.id)
+    @tasks = Task.includes(:review).includes(:worker)
+    if current_user.is_robot
+      @tasks = @tasks.where(worker: current_user)
+    else
+      @tasks = @tasks.where(creator: current_user)
+    end
   end
 
   def create

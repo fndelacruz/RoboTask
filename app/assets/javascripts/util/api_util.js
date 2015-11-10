@@ -32,16 +32,6 @@
       });
     },
 
-    fetchCreatedTasks: function() {
-      $.ajax({
-        url: "/api/tasks",
-        method: "GET",
-        success: function(tasks) {
-          ApiActions.receiveCreatedTasks(tasks);
-        }
-      });
-    },
-
     fetchValidWorkers: function(dateTime) {
       $.ajax({
         url: "/api/users/",
@@ -185,9 +175,19 @@
       });
     },
 
+    fetchCreatedTasks: function() {
+      $.ajax({
+        url: "/api/tasks",
+        method: "GET",
+        success: function(tasks) {
+          ApiActions.receiveCreatedTasks(tasks);
+        }
+      });
+    },
+
     fetchWorkedTasks: function() {
       $.ajax({
-        url: "/api/workers/worked_tasks",
+        url: "/api/tasks",
         method: "GET",
         success: function(tasks) {
           ApiActions.receiveWorkedTasks(tasks);

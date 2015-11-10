@@ -16,13 +16,6 @@
       });
     },
 
-    receiveCreatedTasks: function(createdTasks) {
-      AppDispatcher.dispatch({
-        actionType: TaskConstants.CREATED_TASKS_RECEIVED,
-        action: createdTasks
-      });
-    },
-
     deleteTask: function(task) {
       AppDispatcher.dispatch({
         actionType: TaskConstants.DELETE_TASK,
@@ -94,6 +87,13 @@
       AppDispatcher.dispatch({
         actionType: UserConstants.PASSWORD_CHANGE_STATUS_RECEIVED,
         action: status
+      });
+    },
+
+    receiveCreatedTasks: function(tasks) {
+      AppDispatcher.dispatch({
+        actionType: TaskConstants.CREATED_TASKS_RECEIVED,
+        action: tasks
       });
     },
 

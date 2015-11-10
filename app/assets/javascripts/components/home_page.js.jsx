@@ -86,7 +86,7 @@
             })}
           </div>
         );
-      } else if (this.state.userIsRobot === true) {
+      } else if (userIsRobot === true) {
         tasks = this.state.workedTasksUpcoming;
         return ((tasks.length === 0) ?
           <div className="panel center-block home-sub-header">You have no upcoming tasks.</div>
