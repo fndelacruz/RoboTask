@@ -7,7 +7,7 @@
     getInitialState: function() {
       var assignedTasks = 0;
       var unassignedTasks = 0;
-      root.CreatedTaskStore.all().forEach(function(task) {
+      root.TaskStore.all().forEach(function(task) {
         if (task.worker_id === null) {
           unassignedTasks += 1;
         } else {
@@ -24,19 +24,19 @@
 
     updateTaskCount: function() {
       this.setState({
-        unassignedTaskCount: CreatedTaskStore.allIncompleteUnassigned().length,
-        assignedTaskCount: CreatedTaskStore.allIncompleteAssigned().length
+        unassignedTaskCount: TaskStore.allIncompleteUnassigned().length,
+        assignedTaskCount: TaskStore.allIncompleteAssigned().length
       });
     },
 
     componentDidMount: function() {
       ApiUtil.fetchCreatedTasks();
-      CreatedTaskStore.addChangeListener(this.updateTaskCount);
+      TaskStore.addChangeListener(this.updateTaskCount);
       // MessageStore.addChangeListener(this.updateMessages);
     },
 
     componentWillUnmount: function() {
-      CreatedTaskStore.removeChangeListener(this.updateTaskCount);
+      TaskStore.removeChangeListener(this.updateTaskCount);
       // MessageStore.removeChangeListener(this.updateMessages);
     },
 

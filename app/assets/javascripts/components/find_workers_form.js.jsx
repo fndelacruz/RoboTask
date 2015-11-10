@@ -145,13 +145,13 @@
         this.history.pushState(null, "/task/new");
       } else {
         ApiUtil.fetchValidWorkers(this._formattedStateDateTime());
-        CreatedTaskStore.addAssignTaskOpenOKListener(this._updateOpenTaskStatus);
+        TaskStore.addAssignTaskOpenOKListener(this._updateOpenTaskStatus);
         WorkerUserStore.addChangeListener(this._updateValidWorkers);
       }
     },
 
     componentWillUnmount: function() {
-      CreatedTaskStore.removeAssignTaskOpenOKListener(this._updateOpenTaskStatus);
+      TaskStore.removeAssignTaskOpenOKListener(this._updateOpenTaskStatus);
       WorkerUserStore.removeChangeListener(this._updateValidWorkers);
     },
 

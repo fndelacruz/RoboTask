@@ -14,13 +14,13 @@
 
     componentDidMount: function() {
       this.handleChange(this.props.params.type);
-      CreatedTaskStore.addChangeListener(this._updateTasks);
+      TaskStore.addChangeListener(this._updateTasks);
 
       ApiUtil.fetchCurrentUserSetup();
     },
 
     componentWillUnmount: function () {
-      CreatedTaskStore.removeChangeListener(this._updateTasks);
+      TaskStore.removeChangeListener(this._updateTasks);
     },
 
     componentWillReceiveProps: function(newProps) {
@@ -30,19 +30,19 @@
     handleChange: function(taskType) {
       switch (taskType) {
         case "unassigned":
-          this.setState({ tasks: CreatedTaskStore.allIncompleteUnassigned() });
+          this.setState({ tasks: TaskStore.allIncompleteUnassigned() });
           break;
         case "active":
-          this.setState({ tasks: CreatedTaskStore.allIncompleteAssigned() });
+          this.setState({ tasks: TaskStore.allIncompleteAssigned() });
           break;
         case "history":
-          this.setState({ tasks: CreatedTaskStore.allComplete() });
+          this.setState({ tasks: TaskStore.allComplete() });
           break;
         case "worker_active":
-          this.setState({ tasks: CreatedTaskStore.allIncompleteAssigned() });
+          this.setState({ tasks: TaskStore.allIncompleteAssigned() });
           break;
         case "worker_history":
-          this.setState({ tasks: CreatedTaskStore.allComplete() });
+          this.setState({ tasks: TaskStore.allComplete() });
           break;
       }
     },

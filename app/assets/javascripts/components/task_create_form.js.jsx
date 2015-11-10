@@ -106,7 +106,7 @@
     },
 
     _findValidWorkers: function() {
-      var idx = root.CreatedTaskStore.all().length - 1;
+      var idx = root.TaskStore.all().length - 1;
       this.history.pushState(null, "/task/" + idx + "/findWorker");
     },
 

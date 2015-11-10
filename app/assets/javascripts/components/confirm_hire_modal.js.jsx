@@ -37,11 +37,11 @@
     },
 
     componentDidMount: function() {
-      root.CreatedTaskStore.addAssignTaskWorkerOKListener(this._assignWorkerOK);
+      root.TaskStore.addAssignTaskWorkerOKListener(this._assignWorkerOK);
     },
 
     componentWillUnmount: function() {
-      root.CreatedTaskStore.removeAssignTaskWorkerOKListener(this._assignWorkerOK);
+      root.TaskStore.removeAssignTaskWorkerOKListener(this._assignWorkerOK);
     },
 
     _getInterval: function() {

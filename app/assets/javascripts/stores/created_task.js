@@ -1,28 +1,27 @@
 (function(root) {
   'use strict';
 
-  var CHANGE_EVENT = "CREATED_TASK_STORE_CHANGE_EVENT";
+  var CHANGE_EVENT = "TASK_STORE_CHANGE_EVENT";
   var CREATE_TASK_OK = "CREATE_TASK_OK";
   var ASSIGN_TASK_WORKER_OK = "ASSIGN_TASK_WORKER_OK";
   var ASSIGN_TASK_OPEN_OK = "ASSIGN_TASK_WORKER_OK";
-  var _createdTasks = [];
+  var _tasks = [];
 
-  var _resetCreatedTasks = function(createdTasks) {
-    _createdTasks = createdTasks;
-    CreatedTaskStore.emit(CHANGE_EVENT);
-
+  var _resetTasks = function(tasks) {
+    _tasks = tasks;
+    TaskStore.emit(CHANGE_EVENT);
   };
 
   var _createTask = function(createdTask) {
-    _createdTasks.push(createdTask);
-    CreatedTaskStore.emit(CHANGE_EVENT);
-    CreatedTaskStore.emit(CREATE_TASK_OK);
+    _tasks.push(createdTask);
+    TaskStore.emit(CHANGE_EVENT);
+    TaskStore.emit(CREATE_TASK_OK);
   };
 
   var _deleteTask = function(createdTask) {
-    var taskIdx = _createdTasks.indexOf(createdTask);
-    _createdTasks.splice(taskIdx, 1);
-    CreatedTaskStore.emit(CHANGE_EVENT);
+    var taskIdx = _tasks.indexOf(createdTask);
+    _tasks.splice(taskIdx, 1);
+    TaskStore.emit(CHANGE_EVENT);
   };
 
   var sortTasksByAttribute = function(isAscending, attr1, attr2) {
@@ -43,24 +42,23 @@
         } else {
           return 0;
         }
-
       }
     };
   };
 
-  var CreatedTaskStore = root.CreatedTaskStore = $.extend({}, EventEmitter.prototype, {
+  var TaskStore = root.TaskStore = $.extend({}, EventEmitter.prototype, {
     all: function() {
-      return _createdTasks.slice();
+      return _tasks.slice();
     },
 
     allComplete: function() {
-      return _createdTasks.filter(function(task) {
+      return _tasks.filter(function(task) {
         if (typeof task.review !== "undefined") { return task; }
       });
     },
 
     allIncomplete: function() {
-      return _createdTasks.filter(function(task) {
+      return _tasks.filter(function(task) {
         if (typeof task.review === "undefined") { return task; }
       });
     },
@@ -135,7 +133,7 @@
     dispatcherID: AppDispatcher.register(function(payload) {
       switch (payload.actionType) {
         case TaskConstants.TASKS_RECEIVED:
-          _resetCreatedTasks(payload.action);
+          _resetTasks(payload.action);
           break;
         case TaskConstants.CREATE_TASK:
           _createTask(payload.action);
@@ -144,15 +142,14 @@
           _deleteTask(payload.action);
           break;
         case TaskConstants.ASSIGN_TASK_WORKER_OK:
-          CreatedTaskStore.emit(ASSIGN_TASK_WORKER_OK);
+          TaskStore.emit(ASSIGN_TASK_WORKER_OK);
           break;
         case TaskConstants.ASSIGN_TASK_OPEN_OK:
-          CreatedTaskStore.emit(ASSIGN_TASK_OPEN_OK);
+          TaskStore.emit(ASSIGN_TASK_OPEN_OK);
           break;
       }
     })
   });
 
-  CreatedTaskStore.setMaxListeners(0);
-
+  TaskStore.setMaxListeners(0);
 }(this));

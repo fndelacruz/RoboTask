@@ -23,11 +23,11 @@
     mixins: [ReactRouter.History],
 
     cancelTask: function() {
-      root.ApiUtil.deleteTask(this.props.createdTask);
+      ApiUtil.deleteTask(this.props.createdTask);
     },
 
     _findValidWorkers: function(task) {
-      var idx = root.CreatedTaskStore.all().indexOf(task);
+      var idx = root.TaskStore.all().indexOf(task);
       this.history.pushState(null, "/task/" + idx + "/findWorker");
     },
 

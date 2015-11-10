@@ -6,22 +6,22 @@
 
     getInitialState: function() {
       return ({
-        tasks: CreatedTaskStore.allIncomplete(),
+        tasks: TaskStore.allIncomplete(),
         userIsRobot: CurrentUserStore.all().isRobot
       });
     },
 
     _updateTasks: function() {
-      this.setState({ tasks: CreatedTaskStore.allIncomplete() });
+      this.setState({ tasks: TaskStore.allIncomplete() });
     },
 
     componentDidMount: function() {
       ApiUtil.fetchCreatedTasks();
-      CreatedTaskStore.addChangeListener(this._updateTasks);
+      TaskStore.addChangeListener(this._updateTasks);
     },
 
     componentWillUnmount: function() {
-      CreatedTaskStore.removeChangeListener(this._updateTasks);
+      TaskStore.removeChangeListener(this._updateTasks);
     },
 
     openTab: function(type) {
@@ -29,7 +29,7 @@
     },
 
     handleActiveTab: function() {
-      var assignedCount = CreatedTaskStore.allIncompleteAssigned().length;
+      var assignedCount = TaskStore.allIncompleteAssigned().length;
       var activeClass = "badge" + ((assignedCount > 0) ? " badge-active-nonempty" : "");
       var activeTab = this.props.location.pathname.match(/\/(\w+)$/)[1];
       var activeTabLabel = this.state.userIsRobot ? "worker_active" : "active";
@@ -58,8 +58,8 @@
 
     render: function() {
       var activeTab = this.props.location.pathname.match(/\/(\w+)$/)[1];
-      var unassignedCount = CreatedTaskStore.allIncompleteUnassigned().length;
-      var assignedCount = CreatedTaskStore.allIncompleteAssigned().length;
+      var unassignedCount = TaskStore.allIncompleteUnassigned().length;
+      var assignedCount = TaskStore.allIncompleteAssigned().length;
       var pendingClass = "badge" + (unassignedCount > 0 ? " badge-unassigned-nonempty" : "");
       var activeClass = "badge" + (assignedCount > 0 ? " badge-active-nonempty" : "");
 

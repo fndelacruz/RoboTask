@@ -18,19 +18,19 @@
 
     _updateTasks: function() {
       this.setState({
-        recentCreatedTasksUnassigned: CreatedTaskStore.allIncompleteUnassigned(),
-        upcomingTasks: CreatedTaskStore.allIncompleteAssigned(),
+        recentCreatedTasksUnassigned: TaskStore.allIncompleteUnassigned(),
+        upcomingTasks: TaskStore.allIncompleteAssigned(),
       });
     },
 
     componentDidMount: function() {
       ApiUtil.fetchCreatedTasks();
-      CreatedTaskStore.addChangeListener(this._updateTasks);
+      TaskStore.addChangeListener(this._updateTasks);
       ApiUtil.fetchCurrentUserSetup();
     },
 
     componentWillUnmount: function() {
-      CreatedTaskStore.removeChangeListener(this._updateTasks);
+      TaskStore.removeChangeListener(this._updateTasks);
     },
 
     handleChange: function(e) {
