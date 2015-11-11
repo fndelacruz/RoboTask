@@ -1,4 +1,4 @@
-<div id="static-root"></div>
+<div id="static-root" />
 <div class="splash-page-holder">
   <div class="container-fluid">
     <div class="row panel1">
@@ -31,7 +31,7 @@
                   name="user[lname]"
                   class="form-control"
                   id="user-lname"
-                  value=<%= params[:user][:fname] if params[:user] %>
+                  value=<%= params[:user][:lname] if params[:user] %>
                 ><br>
               </div>
 
@@ -67,27 +67,20 @@
               <br>
 
               <div>
-                <button
-                  class="btn btn-default"
-                  type="submit"
-                  value="Signup">
+                <button class="btn btn-default" type="submit" value="Signup">
                   Create Account
                 </button>
               </div>
               <% if flash[:create_account_errors] %>
                 <% flash[:create_account_errors].each do |error| %>
-                  <div><%= error %></div>
+                  <div class="errors"><%= error %></div>
                 <% end %>
               <% end %>
             </form>
           </div>
         </div>
 
-
-        <div class="login-button" id="login-button">
-          Login
-        </div>
-
+        <div class="login-button" id="login-button">Login</div>
         <div class="auth-outer-window login-user" id="login-form-outer-window">
           <div class="auth-inner-window" id="login-form-inner-window">
             <form action="<%= session_index_url %>" method="post" class="">
@@ -99,8 +92,9 @@
                   type="text"
                   name="session[email]"
                   class="form-control"
-                  value=""
-                  id="session-email"><br>
+                  id="session-email"
+                  value=<%= params[:session][:email] if params[:session] %>
+                ><br>
               </div>
 
               <div class="form-group">
@@ -113,16 +107,13 @@
                   id="session-password"><br>
               </div>
               <div>
-                <button
-                  class="btn btn-default"
-                  type="submit"
-                  value="Login">
+                <button class="btn btn-default" type="submit" value="Login">
                   Login
                 </button>
               </div>
               <% if flash[:login_errors] %>
                 <% flash[:login_errors].each do |error| %>
-                  <div><%= error %></div>
+                  <div class="errors"><%= error %></div>
                 <% end %>
               <% end %>
             </form>
@@ -144,14 +135,14 @@
 
     <div class="row infosection client">
       <div class="col-xs-12 col-sm-7 pics">
-        <div class="thumb-holder">
-          <img class="thumb thumb-robot thumb-1"/><img class="thumb thumb-robot thumb-2"/><img class="thumb thumb-robot thumb-3"/>
-          <img class="thumb thumb-robot thumb-4"/><img class="thumb thumb-robot thumb-5"/><img class="thumb thumb-robot thumb-5"/>
-          <img class="thumb thumb-robot thumb-6"/><img class="thumb thumb-robot thumb-8"/><img class="thumb thumb-robot thumb-9"/>
-          <img class="thumb thumb-robot thumb-10"/><img class="thumb thumb-robot thumb-11"/><img class="thumb thumb-robot thumb-12"/>
-          <img class="thumb thumb-robot thumb-13"/><img class="thumb thumb-robot thumb-14"/><img class="thumb thumb-robot thumb-15"/>
-          <img class="thumb thumb-robot thumb-16"/><img class="thumb thumb-robot thumb-17"/><img class="thumb thumb-robot thumb-18"/>
-          <img class="thumb thumb-robot thumb-19"/><img class="thumb thumb-robot thumb-20"/><img class="thumb thumb-robot thumb-21"/>
+        <div class="thumb-holder" id="robot-thumb-holder">
+          <script>
+            for (var i = 1; i < 22; i++) {
+              $("#robot-thumb-holder").append(
+                "<img class='thumb thumb-robot thumb-" + i + "'/>"
+              )
+            }
+          </script>
         </div>
         <div class="thumb-tagline">
           We have Robots.
@@ -244,14 +235,14 @@
       </div>
 
       <div class="col-xs-12 col-sm-7 pics">
-        <div class="thumb-holder">
-          <img class="thumb thumb-client thumb-1"/><img class="thumb thumb-client thumb-2"/><img class="thumb thumb-client thumb-3"/>
-          <img class="thumb thumb-client thumb-4"/><img class="thumb thumb-client thumb-5"/><img class="thumb thumb-client thumb-5"/>
-          <img class="thumb thumb-client thumb-6"/><img class="thumb thumb-client thumb-8"/><img class="thumb thumb-client thumb-9"/>
-          <img class="thumb thumb-client thumb-10"/><img class="thumb thumb-client thumb-11"/><img class="thumb thumb-client thumb-12"/>
-          <img class="thumb thumb-client thumb-13"/><img class="thumb thumb-client thumb-14"/><img class="thumb thumb-client thumb-15"/>
-          <img class="thumb thumb-client thumb-16"/><img class="thumb thumb-client thumb-17"/><img class="thumb thumb-client thumb-18"/>
-          <img class="thumb thumb-client thumb-19"/><img class="thumb thumb-client thumb-20"/><img class="thumb thumb-client thumb-21"/>
+        <div class="thumb-holder" id ="client-thumb-holder">
+          <script>
+            for (var i = 1; i < 22; i++) {
+              $("#client-thumb-holder").append(
+                "<img class='thumb thumb-client thumb-" + i + "'/>"
+              )
+            }
+          </script>
         </div>
         <div class="thumb-tagline">
           Plenty of Clients.
@@ -265,123 +256,44 @@
 
 <script type="text/javascript">
   if (window.IS_CURRENT_USER_LOGGED_IN) {
-    $("div.splash-page-holder").css('display', "none");
+    $("div.splash-page-holder").css("display", "none");
   } else {
-    $("div.splash-page-holder").css('display', "block");
+    $("div.splash-page-holder").css("display", "block");
+
+    $(".login-button").click(function() {
+      $("#login-form-outer-window").toggle();
+    });
+    $(".create-account-button").click(function() {
+      $("#signup-form-outer-window").toggle();
+    });
+
+    var displayType, idx;
+    function adjustIcons (width) {
+      idx = parseInt(this.className.match(/(\d+)$/)[0]);
+      if (idx > 18) { displayType = width > 1491 ? "inline" : "none"; }
+      else if (idx > 15) { displayType = width > 1286 ? "inline" : "none"; }
+      else if (idx > 12) { displayType = width > 1079 ? "inline" : "none"; }
+      else { displayType = "inline"; }
+      $(this).css("display", displayType);
+    }
+
+    $(".thumb").each(function() {
+      var url = "https://robohash.org/" + Math.round(Math.random() * 1000) + "?bgset=any";
+      if (this.className.match(/thumb-client/)) { url += "&set=set2"; }
+      $(this).attr("src", url);
+      adjustIcons.call(this, window.innerWidth);
+    });
+
+    $(window).resize(function() {
+      $(".thumb").each(function() { adjustIcons.call(this, window.innerWidth); });
+    });
   }
-
-  $('.login-button').click(function() {
-    $('#login-form-outer-window').toggle();
-  });
-  $('.create-account-button').click(function() {
-    $('#signup-form-outer-window').toggle();
-  });
-
-  $(".thumb-robot").each(function(idx) {
-    // debugger
-    var url = "https://robohash.org/" + Math.round(Math.random() * 1000) + "?bgset=any";
-    $(this).attr("src", url)
-    if (idx >= 18) {
-      if (window.innerWidth > 1539) {
-        $(this).css("display", "inline")
-      } else {
-        $(this).css("display", "none")
-      }
-    } else if (idx >= 15) {
-      if (window.innerWidth > 1310) {
-        $(this).css("display", "inline")
-      } else {
-        $(this).css("display", "none")
-      }
-    } else if (idx >= 12) {
-      if (window.innerWidth > 1127) {
-        $(this).css("display", "inline")
-      } else {
-        $(this).css("display", "none")
-      }
-    }
-  });
-
-  $(".thumb-client").each(function(idx) {
-    // debugger
-    var url = "https://robohash.org/" + Math.round(Math.random() * 1000) + "?set=set2&bgset=any";
-    $(this).attr("src", url)
-    if (idx >= 18) {
-      if (window.innerWidth > 1539) {
-        $(this).css("display", "inline")
-      } else {
-        $(this).css("display", "none")
-      }
-    } else if (idx >= 15) {
-      if (window.innerWidth > 1310) {
-        $(this).css("display", "inline")
-      } else {
-        $(this).css("display", "none")
-      }
-    } else if (idx >= 12) {
-      if (window.innerWidth > 1127) {
-        $(this).css("display", "inline")
-      } else {
-        $(this).css("display", "none")
-      }
-    }
-  });
-
-  $(window).resize(function() {
-    $(".thumb-robot").each(function(idx) {
-      if (idx >= 18) {
-        if (window.innerWidth > 1539) {
-          $(this).css("display", "inline")
-        } else {
-          $(this).css("display", "none")
-        }
-      } else if (idx >= 15) {
-        if (window.innerWidth > 1310) {
-          $(this).css("display", "inline")
-        } else {
-          $(this).css("display", "none")
-        }
-      } else if (idx >= 12) {
-        if (window.innerWidth > 1127) {
-          $(this).css("display", "inline")
-        } else {
-          $(this).css("display", "none")
-        }
-      }
-    });
-    $(".thumb-client").each(function(idx) {
-      if (idx >= 18) {
-        if (window.innerWidth > 1539) {
-          $(this).css("display", "inline")
-        } else {
-          $(this).css("display", "none")
-        }
-      } else if (idx >= 15) {
-        if (window.innerWidth > 1310) {
-          $(this).css("display", "inline")
-        } else {
-          $(this).css("display", "none")
-        }
-      } else if (idx >= 12) {
-        if (window.innerWidth > 1127) {
-          $(this).css("display", "inline")
-        } else {
-          $(this).css("display", "none")
-        }
-      }
-    });
-  });
-
 </script>
 
 <% if flash[:login_errors] %>
-  <script>
-    $('#login-form-outer-window').show();
-  </script>
+  <script>$("#login-form-outer-window").show();</script>
 <% end %>
 
 <% if flash[:create_account_errors] %>
-  <script>
-    $('#signup-form-outer-window').show();
-  </script>
+  <script>$("#signup-form-outer-window").show();</script>
 <% end %>

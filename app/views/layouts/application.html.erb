@@ -14,7 +14,6 @@
 <% if current_user %>
   <script>
     window.IS_CURRENT_USER_LOGGED_IN = <%= current_user ? true : false %>
-    window.IS_ROBOT = <%= current_user.is_robot %>
   </script>
 <% end %>
 

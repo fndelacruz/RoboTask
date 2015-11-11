@@ -1,10 +1,4 @@
 class SessionController < ApplicationController
-  before_action :require_no_login!, only: [:new, :create]
-  before_action :require_current_user!, only: :destroy
-
-  def new
-  end
-
   def create
     @user = User.find_by_credentials(
       session_params[:email], session_params[:password]
@@ -15,14 +9,13 @@ class SessionController < ApplicationController
     else
       flash[:login_errors] ||= []
       flash[:login_errors] << "We don't recognize your email address or password. Please try again."
-      redirect_to root_url(session: session_params["email"])
+      redirect_to root_url(session: session_params.reject { |k,_| k == "password" })
     end
   end
 
   def destroy
     logout
-    obj = User.new
-    render json: obj
+    render json: {}
   end
 
   private
