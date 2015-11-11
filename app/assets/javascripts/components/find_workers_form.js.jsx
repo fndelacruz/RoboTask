@@ -63,6 +63,8 @@
   var Glyphicon = ReactBootstrap.Glyphicon;
   var Popover = ReactBootstrap.Popover;
   var OverlayTrigger = ReactBootstrap.OverlayTrigger;
+  var Tooltip = ReactBootstrap.Tooltip;
+  var emptyWageToolTip = <Tooltip>Wage is required. Robots can't work for free.</Tooltip>;
 
   var autoAssignPopover = (
     <Popover title="Auto-Assign Information">
@@ -102,11 +104,9 @@
           break;
         case "open-wage":
           var value = e.target.value;
-          if (value === "") {
+          if (!value) {
             this.setState({ openWage: "" });
-          } else if (!/^\d+$/.test(value)) {
-          } else if (value === "0" && this.state.openWage === "") {
-          } else {
+          } else if (/^\d+$/.test(value) && !(value === "0" && !this.state.openWage)) {
             this.setState({ openWage: e.target.value });
           }
           break;
@@ -200,6 +200,47 @@
       }
     },
 
+    renderOpenWagePostButton: function() {
+      var task = CurrentCreatedTaskStore.fetch();
+      if (this.state.openWage) {
+        return (
+          <OverlayTrigger
+            rootClose
+            trigger="click"
+            placement="right"
+            overlay={
+              <Popover title="Confirm Open Task Posting?">
+                {this.state.openWageConfirmDisabled ?
+                  <Button disabled="true">Yes</Button>
+                :
+                  <Button onClick={this.postTaskToOpen.bind(null, task)}>Yes</Button>
+                }
+                {this.state.openWageMessage}
+              </Popover>
+            }>
+            <Button
+              bsStyle="primary"
+              bsSize="medium"
+              id="">
+              Post
+            </Button>
+          </OverlayTrigger>
+        );
+      } else {
+        return (
+          <OverlayTrigger overlay={emptyWageToolTip}>
+            <Button
+              bsStyle="primary"
+              bsSize="medium"
+              id="button-disabled"
+            >
+              Post
+            </Button>
+          </OverlayTrigger>
+        );
+      }
+    },
+
     render: function() {
       var workers = this.state.validWorkers;
       var task = CurrentCreatedTaskStore.fetch();
@@ -266,28 +307,8 @@
                   addonBefore="§"
                   addonAfter="/ hr"
                   id="open-wage"
-                  />
-                <OverlayTrigger
-                  rootClose
-                  trigger="click"
-                  placement="right"
-                  overlay={
-                    <Popover title="Confirm Open Task Posting?">
-                      {this.state.openWageConfirmDisabled ?
-                        <Button disabled="true">Yes</Button>
-                      :
-                        <Button onClick={this.postTaskToOpen.bind(null, task)}>Yes</Button>
-                      }
-                      {this.state.openWageMessage}
-                    </Popover>
-                  }>
-                  <Button
-                    bsStyle="primary"
-                    bsSize="medium"
-                    id="">
-                    Post
-                  </Button>
-                </OverlayTrigger>
+                />
+                {this.renderOpenWagePostButton()}
               </div>
             </div>
 

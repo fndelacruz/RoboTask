@@ -3,16 +3,12 @@
   // this.props.adressChangeListener
   // this.props.handleFocus
 
-  var Input = ReactBootstrap.Input;
-  var placeSearch;
   var checkValidCity = function(city) {
     return city === "San Francisco" ? true : false;
   };
 
   root.LocationEntry = React.createClass({
-    componentDidMount: function() {
-      this._initAutocomplete();
-    },
+    componentDidMount: function() { this._initAutocomplete(); },
 
     _handleFocus: function () {
       this._geolocate();
@@ -60,7 +56,7 @@
       } else { this.props.invalidAddressListener(); }
     },
 
-    handleInputFocus: function() {
+    renderInput: function() {
       if (typeof this.props.title === "undefined") {
         return (
           <input
@@ -94,7 +90,7 @@
     render: function() {
       return (
         <div id="locationField">
-          {this.handleInputFocus()}
+          {this.renderInput()}
         </div>
       );
     }

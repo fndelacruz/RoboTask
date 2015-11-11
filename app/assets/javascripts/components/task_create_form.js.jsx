@@ -213,7 +213,7 @@
       });
     },
 
-    handleSubmitButton: function() {
+    renderSubmitButton: function() {
       var status = {
         title: this.state.titleStatus,
         location: this.state.locationStatus,
@@ -237,7 +237,7 @@
               bsStyle="primary"
               onClick={this.handleBadSubmission}
               className="centered-buttons"
-              id="task-create-form-submission-disabled"
+              id="button-disabled"
             >
               Continue
             </Button>
@@ -360,7 +360,7 @@
           </div>
 
           <div>
-            {this.handleSubmitButton()}<br/>
+            {this.renderSubmitButton()}<br/>
             <span className="center-text">Next: Select Task Date and Choose RoboTasker</span>
           </div>
           {this.state.mainStatusMessage}
