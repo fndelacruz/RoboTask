@@ -3,7 +3,6 @@
 
   var Button = ReactBootstrap.Button;
   var Tooltip = ReactBootstrap.Tooltip;
-  var Popover = ReactBootstrap.Popover;
   var OverlayTrigger = ReactBootstrap.OverlayTrigger;
 
   var Glyphicon = ReactBootstrap.Glyphicon;
@@ -11,12 +10,6 @@
 
   var incompleteSubmissionTooltip = (
     <Tooltip>Please complete the task form first.</Tooltip>
-  );
-
-  var incompleteSubmissionPopover = (
-    <Popover placement="right" positionLeft={200} positionTop={50} title="Popover right">
-      And here's some <strong>amazing</strong> content. It's very engaging. right?
-    </Popover>
   );
 
   root.TaskForm = React.createClass({
@@ -30,9 +23,7 @@
       CurrentCreatedTaskStore.removeNewTaskStatedListener(this.findWorker);
     },
 
-    findWorker: function() {
-      this.history.pushState(null, "/findWorker");
-    },
+    findWorker: function() { this.history.pushState(null, "/findWorker"); },
 
     getInitialState: function() {
       var title = this.props.params.title;
@@ -91,7 +82,7 @@
     },
 
     handleGoodSubmission: function(e) {
-      if (this.state.title !== "" && this.state.location !== "" && this.state.description !== "") {
+      if (this.state.title && this.state.location && this.state.description) {
         var newTask = {
           title: this.state.title,
           location: this.state.location,
@@ -133,41 +124,26 @@
 
     _saveTitle: function() {
       if (this.state.entryTitle !== "") {
-        this.setState({
-          title: this.state.entryTitle,
-          titleStatus: "success",
-        });
+        this.setState({ title: this.state.entryTitle, titleStatus: "success" });
       } else {
-        this.setState({
-          titleStatus: "error",
-        });
+        this.setState({ titleStatus: "error" });
       }
     },
 
     _checkTitleStatus: function() {
       if (this.state.titleStatus === "success") {
         return ({
-          icon: <Glyphicon
-            glyph="ok"
-            className="task-status-icon"
-            id="icon-ok"
-          />,
-
+          icon: <Glyphicon glyph="ok" className="task-status-icon" id="icon-ok" />,
           label: "Title"
         });
       } else if (this.state.titleStatus === "error") {
         return ({
           icon: <Glyphicon glyph="remove" className="task-status-icon" id="icon-bad" />,
-
           label: "Title can't be blank"
         });
       } else {
         return ({
-          icon: <Glyphicon
-            glyph="pencil"
-            className="task-status-icon"
-          />,
-
+          icon: <Glyphicon glyph="pencil" className="task-status-icon" />,
           label: "Title"
         });
       }
@@ -176,27 +152,17 @@
     _checkDescriptionStatus: function() {
       if (this.state.descriptionStatus === "success") {
         return ({
-          icon: <Glyphicon
-            glyph="ok"
-            className="task-status-icon"
-            id="icon-ok"
-          />,
-
+          icon: <Glyphicon glyph="ok" className="task-status-icon" id="icon-ok" />,
           label: "Description"
         });
       } else if (this.state.descriptionStatus === "error") {
         return ({
           icon: <Glyphicon glyph="remove" className="task-status-icon" id="icon-bad" />,
-
           label: "Description can't be blank"
         });
       } else {
         return ({
-          icon: <Glyphicon
-            glyph="pencil"
-            className="task-status-icon"
-          />,
-
+          icon: <Glyphicon glyph="pencil" className="task-status-icon" />,
           label: "Description"
         });
       }
@@ -205,31 +171,17 @@
     _checkLocationStatus: function() {
       if (this.state.locationStatus === "success") {
         return ({
-          icon: <Glyphicon
-            glyph="ok"
-            className="task-status-icon"
-            id="icon-ok"
-          />,
-
+          icon: <Glyphicon glyph="ok" className="task-status-icon" id="icon-ok" />,
           labelId: "location-ok"
         });
       } else if (this.state.locationStatus === "error") {
         return ({
-          icon: <Glyphicon
-            glyph="remove"
-            className="task-status-icon"
-            id="icon-bad"
-          />,
-
+          icon: <Glyphicon glyph="remove" className="task-status-icon" id="icon-bad" />,
           labelId: "location-bad"
         });
       } else {
         return ({
-          icon: <Glyphicon
-            glyph="pencil"
-            className="task-status-icon"
-          />,
-
+          icon: <Glyphicon glyph="pencil" className="task-status-icon" />,
           labelId: ""
         });
       }
@@ -241,35 +193,22 @@
           description: this.state.entryDescription,
           descriptionStatus: "success",
         });
-      } else {
-        this.setState({
-          descriptionStatus: "error",
-        });
-
-      }
+      } else { this.setState({ descriptionStatus: "error" }); }
     },
 
     handleBadSubmission: function() {
       var titleStatus = this.state.titleStatus;
-      if (titleStatus === "") {
-        titleStatus = "error";
-      }
+      if (!titleStatus) { titleStatus = "error"; }
 
       var locationStatus = this.state.locationStatus;
-      var locationStatusMessage = this.state.locationStatusMessage;
-      if (locationStatus === "") {
-        locationStatus = "error";
-      }
+      if (!locationStatus) { locationStatus = "error"; }
 
       var descriptionStatus = this.state.descriptionStatus;
-      if (descriptionStatus === "") {
-        descriptionStatus = "error";
-      }
+      if (!descriptionStatus) { descriptionStatus = "error"; }
 
       this.setState({
         titleStatus: titleStatus,
         locationStatus: locationStatus,
-        locationStatusMessage: locationStatusMessage,
         descriptionStatus: descriptionStatus
       });
     },
@@ -281,12 +220,13 @@
         description: this.state.descriptionStatus
       };
 
-      if (status.title == "success" && status.location == "success" && status.description == "success") {
+      if (status.title === "success" && status.location === "success" && status.description === "success") {
         return (
           <Button
             bsStyle="primary"
             onClick={this.handleGoodSubmission}
-            className="centered-buttons">
+            className="centered-buttons"
+          >
             Continue
           </Button>
         );
@@ -297,7 +237,8 @@
               bsStyle="primary"
               onClick={this.handleBadSubmission}
               className="centered-buttons"
-              id="task-create-form-submission-disabled">
+              id="task-create-form-submission-disabled"
+            >
               Continue
             </Button>
           </OverlayTrigger>

@@ -7,11 +7,9 @@ class Api::ReviewsController < ApplicationController
   end
 
   def create
-    if current_user.id != review_params[:creator_id].to_i
+    if current_user != Task.find(review_params[:task_id].to_i).creator
       render json: { status: "BAD" }
     else
-
-
       review = Review.new(review_params.select{ |k,_| k != "creator_id" })
       if review.save
         render json: {status: "OK"}
@@ -24,6 +22,6 @@ class Api::ReviewsController < ApplicationController
   private
 
   def review_params
-    params.require(:review).permit(:worker_id, :task_id, :description, :is_positive, :creator_id)
+    params.require(:review).permit(:worker_id, :task_id, :description, :is_positive)
   end
 end

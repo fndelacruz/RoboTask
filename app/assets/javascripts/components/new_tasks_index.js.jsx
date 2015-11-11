@@ -1,11 +1,8 @@
 (function(root) {
   'use strict';
 
-
   var TasksIndex = root.TasksIndex = React.createClass({
-    getInitialState: function() {
-      return ({ tasks: [] });
-    },
+    getInitialState: function() { return ({ tasks: [] }); },
 
     _updateTasks: function() {
       var activeTab = this.props.location.pathname.match(/\/(\w+)$/)[1];
@@ -15,7 +12,6 @@
     componentDidMount: function() {
       this.handleChange(this.props.params.type);
       TaskStore.addChangeListener(this._updateTasks);
-
       ApiUtil.fetchCurrentUserSetup();
     },
 
@@ -49,24 +45,23 @@
 
     render: function() {
       var that = this;
-      return (
-        <div>
-          {(this.state.tasks.length === 0) ?
-            <div>No tasks here!</div>
-          :
-            <div>
-              {this.state.tasks.map(function(createdTask) {
-                return (
-                  <CreatedTasksIndexItem
-                    userIsRobot={CurrentUserStore.all().isRobot}
-                    key={createdTask.id}
-                    createdTask={createdTask}/>
-                );
-              })}
-            </div>
-          }
-        </div>
-      );
+      if (this.state.tasks.length === 0) {
+        return (<div>No tasks here!</div>);
+      } else {
+        return (
+          <div>
+            {this.state.tasks.map(function(createdTask) {
+              return (
+                <CreatedTasksIndexItem
+                  userIsRobot={CurrentUserStore.all().isRobot}
+                  key={createdTask.id}
+                  createdTask={createdTask}
+                />
+              );
+            })}
+          </div>
+        );
+      }
     }
   });
 }(this));

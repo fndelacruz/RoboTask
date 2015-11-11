@@ -3,7 +3,7 @@
 <head>
   <title>RoboTask</title>
   <script
-  src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDFHev4jR0Hxl8Ris7v0STFhW1Q32UTw7A">
+    src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDFHev4jR0Hxl8Ris7v0STFhW1Q32UTw7A">
   </script>
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag 'application' %>
@@ -13,7 +13,7 @@
 
 <% if current_user %>
   <script>
-    window.CURRENT_USER_ID = <%= current_user.id %>
+    window.IS_CURRENT_USER_LOGGED_IN = <%= current_user ? true : false %>
     window.IS_ROBOT = <%= current_user.is_robot %>
   </script>
 <% end %>

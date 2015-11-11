@@ -6,9 +6,7 @@
       $.ajax({
         url: "/session/1234",
         method: "DELETE",
-        success: function() {
-          root.location = "/";
-        }
+        success: function() { root.location = "/"; }
       });
     },
 
@@ -16,9 +14,7 @@
       $.ajax({
         url: "/api/current_user_options",
         method: "GET",
-        success: function(details) {
-          ApiActions.setCurrentUserOptions(details);
-        }
+        success: function(details) { ApiActions.setCurrentUserOptions(details); }
       });
     },
 
@@ -26,9 +22,7 @@
       $.ajax({
         url: "/api/tasks/" + task.id,
         method: "DELETE",
-        success: function(e) {
-          ApiActions.deleteTask(task);
-        }
+        success: function(e) { ApiActions.deleteTask(task); }
       });
     },
 
@@ -37,9 +31,7 @@
         url: "/api/users/",
         method: "GET",
         data: {dateTime: dateTime},
-        success: function(workers) {
-          ApiActions.receiveValidWorkers(workers);
-        }
+        success: function(workers) { ApiActions.receiveValidWorkers(workers); }
       });
     },
 
@@ -49,10 +41,7 @@
         method: "POST",
         data: { task: $.extend(task, {worker_id: worker.id, datetime: datetime}) },
         success: function(task) {
-        if (task._fail) {
-          } else {
-            ApiActions.assignWorkerDirectlyToTaskOK();
-          }
+          if (!task._fail) { ApiActions.assignWorkerDirectlyToTaskOK(); }
         }
       });
     },
@@ -63,10 +52,7 @@
         method: "POST",
         data: { task: $.extend(task, {is_open: true, datetime: datetime, wage: wage}) },
         success: function(task) {
-        if (task._fail) {
-          } else {
-            ApiActions.assignTaskToOpenOK();
-          }
+          if (!task._fail) { ApiActions.assignTaskToOpenOK(); }
         }
       });
     },
@@ -89,9 +75,7 @@
       $.ajax({
         url: "/api/users/1",
         method: "GET",
-        success: function(bioAndWorkTimes) {
-          ApiActions.receiveCurrentUserDetails(bioAndWorkTimes);
-        }
+        success: function(details) { ApiActions.receiveCurrentUserDetails(details); }
       });
     },
 
@@ -112,28 +96,12 @@
       });
     },
 
-    updateBio: function(bio) {
-      $.ajax({
-        url: "/api/users/1",
-        method: "PATCH",
-        data: { user: bio },
-        success: function(e) {
-          if (e.status === "OK") {
-          } else if (e.status === "BAD") {
-          } else {
-          }
-        }
-      });
-    },
-
     fetchReviews: function(worker) {
       $.ajax({
         url: "/api/reviews",
         method: "GET",
         data: {review: {worker_id: worker.id}},
-        success: function(reviews) {
-          ApiActions.receiveReviews(reviews);
-        }
+        success: function(reviews) { ApiActions.receiveReviews(reviews); }
       });
     },
 
@@ -153,14 +121,11 @@
     },
 
     fetchQualifyingTasks: function() {
-      var params = TaskMapFilterParamsStore.all();
       $.ajax({
         url: "/api/workers/tasks/",
-        data: params,
+        data: TaskMapFilterParamsStore.all(),
         method: "GET",
-        success: function(tasks) {
-          ApiActions.receiveWorkableTasks(tasks);
-        }
+        success: function(tasks) { ApiActions.receiveWorkableTasks(tasks); }
       });
     },
 
@@ -169,9 +134,7 @@
         url: "/api/current_user_options/1",
         data: {user: passwords},
         method: "PATCH",
-        success: function(e) {
-          ApiActions.receivePasswordChangeStatus(e);
-        }
+        success: function(e) { ApiActions.receivePasswordChangeStatus(e); }
       });
     },
 
@@ -179,9 +142,7 @@
       $.ajax({
         url: "/api/tasks",
         method: "GET",
-        success: function(tasks) {
-          ApiActions.receiveCreatedTasks(tasks);
-        }
+        success: function(tasks) { ApiActions.receiveCreatedTasks(tasks); }
       });
     },
   };

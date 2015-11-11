@@ -5,19 +5,9 @@
     mixins: [ReactRouter.History],
 
     getInitialState: function() {
-      var assignedTasks = 0;
-      var unassignedTasks = 0;
-      root.TaskStore.all().forEach(function(task) {
-        if (task.worker_id === null) {
-          unassignedTasks += 1;
-        } else {
-          assignedTasks += 1;
-        }
-      });
-
       return ({
-        unassignedTaskCount: unassignedTasks,
-        assignedTaskCount: assignedTasks,
+        unassignedTaskCount: TaskStore.allIncompleteUnassigned().length,
+        assignedTaskCount: TaskStore.allIncompleteAssigned().length,
         userIsRobot: CurrentUserStore.all().isRobot
       });
     },
@@ -68,7 +58,7 @@
     //   this.history.pushState(null, "/messages");
     // },
 
-    _handleUserType: function() {
+    renderQuickButton: function() {
       if (this.state.userIsRobot) {
         return (
           <li>
@@ -84,38 +74,31 @@
       }
     },
 
-    handleActiveBar: function() {
+    renderActiveBar: function() {
       var assignedCount = this.state.assignedTaskCount;
       var activeClass = "badge" + ((assignedCount > 0) ? " badge-active-nonempty" : "");
       return (
         <li>
-          <a href={this.state.userIsRobot ?
+          <a
+            href={this.state.userIsRobot ?
               "/#/tasks/created/worker_active"
             :
               "/#/tasks/created/active"
-            }>
+            }
+          >
           Active:<span className={activeClass}>{assignedCount}</span>
           </a>
         </li>
       );
     },
 
-    handleHistoryBar: function() {
-      if (this.state.userIsRobot) {
-        return (
-          <li
-            onClick={this.handleTaskClick.bind(null, "worker_history")}>
-            <a>History</a>
-          </li>
-        );
-      } else {
-        return (
-          <li
-            onClick={this.handleTaskClick.bind(null, "history")}>
-            <a>History</a>
-          </li>
-        );
-      }
+    renderHistoryBar: function() {
+      var historyLink = this.state.userIsRobot ? "worker_history" : "history";
+      return (
+        <li onClick={this.handleTaskClick.bind(null, historyLink)}>
+          <a>History</a>
+        </li>
+      );
     },
 
     render: function() {
@@ -137,46 +120,52 @@
         <nav className="navbar navbar-default" id="my-navbar-brand">
 
             <div className="navbar-header">
-              <button type="button" className="navbar-toggle collapsed"
-                      data-toggle="collapse"
-                      data-target="#collapse-menu"
-                      aria-expanded="false">
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
+              <button
+                type="button" className="navbar-toggle collapsed"
+                data-toggle="collapse"
+                data-target="#collapse-menu"
+                aria-expanded="false"
+              >
+                <span className="icon-bar" />
+                <span className="icon-bar" />
+                <span className="icon-bar" />
               </button>
               <a className="navbar-brand" onClick={this.handleLogoClick}>RoboTask</a>
             </div>
 
             <div className="collapse navbar-collapse" id="collapse-menu">
               <ul className="nav navbar-nav navbar-right">
-                {this._handleUserType()}
+                {this.renderQuickButton()}
                 <li className="dropdown">
-                  <a href="#"
-                    className="dropdown-toggle"
-                    data-toggle="dropdown"
-                    role="button"
-                    aria-haspopup="true"
-                    aria-expanded="false">
-                    My Tasks
-                    <span className="caret"></span>
-                  </a>
-                  <ul className="dropdown-menu">
-                    {openSection}
-                    {this.handleActiveBar()}
-                    {this.handleHistoryBar()}
-
-                  </ul>
-                </li>
-
-                <li className="dropdown">
-                  <a href="#"
+                  <a
+                    href="#"
                     className="dropdown-toggle"
                     data-toggle="dropdown"
                     role="button"
                     aria-haspopup="true"
                     aria-expanded="false"
-                    id="my-account">
+                  >
+                    My Tasks
+                    <span className="caret"></span>
+                  </a>
+                  <ul className="dropdown-menu">
+                    {openSection}
+                    {this.renderActiveBar()}
+                    {this.renderHistoryBar()}
+
+                  </ul>
+                </li>
+
+                <li className="dropdown">
+                  <a
+                    href="#"
+                    className="dropdown-toggle"
+                    data-toggle="dropdown"
+                    role="button"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    id="my-account"
+                  >
                     My Account
                     <span className="caret"></span>
                   </a>
@@ -185,8 +174,7 @@
                       <a href="/#/profile">Edit Profile</a>
                     </li>
                     <li role="separator" className="divider"></li>
-                    <li
-                      onClick={ApiUtil.logout}>
+                    <li onClick={ApiUtil.logout}>
                       <a role="button"id="log-out">Log Out</a>
                     </li>
                   </ul>

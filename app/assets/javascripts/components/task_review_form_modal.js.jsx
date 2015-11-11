@@ -62,7 +62,6 @@
 
       if (hasDescription && isMarked) {
         ApiUtil.createReview({
-          creator_id: root.CURRENT_USER_ID,
           task_id: this.props.task.id,
           description: this.state.descriptionEntry,
           is_positive: this.state.isPositive

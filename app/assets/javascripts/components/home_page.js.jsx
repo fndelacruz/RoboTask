@@ -54,17 +54,14 @@
     },
 
     handleKeyDown: function(e) {
-      if (e.keyCode === 13) {
-        this.handleSubmit();
-      } else {
-        this.handleChange(e);
-      }
+      if (e.keyCode === 13) { this.handleSubmit(); }
+      else { this.handleChange(e); }
     },
 
-    handleUpcomingTasks: function() {
+    renderUpcomingTasks: function() {
       var tasks = this.state.upcomingTasks;
       var userIsRobot = CurrentUserStore.all().isRobot;
-      return ((tasks.length === 0) ?
+      return (tasks.length === 0 ?
         <div className="panel center-block home-sub-header">You have no upcoming tasks.</div>
       :
         <div>
@@ -74,14 +71,15 @@
               <CreatedTasksIndexItem
                 userIsRobot={userIsRobot}
                 key={createdTask.id}
-                createdTask={createdTask}/>
+                createdTask={createdTask}
+              />
             );
           })}
         </div>
       );
     },
 
-    handleInput: function() {
+    renderInput: function() {
       return (
         <Input
           type="text"
@@ -91,11 +89,12 @@
           onChange={this.handleChange}
           bsStyle={this.state.newTaskTitleStatus}
           onKeyDown={this.handleKeyDown}
-          hasFeedback />
+          hasFeedback
+        />
       );
     },
 
-    _header: function() {
+    renderHeader: function() {
       var options = CurrentUserStore.all();
       return (
         <div>
@@ -103,20 +102,25 @@
             <img
               className="reviewer-profile-pic"
               id="home-current-user-pic"
-              src={options.image} />
-            <span className="home-header">Welcome to RoboTask, {options.shortName}!</span>
+              src={options.image}
+            />
+            <span className="home-header">
+              Welcome to RoboTask, {options.shortName}!
+            </span>
           </div>
           {options.isRobot === false ?
             <div className="panel home-sub-header" id="task-create-welcome">
               How can we help you?<br/>
-              {this.handleInput()}
+              {this.renderInput()}
               <Button
                 className="home-task-create-button"
                 bsStyle="primary"
                 onClick={this.handleSubmit}>
                 Continue!
               </Button>
-              <span className="home-task-create-status">{this.state.newTaskTitleStatusMessage}</span>
+              <span className="home-task-create-status">
+                {this.state.newTaskTitleStatusMessage}
+              </span>
             </div>
           :
             <div className="panel home-sub-header" id="task-find-welcome">
@@ -131,8 +135,8 @@
       return (
         <div className="container">
           <div className="row">
-            {this._header()}
-            {this.handleUpcomingTasks()}
+            {this.renderHeader()}
+            {this.renderUpcomingTasks()}
           </div>
         </div>
       );

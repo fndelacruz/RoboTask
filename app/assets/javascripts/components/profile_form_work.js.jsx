@@ -52,9 +52,7 @@
               wageStatus: "error",
               wageStatusMessage: "Can't be blank."
             });
-          } else {
-            ApiUtil.updateCurrentUserDetails(this.state.wage, section);
-          }
+          } else { ApiUtil.updateCurrentUserDetails(this.state.wage, section); }
           break;
       }
     },
@@ -87,19 +85,14 @@
 
     handleClick: function(e) {
       var id = e.currentTarget.id.split("-");
-      if (id.length === 2) {
-        this._toggleDay(id[1]);
-      } else if (id.length === 3) {
-        this._toggleInterval(id[1], id[2]);
-      }
+      if (id.length === 2) { this._toggleDay(id[1]); }
+      else if (id.length === 3) { this._toggleInterval(id[1], id[2]); }
     },
 
     _isAnyIntervalTrue: function(dayIntervals) {
       var state = false;
       INTERVALS.forEach(function(interval) {
-        if (dayIntervals[interval]) {
-          state = true;
-        }
+        if (dayIntervals[interval]) { state = true; }
       });
       return state;
     },
@@ -143,14 +136,10 @@
         if (workTimes[day]) {
           var dayIntervals = Object.keys(workTimes[day]);
           dayIntervals.forEach(function(dayInterval) {
-            if (workTimes[day][dayInterval]) {
-              isDaySelected = true;
-            }
+            if (workTimes[day][dayInterval]) { isDaySelected = true; }
           });
         }
-        if (isDaySelected) {
-          count++;
-        }
+        if (isDaySelected) { count++; }
       });
       return count;
     },
@@ -176,9 +165,7 @@
       }
     },
 
-    handleBioClick: function() {
-      this.history.pushState(null, "/profile/bio");
-    },
+    handleBioClick: function() { this.history.pushState(null, "/profile/bio"); },
 
     handleChange: function(e) {
       switch (e.target.id) {

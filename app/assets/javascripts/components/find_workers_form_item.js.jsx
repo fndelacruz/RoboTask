@@ -4,8 +4,6 @@
   // this.props.task
   // this.props.chooseWorker
   // this.props.dateTime
-  var Button = ReactBootstrap.Button;
-
   root.FindWorkersFormItem = React.createClass({
     approvalRating: function() {
       if (this.props.worker.stats.total_tasks > 0) {

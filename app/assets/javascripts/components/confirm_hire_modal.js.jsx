@@ -20,10 +20,7 @@
     },
 
     _assignWorkerOK: function() {
-      this.setState({
-        message: "HIRED",
-        inputDisabled: true
-      });
+      this.setState({ message: "HIRED", inputDisabled: true });
       var that = this;
       var timeout = root.setTimeout(function() {
         that.close();
@@ -32,38 +29,13 @@
       }, 2000);
     },
 
-    _test: function() {
-
-    },
-
     componentDidMount: function() {
-      root.TaskStore.addAssignTaskWorkerOKListener(this._assignWorkerOK);
+      TaskStore.addAssignTaskWorkerOKListener(this._assignWorkerOK);
     },
 
     componentWillUnmount: function() {
-      root.TaskStore.removeAssignTaskWorkerOKListener(this._assignWorkerOK);
+      TaskStore.removeAssignTaskWorkerOKListener(this._assignWorkerOK);
     },
-
-    _getInterval: function() {
-      var interval;
-      switch (this.props.dateTime.getHours()) {
-        case 0:
-          interval = "Anytime";
-          break;
-        case 8:
-          interval = "Morning";
-          break;
-        case 12:
-          interval = "Afternoon";
-          break;
-        case 16:
-          interval = "Evening";
-          break;
-        default:
-      }
-      return interval;
-    },
-
 
     close: function() {
       this.setState({ showModal: false });
@@ -73,18 +45,12 @@
       this.setState({ showModal: true });
     },
 
-    _disabledSubmit: function() {
-    },
-
     render: function() {
       var task = this.props.task;
       var worker = this.props.worker;
       var dateTime = this.props.dateTime;
       var shortName = this.props.shortName;
-      var wage = worker.wage;
-
       var successHandler = this.props.successHandler;
-
       var handleSubmit = this.props.chooseWorker;
       var isDisabled = false;
 
@@ -114,8 +80,9 @@
                   className="confirm-worker-profile-pic center-block"
                   src={ worker.image } /><br/>
 
-
-                <h1 className="text-center" id="worker-profile-shortName">Hire {shortName} at §{wage}/hr?</h1>
+                <h1 className="text-center" id="worker-profile-shortName">
+                  Hire {shortName} at §{this.props.worker.wage}/hr?
+                </h1>
                 <div className="task-date-scheduled">{dateTime[0]}</div>
                 <div className="task-time-scheduled">{dateTime[1]}</div><br/>
 

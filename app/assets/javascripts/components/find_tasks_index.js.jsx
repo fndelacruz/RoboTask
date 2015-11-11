@@ -13,17 +13,13 @@
     return array;
   };
 
-
-
   var sortByDate = function(isAscending) {
     return function(task1, task2) {
       if (task1.datetime[2] < task2.datetime[2]) {
         return isAscending ? -1 : 1 ;
       } else if (task1.datetime[2] > task2.datetime[2]) {
         return isAscending ? 1 : -1 ;
-      } else {
-        return 0;
-      }
+      } else { return 0; }
     };
   };
 
@@ -33,12 +29,9 @@
         return isAscending ? -1 : 1 ;
       } else if (task1.wage > task2.wage) {
         return isAscending ? 1 : -1 ;
-      } else {
-        return 0;
-      }
+      } else { return 0; }
     };
   };
-
 
   var FindTasksIndex = root.FindTasksIndex = React.createClass({
     getInitialState: function() {
@@ -79,14 +72,12 @@
     },
 
     resetAssignmentStatus: function() {
-      this.setState({
-        assignmentStatus: "",
-        assignmentButtonDisabled: false
-      });
+      this.setState({ assignmentStatus: "", assignmentButtonDisabled: false });
     },
 
     _updateTaskFilters: function() {
       ApiUtil.fetchQualifyingTasks();
+      this.setState({ finishedLoading: false });
     },
 
     componentDidMount: function() {
@@ -108,9 +99,7 @@
       });
     },
 
-    applyToTask: function(task) {
-      ApiUtil.assignWorkerToOpenTask(task);
-    },
+    applyToTask: function(task) { ApiUtil.assignWorkerToOpenTask(task); },
 
     _applyFilter: function(currentSortType) {
       var sortTypes = Object.keys(this.state.sortType);
@@ -138,7 +127,6 @@
           <FindTasksFilters
             filters={this.state.sortType}
             filterChange={this._applyFilter}
-
           />
         );
         footer = (
@@ -167,7 +155,7 @@
                     assignmentStatus={that.state.assignmentStatus}
                     resetAssignmentStatus={that.resetAssignmentStatus}
                     key={task.id}
-                    />
+                  />
                 );
               })}
               {footer}

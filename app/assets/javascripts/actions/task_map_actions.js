@@ -2,14 +2,14 @@
   'use strict';
 
   root.TaskMapActions = {
-    taskHighlightOn: function(taskId) {
+    highlightOn: function(taskId) {
       AppDispatcher.dispatch({
         actionType: TaskMapConstants.TASK_MAP_HIGHLIGHT_ON,
         taskId: taskId
       });
     },
 
-    taskHighlightOff: function(taskId) {
+    highlightOff: function(taskId) {
       AppDispatcher.dispatch({
         actionType: TaskMapConstants.TASK_MAP_HIGHLIGHT_OFF,
         taskId: taskId

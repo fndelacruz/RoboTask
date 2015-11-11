@@ -31,7 +31,8 @@
                   id=""
                   key={sortType}
                 >
-                  <input type="checkbox" autoComplete="off" /> {_filterNameCodes[sortType]}
+                  <input type="checkbox" autoComplete="off" />
+                  {_filterNameCodes[sortType]}
                 </label>
               );
             })}

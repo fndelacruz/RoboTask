@@ -1,22 +1,20 @@
 require 'rails_helper'
 require 'spec_helper'
-feature "robot guest users can" do
+feature "robot guest users" do
 
-  # scenario "view site splash page" do
-  #   visit root_path
-  #   expect(page).to have_content "Connecting clients who need robots to robots who need money."
-  # end
+  before(:each) do
+    visit root_path
+    click_button "Guest Robot Login"
+  end
 
-  # scenario "login and logout as guest robot" do
-  #   visit root_path
-  #   click_button "Guest Robot Login"
+  # scenario "can login and logout as guest robot" do
   #   expect(page).to have_content "Welcome to RoboTask, Robot G.!"
   #   click_on "My Account"
   #   click_on "Log Out"
   #   expect(page).to have_content "Connecting clients who need robots to robots who need money."
   # end
 
-  scenario "signup for open tasks and view them in 'My Tasks'" do
+  scenario "can signup for open tasks and view them in 'My Tasks'" do
     visit root_path
     click_button "Guest Robot Login"
     click_on "Open Task Search"
@@ -28,5 +26,17 @@ feature "robot guest users can" do
     click_on "Active:"
     expect(page).to have_content task_description
   end
+
+  # scenario "can change bio" do
+  # end
+  #
+  # scenario "can change work time availability" do
+  # end
+  #
+  # scenario "can change password" do
+  # end
+  #
+  # scenario "can view their old completed tasks and associated reviews" do
+  # end
 
 end

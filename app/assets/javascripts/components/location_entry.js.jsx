@@ -48,9 +48,7 @@
       var place = this.autocomplete.getPlace();
       var city;
       place.address_components.forEach(function(component, idx) {
-        if (component.types[0] === "locality") {
-          city = component.long_name;
-        }
+        if (component.types[0] === "locality") { city = component.long_name; }
       });
 
       if (checkValidCity(city)) {
@@ -59,9 +57,7 @@
           place.geometry.location.lat(),
           place.geometry.location.lng()
         );
-      } else {
-        this.props.invalidAddressListener();
-      }
+      } else { this.props.invalidAddressListener(); }
     },
 
     handleInputFocus: function() {
@@ -83,7 +79,7 @@
           <input
             className="autocomplete form-control"
             ref="autocomplete"
-            placeholder="Example"
+            placeholder="Example: 1061 Market St, San Franciso, CA 94103"
             onFocus={this._handleFocus}
             onBlur={this.props.handleLocationBlur}
             onChange={this.props.handleChange}

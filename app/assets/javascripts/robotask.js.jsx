@@ -1,6 +1,6 @@
 $(function() {
   'use strict';
-  if (window.CURRENT_USER_ID) {
+  if (window.IS_CURRENT_USER_LOGGED_IN) {
     var root = document.getElementById("static-root");
     var Router = ReactRouter.Router;
     var Route = ReactRouter.Route;
@@ -18,9 +18,7 @@ $(function() {
       },
 
       updateUserDetails: function() {
-        this.setState({
-          currentUserSettings: CurrentUserStore.all()
-        });
+        this.setState({ currentUserSettings: CurrentUserStore.all() });
       },
 
       render: function() {

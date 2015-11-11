@@ -1,9 +1,6 @@
 (function(root) {
   'use strict';
 
-  var isNumbers = function(string) {
-
-  }
   var shuffle = function(array) {
     var currentIndex = array.length, temporaryValue, randomIndex ;
     while (0 !== currentIndex) {

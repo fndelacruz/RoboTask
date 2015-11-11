@@ -2,7 +2,6 @@
   'use strict';
 
   var Button = ReactBootstrap.Button;
-  var Glyphicon = ReactBootstrap.Glyphicon;
 
   root.ProfileForm = React.createClass({
     mixins: [ReactRouter.History],
@@ -22,14 +21,15 @@
       this.history.pushState(null, "/profile/work_settings");
     },
 
-    handleWorkProfileDisplay: function() {
+    renderWorkProfileDisplay: function() {
       if (this.state.userIsRobot) {
         return (
           <Button
             bsStyle="primary"
             bsSize="medium"
             onClick={this.handleWorkProfileClick}
-            block>
+            block
+          >
             Work Profile
           </Button>
         );
@@ -45,13 +45,17 @@
             </div>
 
             <div className="panel col-xs-12 col-sm-3">
-              <Button bsStyle="primary" bsSize="medium" onClick={this.handleGeneralClick} block>General</Button>
-              {this.handleWorkProfileDisplay()}
+              <Button
+                bsStyle="primary"
+                bsSize="medium"
+                onClick={this.handleGeneralClick}
+                block
+              >
+                General
+              </Button>
+              {this.renderWorkProfileDisplay()}
             </div>
-            <div className="col-xs-12 col-sm-9">
-              {this.props.children}
-            </div>
-
+            <div className="col-xs-12 col-sm-9">{this.props.children}</div>
           </div>
         </div>
       );

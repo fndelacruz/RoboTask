@@ -19,23 +19,18 @@
       });
     },
 
-    approvalRating: function() {
+    renderApprovalRating: function() {
       if (this.props.worker.stats.total_tasks > 0) {
         return (
           <div className="text-center" id="worker-profile-rating">
             {this.props.worker.stats.approval_rating}% Approval rating
           </div>
         );
-      } else {
-        return ("");
-      }
+      } else { return (""); }
     },
 
     _updateReviews: function() {
-      this.setState({
-        reviews: ReviewStore.all(),
-        rating: ReviewStore.rating()
-      });
+      this.setState({ reviews: ReviewStore.all(), rating: ReviewStore.rating() });
     },
 
     componentDidMount: function() {
@@ -75,20 +70,22 @@
             <Modal.Header closeButton>
               <Modal.Title>{this.props.shortName}'s reviews</Modal.Title>
             </Modal.Header>
-
-
             <Modal.Body>
               <div>
                 <img
                   className="review-worker-profile-pic center-block"
-                  src={this.props.worker.image} /><br/>
-
-
-                <div className="text-center" id="worker-profile-shortName">{this.props.shortName}</div>
-                <h3 className="text-center">{this.props.worker.stats.total_tasks} RoboTasks completed</h3>
-                {this.approvalRating()}
-                <p className="text-center">Member since: {this.props.worker.created_at}</p>
-
+                  src={this.props.worker.image}
+                /><br/>
+                <div className="text-center" id="worker-profile-shortName">
+                  {this.props.shortName}
+                </div>
+                <h3 className="text-center">
+                  {this.props.worker.stats.total_tasks} RoboTasks completed
+                </h3>
+                {this.renderApprovalRating()}
+                <p className="text-center">
+                  Member since: {this.props.worker.created_at}
+                </p>
                 {reviews.map(function(review) {
                   return <ReviewIndexModalItem review={review} key={review.id}/>;
                 })}

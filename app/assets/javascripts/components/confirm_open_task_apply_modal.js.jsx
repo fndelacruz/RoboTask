@@ -12,29 +12,17 @@
     mixins: [ReactRouter.History],
 
     getInitialState: function() {
-      return ({
-        showModal: false,
-        message: "",
-        inputDisabled: ""
-      });
+      return ({ showModal: false, message: "", inputDisabled: "" });
     },
 
     _assignWorkerOK: function() {
-      this.setState({
-        message: "SIGNED UP FOR TASK!",
-        inputDisabled: true
-      });
+      this.setState({ message: "SIGNED UP FOR TASK!", inputDisabled: true });
       var that = this;
       var timeout = root.setTimeout(function() {
         that.close();
         clearTimeout(timeout);
         ApiUtil.fetchQualifyingTasks();
-        // that.props.resetAssignmentStatus();
       }, 1000);
-    },
-
-    _test: function() {
-
     },
 
     componentDidMount: function() {
@@ -45,56 +33,19 @@
       WorkableTaskStore.removeOpenTaskAssignmentStatusListener(this._assignWorkerOK);
     },
 
-    _getInterval: function() {
-      var interval;
-      switch (this.props.dateTime.getHours()) {
-        case 0:
-          interval = "Anytime";
-          break;
-        case 8:
-          interval = "Morning";
-          break;
-        case 12:
-          interval = "Afternoon";
-          break;
-        case 16:
-          interval = "Evening";
-          break;
-        default:
-      }
-      return interval;
-    },
-
-
     close: function() {
-      this.setState({
-        showModal: false,
-        message: "",
-        inputDisabled: ""
-      });
+      this.setState({ showModal: false, message: "", inputDisabled: "" });
     },
 
     open: function() {
-      this.setState({
-        showModal: true,
-        message: "",
-        inputDisabled: ""
-      });
-    },
-
-    _disabledSubmit: function() {
+      this.setState({ showModal: true, message: "", inputDisabled: "" });
     },
 
     render: function() {
       var task = this.props.task;
-      var creator = task.creator;
       var dateTime = task.datetime;
-      var shortName = creator.shortName;
-      var wage = task.wage;
-
       var handleSubmit = this.props.applyToTask;
       var isDisabled = false;
-
       if (this.state.inputDisabled === true ) {
         isDisabled = true;
         handleSubmit = this._disabledSubmit;
@@ -119,10 +70,10 @@
               <div>
                 <img
                   className="confirm-worker-profile-pic center-block"
-                  src={ creator.image } /><br/>
-
-
-                <h1 className="text-center" id="worker-profile-shortName">Work for {shortName} at §{wage}/hr?</h1>
+                  src={task.creator.image}
+                /><br/>
+                <h1 className="text-center" id="worker-profile-shortName">
+                Work for {task.creator.shortName} at §{task.wage}/hr?</h1>
                 <div className="task-date-scheduled">{dateTime[0]} {dateTime[1]}</div>
                 <span className="task-title">{task.title}</span><br/>
                 <div className="task-title-divider" />

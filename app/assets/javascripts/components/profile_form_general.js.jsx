@@ -80,8 +80,6 @@
             });
           }
           break;
-        default:
-
       }
     },
 
@@ -113,7 +111,7 @@
                 hasFeedback
               />
 
-              <label htmlFor="new-password-entry-1">Confirm New Password</label>
+              <label htmlFor="new-password-entry-2">Confirm New Password</label>
               <input
                 type="password"
                 className="form-control"
@@ -128,10 +126,13 @@
                   bsStyle="primary"
                   bsSize="medium"
                   id="profile-save-button"
-                  onClick={this.handleSubmission.bind(null, "password")}>
+                  onClick={this.handleSubmission.bind(null, "password")}
+                >
                 Change Password
                 </Button>
-                <span className="profile-status-message" id="">{this.state.newPasswordStatusMessage}</span>
+                <span className="profile-status-message" id="">
+                  {this.state.newPasswordStatusMessage}
+                </span>
               </div>
             </div>
           </div>

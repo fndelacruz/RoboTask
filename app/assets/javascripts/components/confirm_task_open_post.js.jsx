@@ -1,4 +1,5 @@
 (function(root) {
+  // NOTE: This is currently not implemented. 
   // this.props.task.worker_email
   // this.props.task
   // this.props.dateTime
@@ -12,18 +13,11 @@
     mixins: [ReactRouter.History],
 
     getInitialState: function() {
-      return ({
-        showModal: false,
-        message: "",
-        inputDisabled: ""
-      });
+      return ({ showModal: false, message: "", inputDisabled: "" });
     },
 
     _assignTaskOpenOK: function() {
-      this.setState({
-        message: "TASK POSTED",
-        inputDisabled: true
-      });
+      this.setState({ message: "TASK POSTED", inputDisabled: true });
       var that = this;
       var timeout = root.setTimeout(function() {
         that.close();
@@ -33,48 +27,20 @@
     },
 
     componentDidMount: function() {
-      root.TaskStore.addAssignTaskWorkerOKListener(this._assignTaskOpenOK);
+      TaskStore.addAssignTaskWorkerOKListener(this._assignTaskOpenOK);
     },
 
     componentWillUnmount: function() {
-      root.TaskStore.removeAssignTaskWorkerOKListener(this._assignTaskOpenOK);
+      TaskStore.removeAssignTaskWorkerOKListener(this._assignTaskOpenOK);
     },
 
-    _getInterval: function() {
-      var interval;
-      switch (this.props.dateTime.getHours()) {
-        case 0:
-          interval = "Anytime";
-          break;
-        case 8:
-          interval = "Morning";
-          break;
-        case 12:
-          interval = "Afternoon";
-          break;
-        case 16:
-          interval = "Evening";
-          break;
-      }
-      return interval;
-    },
+    close: function() { this.setState({ showModal: false }); },
 
-
-    close: function() {
-      this.setState({ showModal: false });
-    },
-
-    open: function() {
-      this.setState({ showModal: true });
-    },
-
-    _disabledSubmit: function() {
-    },
+    open: function() { this.setState({ showModal: true }); },
 
     render: function() {
       var task = this.props.task;
       var dateTime = this.props.dateTime;
-      var wage = this.props.wage;
       var handleSubmit = this.props.chooseWorker;
       var isDisabled = false;
 
@@ -100,7 +66,9 @@
             </Modal.Header>
             <Modal.Body>
               <div>
-                <h1 className="text-center" id="worker-profile-shortName">Post task at §{wage}/hr?</h1>
+                <h1 className="text-center" id="worker-profile-shortName">
+                  Post task at §{this.props.wage}/hr?
+                </h1>
                 <div className="task-date-scheduled">{dateTime[0]}</div>
                 <div className="task-time-scheduled">{dateTime[1]}</div><br/>
 

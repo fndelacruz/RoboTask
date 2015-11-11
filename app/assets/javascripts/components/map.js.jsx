@@ -5,24 +5,39 @@
   var taskIdMarkerDirectory = {};
 
   var taskNeedsMarker = function (taskId) {
-    if (taskIdsWithMarkers.indexOf(taskId) === -1) {
-      return true;
-    }
+    if (taskIdsWithMarkers.indexOf(taskId) === -1) { return true; }
   };
 
   var TaskMap = root.TaskMap = React.createClass({
+    componentDidMount: function() {
+      var map = React.findDOMNode(this.refs.map);
+      var mapOptions = { center: {lat: 37.7558, lng: -122.439}, zoom: 13 };
+      this.map = new root.google.maps.Map(map, mapOptions);
+      this.listenForMove();
+      TaskMapHighLightStore.addChangeListener(this._handleMarkerHighlight);
+      TaskMapHighLightStore.addZoomListener(this.zoomToTask);
+    },
+
+    componentWillReceiveProps: function(tasks) {
+      this._createNewMarkers(tasks.tasks);
+      this._deleteOutOfBoundsMarkers(tasks.tasks);
+    },
+
+    componentWillUnmount: function() {
+      TaskMapHighLightStore.removeChangeListener(this._handleMarkerHighlight);
+      TaskMapHighLightStore.removeZoomListener(this.zoomToTask);
+      taskIdsWithMarkers = [];
+      taskIdMarkerDirectory = {};
+    },
+
     _deleteOutOfBoundsMarkers: function(tasks) {
       var mapTaskIds = Object.keys(taskIdMarkerDirectory);
-
-      var storeTaskIds = tasks.map(function(task) {
-        return task.id.toString();
-      });
+      var storeTaskIds = tasks.map(function(task) { return task.id.toString(); });
 
       mapTaskIds.forEach(function(mapTaskId) {
         if (storeTaskIds.indexOf(mapTaskId) === -1) {
           taskIdMarkerDirectory[mapTaskId].setMap(null);
           delete taskIdMarkerDirectory[mapTaskId];
-
           taskIdsWithMarkers.splice(taskIdsWithMarkers.indexOf(mapTaskId), 1);
         }
       });
@@ -58,38 +73,8 @@
           taskIdMarkerDirectory[taskIdWithMarkers].setAnimation(
             google.maps.Animation.BOUNCE
           );
-        } else {
-          taskIdMarkerDirectory[taskIdWithMarkers].setAnimation();
-        }
+        } else { taskIdMarkerDirectory[taskIdWithMarkers].setAnimation(); }
       });
-    },
-
-    updateTaskMarkers: function() {
-    },
-
-    componentDidMount: function() {
-      var map = React.findDOMNode(this.refs.map);
-      var mapOptions = {
-        center: {lat: 37.7558, lng: -122.439},
-        zoom: 13
-      };
-      this.map = new root.google.maps.Map(map, mapOptions);
-      this.listenForMove();
-      // this.listenForMapClick();
-      TaskMapHighLightStore.addChangeListener(this._handleMarkerHighlight);
-      TaskMapHighLightStore.addZoomListener(this.zoomToTask);
-    },
-
-    componentWillReceiveProps: function(tasks) {
-      this._createNewMarkers(tasks.tasks);
-      this._deleteOutOfBoundsMarkers(tasks.tasks);
-    },
-
-    componentWillUnmount: function() {
-      TaskMapHighLightStore.removeChangeListener(this._handleMarkerHighlight);
-      TaskMapHighLightStore.removeZoomListener(this.zoomToTask);
-      taskIdsWithMarkers = [];
-      taskIdMarkerDirectory = {};
     },
 
     listenForMove: function() {
@@ -109,29 +94,11 @@
       FilterActions.updateBounds(bounds);
     },
 
-    // listenForMapClick: function() {
-    //   root.google.maps.event.addListener(this.map, 'click', this._clicky);
-    // },
-    //
-    // _clicky: function() {
-    // },
-
     zoomToTask: function() {
       this.map.panTo(TaskMapHighLightStore.getZoomLatLng());
       this.map.setZoom(18);
     },
 
-    render: function() {
-      return (
-        <div
-          className="map"
-          ref="map"
-          id="map">
-          <div>
-            TaskMap is here!
-          </div>
-        </div>
-      );
-    }
+    render: function() { return <div className="map" ref="map" id="map" />; }
   });
 }(this));
