@@ -82,14 +82,13 @@
     },
 
     _handleMove: function() {
-      var northEast = this.map.getBounds().getNorthEast();
-      var southWest = this.map.getBounds().getSouthWest();
-
-      var latSouthNorth = this.map.getBounds().O;
+      // NOTE: Google maps API occasionally relabels getBounds properties which
+      // breaks this function. Adjust accordingly when Google maps API changes.
+      var latSouthNorth = this.map.getBounds().R;
       var lngEastWest = this.map.getBounds().j;
       var bounds = {
-        northEast: { lat: latSouthNorth.j, lng: lngEastWest.O },
-        southWest: { lat: latSouthNorth.O, lng: lngEastWest.j }
+        northEast: { lat: latSouthNorth.j, lng: lngEastWest.R },
+        southWest: { lat: latSouthNorth.R, lng: lngEastWest.j }
       };
       FilterActions.updateBounds(bounds);
     },
