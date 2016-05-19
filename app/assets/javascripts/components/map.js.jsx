@@ -84,11 +84,11 @@
     _handleMove: function() {
       // NOTE: Google maps API occasionally relabels getBounds properties which
       // breaks this function. Adjust accordingly when Google maps API changes.
-      var latSouthNorth = this.map.getBounds().R;
+      var latSouthNorth = this.map.getBounds().H;
       var lngEastWest = this.map.getBounds().j;
       var bounds = {
-        northEast: { lat: latSouthNorth.j, lng: lngEastWest.R },
-        southWest: { lat: latSouthNorth.R, lng: lngEastWest.j }
+        northEast: { lat: latSouthNorth.j, lng: lngEastWest.H },
+        southWest: { lat: latSouthNorth.H, lng: lngEastWest.j }
       };
       FilterActions.updateBounds(bounds);
     },
