@@ -89,7 +89,6 @@
     componentWillUnmount: function() {
       WorkableTaskStore.removeChangeListener(this._receiveQualifyingTasks);
       TaskMapFilterParamsStore.removeChangeListener(this._updateTaskFilters);
-      ApiActions.receiveAssignWorkerToOpenTaskStatus("");
     },
 
     _receiveQualifyingTasks: function() {
