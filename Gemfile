@@ -39,6 +39,9 @@ gem 'flux-rails-assets', '1.0.1'
 gem 'react-bootstrap-rails', '0.23.7'
 gem 'bootstrap-sass'
 gem 'faker'
+
+gem 'quiet_assets'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'

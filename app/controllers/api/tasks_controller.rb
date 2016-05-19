@@ -1,6 +1,6 @@
 class Api::TasksController < ApplicationController
   def index
-    @tasks = Task.includes(:review).includes(:worker)
+    @tasks = Task.includes(:review).includes(:creator, :worker)
     if current_user.is_robot
       @tasks = @tasks.where(worker: current_user)
     else
