@@ -1,8 +1,8 @@
 # RoboTask
 
-[Heroku link][heroku] **NB:** This should be a link to your production site
+[Live on Heroku!][heroku]
 
-[heroku]: http://link.pending.com
+[heroku]: http://www.robotask.me
 
 ## Minimum Viable Product
 
@@ -12,17 +12,14 @@ stuff for people and earn some credits.
 
 RoboTask allows users to:
 
-<!-- This is a Markdown checklist. Use it to keep track of your progress! -->
-
-- [ ] Create accounts
-- [ ] Handle sessions (log in/log out)
-- [ ] Create, view, edit, and delete tasks
-- [ ] Receive recommendations for which robot to hire to fulfill a task
-- [ ] View qualified robot profiles and manually select one to perform a task
-- [ ] Mark tasks as completed and rate assigned robot's performance (good/bad)
-- [ ] Receive notifications (canceled job, found fulfiller, new reviews of self, etc.)
-- [ ] as task fulfiller, select capable task types, robot qualifications, and available datetimes
-- [ ] as task fulfiller, accept/cancel assigned task. Send notification messages to task giver.
+- [x] Create accounts
+- [x] Handle sessions (log in/log out)
+- [x] Create, view, edit, and delete tasks
+- [x] Receive recommendations for which robot to hire to fulfill a task
+- [x] View qualified robot profiles and manually select one to perform a task
+- [x] Mark tasks as completed and rate assigned robot's performance (good/bad)
+- [x] as task fulfiller, select capable task types, robot qualifications, and available datetimes
+- [x] as task fulfiller, accept/cancel assigned task.
 
 ## Design Docs
 * [View Wireframes][view]
