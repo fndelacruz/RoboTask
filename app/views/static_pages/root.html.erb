@@ -278,7 +278,9 @@
     }
 
     $(".thumb").each(function() {
-      var url = "https://robohash.org/" + Math.round(Math.random() * 1000) + "?bgset=any";
+      // NOTE: RoboHash currently down, so use Flathash as stopgap
+      // var url = "https://robohash.org/" + Math.round(Math.random() * 1000) + "?bgset=any";
+      var url = "http://flathash.com/" + Math.round(Math.random() * 1000);
       if (this.className.match(/thumb-client/)) { url += "&set=set2"; }
       $(this).attr("src", url);
       adjustIcons.call(this, window.innerWidth);
