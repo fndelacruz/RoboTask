@@ -104,9 +104,7 @@ class User < ActiveRecord::Base
   end
 
   def img_url
-    # NOTE: RoboHash currently down, so use personally hosted RoboHash fork
-    # host = 'https://robohash.org/'
-    host = 'http://robohash-temp.herokuapp.com'
+    host = 'https://robohash.org/'
     
     if is_robot
       "#{host}/#{self.id}?bgset=any"
