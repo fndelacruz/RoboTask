@@ -104,13 +104,15 @@ class User < ActiveRecord::Base
   end
 
   def img_url
-    # NOTE: RoboHash currently down, so use Flathash as stopgap
-    # if is_robot
-    #   "https://robohash.org/#{self.id}?bgset=any"
-    # else
-    #   "https://robohash.org/#{self.id}?set=set2&bgset=any"
-    # end
-    "http://flathash.com/#{id}"
+    # NOTE: RoboHash currently down, so use personally hosted RoboHash fork
+    # host = 'https://robohash.org/'
+    host = 'http://robohash-temp.herokuapp.com'
+    
+    if is_robot
+      "#{host}/#{self.id}?bgset=any"
+    else
+      "#{host}/#{self.id}?set=set2&bgset=any"
+    end
   end
 
   def stats
